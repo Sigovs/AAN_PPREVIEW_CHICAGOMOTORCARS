@@ -51,24 +51,31 @@
 
   /* ---- Type --------------------------------------------------
      Three voices, three jobs.
-       display — the claim and the one number that matters. A didone
-                 carries print and fashion register no grotesque
-                 reaches at any weight, and it is what separates this
-                 from every other dealer site, which are all grotesque.
+       display — the claim and the one number that matters.
        body    — leads, UI copy, plate values. Quiet, forgettable.
        mono    — anything factual: labels, stock, miles, VIN, counts.
-     Bodoni Moda carries a true italic cut, which the signature word
-     needs — a faux oblique would be worse than skipping the move.   */
-  --font-display: 'Bodoni Moda', 'Didot', 'GFS Didot', Georgia, serif;
-  --font-body:    'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+
+     Instrument Serif and Instrument Sans are cut by one hand from
+     related skeletons, so the pair has a reason to exist — which
+     Bodoni + Archivo did not: different centuries, different bones,
+     and a script wordmark already in the room.
+
+     CONSTRAINT: Instrument Serif ships ONE weight (400) plus a true
+     italic. Every display rank therefore sets 400 — asking for 500
+     or 600 would make the browser synthesise a fake bold. Emphasis
+     comes from size and from the italic, never from weight.        */
+  --font-display: 'Instrument Serif', 'Didot', Georgia, serif;
+  --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Scale — every size resolves here. No magic numbers.
      14px is the floor for anything a visitor must read.         */
-  /* The didone floor is ~40px — below it the hairlines fall under a
-     device pixel. Both display ranks stay above it at every width. */
+  /* Instrument Serif is high-contrast but not a true didone: its
+     hairlines survive lower than Bodoni's did, so the display floor
+     comes down from ~40px to ~32px. Verified on the specimen, not
+     assumed.                                                        */
   --t-count: clamp(4.5rem, 9.5vw, 9.5rem);   /* the live figure   */
-  --t-claim: clamp(2.5rem, 4.6vw, 4.25rem);  /* the hero claim    */
+  --t-claim: clamp(2.375rem, 5vw, 4.75rem);  /* the hero claim    */
   --t-h1:    clamp(1.625rem, 3.2vw, 3.25rem);
   --t-lede:  clamp(1rem, 1.1vw, 1.0625rem);
   --t-body:  1rem;                            /* 16px            */
@@ -81,7 +88,7 @@
   --lh-label:   1.4;
 
   --tr-micro: 0.14em;    /* uppercase mono needs the tracking    */
-  --tr-count: -0.035em;  /* optical correction at display size   */
+  --tr-count: -0.02em;   /* Instrument Serif is already tight     */
 
   /* ---- Space -------------------------------------------------
      4px base. Every step carries a job, because a scale without

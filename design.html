@@ -8,365 +8,442 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=9">
-<link rel="stylesheet" href="assets/css/main.css?v=9">
-<link rel="stylesheet" href="assets/css/design.css?v=3">
+<link rel="stylesheet" href="assets/css/tokens.css?v=10">
+<link rel="stylesheet" href="assets/css/main.css?v=11">
+<link rel="stylesheet" href="assets/css/specimen.css?v=3">
 </head>
 <body>
 
-<main class="ds shell">
+<main class="sheet shell">
 
-  <div class="ds__head">
-    <h1 class="ds__title">Design system</h1>
-    <p class="micro" style="color:var(--ink-3)">Chicago Motor Cars &middot; internal reference</p>
-  </div>
+  <header class="sheet__head">
+    <h1 class="sheet__title">Specimen<br>sheet</h1>
+    <p class="micro sheet__stamp">
+      Chicago Motor Cars &middot; internal<br>
+      5 August 2026
+    </p>
+  </header>
 
-  <p class="ds__note">
-    Every specimen below renders with the real tokens and the real component
-    CSS. <b>The page measures its own contrast at runtime</b> — each ratio is
-    computed from the element's own colour composited over its own ground, at
-    its own rendered size, against the AA threshold that size actually
-    requires. If a token moves and breaks a pair, the number here turns red.
-    Nothing on this page is typed in by hand.
-  </p>
-
-  <!-- ======================= GROUND ======================= -->
-  <section>
-    <h2>Ground</h2>
-    <p>Near-black, never <code>#000</code>: pure black flattens photography and leaves no darker step to put underneath a light pool. One light band exists, used once, for the record section.</p>
-
-    <div class="swatches" style="margin-top:var(--sp-6)">
-      <div data-token="--bg">
-        <div class="swatch__chip" style="background:var(--bg)"></div>
-        <span class="swatch__name">--bg<span class="swatch__value" data-token-value></span></span>
-      </div>
-      <div data-token="--bg-raised">
-        <div class="swatch__chip" style="background:var(--bg-raised)"></div>
-        <span class="swatch__name">--bg-raised<span class="swatch__value" data-token-value></span></span>
-      </div>
-      <div data-token="--bg-sunk">
-        <div class="swatch__chip" style="background:var(--bg-sunk)"></div>
-        <span class="swatch__name">--bg-sunk<span class="swatch__value" data-token-value></span></span>
-      </div>
-      <div data-token="--bone">
-        <div class="swatch__chip" style="background:var(--bone)"></div>
-        <span class="swatch__name">--bone<span class="swatch__value" data-token-value></span></span>
-      </div>
+  <!-- 00 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">00</p>
+    <div>
+      <h2 class="chap__title">What this sheet is for</h2>
+      <p class="chap__lede">
+        A foundry specimen, not documentation. One measured column: key on the left, the real component in
+        the middle, the reading on the right. Nothing is boxed — separation is rule and air, which is the
+        same instruction the pages themselves follow.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        Every sample renders from the live tokens and the live component CSS, and every contrast pair is
+        measured at runtime against the threshold its own rendered size requires. <b>Chapter 01 lists what
+        that measurement caught</b> — this sheet exists to find defects, not to present a finished system.
+      </p>
     </div>
   </section>
 
-  <!-- ======================= INK ======================= -->
-  <section>
-    <h2>Ink on the dark ground</h2>
-    <p>Warm off-white, never <code>#fff</code>. Three levels only. Anything a visitor must read sits at <code>--ink-3</code> or above.</p>
+  <!-- 01 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">01</p>
+    <div>
+      <h2 class="chap__title">What the sheet caught</h2>
+      <p class="chap__lede">
+        Five rules were being broken by work already shipped to the branch. Each was found by reading the
+        rule, not by looking at the screen — which is the point: none of them looked wrong.
+      </p>
 
-    <div style="margin-top:var(--sp-6)">
-      <div class="ladder__row" data-measure-row>
-        <span class="ladder__label">--ink</span>
-        <span class="ladder__sample" style="color:var(--ink)" data-measure>Sold to a collector in Monterey</span>
-        <span data-ratio-slot></span>
-      </div>
-      <div class="ladder__row" data-measure-row>
-        <span class="ladder__label">--ink-2</span>
-        <span class="ladder__sample" style="color:var(--ink-2)" data-measure>Supporting copy, plate values, roster rows</span>
-        <span data-ratio-slot></span>
-      </div>
-      <div class="ladder__row" data-measure-row>
-        <span class="ladder__label">--ink-3</span>
-        <span class="ladder__sample micro" style="color:var(--ink-3)" data-measure>Micro-labels &middot; the 14px floor</span>
-        <span data-ratio-slot></span>
-      </div>
-    </div>
-    <p class="bay__caption">
-      <code>--ink-3</code> was <code>0.42</code> and measured 3.7:1 — below AA. Every mono micro-label is
-      functional text, so it carries the same floor as body copy: the alpha came up, the size did not come down.
-    </p>
-  </section>
-
-  <!-- ======================= ACCENT ======================= -->
-  <section>
-    <h2>Accent</h2>
-    <p>
-      The existing CMC red, measured off the current site and carried through unchanged under the REDESIGN
-      mandate. The dialect prefers a desaturated accent; that rule is <b>set aside</b> here on its stated
-      condition — the brand is colour-led. The fix is rationing, not re-hueing.
-    </p>
-
-    <div class="swatches" style="margin-top:var(--sp-6)">
-      <div data-token="--accent">
-        <div class="swatch__chip" style="background:var(--accent)"></div>
-        <span class="swatch__name">--accent<span class="swatch__value" data-token-value></span></span>
-      </div>
-      <div data-token="--accent-deep">
-        <div class="swatch__chip" style="background:var(--accent-deep)"></div>
-        <span class="swatch__name">--accent-deep &middot; hover<span class="swatch__value" data-token-value></span></span>
-      </div>
-    </div>
-
-    <div style="margin-top:var(--sp-6)">
-      <div class="ladder__row" data-measure-row style="background:var(--accent);padding-inline:var(--sp-4)">
-        <span class="ladder__label" style="color:#fff">on --accent</span>
-        <span class="ladder__sample" style="color:#FFFFFF" data-measure>White label on the fill — the only text allowed on red</span>
-        <span data-ratio-slot></span>
-      </div>
-    </div>
-
-    <p class="bay__caption">
-      Roles, decided up front and not extended: <b>one</b> primary fill, and <b>one</b> hover step. Red never
-      carries small text on the ground — that pair measures 3.4:1, which is a fill-and-rule number, not a text
-      number. Budget on a screen: under 5% of pixels.
-    </p>
-  </section>
-
-  <!-- ======================= TYPE ======================= -->
-  <section>
-    <h2>Three voices, three jobs</h2>
-    <p>
-      A new role does not earn a new voice. These three exist because each does something the other two
-      structurally cannot: the didone carries a register no grotesque reaches at any weight, the grotesque is
-      forgettable at reading sizes, and the mono's fixed advance makes figures scan as a ledger.
-    </p>
-
-    <div style="margin-top:var(--sp-6)">
-      <div class="spec">
-        <div class="spec__meta"><span>display</span><span>Bodoni Moda</span><span>--t-count</span><span>500</span></div>
-        <div style="font-family:var(--font-display);font-size:var(--t-count);font-weight:500;line-height:.86;letter-spacing:var(--tr-count)">299</div>
-      </div>
-
-      <div class="spec">
-        <div class="spec__meta"><span>display</span><span>--t-claim</span><span>500</span><span>true italic on one word</span></div>
-        <div style="font-family:var(--font-display);font-size:var(--t-claim);font-weight:500;line-height:1.06;letter-spacing:-.02em">
-          On the floor <em style="font-style:italic">today</em>.
+      <div style="margin-block-start:var(--sp-6)">
+        <div class="finding">
+          <p class="finding__rule">spacing D4</p>
+          <div>
+            <p class="finding__was">was &mdash; mobile gutter clamped to 20px</p>
+            <p class="finding__now">now &mdash; 24px floor. Below it a phone view earns “generic app”.</p>
+          </div>
         </div>
-      </div>
-
-      <div class="spec" data-measure-row>
-        <div class="spec__meta"><span>body</span><span>Archivo</span><span>--t-body</span><span>400</span><span data-ratio-slot></span></div>
-        <div style="max-width:62ch;line-height:var(--lh-body);color:var(--ink-2)" data-measure>
-          A different 299 next month. Thirty thousand cars have come through this building since 2003 —
-          roughly four a day, every day, for twenty-three years.
+        <div class="finding">
+          <p class="finding__rule">spacing D2</p>
+          <div>
+            <p class="finding__was">was &mdash; sections padded symmetrically</p>
+            <p class="finding__now">now &mdash; bottom-heavy 1:1.5. Reading runs downward, so equal padding
+              reads as bottom-tight and shoves each section into the next.</p>
+          </div>
         </div>
-      </div>
-
-      <div class="spec" data-measure-row>
-        <div class="spec__meta"><span>mono</span><span>JetBrains Mono</span><span>--t-micro &middot; 14px floor</span><span>500</span><span data-ratio-slot></span></div>
-        <div class="micro" style="color:var(--ink-3)" data-measure>The floor &mdash; 5 August 2026, 09:41 CT</div>
-      </div>
-
-      <div class="spec">
-        <div class="spec__meta"><span>mono</span><span>figures</span><span>tabular-nums</span></div>
-        <div style="font-family:var(--font-mono);font-variant-numeric:tabular-nums;line-height:1.8">
-          $3,499,800<br>$2,899,800<br>&nbsp;&nbsp;$900,212
+        <div class="finding">
+          <p class="finding__rule">spacing I1</p>
+          <div>
+            <p class="finding__was">was &mdash; one uniform <code>gap</code> in every text stack</p>
+            <p class="finding__now">now &mdash; a <code>.stack</code> with differentiated relationships.
+              A uniform gap flattens a heading and its lead into a list.</p>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <p class="bay__caption">
-      The didone has a floor at roughly 40px — below it the hairlines fall under a device pixel and figures
-      start losing crossbars. Both display ranks clamp above it at every width.
-    </p>
-  </section>
-
-  <!-- ======================= SPACE ======================= -->
-  <section>
-    <h2>Space</h2>
-    <p>One scale. Internal gaps stay smaller than external ones — proximity is what encodes grouping, before anyone reads a word.</p>
-
-    <div class="ruler" style="margin-top:var(--sp-6)">
-      <div class="ruler__row"><span class="ruler__name">--sp-1 · 4</span><span class="ruler__bar" style="width:4px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-2 · 8</span><span class="ruler__bar" style="width:8px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-3 · 12</span><span class="ruler__bar" style="width:12px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-4 · 16</span><span class="ruler__bar" style="width:16px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-5 · 24</span><span class="ruler__bar" style="width:24px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-6 · 32</span><span class="ruler__bar" style="width:32px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-7 · 48</span><span class="ruler__bar" style="width:48px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-8 · 64</span><span class="ruler__bar" style="width:64px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-9 · 96</span><span class="ruler__bar" style="width:96px"></span></div>
-      <div class="ruler__row"><span class="ruler__name">--sp-10 · 128</span><span class="ruler__bar" style="width:128px"></span></div>
-    </div>
-  </section>
-
-  <!-- ======================= CONTROLS ======================= -->
-  <section>
-    <h2>Controls</h2>
-
-    <h3>Two doors, one rank</h3>
-    <div class="bay">
-      <div class="bay__row">
-        <button class="btn btn--fill" type="button">
-          Search 299
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M10.5 1 15 5l-4.5 4M15 5H0" stroke="currentColor" stroke-width="1.4"/></svg>
-        </button>
-        <a class="btn btn--line" href="#">
-          Get a valuation
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M10.5 1 15 5l-4.5 4M15 5H0" stroke="currentColor" stroke-width="1.4"/></svg>
-        </a>
-      </div>
-    </div>
-    <p class="bay__caption">
-      Buying and selling were declared roughly equal, so they carry <b>parallel rank</b> — the ban on two
-      primary actions yields exactly on that condition. They are told apart by treatment, not by size, which
-      keeps the accent on one of them.
-    </p>
-
-    <h3>Fields</h3>
-    <div class="bay bay--flush">
-      <div class="doors">
-        <div class="doors__inner" style="padding-inline:var(--sp-5)">
-          <form class="finder" onsubmit="return false">
-            <div class="field">
-              <label class="field__label micro" for="d-year">Year</label>
-              <select class="field__control" id="d-year"><option>Any year</option></select>
-            </div>
-            <div class="field">
-              <label class="field__label micro" for="d-make">Make</label>
-              <select class="field__control" id="d-make"><option>Any make</option></select>
-            </div>
-            <div class="field field--wide">
-              <label class="field__label micro" for="d-q">Keyword</label>
-              <input class="field__control" id="d-q" type="search" placeholder="Senna, carbon, manual&hellip;">
-            </div>
-            <button class="btn btn--fill" type="submit">Search 299</button>
-          </form>
-          <div class="doors__sell">
-            <p class="micro doors__label">Selling one?</p>
-            <a class="btn btn--line" href="#">Get a valuation</a>
+        <div class="finding">
+          <p class="finding__rule">motion I3</p>
+          <div>
+            <p class="finding__was">was &mdash; one easing curve for everything</p>
+            <p class="finding__now">now &mdash; ease-out enters, ease-in exits. The inversion is named as the
+              commonest reason interface motion reads as sluggish.</p>
+          </div>
+        </div>
+        <div class="finding">
+          <p class="finding__rule">motion D2</p>
+          <div>
+            <p class="finding__was">was &mdash; <code>scale(1.02)</code> on the card photograph</p>
+            <p class="finding__now">now &mdash; a firming rule. Scale is banned outright: it resamples the
+              frame, and the hover budget is one move.</p>
           </div>
         </div>
       </div>
     </div>
-    <p class="bay__caption">
-      Labels are always visible — a placeholder that disappears on focus is not a label. Focus rings are never
-      removed; the ring is 2px of <code>--ink</code> at 3px offset.
-    </p>
   </section>
 
-  <!-- ======================= RECORDS ======================= -->
-  <section>
-    <h2>Records</h2>
-    <p>Facts get mono keys, hairline rules and tabular figures. No boxes, no zebra stripes, no card — boxes say “table widget”, rules say “record”.</p>
+  <!-- 02 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">02</p>
+    <div>
+      <h2 class="chap__title">Ground and ink</h2>
+      <p class="chap__lede">
+        Never <code>#000</code>, never <code>#fff</code> — both are not neutral, they are absent. Three ink
+        levels only; anything a visitor must read sits at the third or above.
+      </p>
 
-    <h3>Ledger</h3>
-    <div class="bay">
-      <dl class="ledger" style="border-color:var(--rule)">
-        <div class="ledger__cell" style="border-color:var(--rule)">
-          <dt class="micro" style="color:var(--ink-3)">Vehicles sold</dt><dd style="font-family:var(--font-display)">30,000+</dd>
-        </div>
-        <div class="ledger__cell" style="border-color:var(--rule)">
-          <dt class="micro" style="color:var(--ink-3)">Turned over</dt><dd style="font-family:var(--font-display)">$2 billion</dd>
-        </div>
-        <div class="ledger__cell" style="border-color:var(--rule)">
-          <dt class="micro" style="color:var(--ink-3)">On the floor</dt><dd style="font-family:var(--font-display)">299</dd>
-        </div>
-      </dl>
-    </div>
+      <div class="strip" style="margin-block:var(--sp-6) var(--sp-6)">
+        <span class="strip__chip" style="background:var(--bg-sunk)"></span>
+        <span class="strip__chip" style="background:var(--bg)"></span>
+        <span class="strip__chip" style="background:var(--bg-raised)"></span>
+        <span class="strip__chip" style="background:var(--accent)"></span>
+        <span class="strip__chip" style="background:var(--bone)"></span>
+      </div>
 
-    <h3>Roster row</h3>
-    <div class="bay">
-      <div class="roster">
-        <ul class="roster__list">
-          <li><a href="#">McLaren Senna <span>$3,499,800</span></a></li>
-          <li><a href="#">Koenigsegg Regera <span>$2,899,800</span></a></li>
-          <li><a href="#">Rimac Nevera <span>$1,999,800</span></a></li>
-        </ul>
+      <div class="row" data-measure-row>
+        <p class="row__key">--ink</p>
+        <p style="color:var(--ink)" data-measure>Sold to a collector in Monterey</p>
+        <p class="row__note" data-ratio-slot></p>
+      </div>
+      <div class="row" data-measure-row>
+        <p class="row__key">--ink-2</p>
+        <p style="color:var(--ink-2)" data-measure>Supporting copy, plate values, roster rows</p>
+        <p class="row__note" data-ratio-slot></p>
+      </div>
+      <div class="row" data-measure-row>
+        <p class="row__key">--ink-3</p>
+        <p class="micro" style="color:var(--ink-3)" data-measure>Micro-labels &middot; the 14px floor</p>
+        <p class="row__note" data-ratio-slot></p>
+      </div>
+      <div class="row" data-measure-row style="background:var(--accent);padding-inline:var(--sp-4)">
+        <p class="row__key" style="color:#fff">white on --accent</p>
+        <p style="color:#fff" data-measure>The only text allowed on red</p>
+        <p class="row__note" data-ratio-slot></p>
       </div>
     </div>
   </section>
 
-  <!-- ======================= THE CARD ======================= -->
-  <section>
-    <h2>The vehicle card</h2>
-    <p>
-      The photograph is the card and the whole card is the target. No border, no fill, and <b>no button</b> —
-      a filled CTA repeated down a grid turns a decision point into wallpaper, and it is the single loudest
-      defect on the current site, where “More Details” appears 299 times.
-    </p>
+  <!-- 03 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">03</p>
+    <div>
+      <h2 class="chap__title">Three voices</h2>
+      <p class="chap__lede">
+        Each exists because it does something the other two structurally cannot. The didone has a floor at
+        roughly 40px — below it the hairlines fall under a device pixel and figures start losing crossbars.
+      </p>
 
-    <div class="cards" style="margin-top:var(--sp-6)">
-      <a class="vcard" href="#">
-        <span class="vcard__media">
-          <img src="assets/img/hero/PLACEHOLDER-showroom-ai.jpg" alt="" width="2400" height="1339">
-          <span class="vcard__place">West Chicago</span>
-        </span>
-        <span class="vcard__name">2019 McLaren Senna</span>
-        <span class="vcard__trim">Exposed blue tinted carbon fibre &middot; CPO warranty</span>
-        <span class="vcard__facts"><b>$3,499,800</b><span>2,615 mi</span><span>CARFAX</span></span>
-      </a>
-      <a class="vcard" href="#">
-        <span class="vcard__media">
-          <img src="assets/img/hero/PLACEHOLDER-portal-ai.jpg" alt="" width="900" height="1205">
-          <span class="vcard__place">Naperville</span>
-        </span>
-        <span class="vcard__name">2021 Koenigsegg Regera</span>
-        <span class="vcard__trim">Ghost package &middot; one of eighty</span>
-        <span class="vcard__facts"><b>$2,899,800</b><span>2,055 mi</span><span>CARFAX</span></span>
-      </a>
-      <a class="vcard" href="#">
-        <span class="vcard__media">
-          <img src="assets/img/hero/PLACEHOLDER-showroom-ai-portrait.jpg" alt="" width="1200" height="1203">
-          <span class="vcard__place">Rock Hill</span>
-        </span>
-        <span class="vcard__name">2024 Rimac Nevera</span>
-        <span class="vcard__trim">1,914 hp &middot; full electric</span>
-        <span class="vcard__facts"><b>$1,999,800</b><span>3,498 mi</span><span>CARFAX</span></span>
-      </a>
+      <div class="row row--tall" style="margin-block-start:var(--sp-6)">
+        <p class="row__key">display &middot; count</p>
+        <p style="font-family:var(--font-display);font-size:var(--t-count);font-weight:500;line-height:.82;letter-spacing:var(--tr-count)">299</p>
+        <p class="row__note">Bodoni Moda<br>--t-count<br>tabular</p>
+      </div>
+      <div class="row row--tall">
+        <p class="row__key">display &middot; claim</p>
+        <p style="font-family:var(--font-display);font-size:var(--t-claim);font-weight:500;line-height:1.06;letter-spacing:-.02em">On the floor <em style="font-style:italic">today</em>.</p>
+        <p class="row__note">one true italic<br>per headline</p>
+      </div>
+      <div class="row row--tall" data-measure-row>
+        <p class="row__key">body</p>
+        <p style="max-width:68ch;line-height:var(--lh-body);color:var(--ink-2)" data-measure>A different 299 next month. Thirty thousand cars have come through this building since 2003 — roughly four a day, every day, for twenty-three years.</p>
+        <p class="row__note">Archivo 400<br><span data-ratio-slot></span></p>
+      </div>
+      <div class="row" data-measure-row>
+        <p class="row__key">mono</p>
+        <p class="micro" style="color:var(--ink-3)" data-measure>The floor &mdash; 5 August 2026, 09:41 CT</p>
+        <p class="row__note">14px floor<br><span data-ratio-slot></span></p>
+      </div>
+      <div class="row row--tall">
+        <p class="row__key">figures</p>
+        <p style="font-family:var(--font-mono);font-variant-numeric:tabular-nums;line-height:1.8">$3,499,800<br>$2,899,800<br>&nbsp;&nbsp;$900,212</p>
+        <p class="row__note">tabular-nums<br>columns align</p>
+      </div>
     </div>
-
-    <p class="bay__caption">
-      Images are AI placeholders. The card is deliberately built to survive an ordinary photograph: the frame
-      is a fixed 4:3, the ground behind it is a raised step rather than a hole, and no type sits on the image
-      except the showroom pill, which carries its own scrim.
-    </p>
-    <p class="bay__caption" style="color:var(--accent)">
-      Limit of this page: the runtime measurement walks up to the nearest painted background, so it
-      <b>cannot see image pixels</b>. Every text-over-photograph pair — the showroom pill here, the hero copy
-      on index — is verified by sampling the composited render, not by this page. A self-measuring page that
-      silently cannot measure the hardest case is worse than one that says so.
-    </p>
   </section>
 
-  <!-- ======================= MOTION ======================= -->
-  <section>
-    <h2>Motion</h2>
-    <p>
-      Two durations, one easing. Motion explains a state change and gets out of the way; nothing loops, nothing
-      moves on entry, and the static build stands alone. Everything is neutralised under
-      <code>prefers-reduced-motion</code>.
-    </p>
-    <div class="bay">
-      <div class="bay__row" style="font-family:var(--font-mono);font-size:var(--t-micro);color:var(--ink-2)">
-        <span>--dur-1 · 140ms · colour, opacity</span>
-        <span>--dur-2 · 240ms · transform, borders</span>
-        <span>--ease · cubic-bezier(.22,1,.36,1)</span>
+  <!-- 03b ================================================= -->
+  <section class="chap">
+    <p class="chap__num">03b</p>
+    <div>
+      <h2 class="chap__title">The pairing, and what it replaced</h2>
+      <p class="chap__lede">
+        <b>Instrument Serif + Instrument Sans</b> &mdash; cut by one hand from related skeletons, so the pair
+        has a reason to exist. The previous pairing had none: Bodoni Moda and Archivo are different
+        centuries and different bones, and the wordmark is already a script, which made four unrelated
+        voices on one page.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        The serif ships <b>one weight</b> and a true italic. That is a constraint and also the reason it was
+        chosen: with no bold to reach for, emphasis has to come from size and from the italic, which is
+        exactly the discipline the claim needs.
+      </p>
+
+      <div style="margin-block-start:var(--sp-6)">
+        <div class="finding">
+          <p class="finding__rule">rejected</p>
+          <div>
+            <p class="finding__was">Bodoni Moda + Archivo</p>
+            <p class="finding__now">No relationship between the faces. “Expensive serif plus safe grotesque”
+              is the default luxury move, and it fought the script wordmark.</p>
+          </div>
+        </div>
+        <div class="finding">
+          <p class="finding__rule">rejected</p>
+          <div>
+            <p class="finding__was">Archivo 800 wide + Archivo 400 &mdash; no serif at all</p>
+            <p class="finding__now">Honest and costume-free, and it follows the 360 Auto Care finding that a
+              missing axis, not a wrong family, is usually the fault. Kept on file: it is the fallback if the
+              serif ever reads as luxury-by-default.</p>
+          </div>
+        </div>
+        <div class="finding">
+          <p class="finding__rule">rejected</p>
+          <div>
+            <p class="finding__was">Grotesque display + serif italic on one word</p>
+            <p class="finding__now">The mixed-line move. Loses to C only because C gets the same contrast
+              without running two families through every headline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">04</p>
+    <div>
+      <h2 class="chap__title">Space, and the stack</h2>
+      <p class="chap__lede">
+        Eleven steps on a 4px base, each with a stated job — a scale without stated jobs gets used by eye and
+        drifts on the second pass. Below it, the relationship that actually carries hierarchy: <b>internal
+        gaps smaller than the gap to the next group.</b>
+      </p>
+
+      <div style="margin-block-start:var(--sp-6)">
+        <div class="row"><p class="row__key">--sp-3 &middot; 12</p><span class="rule-bar" style="width:12px"></span><p class="row__note">label to field</p></div>
+        <div class="row"><p class="row__key">--sp-4 &middot; 16</p><span class="rule-bar" style="width:16px"></span><p class="row__note">paragraph rhythm</p></div>
+        <div class="row"><p class="row__key">--sp-5 &middot; 24</p><span class="rule-bar" style="width:24px"></span><p class="row__note">component padding</p></div>
+        <div class="row"><p class="row__key">--sp-6 &middot; 32</p><span class="rule-bar" style="width:32px"></span><p class="row__note">stack gaps</p></div>
+        <div class="row"><p class="row__key">--sp-7 &middot; 48</p><span class="rule-bar" style="width:48px"></span><p class="row__note">sub-block</p></div>
+        <div class="row"><p class="row__key">--sp-8 &middot; 64</p><span class="rule-bar" style="width:64px"></span><p class="row__note">section, mobile</p></div>
+        <div class="row"><p class="row__key">--sp-9 &middot; 96</p><span class="rule-bar" style="width:96px"></span><p class="row__note">section, desktop</p></div>
+        <div class="row"><p class="row__key">--sp-10 &middot; 128</p><span class="rule-bar" style="width:128px"></span><p class="row__note">major break</p></div>
+        <div class="row"><p class="row__key">--sp-11 &middot; 192</p><span class="rule-bar" style="width:192px"></span><p class="row__note">chapter break</p></div>
+      </div>
+
+      <div class="row row--tall" style="margin-block-start:var(--sp-7)">
+        <p class="row__key">.stack</p>
+        <div class="stack" style="max-width:44ch">
+          <p class="micro" style="color:var(--ink-3)">Since 2003</p>
+          <h3 style="font-family:var(--font-display);font-size:1.75rem;font-weight:500;line-height:1.1;letter-spacing:-.02em">Thirty thousand cars</h3>
+          <p class="lede" style="color:var(--ink-2);line-height:1.6">Roughly four a day, every day, for twenty&#8209;three years.</p>
+          <p style="color:var(--ink-2);line-height:1.65">Four showrooms across three states, delivered nationwide.</p>
+          <div class="cta-row"><a class="btn btn--line" href="#">Our record</a></div>
+        </div>
+        <p class="row__note">12 &middot; 24 &middot; 32 &middot; 16 &middot; 48<br>never one gap</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">05</p>
+    <div>
+      <h2 class="chap__title">Controls and states</h2>
+      <p class="chap__lede">
+        Nothing below is drawn by hand. Each state is produced by the same declaration as the real
+        pseudo-class &mdash; <code>.btn--fill:hover</code> and <code>.btn--fill.is-hover</code> share one rule
+        &mdash; so a specimen here cannot drift away from the component it documents. Hover the live row and
+        it behaves identically.
+      </p>
+
+      <div class="row row--tall" style="margin-block-start:var(--sp-6)">
+        <p class="row__key">live</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--fill" type="button">Search 299</button>
+          <a class="btn btn--line" href="#">Get a valuation</a>
+        </div>
+        <p class="row__note">hover and tab<br>through these</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">hover</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--fill is-hover" type="button" tabindex="-1">Search 299</button>
+          <a class="btn btn--line is-hover" tabindex="-1">Get a valuation</a>
+        </div>
+        <p class="row__note">one move only<br>no scale, no glow</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">focus-visible</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--fill is-focus" type="button" tabindex="-1">Search 299</button>
+          <a class="btn btn--line is-focus" tabindex="-1">Get a valuation</a>
+        </div>
+        <p class="row__note">2px --ink<br>3px offset<br>never removed</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; rest</p>
+        <div class="field field--single" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-a">Keyword</label>
+          <input class="field__control" id="s-a" type="search" placeholder="Senna, carbon, manual&hellip;">
+        </div>
+        <p class="row__note">label always<br>visible</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; filled</p>
+        <div class="field field--single" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-b">Keyword</label>
+          <input class="field__control" id="s-b" type="search" value="carbon ceramic" tabindex="-1">
+        </div>
+        <p class="row__note">value in --ink</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; error</p>
+        <div class="field field--single field--error" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-c">Year</label>
+          <input class="field__control" id="s-c" type="text" value="20266" tabindex="-1">
+          <p class="field__error">Four digits, between 1960 and 2026</p>
+        </div>
+        <p class="row__note">red marks it<br>ink explains it<br>never hue alone</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; disabled</p>
+        <div class="field field--single" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-d">Model</label>
+          <input class="field__control" id="s-d" type="text" placeholder="Choose a make first" disabled>
+        </div>
+        <p class="row__note">exempt from AA<br>never below 2.5:1</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">roster &middot; hover</p>
+        <div class="roster" style="max-width:34rem">
+          <ul class="roster__list">
+            <li><a href="#">McLaren Senna <span>$3,499,800</span></a></li>
+            <li><a class="is-hover" tabindex="-1">Koenigsegg Regera <span>$2,899,800</span></a></li>
+          </ul>
+        </div>
+        <p class="row__note">indent + ink<br>the row admits<br>it is a target</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 ================================================== -->
+  <section class="chap">
+    <p class="chap__num">06</p>
+    <div>
+      <h2 class="chap__title">The card, and its loading state</h2>
+      <p class="chap__lede">
+        The photograph is the card and the whole card is the target — no border, no fill, <b>no button</b>.
+        The skeleton matches the card's real dimensions, so the swap shifts nothing; it pulses opacity and
+        never sweeps a shimmer, which is the template look.
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--sp-5);margin-block-start:var(--sp-6)">
+        <a class="vcard" href="#">
+          <span class="vcard__media">
+            <img src="assets/img/hero/PLACEHOLDER-showroom-ai.jpg" alt="" width="2400" height="1339">
+            <span class="vcard__place">West Chicago</span>
+          </span>
+          <span class="vcard__name">2019 McLaren Senna</span>
+          <span class="vcard__trim">Exposed blue tinted carbon fibre</span>
+          <span class="vcard__facts"><b>$3,499,800</b><span>2,615 mi</span></span>
+        </a>
+        <a class="vcard" href="#">
+          <span class="vcard__media">
+            <img src="assets/img/hero/PLACEHOLDER-portal-ai.jpg" alt="" width="900" height="1205">
+            <span class="vcard__place">Naperville</span>
+          </span>
+          <span class="vcard__name">2021 Koenigsegg Regera</span>
+          <span class="vcard__trim">Ghost package &middot; one of eighty</span>
+          <span class="vcard__facts"><b>$2,899,800</b><span>2,055 mi</span></span>
+        </a>
+        <div class="vcard" aria-hidden="true">
+          <span class="skeleton skeleton--media"></span>
+          <span class="skeleton skeleton--line" style="width:70%"></span>
+          <span class="skeleton skeleton--line skeleton--short"></span>
+          <span class="skeleton skeleton--line" style="width:55%;margin-block-start:var(--sp-3)"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 ================================================== -->
+  <section class="chap" style="border-bottom:0">
+    <p class="chap__num">07</p>
+    <div>
+      <h2 class="chap__title">Motion</h2>
+      <p class="chap__lede">
+        Three durations, two curves. Entering decelerates, exiting accelerates. Nothing loops except the
+        skeleton, nothing moves on entry, and the static build stands alone.
+      </p>
+      <div style="margin-block-start:var(--sp-6)">
+        <div class="row"><p class="row__key">--dur-1 &middot; 150ms</p><p style="color:var(--ink-2)">colour, opacity, rules</p><p class="row__note">hover, focus</p></div>
+        <div class="row"><p class="row__key">--dur-2 &middot; 250ms</p><p style="color:var(--ink-2)">transform, crossfade</p><p class="row__note">panels, swaps</p></div>
+        <div class="row"><p class="row__key">--dur-3 &middot; 400ms</p><p style="color:var(--ink-2)">the longest allowed</p><p class="row__note">menu open</p></div>
+        <div class="row"><p class="row__key">--ease-out</p><p style="color:var(--ink-2)">cubic-bezier(.22, 1, .36, 1)</p><p class="row__note">entering<br>expanding</p></div>
+        <div class="row"><p class="row__key">--ease-in</p><p style="color:var(--ink-2)">cubic-bezier(.55, 0, 1, .45)</p><p class="row__note">exiting<br>collapsing</p></div>
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- ======================= THE LIGHT BAND ======================= -->
+<!-- ===================== THE LIGHT CHAPTER ===================== -->
 <div class="on-bone">
-  <section class="ds shell" style="padding-block:var(--sp-9)">
-    <h2>The inverted band</h2>
-    <p>Used once on the page, for the record. It gives the page a tonal structure instead of one continuous black — and it is what makes the hero's darkness mean something.</p>
-
-    <div style="margin-top:var(--sp-6)">
-      <div class="ladder__row" data-measure-row>
-        <span class="ladder__label">--bone-ink</span>
-        <span class="ladder__sample" style="color:var(--bone-ink)" data-measure>Thirty thousand cars have come through this building</span>
-        <span data-ratio-slot></span>
+  <div class="sheet shell" style="padding-block:var(--sp-9) var(--sp-11)">
+    <section class="chap" style="border-bottom:0;padding-block-start:0">
+      <p class="chap__num">08</p>
+      <div>
+        <h2 class="chap__title">The inverted chapter</h2>
+        <p class="chap__lede">
+          One light ground on the site, used once, for the record. It gives the page a tonal structure instead
+          of one continuous black — and it is what makes the hero's darkness mean something.
+        </p>
+        <div style="margin-block-start:var(--sp-6)">
+          <div class="row" data-measure-row>
+            <p class="row__key">--bone-ink</p>
+            <p style="color:var(--bone-ink)" data-measure>Thirty thousand cars have come through this building</p>
+            <p class="row__note" data-ratio-slot></p>
+          </div>
+          <div class="row" data-measure-row>
+            <p class="row__key">--bone-ink-2</p>
+            <p class="micro" style="color:var(--bone-ink-2)" data-measure>Since 2003 &middot; four showrooms</p>
+            <p class="row__note" data-ratio-slot></p>
+          </div>
+        </div>
+        <p class="chap__lede" style="margin-block-start:var(--sp-6);color:var(--accent)">
+          Limit of this sheet: the runtime measurement walks up to the nearest painted background, so it
+          cannot see image pixels. Every text-over-photograph pair is verified by sampling the composited
+          render instead — a sheet that silently cannot measure the hardest case is worse than one that says so.
+        </p>
       </div>
-      <div class="ladder__row" data-measure-row>
-        <span class="ladder__label">--bone-ink-2</span>
-        <span class="ladder__sample micro" style="color:var(--bone-ink-2)" data-measure>Since 2003 &middot; four showrooms</span>
-        <span data-ratio-slot></span>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
 
-<script src="assets/js/design.js?v=1" defer></script>
+<script src="assets/js/design.js?v=2" defer></script>
 </body>
 </html>

@@ -21,10 +21,10 @@
 
 .sheet__title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+  font-weight: 400;          /* Instrument Serif has one weight */
+  line-height: 0.92;
+  letter-spacing: -0.015em;
 }
 
 .sheet__stamp { color: var(--ink-3); text-align: right; }
@@ -48,10 +48,10 @@
 
 .chap__title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
-  font-weight: 500;
+  font-size: clamp(1.625rem, 2.9vw, 2.5rem);
+  font-weight: 400;
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin-block-end: var(--sp-5);
 }
 
