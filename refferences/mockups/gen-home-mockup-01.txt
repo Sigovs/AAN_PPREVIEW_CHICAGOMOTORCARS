@@ -1,0 +1,39 @@
+home page concept mockup, full length
+origin      synthetic
+model       openai/gpt-image-2 via fal
+date        2026-08-05
+size        1248x3744
+purpose     DECISION AID ONLY. Not a shipped asset and never becomes one.
+            If the direction is taken, the page is rebuilt in code from
+            tokens — this file is thrown away.
+
+generated-imagery, honestly:
+  GI4  BREACHED, deliberately and with the client's instruction. The rule
+       bans generated type and interface because it ships as a claim that a
+       product exists. This does not ship; it exists so a direction can be
+       chosen. Recorded rather than quietly ignored.
+  GI3  HOLDS. The cars are unbranded and generic, the room is not CMC's
+       actual showroom, and no person appears. Nothing here may be
+       presented as a specific vehicle CMC is selling.
+  GI6  satisfied by this sidecar and the gen- prefix.
+
+FACTUAL ERRORS IN THE FRAME — none of this is CMC's:
+  phone     312.280.1212 invented. Real: 630 221 1800
+  cities    Scottsdale / Naples / Miami invented. Real: West Chicago,
+            Naperville, Rock Hill SC, Kansas City
+  claim     "largest single-location inventory in the world" invented and
+            unverifiable — cannot be repeated in copy
+  spelling  "Koenissegg" in the card row, correct in the hero list
+
+prompt
+  Full-page website design mockup for a luxury exotic car dealership, shown
+  as one tall continuous screenshot. One neutral grotesque plus a mono for
+  figures, no serif. Hero: script wordmark, quiet menu, phone pill; mono
+  stamp line; enormous 299; roster of car names with prices aligned right
+  over a very dark showroom photograph. Search bar with one red SEARCH
+  button and an outlined valuation button. A pale bone band with a large
+  dark headline and four figures. Three tall dark photographs of unbranded
+  supercars with names and prices, no buttons. Dark footer with link
+  columns and city names. Restrained, editorial, hairline rules, matte, one
+  red accent only, no gradients, no glow, no shadows, no visible car logos
+  or number plates.
