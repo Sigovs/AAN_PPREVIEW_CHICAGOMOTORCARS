@@ -694,3 +694,82 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   THE VEHICLE CARD
+   No container, no border, no button. The photograph is the card
+   and the whole card is the target — a repeated filled CTA across a
+   grid is what turns a decision point into wallpaper.
+   ============================================================ */
+.vcard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.vcard__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-raised);
+  border-radius: 3px;
+}
+
+.vcard__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease);
+}
+.vcard:hover .vcard__media img,
+.vcard:focus-visible .vcard__media img { transform: scale(1.02); }
+
+/* The showroom, because four of them is a real differentiator and the
+   buyer needs to know which floor the car is standing on. */
+.vcard__place {
+  position: absolute;
+  inset-block-start: var(--sp-3);
+  inset-inline-end: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: rgba(6, 6, 7, 0.72);
+  backdrop-filter: blur(8px);
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: 999px;
+}
+
+.vcard__name {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.vcard__trim {
+  font-size: var(--t-micro);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.vcard__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  padding-block-start: var(--sp-3);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.vcard__facts b { font-weight: 500; color: var(--ink); }
+
+.on-bone .vcard__trim,
+.on-bone .vcard__facts { color: var(--bone-ink-2); }
+.on-bone .vcard__facts { border-color: var(--bone-rule); }
+.on-bone .vcard__facts b { color: var(--bone-ink); }
