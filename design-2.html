@@ -8,11 +8,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=9">
-<link rel="stylesheet" href="assets/css/main.css?v=9">
-<link rel="stylesheet" href="assets/css/specimen.css?v=1">
+<link rel="stylesheet" href="assets/css/main.css?v=10">
+<link rel="stylesheet" href="assets/css/specimen.css?v=2">
 </head>
 <body>
 
@@ -177,6 +177,69 @@
     </div>
   </section>
 
+  <!-- 03b ================================================= -->
+  <section class="chap">
+    <p class="chap__num">03b</p>
+    <div>
+      <h2 class="chap__title">Pairings under test</h2>
+      <p class="chap__lede">
+        The current pair is <b>Bodoni Moda + Archivo</b>, and it has no relationship: different centuries,
+        different skeletons, different hands. It is “expensive serif plus safe grotesque”, which is the
+        default luxury move — and the wordmark is already a script, so that makes four unrelated voices on
+        one page.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        <code>projects/360-auto-care</code> records the general rule that applies here: when a page has no
+        expressive voice, check whether <b>an axis is missing</b> before concluding the family is wrong. The
+        cure there was a violent weight separation, not a serif. Same copy, same sizes, four answers.
+      </p>
+
+      <div style="margin-block-start:var(--sp-7)">
+
+        <div class="row row--tall">
+          <p class="row__key">A &middot; current</p>
+          <div>
+            <p style="font-family:'Bodoni Moda',serif;font-size:clamp(1.75rem,3.4vw,3rem);font-weight:500;line-height:1.06;letter-spacing:-.02em">On the floor <em>today</em>.</p>
+            <p style="font-family:'Bodoni Moda',serif;font-size:4.5rem;font-weight:600;line-height:.9;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin-block-start:var(--sp-3)">299</p>
+            <p style="font-family:'Archivo',sans-serif;color:var(--ink-2);line-height:1.65;max-width:52ch;margin-block-start:var(--sp-4)">A different 299 next month. Thirty thousand cars have come through this building since 2003.</p>
+          </div>
+          <p class="row__note">Bodoni Moda<br>+ Archivo<br><br>no relationship</p>
+        </div>
+
+        <div class="row row--tall">
+          <p class="row__key">B &middot; no serif</p>
+          <div>
+            <p style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 118;font-size:clamp(1.75rem,3.4vw,3rem);font-weight:800;line-height:1.02;letter-spacing:-.035em">On the floor <em style="font-weight:300;font-style:normal">today</em>.</p>
+            <p style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 118;font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:-.045em;font-variant-numeric:tabular-nums;margin-block-start:var(--sp-3)">299</p>
+            <p style="font-family:'Archivo',sans-serif;color:var(--ink-2);line-height:1.65;max-width:52ch;margin-block-start:var(--sp-4)">A different 299 next month. Thirty thousand cars have come through this building since 2003.</p>
+          </div>
+          <p class="row__note">Archivo 800 wide<br>+ Archivo 400<br><br>one family<br>two axes<br>stress = weight drop</p>
+        </div>
+
+        <div class="row row--tall">
+          <p class="row__key">C &middot; superfamily</p>
+          <div>
+            <p style="font-family:'Instrument Serif',serif;font-size:clamp(1.9rem,3.8vw,3.35rem);font-weight:400;line-height:1.04;letter-spacing:-.015em">On the floor <em>today</em>.</p>
+            <p style="font-family:'Instrument Serif',serif;font-size:5rem;line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-block-start:var(--sp-3)">299</p>
+            <p style="font-family:'Instrument Sans',sans-serif;color:var(--ink-2);line-height:1.65;max-width:52ch;margin-block-start:var(--sp-4)">A different 299 next month. Thirty thousand cars have come through this building since 2003.</p>
+          </div>
+          <p class="row__note">Instrument Serif<br>+ Instrument Sans<br><br>one designer<br>related skeletons<br>the pair has a reason</p>
+        </div>
+
+        <div class="row row--tall">
+          <p class="row__key">D &middot; mixed line</p>
+          <div>
+            <p style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-size:clamp(1.75rem,3.4vw,3rem);font-weight:700;line-height:1.04;letter-spacing:-.03em">On the floor <em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;letter-spacing:-.01em">today</em>.</p>
+            <p style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-size:4.5rem;font-weight:700;line-height:.9;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin-block-start:var(--sp-3)">299</p>
+            <p style="font-family:'Instrument Sans',sans-serif;color:var(--ink-2);line-height:1.65;max-width:52ch;margin-block-start:var(--sp-4)">A different 299 next month. Thirty thousand cars have come through this building since 2003.</p>
+          </div>
+          <p class="row__note">grotesque display<br>serif italic for<br>ONE word only<br><br>the move you liked<br>on the other site</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- 04 ================================================== -->
   <section class="chap">
     <p class="chap__num">04</p>
@@ -220,41 +283,85 @@
     <div>
       <h2 class="chap__title">Controls and states</h2>
       <p class="chap__lede">
-        Buying and selling were declared roughly equal, so the two doors carry parallel rank — the ban on two
-        primary actions yields exactly on that condition. They are told apart by treatment, never by size.
+        Nothing below is drawn by hand. Each state is produced by the same declaration as the real
+        pseudo-class &mdash; <code>.btn--fill:hover</code> and <code>.btn--fill.is-hover</code> share one rule
+        &mdash; so a specimen here cannot drift away from the component it documents. Hover the live row and
+        it behaves identically.
       </p>
 
       <div class="row row--tall" style="margin-block-start:var(--sp-6)">
-        <p class="row__key">rest</p>
+        <p class="row__key">live</p>
         <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
           <button class="btn btn--fill" type="button">Search 299</button>
           <a class="btn btn--line" href="#">Get a valuation</a>
         </div>
-        <p class="row__note">one fill<br>one outline</p>
+        <p class="row__note">hover and tab<br>through these</p>
       </div>
-      <div class="row row--tall">
-        <p class="row__key">focus</p>
-        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
-          <button class="btn btn--fill" type="button" style="outline:2px solid var(--ink);outline-offset:3px">Search 299</button>
-          <a class="btn btn--line" href="#" style="outline:2px solid var(--ink);outline-offset:3px">Get a valuation</a>
-        </div>
-        <p class="row__note">2px --ink<br>3px offset<br>never removed</p>
-      </div>
+
       <div class="row row--tall">
         <p class="row__key">hover</p>
         <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
-          <button class="btn btn--fill" type="button" style="background:var(--accent-deep)">Search 299</button>
-          <a class="btn btn--line" href="#" style="box-shadow:inset 0 0 0 1px var(--ink)">Get a valuation</a>
+          <button class="btn btn--fill is-hover" type="button" tabindex="-1">Search 299</button>
+          <a class="btn btn--line is-hover" tabindex="-1">Get a valuation</a>
         </div>
         <p class="row__note">one move only<br>no scale, no glow</p>
       </div>
+
       <div class="row row--tall">
-        <p class="row__key">field</p>
-        <div style="max-width:22rem">
-          <label class="field__label micro" style="color:var(--ink-3);display:block;margin-block-end:var(--sp-1)" for="s-q">Keyword</label>
-          <input class="field__control" id="s-q" type="search" placeholder="Senna, carbon, manual&hellip;" style="border-bottom:1px solid var(--rule);padding-block-end:var(--sp-2)">
+        <p class="row__key">focus-visible</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--fill is-focus" type="button" tabindex="-1">Search 299</button>
+          <a class="btn btn--line is-focus" tabindex="-1">Get a valuation</a>
+        </div>
+        <p class="row__note">2px --ink<br>3px offset<br>never removed</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; rest</p>
+        <div class="field field--single" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-a">Keyword</label>
+          <input class="field__control" id="s-a" type="search" placeholder="Senna, carbon, manual&hellip;">
         </div>
         <p class="row__note">label always<br>visible</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; filled</p>
+        <div class="field field--single" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-b">Keyword</label>
+          <input class="field__control" id="s-b" type="search" value="carbon ceramic" tabindex="-1">
+        </div>
+        <p class="row__note">value in --ink</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; error</p>
+        <div class="field field--single field--error" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-c">Year</label>
+          <input class="field__control" id="s-c" type="text" value="20266" tabindex="-1">
+          <p class="field__error">Four digits, between 1960 and 2026</p>
+        </div>
+        <p class="row__note">red marks it<br>ink explains it<br>never hue alone</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">field &middot; disabled</p>
+        <div class="field field--single" style="max-width:22rem">
+          <label class="field__label micro" style="color:var(--ink-3)" for="s-d">Model</label>
+          <input class="field__control" id="s-d" type="text" placeholder="Choose a make first" disabled>
+        </div>
+        <p class="row__note">exempt from AA<br>never below 2.5:1</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">roster &middot; hover</p>
+        <div class="roster" style="max-width:34rem">
+          <ul class="roster__list">
+            <li><a href="#">McLaren Senna <span>$3,499,800</span></a></li>
+            <li><a class="is-hover" tabindex="-1">Koenigsegg Regera <span>$2,899,800</span></a></li>
+          </ul>
+        </div>
+        <p class="row__note">indent + ink<br>the row admits<br>it is a target</p>
       </div>
     </div>
   </section>
