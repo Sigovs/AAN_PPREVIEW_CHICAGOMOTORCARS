@@ -329,35 +329,40 @@ button, input, select { font: inherit; color: inherit; }
 
 /* The claim. The figure carries the display rank; the sentence that
    explains it drops two ranks and sits under its shoulder. */
+/* No serif to lean on: the rank is size and weight, and the stress is
+   a WEIGHT DROP rather than an italic — the move the 360 record
+   extracted when the client took the serifs away. */
 .hero__claim {
   font-family: var(--font-display);
-  font-variation-settings: var(--font-display-set);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: var(--tr-display);
 }
 
 .hero__claim-a {
   display: block;
   font-size: var(--t-count);
-  font-weight: 400;
-  line-height: 0.86;
+  font-weight: 600;
+  line-height: var(--lh-count);
   letter-spacing: var(--tr-count);
   font-variant-numeric: tabular-nums;
 }
 
 .hero__claim-b {
   display: block;
-  margin-block-start: var(--sp-4);
+  margin-block-start: var(--sp-5);
   font-size: var(--t-claim);
-  line-height: 1.04;
+  font-weight: 400;
+  line-height: var(--lh-display);
   letter-spacing: var(--tr-display);
   color: var(--ink-2);
 }
 
-/* The italic IS the emphasis — there is no heavier weight to reach
-   for, which is the point of choosing a one-weight display face. */
+/* The stress is a weight drop, not an italic. Against 400 the 200 is
+   four steps away — nothing can be mistaken for "the same word,
+   emphasised". */
 .hero__claim em {
-  font-style: italic;
+  font-style: normal;
+  font-weight: 200;
   color: var(--ink);
 }
 
@@ -555,15 +560,14 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .record__claim {
   font-family: var(--font-display);
-  font-variation-settings: var(--font-display-set);
-  font-size: clamp(2.125rem, 4.2vw, 4rem);
-  font-weight: 400;
-  line-height: 1.1;
+  font-size: clamp(2.125rem, 4.4vw, 4.25rem);
+  font-weight: 600;
+  line-height: 1.05;
   letter-spacing: var(--tr-display);
-  max-width: 24ch;
+  max-width: 22ch;
 }
 
-.record__claim em { font-style: italic; }
+.record__claim em { font-style: normal; font-weight: 200; }
 
 .ledger {
   display: flex;
@@ -589,9 +593,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .ledger dd {
   font-family: var(--font-display);
-  font-variation-settings: var(--font-display-set);
-  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
-  font-weight: 400;
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  font-weight: 600;
   line-height: 1;
   letter-spacing: var(--tr-count);
   font-variant-numeric: tabular-nums;
