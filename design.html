@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=13">
-<link rel="stylesheet" href="assets/css/main.css?v=14">
+<link rel="stylesheet" href="assets/css/main.css?v=15">
 <link rel="stylesheet" href="assets/css/specimen.css?v=7">
 </head>
 <body>
@@ -143,36 +143,47 @@
   <section class="chap">
     <p class="chap__num">03</p>
     <div>
-      <h2 class="chap__title">Three voices</h2>
+      <h2 class="chap__title">Two voices</h2>
       <p class="chap__lede">
-        Each exists because it does something the other two structurally cannot. The didone has a floor at
-        roughly 40px — below it the hairlines fall under a device pixel and figures start losing crossbars.
+        One restrained grotesque carries both display and body, and the mono carries anything factual.
+        <b>The face is deliberately forgettable</b> — it is not asked to supply the character. Scale,
+        position and air do that, which is what five approved vault entries say and 03b records.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        Every family name in the right-hand column is <b>printed from the specimen's own computed style</b>.
+        The prose here used to be typed by hand and it went stale the moment the tokens moved — it still
+        claimed Bodoni long after the display face had become a grotesque. A page that measures its own
+        contrast and then lies about its own typefaces is worse than one that does neither.
       </p>
 
       <div class="row row--tall" style="margin-block-start:var(--sp-6)">
         <p class="row__key">display &middot; count</p>
-        <p style="font-family:var(--font-display);font-size:var(--t-count);font-weight:500;line-height:.82;letter-spacing:var(--tr-count)">299</p>
-        <p class="row__note">Bodoni Moda<br>--t-count<br>tabular</p>
+        <p class="js-count" style="font-family:var(--font-display);font-size:var(--t-count);font-weight:600;line-height:var(--lh-count);letter-spacing:var(--tr-count);font-variant-numeric:tabular-nums">299</p>
+        <p class="row__note"><span data-face=".js-count"></span><br>--t-count<br>tabular</p>
       </div>
+
       <div class="row row--tall">
         <p class="row__key">display &middot; claim</p>
-        <p style="font-family:var(--font-display);font-size:var(--t-claim);font-weight:500;line-height:1.06;letter-spacing:-.02em">On the floor <em style="font-style:italic">today</em>.</p>
-        <p class="row__note">one true italic<br>per headline</p>
+        <p class="js-claim" style="font-family:var(--font-display);font-size:var(--t-claim);font-weight:400;line-height:var(--lh-display);letter-spacing:var(--tr-display);color:var(--ink-2)">On the floor <em class="js-stress" style="font-style:normal;font-weight:200;color:var(--ink)">today</em>.</p>
+        <p class="row__note"><span data-face=".js-claim"></span><br>stress drops to<br><span data-face=".js-stress"></span><br>four steps &mdash;<br>not an italic</p>
       </div>
+
       <div class="row row--tall" data-measure-row>
         <p class="row__key">body</p>
-        <p style="max-width:68ch;line-height:var(--lh-body);color:var(--ink-2)" data-measure>A different 299 next month. Thirty thousand cars have come through this building since 2003 — roughly four a day, every day, for twenty-three years.</p>
-        <p class="row__note">Archivo 400<br><span data-ratio-slot></span></p>
+        <p class="js-body" style="max-width:68ch;line-height:var(--lh-body);color:var(--ink-2)" data-measure>A different 299 next month. Thirty thousand cars have come through this building since 2003 — roughly four a day, every day, for twenty-three years.</p>
+        <p class="row__note"><span data-face=".js-body"></span><br><span data-ratio-slot></span></p>
       </div>
+
       <div class="row" data-measure-row>
         <p class="row__key">mono</p>
-        <p class="micro" style="color:var(--ink-3)" data-measure>The floor &mdash; 5 August 2026, 09:41 CT</p>
-        <p class="row__note">14px floor<br><span data-ratio-slot></span></p>
+        <p class="micro js-mono" style="color:var(--ink-3)" data-measure>The floor &mdash; 5 August 2026, 09:41 CT</p>
+        <p class="row__note"><span data-face=".js-mono"></span><br>14px floor<br><span data-ratio-slot></span></p>
       </div>
+
       <div class="row row--tall">
         <p class="row__key">figures</p>
-        <p style="font-family:var(--font-mono);font-variant-numeric:tabular-nums;line-height:1.8">$3,499,800<br>$2,899,800<br>&nbsp;&nbsp;$900,212</p>
-        <p class="row__note">tabular-nums<br>columns align</p>
+        <p class="js-fig" style="font-family:var(--font-mono);font-variant-numeric:tabular-nums;line-height:1.8">$3,499,800<br>$2,899,800<br>&nbsp;&nbsp;$900,212</p>
+        <p class="row__note"><span data-face=".js-fig"></span><br>tabular-nums<br>columns align</p>
       </div>
     </div>
   </section>
@@ -181,108 +192,44 @@
   <section class="chap">
     <p class="chap__num">03b</p>
     <div>
-      <h2 class="chap__title">The pairing, and what it replaced</h2>
+      <h2 class="chap__title">Why there is no serif</h2>
       <p class="chap__lede">
-        <b>Instrument Serif + Instrument Sans</b> &mdash; cut by one hand from related skeletons, so the pair
-        has a reason to exist. The previous pairing had none: Bodoni Moda and Archivo are different
-        centuries and different bones, and the wordmark is already a script, which made four unrelated
-        voices on one page.
-      </p>
-      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
-        The serif ships <b>one weight</b> and a true italic. That is a constraint and also the reason it was
-        chosen: with no bold to reach for, emphasis has to come from size and from the italic, which is
-        exactly the discipline the claim needs.
+        Nine pairings were proposed and rejected before the axis turned out to be wrong rather than the
+        names. The answer came from Alex's own approved vault, five entries deep, all <code>in</code>:
       </p>
 
       <div style="margin-block-start:var(--sp-6)">
         <div class="finding">
-          <p class="finding__rule">rejected</p>
-          <div>
-            <p class="finding__was">Bodoni Moda + Archivo</p>
-            <p class="finding__now">No relationship between the faces. “Expensive serif plus safe grotesque”
-              is the default luxury move, and it fought the script wordmark.</p>
-          </div>
+          <p class="finding__rule">augen-pro</p>
+          <div><p class="finding__now">“Типографика почти полностью нейтральная. Характер создаётся не выбором «интересного шрифта», а масштабом, прозрачностью, положением и движением”</p></div>
         </div>
         <div class="finding">
-          <p class="finding__rule">rejected</p>
-          <div>
-            <p class="finding__was">Archivo 800 wide + Archivo 400 &mdash; no serif at all</p>
-            <p class="finding__now">Honest and costume-free, and it follows the 360 Auto Care finding that a
-              missing axis, not a wrong family, is usually the fault. Kept on file: it is the fallback if the
-              serif ever reads as luxury-by-default.</p>
-          </div>
+          <p class="finding__rule">ruadh-com</p>
+          <div><p class="finding__now">“Никакого стандартного luxury serif. Один сдержанный grotesk — характер создают фотографии, crop и композиция”</p></div>
         </div>
         <div class="finding">
-          <p class="finding__rule">rejected</p>
-          <div>
-            <p class="finding__was">Grotesque display + serif italic on one word</p>
-            <p class="finding__now">The mixed-line move. Loses to C only because C gets the same contrast
-              without running two families through every headline.</p>
-          </div>
+          <p class="finding__rule">beings-co &middot; 3</p>
+          <div><p class="finding__now">“выразительные портреты, oversized grotesk, два контрастных цвета, большие поля”</p></div>
+        </div>
+        <div class="finding">
+          <p class="finding__rule">immersive-g &middot; 3</p>
+          <div><p class="finding__now">“очень крупная типографика”</p></div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- 03c ================================================= -->
-  <section class="chap">
-    <p class="chap__num">03c</p>
-    <div>
-      <h2 class="chap__title">Elegance, and where it comes from</h2>
-      <p class="chap__lede">
-        The inventory settles the register. Aventador SVJ Roadster, 488 Pista Spider, Viper ACR Voodoo II
-        <em>one of thirty-one</em>, GT2 RS Weissach, Senna, Regera, Nevera. Mileage of <b>38</b>. Prices from
-        $900,000 to $3.5 million. The copy already says <code>Ad Personam</code> and
-        <code>Rare Rosso Mimir</code>. This is provenance, not used cars &mdash; catalogue content, closer to
-        a sale of lots than to a dealer's floor.
+      <p class="chap__lede" style="margin-block-start:var(--sp-6)">
+        This is a <b>named yield</b> on the dialect's three-voice rule, which asks for a didone display. The
+        evidence for setting it aside is Alex's own judgements rather than preference. It is not “never a
+        serif” — <code>ciridae</code> and <code>kinncollective</code> are serif-led and also approved. The
+        discriminator is that the face is not asked to carry the character.
       </p>
       <p class="chap__lede" style="margin-block-start:var(--sp-4)">
-        So the engineered and machine registers were the wrong answer, and so was the earlier reasoning that
-        the display face should shut up. What was right in it survives narrowly: the wordmark is expressive,
-        so the display face must be elegant <b>without being ornamental</b> &mdash; it may not compete for the
-        same job.
+        <b>Rejected, in order:</b> Bodoni Moda + Archivo &middot; Instrument Serif + Instrument Sans &middot;
+        Bodoni corrected to 400 / opsz 96 / +0.005 tracking &middot; Cormorant Garamond, whose old-style
+        figures break tabular alignment &middot; Fraunces &middot; Space Grotesk &middot; Anton &middot;
+        mono at display &middot; Archivo 800 wide + 400. The first Bodoni failed on <em>my settings</em>,
+        not the family: 600 and −0.035 thickens a didone's hairlines and makes it ordinary.
       </p>
-      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
-        Three answers, differing by <b>where the elegance is produced</b>. Tested on a real lot rather than on
-        an abstract line, because a lot name is what the page is actually made of.
-      </p>
-
-      <div style="margin-block-start:var(--sp-7)">
-
-        <div class="row row--tall">
-          <p class="row__key">J &middot; in the letterforms</p>
-          <div>
-            <p class="micro" style="color:var(--ink-3);margin-block-end:var(--sp-3)">Lot 22729 &middot; West Chicago</p>
-            <p style="font-family:'Bodoni Moda',serif;font-variation-settings:'opsz' 96;font-size:clamp(2.25rem,4.6vw,4.25rem);font-weight:400;line-height:1.04;letter-spacing:0.005em">2019 McLaren <em style="font-style:italic">Senna</em></p>
-            <p style="font-family:'Instrument Sans',sans-serif;color:var(--ink-2);line-height:1.6;max-width:46ch;margin-block-start:var(--sp-4)">Exposed blue tinted carbon fibre. CPO warranty. One of 500 worldwide.</p>
-            <p style="font-family:'JetBrains Mono',monospace;font-size:var(--t-micro);color:var(--ink-2);margin-block-start:var(--sp-4);font-variant-numeric:tabular-nums">$3,499,800 &nbsp;&nbsp; 2,615 mi</p>
-          </div>
-          <p class="row__note">Bodoni Moda 400<br>opsz 96<br>tracking +0.005<br><br>the didone, done<br>as a didone wants:<br>light, open, huge<br><br>my earlier fault<br>was 600 and −.035</p>
-        </div>
-
-        <div class="row row--tall">
-          <p class="row__key">K &middot; in the proportions</p>
-          <div>
-            <p class="micro" style="color:var(--ink-3);margin-block-end:var(--sp-3)">Lot 22729 &middot; West Chicago</p>
-            <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5.4vw,5rem);font-weight:400;line-height:1.02;letter-spacing:0.002em">2019 McLaren <em style="font-style:italic;font-weight:400">Senna</em></p>
-            <p style="font-family:'Instrument Sans',sans-serif;color:var(--ink-2);line-height:1.6;max-width:46ch;margin-block-start:var(--sp-4)">Exposed blue tinted carbon fibre. CPO warranty. One of 500 worldwide.</p>
-            <p style="font-family:'JetBrains Mono',monospace;font-size:var(--t-micro);color:var(--ink-2);margin-block-start:var(--sp-4);font-variant-numeric:tabular-nums">$3,499,800 &nbsp;&nbsp; 2,615 mi</p>
-          </div>
-          <p class="row__note">Cormorant Garamond<br>400 + italic<br><br>old-style, literary<br>rather than fashion<br><br>risk: fragile small,<br>and it has been<br>used at weddings</p>
-        </div>
-
-        <div class="row row--tall">
-          <p class="row__key">L &middot; in the space</p>
-          <div>
-            <p class="micro" style="color:var(--ink-3);margin-block-end:var(--sp-5)">Lot 22729 &middot; West Chicago</p>
-            <p style="font-family:'Instrument Sans',sans-serif;font-size:clamp(1.75rem,3.2vw,2.75rem);font-weight:400;line-height:1.25;letter-spacing:0.06em;text-transform:uppercase">2019 McLaren<br>Senna</p>
-            <p style="font-family:'Instrument Sans',sans-serif;color:var(--ink-2);line-height:1.6;max-width:46ch;margin-block-start:var(--sp-6)">Exposed blue tinted carbon fibre. CPO warranty. One of 500 worldwide.</p>
-            <p style="font-family:'JetBrains Mono',monospace;font-size:var(--t-micro);color:var(--ink-2);margin-block-start:var(--sp-5);font-variant-numeric:tabular-nums">$3,499,800 &nbsp;&nbsp; 2,615 mi</p>
-          </div>
-          <p class="row__note">no serif at all<br><br>elegance from<br>tracking, scale<br>and air &mdash; the<br>Ruadh move, which<br>your vault already<br>approves<br><br>depends on the<br>photography we<br>do not have</p>
-        </div>
-
-      </div>
     </div>
   </section>
 
@@ -506,6 +453,6 @@
   </div>
 </div>
 
-<script src="assets/js/design.js?v=2" defer></script>
+<script src="assets/js/design.js?v=3" defer></script>
 </body>
 </html>

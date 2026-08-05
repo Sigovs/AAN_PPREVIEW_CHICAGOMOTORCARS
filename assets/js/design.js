@@ -76,6 +76,24 @@
       .appendChild(tag);
   });
 
+  /* Print the family a specimen is ACTUALLY rendering in. The prose on
+     this page was hand-typed and went stale the moment the tokens moved
+     — it still said Bodoni long after the display face had become a
+     grotesque. A page that measures its own contrast and then lies
+     about its own typefaces is worse than one that does neither. */
+  document.querySelectorAll('[data-face]').forEach(function (el) {
+    var target = el.getAttribute('data-face');
+    var node = target ? el.closest('[data-measure-row], .row, .spec')
+                          .querySelector(target) : el;
+    if (!node) return;
+    var cs = getComputedStyle(node);
+    var fam = cs.fontFamily.split(',')[0].replace(/["']/g, '');
+    var out = document.createElement('span');
+    out.textContent = fam + ' ' + cs.fontWeight;
+    el.textContent = '';
+    el.appendChild(out);
+  });
+
   /* Print the resolved value of every token named on the page, so the
      swatch and the number can never disagree. */
   var root = getComputedStyle(document.documentElement);
