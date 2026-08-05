@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=13">
-<link rel="stylesheet" href="assets/css/main.css?v=25">
+<link rel="stylesheet" href="assets/css/main.css?v=30">
 </head>
 <body>
 
@@ -88,57 +88,49 @@
          Swap for a real showroom frame before anything goes near a
          client. The scrim below is part of the ground, so replacing
          the file moves no type. -->
-    <div class="hero__media" aria-hidden="true">
-      <picture>
-        <!-- Mobile is a different frame, not the same frame cropped:
-             with object-fit cover a 390x844 viewport crops the wide
-             shot horizontally only, so the car never reaches the
-             upper band where the copy leaves room for it. -->
-        <source media="(max-width: 900px)"
-                srcset="assets/img/hero/gen-hero-showroom-portrait.jpg"
-                width="1200" height="1203">
-        <img class="hero__photo" src="assets/img/hero/gen-hero-showroom-wide.jpg"
-             alt="" width="2400" height="1339" fetchpriority="high" decoding="async">
-      </picture>
+    <!-- Three campaigns, not eight. Each slide is its own atmosphere and
+         still recognisably the same house — momentum without fragmenting
+         the message. Real CMC frames; the wordmark is burned into theirs,
+         so nothing of ours sits along the top of the image. -->
+    <div class="reel" aria-roledescription="carousel" aria-label="On the floor now">
+
+      <article class="reel__slide is-on" aria-hidden="false">
+        <div class="reel__media"><img src="assets/img/stock/cmc-aventador-red.jpg" alt="" width="326" height="210" fetchpriority="high"></div>
+        <div class="reel__body shell">
+          <p class="micro reel__eyebrow">Rosso Mimir &middot; Ad Personam</p>
+          <h1 class="reel__title">Aventador SVJ<br>Roadster</h1>
+          <p class="reel__facts"><b>$1,200,700</b><span>9,011 mi</span><span>Naperville</span></p>
+        </div>
+      </article>
+
+      <article class="reel__slide" aria-hidden="true">
+        <div class="reel__media"><img src="assets/img/stock/cmc-senna-blue.jpg" alt="" width="326" height="218" loading="lazy"></div>
+        <div class="reel__body shell">
+          <p class="micro reel__eyebrow">Exposed blue tinted carbon fibre</p>
+          <h2 class="reel__title">McLaren<br>Senna</h2>
+          <p class="reel__facts"><b>$3,499,800</b><span>2,615 mi</span><span>West Chicago</span></p>
+        </div>
+      </article>
+
+      <article class="reel__slide" aria-hidden="true">
+        <div class="reel__media"><img src="assets/img/stock/cmc-viper-acr.jpg" alt="" width="326" height="218" loading="lazy"></div>
+        <div class="reel__body shell">
+          <p class="micro reel__eyebrow">Voodoo II &middot; one of thirty-one</p>
+          <h2 class="reel__title">Viper ACR<br>Extreme Aero</h2>
+          <p class="reel__facts"><b>$900,212</b><span>38 mi</span><span>West Chicago</span></p>
+        </div>
+      </article>
+
+      <div class="reel__foot shell">
+        <p class="hero__stamp micro">299 on the floor &mdash; 5 August 2026</p>
+        <div class="reel__nav" role="tablist" aria-label="Choose a vehicle">
+          <button class="reel__dot is-on" type="button" role="tab" aria-selected="true"><span>01</span></button>
+          <button class="reel__dot" type="button" role="tab" aria-selected="false"><span>02</span></button>
+          <button class="reel__dot" type="button" role="tab" aria-selected="false"><span>03</span></button>
+        </div>
+      </div>
     </div>
 
-    <div class="hero__stage shell">
-
-      <p class="hero__stamp micro">
-        <b>01</b> The floor &mdash; 4 August 2026, 09:41 CT
-      </p>
-
-      <div class="hero__type">
-        <h1 class="hero__claim">
-          <span class="hero__claim-a">299</span>
-          <span class="hero__claim-b">exotics standing<br>on the floor <em>today</em>.</span>
-        </h1>
-
-        <p class="hero__note">
-          A different 299 next month. We sell them and we buy them &mdash;
-          any make, any mileage, paid the same day.
-        </p>
-      </div>
-
-      <div class="roster">
-        <ul class="roster__list">
-          <li><a href="#">McLaren Senna <span>$3,499,800</span></a></li>
-          <li><a href="#">Koenigsegg Regera <span>$2,899,800</span></a></li>
-          <li><a href="#">Rimac Nevera <span>$1,999,800</span></a></li>
-          <li><a href="#">Lamborghini Aventador SVJ <span>$1,600,212</span></a></li>
-          <li><a href="#">Ferrari 488 Pista <span>$1,100,700</span></a></li>
-          <li><a href="#">Porsche 911 GT2 RS <span>$900,212</span></a></li>
-          <li><a href="#">Ford GT <span>$1,050,700</span></a></li>
-          <li><a href="#">Mercedes-AMG ONE <span>$2,750,000</span></a></li>
-        </ul>
-        <a class="roster__more" href="#">and 291 more &mdash; see the whole floor</a>
-      </div>
-
-    </div>
-
-    <!-- Two doors, one band. Buying and selling were declared roughly
-         equal, so they get parallel rank — D6 yields exactly here. The
-         accent stays on one of them so it is still rationed. -->
     <div class="doors">
       <div class="doors__inner shell">
 
@@ -360,6 +352,6 @@
 
 </main>
 
-<script src="assets/js/main.js?v=2" defer></script>
+<script src="assets/js/main.js?v=3" defer></script>
 </body>
 </html>

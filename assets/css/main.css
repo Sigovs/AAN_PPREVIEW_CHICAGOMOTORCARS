@@ -232,8 +232,8 @@ button, input, select { font: inherit; color: inherit; }
   overflow: hidden;
 }
 
-.hero__stage { order: 1; }
-.doors       { order: 2; }
+.reel  { order: 1; }
+.doors { order: 2; }
 
 /* ---- Ground ------------------------------------------------
    Built in CSS so the composition holds before the photography
@@ -241,164 +241,40 @@ button, input, select { font: inherit; color: inherit; }
    Drop an <img class="hero__photo"> into .hero__media and the
    scrim below already fixes legibility at the background layer,
    so no type has to move.                                      */
-.hero__media {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    /* floor sheen, just under the type mass */
-    radial-gradient(150% 30% at 50% 88%,
-      rgba(244, 242, 239, 0.055) 0%,
-      rgba(244, 242, 239, 0) 72%),
-    /* two ceiling fixtures, off-centre so the field is not symmetrical */
-    radial-gradient(38% 46% at 68% -6%,
-      rgba(255, 251, 246, 0.20) 0%,
-      rgba(255, 251, 246, 0.05) 45%,
-      rgba(255, 251, 246, 0) 74%),
-    radial-gradient(30% 40% at 24% -10%,
-      rgba(255, 251, 246, 0.11) 0%,
-      rgba(255, 251, 246, 0) 70%),
-    /* the wall the light falls down */
-    linear-gradient(to bottom,
-      #16161a 0%,
-      #0E0E10 34%,
-      var(--bg) 62%,
-      var(--bg-sunk) 100%);
-}
 
-.hero__photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* The content is the subject now, so the photograph recedes: the car
-     drops to the lower left, behind the prose, and leaves the roster
-     column clean. */
-  object-position: 34% 76%;
-}
 
 /* The scrim is part of the ground, never a panel behind the
    text. Legibility is fixed here so it cannot depend on which
    photograph the feed happens to return. */
-.hero__media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top,
-      rgba(6, 6, 7, 0.92) 0%,
-      rgba(6, 6, 7, 0.70) 22%,
-      rgba(6, 6, 7, 0.18) 52%,
-      rgba(6, 6, 7, 0.34) 100%),
-    /* The roster column starts at ~53% and the ceiling bar crosses its
-       first row: measured 4.47:1 there, just under AA. The right half
-       goes heavier — fixed at the ground, not by lifting the ink. */
-    linear-gradient(to right,
-      rgba(6, 6, 7, 0.60) 0%,
-      rgba(6, 6, 7, 0.30) 34%,
-      rgba(6, 6, 7, 0.78) 50%,
-      rgba(6, 6, 7, 0.92) 66%);
-}
 
 /* ---- Content ---------------------------------------------- */
 /* The count and the roster are one mass in tension, not two parallel
    islands: a single enormous figure against a dense quiet list, under
    one shared stamp line. */
-.hero__stage {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  align-content: center;
-  column-gap: clamp(var(--sp-6), 5vw, var(--sp-9));
-  row-gap: var(--sp-6);
-  padding-block: calc(var(--header-h) + var(--sp-7)) var(--sp-7);
-}
 
 /* The page is a record of one moment. The stamp says which moment —
    and it is the reason the count means anything. */
-.hero__stamp {
-  grid-column: 1 / -1;
-  color: var(--ink-3);
-  padding-block-end: var(--sp-4);
-  border-bottom: 1px solid var(--rule);
-}
+.hero__stamp { color: var(--ink-3); }
 
-.hero__type {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-  min-width: 0;
-}
 
 /* The claim. The figure carries the display rank; the sentence that
    explains it drops two ranks and sits under its shoulder. */
 /* No serif to lean on: the rank is size and weight, and the stress is
    a WEIGHT DROP rather than an italic — the move the 360 record
    extracted when the client took the serifs away. */
-.hero__claim {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: var(--tr-display);
-}
 
-.hero__claim-a {
-  display: block;
-  font-size: var(--t-count);
-  font-weight: 600;
-  line-height: var(--lh-count);
-  letter-spacing: var(--tr-count);
-  font-variant-numeric: tabular-nums;
-}
 
-.hero__claim-b {
-  display: block;
-  margin-block-start: var(--sp-5);
-  font-size: var(--t-claim);
-  font-weight: 400;
-  line-height: var(--lh-display);
-  letter-spacing: var(--tr-display);
-  color: var(--ink-2);
-}
 
 /* The stress is a weight drop, not an italic. Against 400 the 200 is
    four steps away — nothing can be mistaken for "the same word,
    emphasised". */
-.hero__claim em {
-  font-style: normal;
-  font-weight: 200;
-  color: var(--ink);
-}
 
-.hero__note {
-  max-width: 40ch;
-  line-height: 1.65;
-  color: var(--ink-2);
-}
 
 /* ---- The roster -------------------------------------------
    Real stock, named. Everything else on this page could belong to any
    dealer; this list could not. */
-.roster {
-  min-width: 0;
-  align-self: start;
-}
 
-.roster__list { border-top: 1px solid var(--rule); }
 
-.roster__list a {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-4);
-  padding-block: var(--sp-3);
-  border-bottom: 1px solid var(--rule);
-  font-size: 1.0625rem;
-  letter-spacing: -0.005em;
-  color: var(--ink-2);
-  transition: color var(--dur-1) var(--ease),
-              padding-inline-start var(--dur-2) var(--ease);
-}
 
 .roster__list a:hover,
 .roster__list a:focus-visible {
@@ -406,26 +282,7 @@ button, input, select { font: inherit; color: inherit; }
   padding-inline-start: var(--sp-3);
 }
 
-.roster__list span {
-  flex: none;
-  font-family: var(--font-mono);
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
-}
 
-.roster__more {
-  display: inline-block;
-  margin-block-start: var(--sp-4);
-  font-family: var(--font-mono);
-  font-size: var(--t-micro);
-  letter-spacing: var(--tr-micro);
-  text-transform: uppercase;
-  color: var(--ink-3);
-  border-bottom: 1px solid var(--rule-strong);
-  padding-block-end: 2px;
-  transition: color var(--dur-1) var(--ease);
-}
 .roster__more:hover,
 .roster__more:focus-visible { color: var(--ink); }
 
@@ -658,20 +515,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
   /* One column. The roster stays — it is the content, not decoration
      — but shortens to what fits above the search. */
-  .hero__stage {
-    display: flex;
-    flex-direction: column;
-    padding-block: calc(var(--header-h) + var(--sp-5)) var(--sp-5);
-    gap: var(--sp-5);
-  }
 
-  .hero__media::after {
-    background: linear-gradient(to bottom,
-      rgba(6, 6, 7, 0.88) 0%,
-      rgba(6, 6, 7, 0.93) 100%);
-  }
 
-  .hero__type { gap: var(--sp-4); }
 
   /* The note stays — it carries facts that exist nowhere else on the
      page. Only the roster shortens, and it was a sample of 299 to
@@ -1183,4 +1028,128 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 @media (max-width: 900px) {
   .sell__grid { grid-template-columns: 1fr; }
   .places__row { grid-template-columns: 1fr; gap: var(--sp-3); }
+}
+
+/* ============================================================
+   THE REEL — the opening as a sequence, not a still
+   Three campaigns. Each slide is its own atmosphere and still the
+   same house. Crossfade only: content changing in place has not
+   travelled through space, and a whoosh would claim it had.
+   ============================================================ */
+/* The reel IS the hero's first row — not a layer behind it. Absolute
+   positioning took it out of the grid, which let the doors band climb
+   into the masthead and blur the whole page with its backdrop-filter. */
+.reel {
+  position: relative;
+  display: grid;
+  min-height: 0;
+}
+
+.reel__slide {
+  grid-area: 1 / 1;
+  position: relative;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-3) var(--ease-out), visibility 0s linear var(--dur-3);
+}
+.reel__slide.is-on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur-3) var(--ease-out), visibility 0s;
+}
+
+.reel__media { position: absolute; inset: 0; }
+.reel__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+
+/* The reading zone is held at the ground, never on the type. */
+.reel__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    /* Measured: the eyebrow ran 3.61:1 against the sky in one frame.
+       The copy column is held hard and the release starts later —
+       fixed at the ground, per GI5, not by lifting the ink. */
+    linear-gradient(to top, rgba(6,6,7,.94) 0%, rgba(6,6,7,.72) 26%, rgba(6,6,7,.22) 64%, rgba(6,6,7,.50) 100%),
+    linear-gradient(to right, rgba(6,6,7,.86) 0%, rgba(6,6,7,.72) 24%, rgba(6,6,7,.36) 54%, rgba(6,6,7,.06) 100%);
+}
+
+.reel__body {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block-end: clamp(9rem, 22vh, 15rem);
+}
+
+/* Over photography the dimmed ink levels do not apply. --ink-3 is
+   calibrated against a solid ground; on a frame it lands wherever the
+   image is brightest and measured 3.6:1 there. D5: over imagery, ink
+   or near-white — nothing dimmer. */
+.reel__eyebrow { color: var(--ink-2); margin-block-end: var(--sp-4); }
+
+.reel__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 8vw, 8.5rem);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  margin-block-end: var(--sp-5);
+}
+
+.reel__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3) var(--sp-6);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.reel__facts b { font-size: 1.25rem; font-weight: 500; color: var(--ink); }
+
+/* ---- the numbered navigation ------------------------------- */
+.reel__foot {
+  position: absolute;
+  inset-block-end: clamp(var(--sp-7), 9vh, var(--sp-9));
+  inset-inline: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.reel__nav { display: flex; gap: var(--sp-5); }
+
+.reel__dot {
+  position: relative;
+  background: none;
+  border: 0;
+  padding: var(--sp-2) 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color var(--dur-1) var(--ease-out);
+}
+.reel__dot::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--rule);
+}
+.reel__dot:hover, .reel__dot:focus-visible { color: var(--ink); }
+.reel__dot.is-on { color: var(--ink); }
+.reel__dot.is-on::after { background: var(--accent); height: 2px; }
+
+@media (max-width: 900px) {
+  .reel__media img { object-position: 60% 45%; }
+  .reel__body { padding-block-end: clamp(13rem, 34vh, 20rem); }
+  .reel__foot { inset-block-end: clamp(var(--sp-6), 6vh, var(--sp-8)); }
 }

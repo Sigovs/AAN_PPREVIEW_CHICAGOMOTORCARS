@@ -78,3 +78,54 @@
 
   Object.keys(map).forEach(function (id) { io.observe(map[id].el); });
 })();
+
+/* The reel. One ambient moment on the page and this is it — the whole
+   budget, spent here. It advances on its own so the opening has
+   momentum, pauses whenever a person is looking at or touching it, and
+   does not exist at all under prefers-reduced-motion: there the first
+   slide simply stands, complete on its own. Nothing here is required to
+   read the page — with the script gone, slide one is the hero. */
+(function () {
+  'use strict';
+  var reel = document.querySelector('.reel');
+  if (!reel) return;
+
+  var slides = [].slice.call(reel.querySelectorAll('.reel__slide'));
+  var dots = [].slice.call(reel.querySelectorAll('.reel__dot'));
+  if (slides.length < 2) return;
+
+  var calm = matchMedia('(prefers-reduced-motion: reduce)');
+  var i = 0, timer = null;
+  var HOLD = 7000;
+
+  function show(n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function (s, k) {
+      s.classList.toggle('is-on', k === i);
+      s.setAttribute('aria-hidden', String(k !== i));
+    });
+    dots.forEach(function (d, k) {
+      d.classList.toggle('is-on', k === i);
+      d.setAttribute('aria-selected', String(k === i));
+    });
+  }
+
+  function play()  { if (!calm.matches && !timer) timer = setInterval(function () { show(i + 1); }, HOLD); }
+  function pause() { clearInterval(timer); timer = null; }
+
+  dots.forEach(function (d, k) {
+    d.addEventListener('click', function () { pause(); show(k); play(); });
+    d.addEventListener('focus', pause);
+  });
+
+  reel.addEventListener('mouseenter', pause);
+  reel.addEventListener('mouseleave', play);
+  reel.addEventListener('focusin', pause);
+  reel.addEventListener('focusout', play);
+  document.addEventListener('visibilitychange', function () {
+    document.hidden ? pause() : play();
+  });
+  calm.addEventListener('change', function (e) { e.matches ? pause() : play(); });
+
+  play();
+})();
