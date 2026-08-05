@@ -536,7 +536,9 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 
 .record__inner {
-  padding-block: clamp(var(--sp-8), 9vw, var(--sp-10));
+  /* bottom-heavy, 1:1.5 — the section gets a clean ending instead of
+     being shoved into the next one. */
+  padding-block: clamp(var(--sp-8), 7vw, var(--sp-9)) clamp(var(--sp-9), 11vw, var(--sp-11));
   display: flex;
   flex-direction: column;
   gap: var(--sp-7);
@@ -721,10 +723,17 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 600ms var(--ease);
 }
-.vcard:hover .vcard__media img,
-.vcard:focus-visible .vcard__media img { transform: scale(1.02); }
+
+/* Hover budget is ONE move. Scale is out — it resamples the frame and
+   costs a repaint; the rule firming up is the cheaper, quieter signal,
+   and it has keyboard parity. */
+.vcard__media {
+  box-shadow: inset 0 0 0 1px transparent;
+  transition: box-shadow var(--dur-1) var(--ease-out);
+}
+.vcard:hover .vcard__media,
+.vcard:focus-visible .vcard__media { box-shadow: inset 0 0 0 1px var(--rule-strong); }
 
 /* The showroom, because four of them is a real differentiator and the
    buyer needs to know which floor the car is standing on. */
@@ -773,3 +782,39 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .on-bone .vcard__facts { color: var(--bone-ink-2); }
 .on-bone .vcard__facts { border-color: var(--bone-rule); }
 .on-bone .vcard__facts b { color: var(--bone-ink); }
+
+
+/* ============================================================
+   THE STACK — differentiated vertical rhythm
+   Proximity IS the hierarchy. A uniform gap flattens a heading and
+   its lead into a list; these relationships are set once, as a
+   component, so no stack is spaced by hand.
+   ============================================================ */
+.stack > * + *              { margin-block-start: var(--sp-4); }
+.stack > .micro + *         { margin-block-start: var(--sp-3); }
+.stack > h1 + *,
+.stack > h2 + *             { margin-block-start: var(--sp-5); }
+.stack > .lede + *          { margin-block-start: var(--sp-6); }
+.stack > * + .cta-row       { margin-block-start: var(--sp-7); }
+
+/* ---- Skeleton ---------------------------------------------
+   Shape-matched, opacity only. No shimmer sweep — that is the
+   template look — and the box matches the real card's frame so the
+   swap shifts nothing. */
+.skeleton {
+  background: var(--bg-raised);
+  border-radius: 3px;
+  animation: skeleton-pulse 1.6s var(--ease-out) infinite;
+}
+.skeleton--media { aspect-ratio: 4 / 3; }
+.skeleton--line  { height: 1em; }
+.skeleton--short { width: 42%; }
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; opacity: 0.8; }
+}

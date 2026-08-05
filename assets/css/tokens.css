@@ -84,7 +84,14 @@
   --tr-count: -0.035em;  /* optical correction at display size   */
 
   /* ---- Space -------------------------------------------------
-     Internal gaps stay smaller than external ones.              */
+     4px base. Every step carries a job, because a scale without
+     stated jobs gets used by eye and drifts on the second pass.
+       1  hairline nudges, icon gaps      6  card padding, stack gaps
+       2  inside small controls           7  sub-block separation
+       3  label to field                  8  section padding, mobile
+       4  body paragraph rhythm           9  section padding, desktop
+       5  component internal padding     10  major section breaks
+                                         11  chapter breaks, hero air   */
   --sp-1: 4px;
   --sp-2: 8px;
   --sp-3: 12px;
@@ -95,16 +102,24 @@
   --sp-8: 64px;
   --sp-9: 96px;
   --sp-10: 128px;
+  --sp-11: 192px;
 
   /* ---- Layout ------------------------------------------------ */
   --container:   1440px;
-  --gutter:      clamp(20px, 4vw, 64px);
+  --gutter:      clamp(24px, 4vw, 64px);   /* 24px floor — D4 */
   --header-h:    88px;
 
-  /* ---- Motion ------------------------------------------------ */
-  --ease:  cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-1: 140ms;
-  --dur-2: 240ms;
+  /* ---- Motion ------------------------------------------------
+     Entering and expanding decelerate; exiting and collapsing
+     accelerate. Inverting this is the most common reason interface
+     motion reads as sluggish — an ease-in entrance appears to
+     hesitate before it starts.                                   */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);   /* entering, expanding */
+  --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);   /* exiting, collapsing */
+  --ease:     var(--ease-out);                  /* default direction   */
+  --dur-1: 150ms;
+  --dur-2: 250ms;
+  --dur-3: 400ms;
 }
 
 @media (max-width: 900px) {

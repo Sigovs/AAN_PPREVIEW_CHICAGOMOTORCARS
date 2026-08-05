@@ -1,0 +1,158 @@
+/* ============================================================
+   SPECIMEN SHEET — chrome only, defines no project value.
+   The register is a foundry specimen: one measured column of
+   hairline-ruled rows, keys left, samples right, notes in the
+   margin. Nothing is boxed; separation is rule and air.
+   ============================================================ */
+
+.sheet {
+  padding-block: var(--sp-8) var(--sp-11);   /* bottom-heavy, D2 */
+}
+
+/* ---- The masthead of the sheet ------------------------------ */
+.sheet__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+  gap: var(--sp-6) var(--sp-8);
+  align-items: end;
+  padding-block-end: var(--sp-5);
+  border-bottom: 2px solid var(--ink);
+}
+
+.sheet__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+}
+
+.sheet__stamp { color: var(--ink-3); text-align: right; }
+
+/* ---- A numbered chapter ------------------------------------- */
+.chap {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: var(--sp-6);
+  padding-block: var(--sp-8) var(--sp-9);   /* bottom-heavy inside too */
+  border-bottom: 1px solid var(--rule);
+}
+
+.chap__num {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-micro);
+  color: var(--ink-3);
+  padding-block-start: 0.35em;
+}
+
+.chap__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-block-end: var(--sp-5);
+}
+
+.chap__lede {
+  max-width: 68ch;              /* body measure cap, D3 */
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+/* ---- The row: key | sample | reading ------------------------ */
+.row {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr) 9rem;
+  gap: var(--sp-5);
+  align-items: baseline;
+  padding-block: var(--sp-4);
+  border-top: 1px solid var(--rule);
+}
+.row:last-child { border-bottom: 1px solid var(--rule); }
+
+.row__key {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+}
+
+.row__note {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  text-align: right;
+  line-height: 1.5;
+}
+
+.row--tall { align-items: start; }
+.row--open { display: block; border-top: 1px solid var(--rule); }
+
+/* ---- Findings: what the sheet caught ------------------------ */
+.finding {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: var(--sp-5);
+  padding-block: var(--sp-4);
+  border-top: 1px solid var(--rule);
+}
+.finding:last-child { border-bottom: 1px solid var(--rule); }
+
+.finding__rule {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.finding__was,
+.finding__now {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  line-height: 1.6;
+}
+.finding__was { color: var(--ink-3); }
+.finding__now { color: var(--ink); }
+
+/* ---- Swatch strip ------------------------------------------- */
+.strip { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.strip__chip {
+  width: 5.5rem;
+  height: 3.5rem;
+  border: 1px solid var(--rule);
+}
+
+/* ---- The measured ratio ------------------------------------- */
+.ratio {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.ratio--fail { color: var(--accent); font-weight: 500; }
+
+/* ---- Space ruler -------------------------------------------- */
+.rule-bar { height: 8px; background: var(--rule-strong); }
+
+/* ---- Light chapter ------------------------------------------ */
+.on-bone { background: var(--bone); color: var(--bone-ink); }
+.on-bone .chap { border-color: var(--bone-rule); }
+.on-bone .chap__num,
+.on-bone .row__note,
+.on-bone .ratio { color: var(--bone-ink-2); }
+.on-bone .chap__lede { color: var(--bone-ink-2); }
+.on-bone .row,
+.on-bone .row:last-child { border-color: var(--bone-rule); }
+.on-bone .row__key { color: var(--bone-ink-2); }
+
+@media (max-width: 900px) {
+  .sheet__head { grid-template-columns: 1fr; }
+  .sheet__stamp { text-align: left; }
+  .chap { grid-template-columns: 1fr; gap: var(--sp-4); }
+  .row { grid-template-columns: 1fr; gap: var(--sp-2); }
+  .row__note { text-align: left; }
+  .finding { grid-template-columns: 1fr; gap: var(--sp-2); }
+}
