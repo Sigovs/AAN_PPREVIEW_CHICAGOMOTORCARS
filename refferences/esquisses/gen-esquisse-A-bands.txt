@@ -1,0 +1,20 @@
+A — stacked bands
+origin      synthetic
+model       fal-ai/nano-banana-pro
+date        2026-08-05
+purpose     internal composition esquisse — NOT a shipped asset, NOT a page mockup
+size        1100x1971
+
+Held at generation, per generated-imagery:
+  GI3  depicts no real car, no real premises, no real person — abstract masses only
+  GI4  no letterforms, no numerals, no logos, no interface, no browser chrome;
+       text is indicated by grey bars, which is what an esquisse is
+  GI6  gen- prefix and this sidecar travel with the file permanently
+
+prompt
+  An art director's layout rough for a long single web page, drawn as pure
+  tonal masses... dark band with photographic mass right and text-bars left,
+  then a pale bone band, then three equal photographic rectangles in a row,
+  then one wide photographic mass, then a deep dark footer. NO TEXT, no
+  letters, no interface, no browser chrome. One small pure red rectangle as
+  the only colour.

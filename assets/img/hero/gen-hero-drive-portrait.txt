@@ -1,0 +1,21 @@
+portal frame, 900x1205
+origin      synthetic  —  PLACEHOLDER, must be replaced before anything goes to a client
+model       fal-ai/nano-banana-pro
+date        2026-08-04
+subject     unbranded car on a coastal road at dusk, graded down to the page tonal world
+
+generated-imagery audit, 2026-08-05:
+  GI3  PASS  no real CMC car, no real CMC showroom, no real person is depicted.
+             The cars are unbranded and generic. If any of these is ever swapped
+             for a frame that reads as a specific vehicle for sale, it is removed,
+             not re-prompted — GI3 does not yield.
+  GI4  PASS  no letterforms, no signage, no plates, no interface in frame
+  GI5  FAIL  the reading zone was NOT held at generation. Contrast over these
+             frames is currently rescued by scrims tuned afterwards — twice, and
+             the second time only after measuring 4.47:1 on the roster. That is
+             the evidence the wrong image was generated, and it is why real
+             photography has to be art-directed for the copy, not found for it.
+  GI6  now satisfied: gen- prefix and this sidecar travel with the file
+  GI7  the composition was built to survive an ordinary photograph and does —
+             the type carries the hero with the image at near-black
+  GI8  PASS  the mobile frame is generated at its own aspect, never a centre crop

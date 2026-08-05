@@ -1,0 +1,19 @@
+B — persistent index
+origin      synthetic
+model       fal-ai/nano-banana-pro
+date        2026-08-05
+purpose     internal composition esquisse — NOT a shipped asset, NOT a page mockup
+size        1100x1971
+
+Held at generation, per generated-imagery:
+  GI3  depicts no real car, no real premises, no real person — abstract masses only
+  GI4  no letterforms, no numerals, no logos, no interface, no browser chrome;
+       text is indicated by grey bars, which is what an esquisse is
+  GI6  gen- prefix and this sidecar travel with the file permanently
+
+prompt
+  ...a narrow vertical column runs down the FULL LEFT EDGE from top to bottom
+  holding a stack of short grey bars and never breaks. To the right the
+  content is deliberately asymmetric and off-grid, masses bleeding off the
+  right edge, deep empty black space between them. NO TEXT, no letters, no
+  interface. One small pure red rectangle.
