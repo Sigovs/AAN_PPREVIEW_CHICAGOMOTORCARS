@@ -1,0 +1,696 @@
+/* ============================================================
+   CHICAGO MOTOR CARS — main
+   Loaded after tokens.css.
+   ============================================================ */
+
+/* ---- Reset ------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, p, dl, dd, figure { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.u-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---- Micro label ------------------------------------------
+   The machine register. Uppercase, tracked, never below 14px. */
+.micro {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  line-height: var(--lh-label);
+}
+
+/* ============================================================
+   HEADER — transparent over the hero
+   ============================================================ */
+.masthead {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 70;      /* above .menu, so the toggle stays the way out */
+  height: var(--header-h);
+}
+
+.masthead__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+}
+
+.masthead__mark img {
+  width: clamp(150px, 15vw, 208px);
+  height: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--sp-4), 2vw, var(--sp-6));
+}
+
+.nav__link {
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  padding-block: var(--sp-2);
+  transition: color var(--dur-1) var(--ease);
+}
+.nav__link:hover,
+.nav__link:focus-visible { color: var(--ink); }
+
+.nav__link.is-current {
+  color: var(--ink);
+  box-shadow: inset 0 -1px 0 0 var(--ink);
+}
+
+.masthead__end {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.masthead__tel {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  transition: border-color var(--dur-1) var(--ease),
+              background-color var(--dur-1) var(--ease);
+}
+.masthead__tel:hover,
+.masthead__tel:focus-visible {
+  border-color: var(--rule-strong);
+  background: rgba(244, 242, 239, 0.06);
+}
+
+/* ---- Menu toggle + panel (mobile) --------------------------
+   Hidden until JS confirms the panel can actually open. Without
+   JS the nav row itself stays on the page — the routes are never
+   locked behind a script. */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+.menu-toggle:hover { border-color: var(--rule-strong); }
+
+.menu-toggle__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 16px;
+}
+.menu-toggle__bars i {
+  display: block;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform var(--dur-2) var(--ease);
+}
+.menu-toggle[aria-expanded="true"] .menu-toggle__bars i:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+.menu-toggle[aria-expanded="true"] .menu-toggle__bars i:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--bg-sunk);
+  overflow-y: auto;
+}
+.menu[hidden] { display: none; }
+
+.menu__inner {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-8);
+  padding-block: calc(var(--header-h) + var(--sp-7)) var(--sp-8);
+}
+
+.menu__nav {
+  display: flex;
+  flex-direction: column;
+}
+.menu__nav a {
+  font-size: clamp(1.5rem, 7vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  padding-block: var(--sp-4);
+  border-bottom: 1px solid var(--rule);
+}
+.menu__nav a:first-child { border-top: 1px solid var(--rule); }
+
+.menu__label {
+  color: var(--ink-3);
+  margin-block-end: var(--sp-4);
+}
+.menu__places li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-3);
+  border-bottom: 1px solid var(--rule);
+}
+.menu__places span {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+
+/* ============================================================
+   HERO
+   Three masses: the light field, the claim, the finder rail.
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero__stage { order: 1; }
+.doors       { order: 2; }
+
+/* ---- Ground ------------------------------------------------
+   Built in CSS so the composition holds before the photography
+   arrives — and still holds when an ordinary photograph does.
+   Drop an <img class="hero__photo"> into .hero__media and the
+   scrim below already fixes legibility at the background layer,
+   so no type has to move.                                      */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* floor sheen, just under the type mass */
+    radial-gradient(150% 30% at 50% 88%,
+      rgba(244, 242, 239, 0.055) 0%,
+      rgba(244, 242, 239, 0) 72%),
+    /* two ceiling fixtures, off-centre so the field is not symmetrical */
+    radial-gradient(38% 46% at 68% -6%,
+      rgba(255, 251, 246, 0.20) 0%,
+      rgba(255, 251, 246, 0.05) 45%,
+      rgba(255, 251, 246, 0) 74%),
+    radial-gradient(30% 40% at 24% -10%,
+      rgba(255, 251, 246, 0.11) 0%,
+      rgba(255, 251, 246, 0) 70%),
+    /* the wall the light falls down */
+    linear-gradient(to bottom,
+      #16161a 0%,
+      #0E0E10 34%,
+      var(--bg) 62%,
+      var(--bg-sunk) 100%);
+}
+
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The content is the subject now, so the photograph recedes: the car
+     drops to the lower left, behind the prose, and leaves the roster
+     column clean. */
+  object-position: 34% 76%;
+}
+
+/* The scrim is part of the ground, never a panel behind the
+   text. Legibility is fixed here so it cannot depend on which
+   photograph the feed happens to return. */
+.hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top,
+      rgba(6, 6, 7, 0.92) 0%,
+      rgba(6, 6, 7, 0.70) 22%,
+      rgba(6, 6, 7, 0.18) 52%,
+      rgba(6, 6, 7, 0.34) 100%),
+    linear-gradient(to right,
+      rgba(6, 6, 7, 0.60) 0%,
+      rgba(6, 6, 7, 0.30) 34%,
+      rgba(6, 6, 7, 0.62) 52%,
+      rgba(6, 6, 7, 0.86) 74%);
+}
+
+/* ---- Content ---------------------------------------------- */
+/* The count and the roster are one mass in tension, not two parallel
+   islands: a single enormous figure against a dense quiet list, under
+   one shared stamp line. */
+.hero__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  align-content: center;
+  column-gap: clamp(var(--sp-6), 5vw, var(--sp-9));
+  row-gap: var(--sp-6);
+  padding-block: calc(var(--header-h) + var(--sp-7)) var(--sp-7);
+}
+
+/* The page is a record of one moment. The stamp says which moment —
+   and it is the reason the count means anything. */
+.hero__stamp {
+  grid-column: 1 / -1;
+  color: var(--ink-3);
+  padding-block-end: var(--sp-4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero__type {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  min-width: 0;
+}
+
+/* The claim. The figure carries the display rank; the sentence that
+   explains it drops two ranks and sits under its shoulder. */
+.hero__claim {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.hero__claim-a {
+  display: block;
+  font-size: var(--t-count);
+  line-height: 0.82;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero__claim-b {
+  display: block;
+  margin-block-start: var(--sp-4);
+  font-size: var(--t-claim);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+
+.hero__claim em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.hero__note {
+  max-width: 40ch;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+/* ---- The roster -------------------------------------------
+   Real stock, named. Everything else on this page could belong to any
+   dealer; this list could not. */
+.roster {
+  min-width: 0;
+  align-self: start;
+}
+
+.roster__list { border-top: 1px solid var(--rule); }
+
+.roster__list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-3);
+  border-bottom: 1px solid var(--rule);
+  font-size: 1.0625rem;
+  letter-spacing: -0.005em;
+  color: var(--ink-2);
+  transition: color var(--dur-1) var(--ease),
+              padding-inline-start var(--dur-2) var(--ease);
+}
+
+.roster__list a:hover,
+.roster__list a:focus-visible {
+  color: var(--ink);
+  padding-inline-start: var(--sp-3);
+}
+
+.roster__list span {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.roster__more {
+  display: inline-block;
+  margin-block-start: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule-strong);
+  padding-block-end: 2px;
+  transition: color var(--dur-1) var(--ease);
+}
+.roster__more:hover,
+.roster__more:focus-visible { color: var(--ink); }
+
+/* ============================================================
+   THE DOORS — buying and selling in one band
+   ============================================================ */
+.doors {
+  position: relative;
+  border-top: 1px solid var(--rule);
+  background: rgba(6, 6, 7, 0.52);
+  backdrop-filter: blur(16px);
+}
+
+.doors__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 0;
+}
+
+.finder {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 1.4fr) auto;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-5) var(--sp-4) 0;
+  min-width: 0;
+}
+
+.field + .field {
+  padding-inline-start: var(--sp-5);
+  border-inline-start: 1px solid var(--rule);
+}
+
+.field__label { color: var(--ink-3); }
+
+.field__control {
+  appearance: none;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.field__control::placeholder { color: var(--ink-3); font-weight: 400; }
+input.field__control { cursor: text; }
+
+select.field__control {
+  padding-inline-end: var(--sp-5);
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%),
+                    linear-gradient(135deg, var(--ink-2) 50%, transparent 50%);
+  background-position: right 6px center, right 1px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+select.field__control option { background: var(--bg-raised); color: var(--ink); }
+
+/* The two doors carry the same rank. They are distinguished by
+   treatment, not by size — so the parallel choice reads as parallel
+   while the accent stays on one of them. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  align-self: stretch;
+  border: 0;
+  padding-inline: clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-1) var(--ease),
+              border-color var(--dur-1) var(--ease);
+}
+.btn svg { flex: none; }
+
+.btn--fill {
+  background: var(--accent);
+  color: #FFFFFF;                /* 5.74:1 on --accent */
+}
+.btn--fill:hover,
+.btn--fill:focus-visible { background: var(--accent-deep); }
+
+.btn--line {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.btn--line:hover,
+.btn--line:focus-visible { box-shadow: inset 0 0 0 1px var(--ink); }
+
+.doors__sell {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding-inline-start: clamp(var(--sp-5), 3vw, var(--sp-8));
+  border-inline-start: 1px solid var(--rule);
+}
+
+.doors__label { color: var(--ink-3); white-space: nowrap; }
+
+/* ============================================================
+   2 — THE RECORD
+   ============================================================ */
+.record {
+  background: var(--bone);
+  color: var(--bone-ink);
+}
+
+.record__inner {
+  padding-block: clamp(var(--sp-8), 9vw, var(--sp-10));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+}
+
+.record__eyebrow { color: var(--bone-ink-2); }
+
+.record__claim {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 3.6vw, 3.375rem);
+  font-weight: 500;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+}
+
+.record__claim em { font-style: italic; font-weight: 500; }
+
+.ledger {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--bone-rule);
+}
+
+.ledger__cell {
+  flex: 1 1 10rem;
+  padding: var(--sp-5) var(--sp-5) 0 0;
+  min-width: 0;
+}
+
+.ledger__cell + .ledger__cell {
+  padding-inline-start: var(--sp-5);
+  border-inline-start: 1px solid var(--bone-rule);
+}
+
+.ledger dt {
+  color: var(--bone-ink-2);
+  margin-block-end: var(--sp-3);
+}
+
+.ledger dd {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.record__places {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-5);
+  padding-block-start: var(--sp-5);
+  border-top: 1px solid var(--bone-rule);
+  font-size: var(--t-micro);
+  color: var(--bone-ink-2);
+}
+
+.record__places span { color: var(--bone-ink); }
+
+/* ============================================================
+   RESPONSIVE — the hero is recomposed, not stacked
+   ============================================================ */
+
+@media (max-width: 900px) {
+  /* No JS: the masthead joins the flow and the nav wraps under the
+     wordmark, so every route stays reachable. With JS it returns to
+     a transparent overlay and the panel takes over. */
+  .masthead {
+    position: static;
+    height: auto;
+    background: var(--bg-sunk);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead__inner { flex-wrap: wrap; padding-block: var(--sp-4); row-gap: var(--sp-4); }
+  .nav { flex-wrap: wrap; row-gap: var(--sp-2); }
+
+  .has-js .masthead {
+    position: absolute;
+    height: var(--header-h);
+    background: none;
+    border-bottom: 0;
+  }
+  .has-js .masthead__inner { flex-wrap: nowrap; padding-block: 0; }
+  .has-js .nav { display: none; }
+  .has-js .menu-toggle { display: inline-flex; }
+
+  /* One column. The roster stays — it is the content, not decoration
+     — but shortens to what fits above the search. */
+  .hero__stage {
+    display: flex;
+    flex-direction: column;
+    padding-block: calc(var(--header-h) + var(--sp-5)) var(--sp-5);
+    gap: var(--sp-5);
+  }
+
+  .hero__media::after {
+    background: linear-gradient(to bottom,
+      rgba(6, 6, 7, 0.88) 0%,
+      rgba(6, 6, 7, 0.93) 100%);
+  }
+
+  .hero__type { gap: var(--sp-4); }
+
+  /* The note stays — it carries facts that exist nowhere else on the
+     page. Only the roster shortens, and it was a sample of 299 to
+     begin with; the count and the link still state the whole. */
+  .roster__list li:nth-child(n + 5) { display: none; }
+
+
+  /* One column: the two doors stack, and each keeps its full width
+     so neither reads as the secondary one. */
+  .doors__inner { grid-template-columns: 1fr; }
+  .finder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .field { padding: var(--sp-3) var(--sp-4) var(--sp-3) 0; }
+  /* Targeted by class, not by position: the form's first child is a
+     visually-hidden <h2>. It is out of grid flow but nth-child still
+     counts it, so every positional selector here is off by one. */
+  .field:nth-of-type(odd) { padding-inline-start: 0; border-inline-start: 0; }
+  .field.field--wide {
+    grid-column: 1 / -1;
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .btn { grid-column: 1 / -1; padding-block: var(--sp-4); }
+  /* The label and the button are both nowrap; side by side their
+     min-content exceeded 390px and stretched the whole grid column,
+     which overflow-x:hidden then quietly cropped. They wrap here. */
+  .doors__sell {
+    flex-wrap: wrap;
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    border-top: 1px solid var(--rule);
+    padding-block: var(--sp-4);
+    gap: var(--sp-3);
+  }
+  .doors__sell .btn { flex: 1 1 100%; padding-block: var(--sp-4); }
+  .ledger__cell { flex: 1 1 42%; padding: var(--sp-4) var(--sp-4) 0 0; }
+  .ledger__cell + .ledger__cell { padding-inline-start: 0; border-inline-start: 0; }
+  .ledger__cell:nth-child(even) {
+    padding-inline-start: var(--sp-4);
+    border-inline-start: 1px solid var(--bone-rule);
+  }
+  .ledger__cell:nth-child(n + 3) { border-top: 1px solid var(--bone-rule); }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

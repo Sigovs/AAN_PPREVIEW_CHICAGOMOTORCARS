@@ -1,0 +1,114 @@
+/* ============================================================
+   CHICAGO MOTOR CARS — DESIGN TOKENS (single source of truth)
+   Linked BEFORE main.css on every page.
+   Change a value here → it updates everywhere.
+   ============================================================ */
+
+:root {
+  /* ---- Ground ------------------------------------------------
+     Near-black, never #000. Pure black flattens photography and
+     leaves no room for a darker step underneath a light pool.   */
+  --bg:          #0B0B0C;
+  --bg-raised:   #121214;
+  --bg-sunk:     #060607;
+
+  /* ---- Ink ---------------------------------------------------
+     Warm off-white. Pure #FFF on near-black glares at display
+     sizes and reads colder than the brand.                      */
+  --ink:         #F4F2EF;
+  --ink-2:       rgba(244, 242, 239, 0.62);
+  --ink-3:       rgba(244, 242, 239, 0.52);
+  /* Measured as composited, against the DARKEST ground on the page
+     (--bg-sunk #060607, under the finder rail) — not against --bg,
+     which flatters the numbers:
+        --ink    17.9:1     --ink-2  7.1:1     --ink-3  5.2:1
+     --ink-3 was 0.42 and measured 3.7:1 — below AA. Every mono
+     micro-label is functional text, so it carries the same floor
+     as body copy and the alpha had to come up, not the size down. */
+
+  /* ---- Accent ------------------------------------------------
+     The existing CMC red, carried through unchanged. The fix is
+     rationing, not re-hueing: one red element per screen.
+     White on --accent measures 5.77:1 → AA for normal text.
+     --accent on --bg measures 3.41:1 → fills and rules only,
+     NEVER small text on the ground.                             */
+  --accent:      #CB141D;
+  --accent-deep: #A50F17;
+
+  /* ---- The inverted band -------------------------------------
+     One light ground on the page, used once, for the record. It gives
+     the page a tonal structure instead of one continuous black, and it
+     is what makes the hero's darkness mean something. Never #fff. */
+  --bone:        #EDEAE4;
+  --bone-ink:    #16150F;
+  --bone-ink-2:  rgba(22, 21, 15, 0.66);
+  --bone-rule:   rgba(22, 21, 15, 0.16);
+
+  /* ---- Rules -------------------------------------------------
+     Separation by hairline and air, not by card.                */
+  --rule:        rgba(244, 242, 239, 0.14);
+  --rule-strong: rgba(244, 242, 239, 0.28);
+
+  /* ---- Type --------------------------------------------------
+     Three voices, three jobs.
+       display — the claim and the one number that matters. A didone
+                 carries print and fashion register no grotesque
+                 reaches at any weight, and it is what separates this
+                 from every other dealer site, which are all grotesque.
+       body    — leads, UI copy, plate values. Quiet, forgettable.
+       mono    — anything factual: labels, stock, miles, VIN, counts.
+     Bodoni Moda carries a true italic cut, which the signature word
+     needs — a faux oblique would be worse than skipping the move.   */
+  --font-display: 'Bodoni Moda', 'Didot', 'GFS Didot', Georgia, serif;
+  --font-body:    'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Scale — every size resolves here. No magic numbers.
+     14px is the floor for anything a visitor must read.         */
+  /* The didone floor is ~40px — below it the hairlines fall under a
+     device pixel. Both display ranks stay above it at every width. */
+  --t-count: clamp(4.5rem, 9.5vw, 9.5rem);   /* the live figure   */
+  --t-claim: clamp(2.5rem, 4.6vw, 4.25rem);  /* the hero claim    */
+  --t-h1:    clamp(1.625rem, 3.2vw, 3.25rem);
+  --t-lede:  clamp(1rem, 1.1vw, 1.0625rem);
+  --t-body:  1rem;                            /* 16px            */
+  --t-micro: 0.875rem;                        /* 14px — floor    */
+
+  --lh-display: 0.92;   /* didone at display size holds as one shape */
+  --lh-count:   0.86;
+  --lh-head:    1.08;
+  --lh-body:    1.6;
+  --lh-label:   1.4;
+
+  --tr-micro: 0.14em;    /* uppercase mono needs the tracking    */
+  --tr-count: -0.035em;  /* optical correction at display size   */
+
+  /* ---- Space -------------------------------------------------
+     Internal gaps stay smaller than external ones.              */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --sp-10: 128px;
+
+  /* ---- Layout ------------------------------------------------ */
+  --container:   1440px;
+  --gutter:      clamp(20px, 4vw, 64px);
+  --header-h:    88px;
+
+  /* ---- Motion ------------------------------------------------ */
+  --ease:  cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-1: 140ms;
+  --dur-2: 240ms;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --header-h: 68px;
+  }
+}

@@ -1,0 +1,11 @@
+# Клон design_dna живёт в собственном репозитории — сюда не едет
+design_dna/
+
+# Явно помечено как не для GitHub
+do not GIT HUB IT/
+
+# Мусор инструментов
+.DS_Store
+.playwright-mcp/
+node_modules/
+*.log
