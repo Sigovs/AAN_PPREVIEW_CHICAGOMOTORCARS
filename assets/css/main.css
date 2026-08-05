@@ -928,15 +928,31 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .inv__all:hover, .inv__all:focus-visible { color: var(--ink); }
 
+/* Not a grid of equals. One vehicle leads at twice the size, the rest
+   fall in behind it — rhythm with variation instead of a metronome, and
+   the lead frame gets enough scale that ordinary photography reads. */
 .inv__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--sp-7) var(--sp-5);
 }
 
+.vcard--lead { grid-column: span 2; grid-row: span 2; }
+.vcard--lead .vcard__media { aspect-ratio: 16 / 10; }
+.vcard--lead .vcard__name { font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.15; }
+.vcard--lead .vcard__trim { font-size: 1rem; }
+.vcard--lead .vcard__facts { font-size: 1rem; }
+
+.vcard--wide { grid-column: span 2; }
+.vcard--wide .vcard__media { aspect-ratio: 21 / 9; }
+
 @media (max-width: 900px) {
   .inv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6) var(--sp-4); }
+  .vcard--lead, .vcard--wide { grid-column: span 2; grid-row: auto; }
+  .vcard--lead .vcard__media { aspect-ratio: 16 / 10; }
 }
 @media (max-width: 560px) {
   .inv__grid { grid-template-columns: 1fr; }
+  .vcard--lead, .vcard--wide { grid-column: span 1; }
+  .vcard--wide .vcard__media { aspect-ratio: 4 / 3; }
 }
