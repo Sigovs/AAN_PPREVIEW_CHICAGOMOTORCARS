@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=13">
-<link rel="stylesheet" href="assets/css/main.css?v=23">
+<link rel="stylesheet" href="assets/css/main.css?v=25">
 </head>
 <body>
 
@@ -67,9 +67,23 @@
   </div>
 </div>
 
+
+<!-- The chapter rail. A long page read as authored chapters rather than a
+     stack — the one device Rimac has that this page did not. It marks where
+     you are and lets you jump straight to a layer. -->
+<nav class="chapters" aria-label="Chapters">
+  <ol class="chapters__list">
+    <li><a href="#floor"><span class="chapters__n">01</span><span class="chapters__t">The floor</span></a></li>
+    <li><a href="#record"><span class="chapters__n">02</span><span class="chapters__t">The record</span></a></li>
+    <li><a href="#stock"><span class="chapters__n">03</span><span class="chapters__t">In stock</span></a></li>
+    <li><a href="#sell"><span class="chapters__n">04</span><span class="chapters__t">Sell yours</span></a></li>
+    <li><a href="#where"><span class="chapters__n">05</span><span class="chapters__t">Where we are</span></a></li>
+  </ol>
+</nav>
+
 <main>
   <div class="stack-stage">
-  <section class="hero">
+  <section class="hero" id="floor">
     <!-- SYNTHETIC PLACEHOLDER — gen- prefixed, sidecar beside each file.
          Swap for a real showroom frame before anything goes near a
          client. The scrim below is part of the ground, so replacing
@@ -91,7 +105,7 @@
     <div class="hero__stage shell">
 
       <p class="hero__stamp micro">
-        The floor &mdash; 4 August 2026, 09:41 CT
+        <b>01</b> The floor &mdash; 4 August 2026, 09:41 CT
       </p>
 
       <div class="hero__type">
@@ -180,10 +194,10 @@
   <!-- 2 — THE RECORD. Credibility before browsing: on a $3M used car the
        buyer checks the seller before the car. One inverted band, used
        once, so the page has a tonal structure. -->
-  <section class="record">
+  <section class="record" id="record">
     <div class="record__inner shell">
 
-      <p class="micro record__eyebrow">Since 2003</p>
+      <p class="micro chap-mark"><b>02</b> The record</p>
 
       <h2 class="record__claim">
         Thirty thousand cars have come
@@ -222,11 +236,12 @@
 
   <!-- 3 — INVENTORY. A dealership: photograph, model, price, miles, where it
        stands. The whole card is the target; no button repeated down a grid. -->
-  <section class="inv">
+  <section class="inv" id="stock">
     <div class="inv__inner shell">
 
+      <p class="micro chap-mark"><b>03</b> In stock</p>
       <div class="inv__head">
-        <h2 class="inv__title">In stock now</h2>
+        <h2 class="inv__title">Two hundred and ninety-nine</h2>
         <a class="inv__all" href="#">All 299 vehicles &rarr;</a>
       </div>
 
@@ -286,8 +301,65 @@
     </div>
   </section>
 
+
+  <!-- 4 — SELL. Declared equal in priority to buying, so it gets a chapter,
+       not a line in the footer. -->
+  <section class="sell" id="sell">
+    <div class="sell__inner shell">
+      <p class="micro chap-mark"><b>04</b> Sell yours</p>
+
+      <div class="sell__grid">
+        <div class="sell__lede">
+          <h2 class="sell__title">We buy, and we pay the same day.</h2>
+          <p class="sell__note">
+            Any make, any mileage, anywhere in the country. Thirty thousand cars have come through
+            this building since 2003 &mdash; most of them arrived because somebody sold one to us.
+          </p>
+          <a class="btn btn--fill" href="#">Get a valuation
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M10.5 1 15 5l-4.5 4M15 5H0" stroke="currentColor" stroke-width="1.4"/></svg>
+          </a>
+        </div>
+
+        <ol class="steps">
+          <li><span class="steps__n">01</span><span class="steps__t">Tell us what you have</span><span class="steps__d">Year, mileage, options, and photographs if you have them.</span></li>
+          <li><span class="steps__n">02</span><span class="steps__t">We make an offer</span><span class="steps__d">Priced against what the car is actually trading at, not a formula.</span></li>
+          <li><span class="steps__n">03</span><span class="steps__t">We collect it</span><span class="steps__d">Enclosed transport, anywhere in the country, at our cost.</span></li>
+          <li><span class="steps__n">04</span><span class="steps__t">You are paid</span><span class="steps__d">Same day, once the car is inspected on arrival.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 — WHERE. Four showrooms across three states is a real differentiator
+       and it has never been shown as anything but a footer line. -->
+  <section class="where" id="where">
+    <div class="where__inner shell">
+      <p class="micro chap-mark"><b>05</b> Where we are</p>
+      <h2 class="where__title">Four floors, three states.</h2>
+
+      <dl class="places">
+        <div class="places__row">
+          <dt>West Chicago<span>Illinois</span></dt>
+          <dd>27W110 North Avenue<a href="tel:+16302211800">630 221 1800</a></dd>
+        </div>
+        <div class="places__row">
+          <dt>Naperville<span>Illinois</span></dt>
+          <dd>2104 Ferry Road<a href="tel:+16302211800">630 221 1800</a></dd>
+        </div>
+        <div class="places__row">
+          <dt>Rock Hill<span>South Carolina</span></dt>
+          <dd>727 Marine Drive<a href="tel:+18038917788">803 891 7788</a></dd>
+        </div>
+        <div class="places__row">
+          <dt>Kansas City<span>Kansas</span></dt>
+          <dd>1650 Commerce Ave<a href="tel:+19138459633">913 845 9633</a></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
 </main>
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=2" defer></script>
 </body>
 </html>

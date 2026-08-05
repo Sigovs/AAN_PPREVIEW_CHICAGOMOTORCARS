@@ -25,7 +25,7 @@ body {
 }
 
 h1, h2, h3, p, dl, dd, figure { margin: 0; }
-ul { margin: 0; padding: 0; list-style: none; }
+ul, ol { margin: 0; padding: 0; list-style: none; }   /* ol too — the chapter rail and the sell steps are both ordered */
 img, svg { display: block; max-width: 100%; }
 
 a { color: inherit; text-decoration: none; }
@@ -1011,3 +1011,176 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* Reduced motion and mobile both get the plain stack. Pinning changes
    what a reader can reach, so it is not applied where it costs more
    than it gives — a phone has no spare viewport to pin. */
+
+/* ============================================================
+   THE CHAPTER RAIL
+   The device that makes a long page read as authored chapters
+   rather than a stack. Marks where you are; lets you jump to a
+   layer. Fixed, quiet, and it never covers content — it sits in
+   the gutter and disappears when there isn't one.
+   ============================================================ */
+.chapters {
+  position: fixed;
+  inset-block-start: 50%;
+  inset-inline-start: max(var(--sp-4), calc((100vw - var(--container)) / 2 - var(--sp-8)));
+  transform: translateY(-50%);
+  z-index: 40;
+}
+
+@media (max-width: 1580px) { .chapters { display: none; } }
+
+.chapters__list { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+.chapters a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  transition: color var(--dur-1) var(--ease-out);
+}
+.chapters a:hover, .chapters a:focus-visible { color: var(--ink); }
+
+.chapters__t {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
+}
+.chapters:hover .chapters__t,
+.chapters a:focus-visible .chapters__t { max-width: 12rem; opacity: 1; }
+
+.chapters .is-here { color: var(--ink); }
+.chapters .is-here .chapters__n { box-shadow: inset 0 -1px 0 0 var(--accent); }
+
+/* On the light chapter the rail has to invert or it disappears. */
+.chapters.on-light a { color: var(--bone-ink-2); }
+.chapters.on-light a:hover, .chapters.on-light .is-here { color: var(--bone-ink); }
+
+/* ---- the mark inside each section ------------------------- */
+.chap-mark {
+  color: var(--ink-3);
+  margin-block-end: var(--sp-6);
+}
+.chap-mark b { font-weight: 500; color: var(--ink-2); margin-inline-end: var(--sp-3); }
+.record .chap-mark { color: var(--bone-ink-2); }
+.record .chap-mark b { color: var(--bone-ink); }
+.hero__stamp b { font-weight: 500; color: var(--ink-2); margin-inline-end: var(--sp-3); }
+
+/* ============================================================
+   4 — SELL
+   ============================================================ */
+.sell { background: var(--bg-raised); }
+
+.sell__inner {
+  padding-block: clamp(var(--sp-8), 7vw, var(--sp-9)) clamp(var(--sp-9), 11vw, var(--sp-11));
+}
+
+.sell__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(var(--sp-6), 5vw, var(--sp-9));
+}
+
+.sell__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 3.6vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: var(--tr-display);
+  max-width: 16ch;
+}
+
+.sell__note {
+  max-width: 44ch;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-block: var(--sp-5) var(--sp-6);
+}
+
+.sell .btn { display: inline-flex; padding-block: var(--sp-4); }
+
+.steps { border-top: 1px solid var(--rule); }
+.steps li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-4);
+  padding-block: var(--sp-5);
+  border-bottom: 1px solid var(--rule);
+}
+.steps__n {
+  grid-row: span 2;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  padding-block-start: 0.2em;
+}
+.steps__t { font-weight: 500; }
+.steps__d { color: var(--ink-2); line-height: 1.6; }
+
+/* ============================================================
+   5 — WHERE
+   ============================================================ */
+.where { background: var(--bg); }
+
+.where__inner {
+  padding-block: clamp(var(--sp-8), 7vw, var(--sp-9)) clamp(var(--sp-9), 11vw, var(--sp-11));
+}
+
+.where__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 3.6vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--tr-display);
+  margin-block-end: var(--sp-7);
+}
+
+.places { border-top: 1px solid var(--rule); }
+
+.places__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--sp-4);
+  padding-block: var(--sp-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.places dt {
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.places dt span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-block-start: var(--sp-2);
+}
+
+.places dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  color: var(--ink-2);
+}
+.places dd a {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink);
+  transition: color var(--dur-1) var(--ease-out);
+}
+.places dd a:hover, .places dd a:focus-visible { color: var(--accent); }
+
+@media (max-width: 900px) {
+  .sell__grid { grid-template-columns: 1fr; }
+  .places__row { grid-template-columns: 1fr; gap: var(--sp-3); }
+}

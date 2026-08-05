@@ -46,3 +46,35 @@
     if (e.matches) setOpen(false);
   });
 })();
+
+/* The chapter rail marks where you are. IntersectionObserver, not a
+   scroll listener — no work on every frame, and no hijacking: the user
+   keeps the scrollbar. The rail also inverts over the light chapter,
+   because a dim rail on bone is invisible. */
+(function () {
+  'use strict';
+  var rail = document.querySelector('.chapters');
+  if (!rail || !('IntersectionObserver' in window)) return;
+
+  var links = [].slice.call(rail.querySelectorAll('a'));
+  var map = {};
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) map[id] = { link: a, el: el };
+  });
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var rec = map[e.target.id];
+      if (!rec) return;
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('is-here'); });
+        rec.link.classList.add('is-here');
+        rail.classList.toggle('on-light', e.target.classList.contains('record'));
+      }
+    });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+
+  Object.keys(map).forEach(function (id) { io.observe(map[id].el); });
+})();
