@@ -749,10 +749,13 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 /* The showroom, because four of them is a real differentiator and the
    buyer needs to know which floor the car is standing on. */
+/* Bottom-left, because every one of their frames carries the script
+   wordmark burned in along the top. A pill at the top lands on it. The
+   real photographs found this; the placeholders never would have. */
 .vcard__place {
   position: absolute;
-  inset-block-start: var(--sp-3);
-  inset-inline-end: var(--sp-3);
+  inset-block-end: var(--sp-3);
+  inset-inline-start: var(--sp-3);
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   letter-spacing: 0.04em;
@@ -886,3 +889,54 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--ink);            /* the message is ink; red is the marker, not the text */
 }
 .field__error::before { content: "! "; color: var(--accent); }
+
+/* ============================================================
+   3 — INVENTORY
+   ============================================================ */
+.inv { background: var(--bg); }
+
+.inv__inner {
+  padding-block: clamp(var(--sp-8), 7vw, var(--sp-9)) clamp(var(--sp-9), 11vw, var(--sp-11));
+}
+
+.inv__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block-end: var(--sp-5);
+  border-bottom: 1px solid var(--rule);
+  margin-block-end: var(--sp-7);
+}
+
+.inv__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--tr-display);
+}
+
+.inv__all {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: color var(--dur-1) var(--ease-out);
+}
+.inv__all:hover, .inv__all:focus-visible { color: var(--ink); }
+
+.inv__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-7) var(--sp-5);
+}
+
+@media (max-width: 900px) {
+  .inv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6) var(--sp-4); }
+}
+@media (max-width: 560px) {
+  .inv__grid { grid-template-columns: 1fr; }
+}
