@@ -1,0 +1,38 @@
+home page concept mockup — colour and tonal rhythm
+origin      synthetic
+model       openai/gpt-image-2 via fal
+date        2026-08-05
+size        1248x3744
+purpose     DECISION AID ONLY. Never ships. If the direction is taken the
+            page is rebuilt in code from tokens and this file is deleted.
+
+WHAT CHANGED FROM 01, which was rejected as monotone:
+  The colour comes from the CARS, not from decoration. CMC's real stock is
+  Rosso Mimir, Blu Nila, green, yellow, orange — generating black cars in
+  black rooms drained the one source of colour the business owns.
+  Grounds now alternate down the page: near-black -> dark rail -> high-key
+  daylight -> bone -> deep navy -> near-black. Five distinct values instead
+  of one grey with a single interruption.
+
+  Evidence behind it, from Alex's approved vault:
+    ciridae (3)  "почти монохромная палитра с глубоким navy и тёплым cream"
+    organimo (3) "почти чёрный фон, розово-лиловая дымка, золото как акцент"
+    kinncollective "abrupt burnt-orange or mustard color fields"
+    beings (3)   "два контрастных цвета"
+  None of them is black-and-grey.
+
+generated-imagery:
+  GI4  BREACHED deliberately — generated type and interface. Recorded, not
+       ignored. Does not ship; exists to choose a direction.
+  GI3  AT RISK and worth naming: several cars read as identifiable models
+       (812, SF90, 296). Acceptable in a decision aid where nothing is
+       offered for sale. NOT acceptable in the built page — there a
+       generated frame may never stand in for a car CMC is selling.
+  GI6  satisfied by the gen- prefix and this sidecar.
+
+INVENTED IN THE FRAME — none of it is CMC's:
+  wordmark  "The Floor" — the model substituted its own. Real: the CMC script
+  cities    Chicago / Miami / Los Angeles / New York. Real: West Chicago,
+            Naperville, Rock Hill SC, Kansas City
+  phones    312 555 0140 and the footer numbers, all invented
+  prices    plausible but not CMC's actual stock
