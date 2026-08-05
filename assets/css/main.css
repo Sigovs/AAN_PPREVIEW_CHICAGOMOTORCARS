@@ -331,15 +331,17 @@ button, input, select { font: inherit; color: inherit; }
    explains it drops two ranks and sits under its shoulder. */
 .hero__claim {
   font-family: var(--font-display);
-  font-weight: 400;          /* Instrument Serif has one weight */
-  letter-spacing: -0.015em;
+  font-variation-settings: var(--font-display-set);
+  font-weight: 400;
+  letter-spacing: var(--tr-display);
 }
 
 .hero__claim-a {
   display: block;
   font-size: var(--t-count);
   font-weight: 400;
-  line-height: 0.84;
+  line-height: 0.86;
+  letter-spacing: var(--tr-count);
   font-variant-numeric: tabular-nums;
 }
 
@@ -347,8 +349,8 @@ button, input, select { font: inherit; color: inherit; }
   display: block;
   margin-block-start: var(--sp-4);
   font-size: var(--t-claim);
-  line-height: 1.06;
-  letter-spacing: -0.012em;
+  line-height: 1.04;
+  letter-spacing: var(--tr-display);
   color: var(--ink-2);
 }
 
@@ -553,10 +555,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .record__claim {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3.75rem);
+  font-variation-settings: var(--font-display-set);
+  font-size: clamp(2.125rem, 4.2vw, 4rem);
   font-weight: 400;
   line-height: 1.1;
-  letter-spacing: -0.012em;
+  letter-spacing: var(--tr-display);
   max-width: 24ch;
 }
 
@@ -586,10 +589,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .ledger dd {
   font-family: var(--font-display);
-  font-size: clamp(2.125rem, 4.2vw, 3.5rem);
+  font-variation-settings: var(--font-display-set);
+  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
   font-weight: 400;
   line-height: 1;
-  letter-spacing: -0.015em;
+  letter-spacing: var(--tr-count);
   font-variant-numeric: tabular-nums;
 }
 

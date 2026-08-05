@@ -55,27 +55,31 @@
        body    — leads, UI copy, plate values. Quiet, forgettable.
        mono    — anything factual: labels, stock, miles, VIN, counts.
 
-     Instrument Serif and Instrument Sans are cut by one hand from
-     related skeletons, so the pair has a reason to exist — which
-     Bodoni + Archivo did not: different centuries, different bones,
-     and a script wordmark already in the room.
+     The inventory is catalogue content — lots, provenance, one-of-N,
+     delivery mileage, prices to $3.5M — so the display voice is the
+     printed catalogue's: a didone.
 
-     CONSTRAINT: Instrument Serif ships ONE weight (400) plus a true
-     italic. Every display rank therefore sets 400 — asking for 500
-     or 600 would make the browser synthesise a fake bold. Emphasis
-     comes from size and from the italic, never from weight.        */
-  --font-display: 'Instrument Serif', 'Didot', Georgia, serif;
+     HOW IT IS SET, and this is the whole difference between elegant
+     and ordinary. A didone wants to be LIGHT, OPEN and LARGE:
+        weight  400          never 500+, which thickens the hairlines
+        opsz    96           the display cut, not the text cut
+        tracking +0.005em    open, never the −0.03 a grotesque wants
+     Set at 600 and −0.035 it reads heavy and generic — that was the
+     earlier fault, and the family took the blame for it.
+
+     Emphasis is the true italic. There is no heavier weight in play. */
+  --font-display: 'Bodoni Moda', 'Didot', 'GFS Didot', Georgia, serif;
+  --font-display-set: 'opsz' 96;
   --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Scale — every size resolves here. No magic numbers.
      14px is the floor for anything a visitor must read.         */
-  /* Instrument Serif is high-contrast but not a true didone: its
-     hairlines survive lower than Bodoni's did, so the display floor
-     comes down from ~40px to ~32px. Verified on the specimen, not
-     assumed.                                                        */
+  /* The didone floor is ~40px: below it the hairlines fall under a
+     device pixel and figures start losing crossbars. Both display
+     ranks clamp above it at every width.                            */
   --t-count: clamp(4.5rem, 9.5vw, 9.5rem);   /* the live figure   */
-  --t-claim: clamp(2.375rem, 5vw, 4.75rem);  /* the hero claim    */
+  --t-claim: clamp(2.5rem, 5vw, 4.75rem);    /* the hero claim    */
   --t-h1:    clamp(1.625rem, 3.2vw, 3.25rem);
   --t-lede:  clamp(1rem, 1.1vw, 1.0625rem);
   --t-body:  1rem;                            /* 16px            */
@@ -88,7 +92,8 @@
   --lh-label:   1.4;
 
   --tr-micro: 0.14em;    /* uppercase mono needs the tracking    */
-  --tr-count: -0.02em;   /* Instrument Serif is already tight     */
+  --tr-display: 0.005em; /* a didone wants open, not tight        */
+  --tr-count:   0;       /* figures at display size sit at zero    */
 
   /* ---- Space -------------------------------------------------
      4px base. Every step carries a job, because a scale without
