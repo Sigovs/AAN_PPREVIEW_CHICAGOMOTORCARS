@@ -573,14 +573,17 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .record__claim em { font-style: normal; font-weight: 200; }
 
+/* Not four figures at one weight — that is a data wall, and the
+   headline above already says thirty thousand in words. One number
+   becomes a moment; the rest stay quiet and support it. */
 .ledger {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+  align-items: end;
   border-top: 1px solid var(--bone-rule);
 }
 
 .ledger__cell {
-  flex: 1 1 10rem;
   padding: var(--sp-5) var(--sp-5) 0 0;
   min-width: 0;
 }
@@ -590,6 +593,15 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   border-inline-start: 1px solid var(--bone-rule);
 }
 
+/* Raised above `.ledger dd`, which is (0,1,1) and would otherwise win
+   on source order — the same trap the promoted plate figure hit. */
+.ledger__cell--lead { padding-block-start: var(--sp-6); }
+.ledger .ledger__cell--lead dd {
+  font-size: clamp(3rem, 7.4vw, 6.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+}
+
 .ledger dt {
   color: var(--bone-ink-2);
   margin-block-end: var(--sp-3);
@@ -597,7 +609,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .ledger dd {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  font-size: clamp(1.375rem, 2.1vw, 1.875rem);
   font-weight: 600;
   line-height: 1;
   letter-spacing: var(--tr-count);
@@ -695,7 +707,9 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     gap: var(--sp-3);
   }
   .doors__sell .btn { flex: 1 1 100%; padding-block: var(--sp-4); }
-  .ledger__cell { flex: 1 1 42%; padding: var(--sp-4) var(--sp-4) 0 0; }
+  .ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ledger__cell--lead { grid-column: 1 / -1; }
+  .ledger__cell { padding: var(--sp-4) var(--sp-4) 0 0; }
   .ledger__cell + .ledger__cell { padding-inline-start: 0; border-inline-start: 0; }
   .ledger__cell:nth-child(even) {
     padding-inline-start: var(--sp-4);
