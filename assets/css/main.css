@@ -18,7 +18,10 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* clip, not hidden: `hidden` makes the body a scroll container and
+     silently kills position:sticky on every descendant. U6 says clip
+     for exactly this reason. */
+  overflow-x: clip;
 }
 
 h1, h2, h3, p, dl, dd, figure { margin: 0; }
@@ -222,6 +225,7 @@ button, input, select { font: inherit; color: inherit; }
 .hero {
   position: relative;
   min-height: 100svh;
+  background: var(--bg);
   display: grid;
   grid-template-rows: 1fr auto;
   isolation: isolate;
@@ -956,3 +960,40 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   .vcard--lead, .vcard--wide { grid-column: span 1; }
   .vcard--wide .vcard__media { aspect-ratio: 4 / 3; }
 }
+
+/* ============================================================
+   THE OVERLAY TRANSITION
+   One move, not ten. The hero pins and the record band travels up
+   over it, so the two chapters are connected rather than stacked —
+   the page stops being a sequence of modules.
+
+   "The strongest scroll effect does not animate objects inside the
+   layout — it changes how the layout occupies space."
+
+   Everything after this releases into normal flow. Nothing is
+   animated: no transform, no scroll listener, no hijack. It is
+   position: sticky and a z-index, which costs no frames and cannot
+   jank.
+   ============================================================ */
+.stack-stage { position: relative; }
+
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .stack-stage .hero {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 0;
+  }
+
+  /* The record is the panel that covers it. It needs its own ground —
+     the layering is only readable because one plane is dark media and
+     the other is a pale information surface. */
+  .record {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 -24px 48px -24px rgba(6, 6, 7, 0.55);
+  }
+}
+
+/* Reduced motion and mobile both get the plain stack. Pinning changes
+   what a reader can reach, so it is not applied where it costs more
+   than it gives — a phone has no spare viewport to pin. */
