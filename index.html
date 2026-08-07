@@ -816,7 +816,14 @@
          still the page's one inverted ground even before the image
          arrives, and still is if it never does. -->
     <div class="sell__bg" aria-hidden="true">
-      <img src="assets/img/sell/sell_page_image.jpg" alt="" width="4000" height="2304" loading="lazy" decoding="async">
+      <!-- The 4000px master stays in the repo as the source, but nothing
+           serves it: this band is full-bleed, so a 1440 viewport asks for
+           1600 and a 2x one for 2560. 1.89MB -> 208KB / 558KB. -->
+      <img src="assets/img/sell/sell_page_image-1600.jpg"
+           srcset="assets/img/sell/sell_page_image-1600.jpg 1600w,
+                   assets/img/sell/sell_page_image-2560.jpg 2560w"
+           sizes="100vw"
+           alt="" width="2560" height="1474" loading="lazy" decoding="async">
     </div>
 
     <div class="sell__grid">
