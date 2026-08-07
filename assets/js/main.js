@@ -212,57 +212,104 @@
 })();
 
 /* ============================================================
-   HERO VIDEO
+   THE HERO SLIDER — two slides: the film, then the frame
    ============================================================
-   Playback is started HERE and not by an `autoplay` attribute, because
-   the attribute begins downloading and playing before anything can ask
-   whether this visitor wants motion. A full-screen moving picture is
-   the single most disruptive thing on the page for someone who has
-   asked for less of it, so the question is asked first.
+   Not a carousel. There is no timer and nothing advances on a clock:
+   the film runs once, and reaching its end is what hands the stage to
+   the photograph. After that the hero holds where it is until a visitor
+   says otherwise. That is the difference between a sequence with an
+   ending and a loop that talks over itself.
 
-   Under prefers-reduced-motion nothing is fetched beyond the metadata
-   the markup already allows, and the poster still — which is the
-   composition we framed, not a random frame — is the whole hero. That
-   is a designed static path, not a degradation.
+   Playback is started HERE rather than by an `autoplay` attribute,
+   because the attribute begins downloading and playing before anything
+   can ask whether this visitor wants motion.
 
-   The fade waits for `canplaythrough` rather than `loadeddata`. At
-   21 MB the difference is the point: loadeddata fires with a single
-   frame decoded, which on a slow line means fading in and then
-   stalling. Waiting until the browser believes it can reach the end
-   means the visitor either gets continuous motion or gets the still,
-   and never gets a stutter.
+   Under prefers-reduced-motion the film is not merely paused — it never
+   loads, the photograph is the hero from the first paint, and the pager
+   is removed rather than left showing a choice that has become a lie.
+
+   The fade waits for `canplaythrough`, not `loadeddata`. At 21 MB that
+   is the difference between continuous motion and fading in to a stall.
    ============================================================ */
 (function () {
   'use strict';
 
-  var video = document.querySelector('.hero__video');
-  if (!video) return;
+  var hero   = document.querySelector('.hero');
+  if (!hero) return;
+  var slides = [].slice.call(hero.querySelectorAll('.hero__slide'));
+  var ticks  = [].slice.call(hero.querySelectorAll('.hero__tick'));
+  var video  = hero.querySelector('.hero__video');
+  if (slides.length < 2) return;
 
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (calm.matches) return;              // the still is the hero; touch nothing
 
+  function go(i) {
+    slides.forEach(function (s, n) { s.classList.toggle('is-current', n === i); });
+    ticks.forEach(function (t, n) {
+      t.classList.toggle('is-current', n === i);
+      t.setAttribute('aria-selected', String(n === i));
+    });
+    // Nothing plays while it is not the thing on screen.
+    if (video && i !== 0) video.pause();
+  }
+
+  ticks.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var i = Number(t.getAttribute('data-goto'));
+      go(i);
+      // Going back to the film restarts it rather than resuming a clip
+      // that already ended — a second visit should be the whole thing.
+      if (i === 0 && video && !calm.matches) {
+        video.currentTime = 0;
+        video.play().catch(function () {});
+      }
+    });
+  });
+
+  /* ---- reduced motion: the photograph IS the hero ---- */
+  function standDown() {
+    if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
+    go(1);
+    var pager = hero.querySelector('.hero__pager');
+    if (pager) pager.remove();          // one slide, so no choice to offer
+  }
+
+  if (calm.matches) { standDown(); return; }
+  calm.addEventListener('change', function (e) { if (e.matches) standDown(); });
+
+  if (!video) return;
+
+  /* The video is transparent until it is genuinely running, and the
+     photograph stands behind it in the meantime.
+
+     This clip opens on an almost-black frame — measured, the first frame
+     averages rgb(21,43,55) — so a video element that is merely PRESENT
+     paints a black rectangle over the hero as soon as its metadata
+     arrives, poster or no poster. Revealing it only once playback has
+     actually started means the opening is a composed picture that
+     dissolves into moving film, rather than a black hole that later
+     brightens. */
   function reveal() { video.classList.add('is-playing'); }
 
   video.addEventListener('canplaythrough', function () {
     var p = video.play();
     // Autoplay can still be refused — a battery saver, a browser policy,
-    // a tab opened in the background. If it is, the still stays up and
-    // the page is exactly as complete as it was before.
+    // a tab opened in the background. If it is, the video stays
+    // transparent and the photograph behind it is the hero, which is a
+    // complete state rather than a failure.
     if (p && typeof p.catch === 'function') p.then(reveal).catch(function () {});
     else reveal();
   }, { once: true });
 
+  // The end of the film is the transition. This is the whole reason
+  // `loop` was removed from the markup.
+  video.addEventListener('ended', function () { go(1); });
+
   // Nothing plays into a tab nobody is looking at.
   document.addEventListener('visibilitychange', function () {
+    if (!video) return;
     if (document.hidden) video.pause();
-    else if (video.classList.contains('is-playing')) video.play().catch(function () {});
-  });
-
-  // Someone can turn reduced motion on while the page is open.
-  calm.addEventListener('change', function (e) {
-    if (!e.matches) return;
-    video.pause();
-    video.classList.remove('is-playing');
+    else if (slides[0].classList.contains('is-current')) video.play().catch(function () {});
   });
 
   video.load();

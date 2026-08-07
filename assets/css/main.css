@@ -1324,6 +1324,46 @@ button, input, select { font: inherit; color: inherit; }
   object-position: var(--frame-x) var(--frame-y);
 }
 
+/* ---- The slides --------------------------------------------
+   Stacked and crossfaded, never slid sideways. A horizontal slide is a
+   change of place; a crossfade is a change of subject, and these two
+   are the same car in two registers rather than two positions in a
+   filmstrip. It is also the only transition that costs nothing when the
+   thing arriving is a 21 MB video decode.
+
+   Both slides are always in the DOM and always laid out — only opacity
+   moves — so nothing reflows and the frame that is leaving keeps its
+   crop while it goes. */
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--dur-4) var(--ease-out);
+}
+.hero__slide.is-current { opacity: 1; }
+
+/* The photograph is the BASE and never fades out — it is what everything
+   else is layered over.
+
+   Found by breaking it: with both slides crossfading, the opening was a
+   black screen. The video is transparent until playback actually starts
+   (see main.js), so while it waited, slide 1 was showing an empty box
+   and slide 2 was faded out — nothing was on screen but the hero's own
+   near-black ground.
+
+   Making the still the floor fixes the cause rather than the symptom.
+   The video sits above it and dissolves in when it is genuinely running;
+   choosing slide 2 simply takes the video away again. Nothing ever has
+   to cover a gap, because there is no gap. */
+.hero__slide[data-slide="1"] { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No crossfade either — the switch is instant. A slow dissolve across
+     the whole viewport is exactly the kind of large-area motion the
+     preference is asking to be spared. */
+  .hero__slide { transition: none; }
+}
+
 /* ---- The video ---------------------------------------------
    Its own framing variables, not the photograph's. The still is 2301x1430
    (1.61) and the video is 1920x1080 (1.78), so the same --frame-zoom
@@ -1586,20 +1626,49 @@ button, input, select { font: inherit; color: inherit; }
   align-items: flex-end;
   gap: var(--sp-3);
 }
+/* Buttons now, not decoration. The hit area is padded out to 44px of
+   height while the mark itself stays a 2px rule — a 2px target is a
+   miss waiting to happen, and the padding is transparent so nothing
+   about the drawing changes. */
 .hero__tick {
   display: block;
   width: 18px;
   height: 2px;
-  background: var(--ink-3);
+  padding: 0;
+  border: 0;
+  background-color: var(--ink-3);
+  cursor: pointer;
+  box-sizing: content-box;
+  border-block: 21px solid transparent;   /* 2 + 42 = 44px of target */
+  background-clip: content-box;
   transition: width var(--dur-3) var(--ease-out),
               background-color var(--dur-3) var(--ease-out);
 }
+.hero__tick:hover { background-color: var(--ink-2); }
+.hero__tick:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+/* The first attempt pulled the drawn rules back together with a negative
+   margin to keep the original 12px gap. Measured, that overlapped the
+   two 44px targets by 30px — the lower half of the first tick's target
+   sat under the second one and would have activated it. A control that
+   does something other than what it looks like it does is worse than a
+   small control.
+
+   So the marks are spaced by their targets instead. Two ticks 48px apart
+   is more air than the original 12px, and on a pager of two that reads
+   as deliberate rather than loose. */
+.hero__pager { gap: var(--sp-1); }
 /* The active one is longer AND brighter — two signals, because length
    alone is a hue-free difference that a 2px rule carries badly, and
    colour alone would be meaning by brightness only. */
+/* background-COLOR, not the `background` shorthand. The shorthand resets
+   every background longhand it does not mention, including the
+   background-clip: content-box that keeps the fill inside the 2px rule
+   rather than flooding the 44px transparent border that makes the
+   target. With the shorthand here, the active tick painted as a solid
+   18x44 white block. */
 .hero__tick.is-current {
   width: 34px;
-  background: var(--ink);
+  background-color: var(--ink);
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__tick { transition: none; }

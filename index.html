@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=17">
-<link rel="stylesheet" href="assets/css/main.css?v=123">
+<link rel="stylesheet" href="assets/css/main.css?v=127">
 </head>
 <body>
 
@@ -384,42 +384,50 @@
        composition got judged on the photograph rather than on what was
        covering it. That has happened; this is the second half of it. -->
   <section class="hero" id="floor">
+    <!-- TWO SLIDES: the film, then the frame.
+
+         The still had accumulated four jobs — first paint, the video's
+         poster, the reduced-motion fallback, and now a slide of its own.
+         Three of those are the same picture doing background work and
+         the fourth is it being the subject, so they are separated here:
+
+         · slide 2 is the photograph AS CONTENT, at full opacity, chosen;
+         · the video keeps poster="hero_d.jpg" for first paint only, so
+           the opening is still a composed frame rather than black while
+           21 MB arrives.
+
+         They never appear together, so the repeat costs nothing. -->
     <div class="hero__media">
-      <!-- The still is not decoration and it is not a fallback bolted on
-           afterwards — it does three jobs at once:
 
-           1. it is what paints FIRST, so the opening is the composition
-              we framed rather than a black rectangle while 21 MB arrives;
-           2. it is the video's poster, so those two are the same picture
-              and there is no jump when playback starts;
-           3. it is the whole experience under prefers-reduced-motion,
-              where the video never plays at all.
+      <div class="hero__slide is-current" data-slide="0">
+        <!-- No `autoplay` attribute on purpose. Autoplay in the markup
+             starts the download and the playback before anything can ask
+             whether this visitor wants motion; main.js starts it instead,
+             and only when prefers-reduced-motion says it may. `muted` is
+             not a nicety either — without it no browser will autoplay at
+             all — and the track has no audio to begin with.
 
-           Which is why it keeps fetchpriority=high: it, not the video,
-           is the thing that has to be on screen immediately. -->
-      <img class="hero__photo"
-           src="assets/img/hero/hero_d.jpg"
-           alt=""
-           width="2301" height="1430"
-           fetchpriority="high" decoding="async">
+             `loop` is GONE. It has to be able to end, because reaching
+             the end is what hands the hero to slide 2. A looping video
+             would hold the stage forever and the second slide would be
+             reachable only by clicking. -->
+        <video class="hero__video"
+               poster="assets/img/hero/hero_d.jpg"
+               muted playsinline
+               preload="metadata"
+               width="1920" height="1080"
+               aria-hidden="true" tabindex="-1">
+          <source src="assets/video/hero-video.mp4" type="video/mp4">
+        </video>
+      </div>
 
-      <!-- No `autoplay` attribute on purpose. Autoplay in the markup
-           starts the download and the playback before anything can ask
-           whether this visitor wants motion; main.js starts it instead,
-           and only when prefers-reduced-motion says it may. `muted` is
-           not a nicety either — without it no browser will autoplay at
-           all — and the track has no audio to begin with.
-
-           preload="metadata", not "auto": 21 MB must not compete with
-           the poster for the first seconds of the connection. -->
-      <video class="hero__video"
-             poster="assets/img/hero/hero_d.jpg"
-             muted loop playsinline
-             preload="metadata"
-             width="1920" height="1080"
-             aria-hidden="true" tabindex="-1">
-        <source src="assets/video/hero-video.mp4" type="video/mp4">
-      </video>
+      <div class="hero__slide" data-slide="1">
+        <img class="hero__photo"
+             src="assets/img/hero/hero_d.jpg"
+             alt=""
+             width="2301" height="1430"
+             fetchpriority="high" decoding="async">
+      </div>
       <!-- Part of the ground, not a panel behind anything. It stays here
            when the photograph changes, so legibility never depends on
            which frame the feed happens to return.
@@ -432,23 +440,23 @@
       <div class="hero__scrim" aria-hidden="true"></div>
     </div>
 
-    <!-- PAGINATION FOR A SLIDER THAT DOES NOT EXIST YET.
+    <!-- The pager is real now, and it is TWO, because there are two
+         slides. It was four ticks, aria-hidden, wired to nothing, with
+         its own note saying FOUR IS A PLACEHOLDER — so the count is
+         taken from the slides rather than from what looked right.
 
-         aria-hidden, and not a <button> anywhere in it, on purpose: it
-         is wired to nothing. A control that looks operable and does not
-         respond is worse than no control, and announcing "slide 1 of 4"
-         to a screen reader would be a straight lie about a hero that
-         currently holds one photograph.
-
-         So it is presentational until the slider lands. When it does,
-         these become buttons, this gets a real label, the aria-hidden
-         comes off — and the count stops being four because someone
-         decided four looked right. FOUR IS A PLACEHOLDER. -->
-    <div class="hero__pager" aria-hidden="true">
-      <i class="hero__tick is-current"></i>
-      <i class="hero__tick"></i>
-      <i class="hero__tick"></i>
-      <i class="hero__tick"></i>
+         Real <button>s with real labels: a hero a visitor cannot leave
+         except by waiting out a 47-second film is not a slider, it is a
+         film with dots drawn on it. -->
+    <div class="hero__pager" role="tablist" aria-label="Hero slides">
+      <button class="hero__tick is-current" type="button" role="tab"
+              aria-selected="true" data-goto="0">
+        <span class="u-visually-hidden">Show the film</span>
+      </button>
+      <button class="hero__tick" type="button" role="tab"
+              aria-selected="false" data-goto="1">
+        <span class="u-visually-hidden">Show the photograph</span>
+      </button>
     </div>
 
     <!-- Bottom left, on the WORDMARK's line — the full-bleed gutter, not
@@ -707,6 +715,6 @@
 </main>
 
 
-<script src="assets/js/main.js?v=12" defer></script>
+<script src="assets/js/main.js?v=14" defer></script>
 </body>
 </html>
