@@ -210,3 +210,60 @@
     });
   });
 })();
+
+/* ============================================================
+   HERO VIDEO
+   ============================================================
+   Playback is started HERE and not by an `autoplay` attribute, because
+   the attribute begins downloading and playing before anything can ask
+   whether this visitor wants motion. A full-screen moving picture is
+   the single most disruptive thing on the page for someone who has
+   asked for less of it, so the question is asked first.
+
+   Under prefers-reduced-motion nothing is fetched beyond the metadata
+   the markup already allows, and the poster still — which is the
+   composition we framed, not a random frame — is the whole hero. That
+   is a designed static path, not a degradation.
+
+   The fade waits for `canplaythrough` rather than `loadeddata`. At
+   21 MB the difference is the point: loadeddata fires with a single
+   frame decoded, which on a slow line means fading in and then
+   stalling. Waiting until the browser believes it can reach the end
+   means the visitor either gets continuous motion or gets the still,
+   and never gets a stutter.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var video = document.querySelector('.hero__video');
+  if (!video) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (calm.matches) return;              // the still is the hero; touch nothing
+
+  function reveal() { video.classList.add('is-playing'); }
+
+  video.addEventListener('canplaythrough', function () {
+    var p = video.play();
+    // Autoplay can still be refused — a battery saver, a browser policy,
+    // a tab opened in the background. If it is, the still stays up and
+    // the page is exactly as complete as it was before.
+    if (p && typeof p.catch === 'function') p.then(reveal).catch(function () {});
+    else reveal();
+  }, { once: true });
+
+  // Nothing plays into a tab nobody is looking at.
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) video.pause();
+    else if (video.classList.contains('is-playing')) video.play().catch(function () {});
+  });
+
+  // Someone can turn reduced motion on while the page is open.
+  calm.addEventListener('change', function (e) {
+    if (!e.matches) return;
+    video.pause();
+    video.classList.remove('is-playing');
+  });
+
+  video.load();
+})();

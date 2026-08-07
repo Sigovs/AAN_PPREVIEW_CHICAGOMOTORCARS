@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=17">
-<link rel="stylesheet" href="assets/css/main.css?v=119">
+<link rel="stylesheet" href="assets/css/main.css?v=123">
 </head>
 <body>
 
@@ -385,11 +385,41 @@
        covering it. That has happened; this is the second half of it. -->
   <section class="hero" id="floor">
     <div class="hero__media">
+      <!-- The still is not decoration and it is not a fallback bolted on
+           afterwards — it does three jobs at once:
+
+           1. it is what paints FIRST, so the opening is the composition
+              we framed rather than a black rectangle while 21 MB arrives;
+           2. it is the video's poster, so those two are the same picture
+              and there is no jump when playback starts;
+           3. it is the whole experience under prefers-reduced-motion,
+              where the video never plays at all.
+
+           Which is why it keeps fetchpriority=high: it, not the video,
+           is the thing that has to be on screen immediately. -->
       <img class="hero__photo"
            src="assets/img/hero/hero_d.jpg"
            alt=""
            width="2301" height="1430"
            fetchpriority="high" decoding="async">
+
+      <!-- No `autoplay` attribute on purpose. Autoplay in the markup
+           starts the download and the playback before anything can ask
+           whether this visitor wants motion; main.js starts it instead,
+           and only when prefers-reduced-motion says it may. `muted` is
+           not a nicety either — without it no browser will autoplay at
+           all — and the track has no audio to begin with.
+
+           preload="metadata", not "auto": 21 MB must not compete with
+           the poster for the first seconds of the connection. -->
+      <video class="hero__video"
+             poster="assets/img/hero/hero_d.jpg"
+             muted loop playsinline
+             preload="metadata"
+             width="1920" height="1080"
+             aria-hidden="true" tabindex="-1">
+        <source src="assets/video/hero-video.mp4" type="video/mp4">
+      </video>
       <!-- Part of the ground, not a panel behind anything. It stays here
            when the photograph changes, so legibility never depends on
            which frame the feed happens to return.
@@ -677,6 +707,6 @@
 </main>
 
 
-<script src="assets/js/main.js?v=11" defer></script>
+<script src="assets/js/main.js?v=12" defer></script>
 </body>
 </html>

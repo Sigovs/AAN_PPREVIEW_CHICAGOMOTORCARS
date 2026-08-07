@@ -80,6 +80,60 @@ button, input, select { font: inherit; color: inherit; }
               backdrop-filter var(--dur-4) var(--ease-out);
 }
 
+/* ---- The top gradient --------------------------------------
+   MENU and the call carry their own grounds; the wordmark does not, and
+   it was crossing whatever scrolled beneath it — the Featured Inventory
+   eyebrow and heading were reading straight through the header.
+
+   This fixes it the same way the hero does: at the GROUND layer, not
+   with a panel behind the type. A solid bar was already rejected and
+   would be the wrong answer anyway — it draws an edge across the page
+   for the sake of one wordmark.
+
+   Two details that matter more than they look:
+
+   It is TALLER than the header (1.9x) so the fade finishes well below
+   the chrome. A gradient that ends on the header's own bottom edge puts
+   its termination exactly where the eye is already looking, and the
+   fade reads as a band with a hard bottom.
+
+   The last stop is `rgb(var(--bg-rgb) / 0)`, not `transparent`. They are
+   not the same thing to interpolate through — the keyword can take the
+   ramp through a greyed midpoint and leave a dirty smear over a navy
+   page. Fading a colour to nothing means fading THAT colour to zero
+   alpha. The intermediate stops approximate an ease so it does not
+   band across such a shallow ramp. */
+.masthead::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: -1;                /* behind the rail and the two controls */
+  height: calc(var(--header-h) * 1.9);
+  pointer-events: none;
+  opacity: 0;
+  /* The ramp HOLDS across the header's own height and only then falls
+     away. The first attempt fell linearly across the whole 1.9x, which
+     put alpha at roughly 0.44 exactly at the header's bottom edge —
+     measured, the heading passing beneath was still coming through at
+     rgb(205,204,204) against a wordmark at 244. Covering where the
+     chrome actually is, and fading below it, is what a header scrim is
+     for; a straight ramp spends most of its opacity on empty air. */
+  background: linear-gradient(to bottom,
+    rgb(var(--bg-rgb) / 0.95) 0%,
+    rgb(var(--bg-rgb) / 0.92) 34%,
+    rgb(var(--bg-rgb) / 0.78) 53%,   /* the header's bottom edge */
+    rgb(var(--bg-rgb) / 0.42) 72%,
+    rgb(var(--bg-rgb) / 0.14) 88%,
+    rgb(var(--bg-rgb) / 0)   100%);
+  transition: opacity var(--dur-4) var(--ease-out);
+}
+
+/* Only after the hero. Over the photograph the scrim already darkens
+   the top band — the masthead measured 6.11:1 there without help — and
+   a second wash would just dim a frame chosen for its light. */
+.has-js.is-condensed .masthead::before { opacity: 1; }
+
 /* ---- The scrolled masthead ---------------------------------
    The condensed state used to dissolve to nothing: the rail's ground,
    border and blur all went, and what was left was a wordmark, a MENU
@@ -1270,6 +1324,42 @@ button, input, select { font: inherit; color: inherit; }
   object-position: var(--frame-x) var(--frame-y);
 }
 
+/* ---- The video ---------------------------------------------
+   Its own framing variables, not the photograph's. The still is 2301x1430
+   (1.61) and the video is 1920x1080 (1.78), so the same --frame-zoom
+   would not produce the same crop on the same screen — inheriting the
+   numbers would look like sharing a decision while actually making a
+   different one.
+
+   The video sits ABOVE the still and starts transparent. main.js fades
+   it in only once the browser reports it can actually play through, so
+   a slow connection shows the composition rather than a stalled frame,
+   and there is never a flash of empty video element. */
+.hero__video {
+  --frame-zoom: 100%;
+  --frame-x: 50%;
+  --frame-y: 50%;
+
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: var(--frame-zoom);
+  object-fit: cover;
+  object-position: var(--frame-x) var(--frame-y);
+  opacity: 0;
+  transition: opacity var(--dur-4) var(--ease-out);
+}
+.hero__video.is-playing { opacity: 1; }
+
+/* Under reduced motion the element is removed from the picture entirely
+   rather than merely paused: a paused video still downloads, still holds
+   a decode buffer, and still shows a first frame that may not be the
+   frame we composed. The still is the whole hero there, and it was
+   built to be. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none; }
+}
+
 /* A portrait viewport sees roughly a quarter of a 16:9 frame — measured,
    26% of the width at 390x844 — so no object-position shows a whole car
    and pretending otherwise gives you a wheel and a door. Recomposed
@@ -1376,10 +1466,23 @@ button, input, select { font: inherit; color: inherit; }
       rgb(var(--bg-rgb) / 0.55) 0%,
       rgb(var(--bg-rgb) / 0.16) 20%,
       transparent 36%),
+    /* Raised and extended for the VIDEO, not for the still.
+       A photograph has one worst pixel; a moving picture has a new one
+       every frame, and the average lies about it. Measured under the
+       claim across the clip with the copy hidden: the average ground ran
+       12–17:1 while the WORST pixel hit 2.49:1 at the opening frame and
+       3.49:1 at 44s — headlights and reflections crossing exactly where
+       the type sits. The old stops were tuned against a single still and
+       had no reason to survive that.
+       Still the ground layer, not a panel behind the words (colour I4):
+       the ramp is longer and starts higher, and the picture keeps its
+       right-hand two thirds untouched. */
     linear-gradient(to right,
-      rgb(var(--bg-rgb) / 0.56) 0%,
-      rgb(var(--bg-rgb) / 0.20) 34%,
-      transparent 64%);
+      rgb(var(--bg-rgb) / 0.72) 0%,
+      rgb(var(--bg-rgb) / 0.52) 22%,
+      rgb(var(--bg-rgb) / 0.28) 44%,
+      rgb(var(--bg-rgb) / 0.08) 64%,
+      rgb(var(--bg-rgb) / 0) 80%);
 }
 
 
