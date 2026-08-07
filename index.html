@@ -8,14 +8,24 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Instrument Serif is gone: nothing is set in it any more, and a face
+     nothing uses is a request nothing needs. See tokens.css. -->
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- The frame is the whole page right now, so it is the LCP element and
      nothing should discover it late. -->
 <link rel="preload" as="image" href="assets/img/hero/hero_d.jpg" fetchpriority="high">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=14">
-<link rel="stylesheet" href="assets/css/main.css?v=61">
+<!-- There was no icon at all, so every tab showed the browser's blank page
+     glyph — the identity simply stopped existing at 16px. The script
+     wordmark cannot go there (its hairlines are a quarter-pixel at header
+     size, never mind a tab), so the tile is the CMC red carrying the "C"
+     lifted out of the wordmark. Both elements are already the brand's. -->
+<link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/logos/favicon.svg">
+
+<link rel="stylesheet" href="assets/css/tokens.css?v=17">
+<link rel="stylesheet" href="assets/css/main.css?v=118">
 </head>
 <body>
 
@@ -49,6 +59,28 @@
      until there is real copy to put under them. -->
 <!-- HREFS ARE THE LIVE SITE'S. The IA is the deliverable here, so the
      destinations are real and checkable rather than "#". -->
+<!-- THE GLASS. A real refraction, not a frosted rectangle.
+
+     feTurbulence makes a smooth low-frequency field and feDisplacementMap
+     pushes the BACKDROP around by it, so whatever is behind the nav bends
+     as it scrolls past. The type is content, not backdrop, so none of this
+     touches the labels' legibility — only the picture under them moves.
+
+     Verified in-browser before it was used: `backdrop-filter: url(#id)`
+     parses in most engines and PAINTS in far fewer, so a striped probe was
+     rendered and photographed first. It displaces in Chrome 151.
+
+     baseFrequency is deliberately low. Higher and it stops reading as
+     glass and starts reading as noise on a lens. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="nav-glass" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="11" result="warp"/>
+    <feGaussianBlur in="warp" stdDeviation="2.5" result="softWarp"/>
+    <feDisplacementMap in="SourceGraphic" in2="softWarp" scale="16"
+                       xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
 <header class="masthead">
   <div class="masthead__inner">
 
@@ -59,7 +91,34 @@
          change — see the crossfade in main.css. -->
     <div class="navbar">
       <a class="masthead__mark" href="/" aria-label="Chicago Motor Cars — home">
-        <img src="assets/logos/cmc-wordmark.svg" alt="Chicago Motor Cars" width="1271" height="247">
+        <!-- The outlines are inline rather than <img src="cmc-wordmark.svg">
+             because an <img> can be given neither of the two things this mark
+             needed: colour it inherits, and a stroke. See main.css →
+             .masthead__wm for the measurement behind both.
+
+             They sit here rather than in a <symbol> + <use> sprite at the
+             foot of the file simply because there is one consumer. A sprite
+             buys reuse this page has no second use for, and it costs a layer
+             of indirection between the header and the thing the header is.
+
+             assets/logos/cmc-wordmark.svg stays the canonical source and
+             holds the same 13 paths, with no stroke, so it is still the pure
+             wordmark on its own. Regenerate from it; never retype. -->
+        <svg class="masthead__wm" viewBox="0 0 1271 247" role="img" aria-hidden="true" focusable="false">
+          <path vector-effect="non-scaling-stroke" d="M342.645 95.7522C343.379 95.916 346.69 97.3987 347.583 97.7809C348.585 102.583 348.923 102.21 351.456 106.471C351.721 107.282 351.441 111.852 352.183 112.194C361.413 116.441 352.828 130.626 355.213 135.035C360.852 132.141 369.752 120.53 374.752 115.986C378.518 112.564 382.012 117.408 383.634 116.187C389.341 112.179 395.16 104.531 401.922 102.315C410.669 99.4497 415.646 99.7507 418.662 108.821C423.183 109.919 428.202 105.143 431.151 104.677C436.127 103.891 457.692 99.6465 460.808 102.439C460.465 103.904 460.217 104.717 460.257 106.245C461.201 106.485 486.311 91.4793 493.393 98.1843C493.975 99.7445 493.966 100.667 493.994 102.327C494.393 125.773 476.795 137.094 462.236 152.387C456.248 158.009 448.131 163.098 441.087 167.454C418.55 181.39 423.285 164.681 427.807 150.962C433.409 133.965 432.707 123.483 446.319 110.818C441.162 111.937 425.4 112.911 422.58 114.455C417.083 117.465 412.947 134.264 407.409 140.863C400.451 149.154 394.392 152.207 387.399 160.053C387.202 162.803 385.121 166.61 385.171 168.455C385.199 169.471 385.397 169.902 386.306 170.373C391.078 172.848 407.063 173.648 413.023 174.551C419.421 175.52 426.247 176.854 432.573 178.244C438.677 179.584 444.809 182.582 450.742 184.662C453.95 185.787 459.086 186.826 461.502 189.188C463.89 191.522 465.821 195.541 465.834 198.906C465.853 203.872 462.112 208.477 458.766 211.817C455.654 214.923 452.189 217.543 448.275 219.553C427.039 230.457 367.845 243.183 344.199 243.195C334.013 243.333 297.301 239.929 305.79 219.701C307.046 216.708 318.414 203.674 320.919 203.267C330.119 201.776 333.577 195.404 341.325 193.138C335.966 202.14 316.505 214.323 316.028 217.566C313.032 237.919 363.808 237.214 373.939 234.914C386.463 232.071 388.555 230.628 395.908 229.483C407.686 227.648 449.726 214.905 452.862 204.98C451.982 199.319 441.907 196.569 437.322 194.465C422.443 187.636 410.149 183.845 393.602 184.428C388.212 184.618 381.205 184.424 375.746 183.99C365.183 181.923 369.943 176.697 371.11 171.423C370.076 168.918 366.327 170.501 365.619 169.778C363.578 167.697 361.74 166.129 359.406 164.37C358.841 160.628 358.765 158.224 358.856 154.49C358.95 150.613 362.237 142.02 361.166 139.299C358.699 138.633 354.502 137.296 352.142 137.437C348.228 139.586 340.117 153.327 341.28 157.962C344.082 158.657 345.469 156.211 348.314 156.869C352.57 163.42 335.087 173.709 328.811 170.028C326.667 164.825 332.74 149.331 334.472 142.487C329.482 144.959 323.899 146.949 318.798 149.249C310.425 153.023 282.365 180.203 273.136 170.912C271.886 168.995 272.418 166.59 272.658 164.296C290.485 140.565 305.084 111.787 332.939 97.7927C334.968 96.7737 340.225 96.119 342.645 95.7522ZM293.29 161.943C295.32 159.223 298.941 158.239 301.981 155.943C321.396 141.278 331.066 137.384 335.388 112.79C333.313 108.493 332.967 108.737 328.097 109.323C317.83 113.119 285.391 150.496 286.311 160.82C288.302 162.725 290.603 162.149 293.29 161.943ZM380.329 159.191C396.458 155.723 422.181 107.22 399.465 110.449C384.204 115.813 379.544 131.601 374.514 145.258C373.396 148.292 370.823 155.161 371.858 158.28C373.335 159.573 374.596 159.689 376.543 159.562C377.808 159.47 379.07 159.347 380.329 159.191ZM465.072 116.107C457.824 118.322 453.959 118.496 450.355 126.465C447.879 131.938 436.593 154.237 436.394 158.216C438.669 159.658 444.057 157.219 446.587 156.355C457.147 147.706 463.046 138.866 475.825 131.244C480.143 121.379 483.088 120.115 482.755 109.328C478.712 109.178 474.795 108.965 470.752 109.279C467.972 111.57 467.073 113.127 465.072 116.107Z"/>
+          <path vector-effect="non-scaling-stroke" d="M603.637 45.9087C605.277 45.7242 606.639 46.2817 608.21 46.7772C608.541 47.111 608.927 47.4981 609.365 47.9386C608.212 58.027 601.69 76.3342 601.123 85.6277C600.786 91.1449 607.905 105.14 609.686 109.029C621.054 115.096 618.155 117.412 632.545 110.942C652.418 102.023 668.091 87.6552 684.558 73.84C689.813 69.4281 705.387 54.27 711.623 55.8534C719.806 65.2192 697.619 99.7421 693.046 109.461C687.276 121.131 685.774 128.499 685.917 141.231C686.066 154.676 688.039 150.73 691.861 161.361L688.225 166.734C684.577 166.937 674.879 167.686 672.968 165.367C660.205 149.878 677.013 113.981 684.167 103.422C685.756 99.2791 690.781 88.4602 687.785 84.6925C673.415 92.9868 662.557 105.124 645.866 113.064C625.236 122.875 625.59 127.989 600.912 126.781C594.022 121.624 591.71 116.439 585.707 110.702C583.054 108.166 578.984 114.494 577.437 116.528C564.608 133.387 550.712 149.363 539.724 167.565C532.702 173.759 525.785 165.575 531.109 158.534C547.382 137.011 563.036 116.504 577.814 93.9072C577.141 83.6933 571.972 72.8247 587.086 72.4486C592.426 62.2788 590.398 49.7198 603.637 45.9087Z"/>
+          <path vector-effect="non-scaling-stroke" d="M839.263 47.8657C840.2 47.6619 840.548 47.8207 841.46 48.0844C842.725 53.4018 813.856 93.4963 809.674 101.193C819.018 102.308 832.724 100.033 842.273 99.335C844.959 99.1388 850.432 98.2638 852.771 98.5946C853.937 101.651 850.196 104.173 851.331 106.969C856.065 106.942 871.775 92.7305 885.066 97.565C890.265 104.169 880.406 126.447 874.809 131.887C866.148 140.306 858.045 149.651 848.998 157.715C847.23 159.297 842.322 160.141 840.368 161.944C835.292 165.901 822.983 176.601 816.455 170.795C813.88 165.311 822.393 142.665 824.192 134.33C825.787 129.936 829.293 121.669 831.148 117.246C831.992 116.676 832.817 116.085 833.63 115.475C835.646 113.961 837.055 112.796 837.396 110.35C835.919 109.459 807.899 112.623 804.431 113.193C797.227 119.635 790.229 131.657 786.351 140.71C785.798 141.563 783.894 149.23 783.621 149.486C777.385 155.341 785.215 158.143 784.235 163.262C782.646 166.452 774.388 169.793 770.864 171.507C769.437 169.765 767.873 168.269 766.273 166.691C764.976 143.93 775.815 138.854 785.029 119.58C784.638 117.312 781.157 119.084 778.98 116.515C776.188 106.36 792.586 103.687 799.163 101.806C801.887 95.3774 808.284 88.6296 811.374 82.8002C816.877 72.4144 823.194 61.2674 828.492 50.8829C832.6 49.9619 835.274 49.2093 839.263 47.8657ZM856.891 116.207C853.155 117.309 849.47 118.259 846.039 120.118C842.8 125.572 828.256 153.676 828.548 158.532C830.794 159.519 836.558 157.016 838.922 156.114C845.083 150.862 850.86 144.45 857.288 139.356C867.128 131.549 876.286 122.945 874.878 109.275C871.018 109.168 866.824 108.954 863.008 109.309C860.669 111.179 858.752 113.841 856.891 116.207Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1081.06 47.2774C1086.16 47.2574 1087.87 48.322 1092.36 50.5011C1093.84 53.1122 1094.84 54.3995 1096.66 56.728C1096.78 62.8156 1096.85 68.9037 1096.87 74.9924C1092.11 81.4498 1085.84 93.6583 1078.26 83.689C1078 78.1228 1078.37 71.9515 1078.12 65.9192C1075.45 64.5359 1070.2 62.1094 1067.31 63.2457C1054.22 68.3719 1041.22 84.4957 1030.53 93.9084C1026.97 98.0454 1020.67 101.465 1017.5 105.822C1007.55 119.493 987.187 136.806 987.317 154.54C988.397 160.431 998.671 159.352 1002.13 159.887C1026.62 163.675 1046.71 145.879 1068.28 140.815L1070 140.357C1071.87 140.824 1072.36 140.925 1073.93 142.047L1074.14 143.516C1071 151.178 1050.26 157.217 1043.2 160.388C1023.82 169.096 1003.88 173.359 982.682 173.93C980.281 173.994 975.752 172.128 973.444 171.247C971.923 169.235 970.385 167.239 968.827 165.257C968.48 158.417 969.795 152.087 972.407 145.759C982.558 121.167 1036.04 66.7732 1059.12 53.7328C1065.72 49.9999 1074.01 50.2079 1081.06 47.2774Z"/>
+          <path vector-effect="non-scaling-stroke" d="M115.096 47.3053C120.397 47.2448 121.913 48.2396 126.593 50.5256C127.914 52.9448 129.234 54.6446 130.868 56.8313C130.99 62.7268 130.894 68.9664 130.902 74.8919C127.804 79.4086 121.841 89.5884 115.534 87.2475C111.259 82.7773 112.451 72.2568 112.263 65.9086C106.446 62.8187 102.191 61.5238 96.4353 65.5704C85.0412 73.5824 75.6841 84.0048 65.3727 93.3108C60.746 97.4855 55.807 101.622 51.464 106.109C43.5428 116.513 31.753 127.96 25.6673 139.386C13.8971 161.486 26.2113 158.988 40.9632 159.853C63.9667 161.202 80.242 147.391 100.048 141.49C102.841 140.577 106.351 139.944 108.594 142.235C108.617 147.421 94.0391 153.974 89.3844 156.005C65.6079 166.377 42.3477 173.396 16.2236 174.134C15.1307 174.165 8.90197 171.583 7.51493 171.021C6.77479 169.738 4.84241 167.27 3.88791 165.978C3.01986 155.455 5.06218 152.156 7.40902 142.159C12.2995 137.171 20.4568 124.126 26.1799 117.138C45.3774 93.6961 67.8297 70.1604 93.611 53.8956C98.0243 51.1115 108.524 49.9436 115.096 47.3053Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1148.65 95.6486C1150.26 95.8174 1152.5 97.2143 1154.01 98.0317C1155.41 102.502 1155.76 106.314 1156.32 110.918C1158.28 113.191 1160.14 111.205 1161.15 114.789C1165.18 129.029 1156.8 137.543 1149.78 148.687C1148.58 150.589 1146.42 155.12 1147.07 157.433C1150.11 158.951 1151.92 156.008 1155.46 157.623C1155.43 157.865 1155.39 158.105 1155.34 158.344C1154.54 161.952 1149.56 166.754 1146.33 168.566C1125.69 180.132 1138.18 151.193 1140.56 142.503C1136.46 144.444 1118.73 151.009 1117.49 153.717C1115.69 156.147 1098.07 168.416 1094.93 169.618C1080.11 175.125 1072.36 173.216 1083.32 157.283C1094.91 140.446 1104.35 125.634 1119.64 111.729C1131.13 101.277 1132.95 98.5362 1148.65 95.6486ZM1098.66 161.923C1101.64 159.373 1103.32 158.907 1106.59 156.671C1117.37 149.244 1129.48 141.192 1136.69 130.008C1137.64 128.529 1139.06 122.406 1139.53 120.53C1140.48 116.829 1143.13 114.533 1141.27 110.907C1138.98 108.63 1137.24 108.874 1134.18 109.283C1124.11 112.886 1090.34 151.325 1092.19 161.238C1093.98 162.511 1096.39 162.182 1098.66 161.923Z"/>
+          <path vector-effect="non-scaling-stroke" d="M765.205 97.0542C767.11 96.5267 770.914 96.4833 772.533 97.7543C773.253 98.7199 773.755 99.5931 773.811 100.814C775.065 127.345 750.885 140.761 736.416 158.177C724.733 162.215 721.686 168.918 711.803 172.155C710.016 172.376 707.428 172.878 705.679 172.28C705.064 172.071 704.382 171.607 704.09 171.031C700.479 163.968 715.209 126.87 718.355 117.435C722.654 114.779 723.982 113.173 726.687 109.111C732.253 107.287 734.127 107.155 739.984 107.496C748.838 101.258 753.832 98.1961 765.205 97.0542ZM744.339 116.52C738.799 117.766 738.811 117.722 733.835 120.101C730.181 125.872 716.22 152.847 716.189 158.388C717.945 159.261 720.123 158.362 722.046 157.714C723.442 157.241 724.826 156.756 726.21 156.26C731.229 151.449 736.336 146.734 741.535 142.118C751.928 132.867 763.89 125.212 761.954 109.232C758.225 109.16 753.752 108.957 750.11 109.352C747.727 110.979 745.971 114.071 744.339 116.52Z"/>
+          <path vector-effect="non-scaling-stroke" d="M268.502 156.513C256.348 167.04 246.178 174.576 228.56 172.572C220.142 171.614 224.442 153.664 227.032 148.909C235.669 134.238 248.383 107.888 263.368 98.5102C286.097 84.286 287.298 95.0981 283.043 114.299C280.106 117.068 278.192 122.071 273.691 123.645C269.317 121.382 275.643 109.724 269.267 106.965C260.556 107.265 238.832 143.123 236.732 151.577C232.105 170.195 259.635 157.785 265.445 154.585C267.418 155.344 267.46 155.006 268.502 156.513Z"/>
+          <path vector-effect="non-scaling-stroke" d="M943.643 90.5454C944.927 90.4777 949.761 90.8805 950.561 91.8077C948.594 99.0253 944.567 105.416 939.411 110.734C936.911 110.644 933.654 110.77 931.091 110.799C929.23 112.186 919.451 119.366 918.341 120.769C910.877 130.055 903.816 139.48 897.109 149.312C893.69 154.317 885.401 169.269 880.282 170.47C878.327 170.149 878.96 170.52 877.738 169.013C876.931 166.341 877.409 164.318 877.806 161.59C878.997 156.438 884.47 151.634 887.442 146.167C893.814 134.44 896.507 125.891 899.646 113.017C903.623 109.866 908.227 101.138 913.607 104.217C916.181 109.166 910.324 115.462 913.272 117.439C918.403 115.59 927.554 102.66 931.836 98.7932C934.888 96.034 939.97 93.4895 943.643 90.5454Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1227.4 90.5137C1228.91 90.497 1229.5 90.4305 1230.89 91.1331C1235.28 96.8172 1226.29 107.049 1222.33 110.842C1219.78 110.706 1216.71 110.77 1214.12 110.76C1211.67 112.796 1203.45 118.476 1201.43 120.852C1192.01 131.904 1182.82 145.605 1174.84 157.674C1171.79 162.307 1166.52 172.407 1161.25 169.544C1159.51 166.544 1160.79 162.854 1161.59 159.616C1166.83 150.751 1173.44 142.575 1177.23 132.728C1177.8 131.256 1179.13 128.958 1179.19 127.426C1179.46 120.573 1186.94 101.569 1195.77 104.058C1198.52 108.574 1195.24 112.083 1195.7 117.331C1200.03 117.39 1212.03 101.259 1216.25 97.9498C1220.39 94.7022 1222.86 93.222 1227.4 90.5137Z"/>
+          <path vector-effect="non-scaling-stroke" d="M241.37 55.9161C241.545 55.9123 241.721 55.9143 241.898 55.922C244.062 56.0171 245.267 56.3558 246.582 57.7461C247.309 60.0686 247.01 62.697 246.885 65.1416C242.62 69.3989 242.689 72.4101 236.512 75.0743C234.548 75.4734 235.285 75.5385 233.462 74.9415C230.887 72.1314 231.273 66.8762 231.14 62.9651C234.481 58.099 235.875 57.1347 241.37 55.9161Z"/>
+          <path vector-effect="non-scaling-stroke" d="M193.829 0H200.489C202.398 5.27974 205.353 8.78451 202.409 14.624C200.144 15.0994 200.916 13.3065 197.705 12.3146C195.853 13.3189 184.019 38.6235 183.363 41.5685C179.899 57.1183 124.821 142.828 128.425 151.281L129.664 151.514C133.274 150.566 150.415 134.968 152.932 131.302C160.47 120.327 169.648 114.216 178.537 104.866C181.304 104.843 189.427 104.396 191.54 105.876C194.697 114.862 151.641 167.962 186.117 161.864C193.554 147.209 205.034 130.834 209.356 114.825C209.872 112.917 209.757 107.739 209.722 105.594C213.159 102.649 216.528 99.6273 219.827 96.5311C222.464 96.2375 225.862 95.2651 228.492 94.601C228.712 98.5437 229.342 105.746 227.79 109.324C220.707 125.632 209.979 140.514 200.976 155.851C197.674 161.476 193.378 165.975 188.761 170.49C177.287 172.648 179.952 174.754 167.28 174.16C164.888 172.453 161.845 169.68 159.547 167.691C158.757 154.481 160.548 145.943 167.786 134.651C169.525 131.937 172.366 125.771 171.716 122.529C169.63 122.492 157.065 138.974 154.485 141.389C148.723 146.846 142.499 151.754 136.83 157.327C131.849 162.225 120.604 173.496 113.103 170.197C112.565 168.73 113.1 168.293 113.318 166.923C120.051 124.707 146.606 90.0272 166.236 53.1037C174.368 37.5873 182.069 21.8347 189.749 6.09131C190.625 4.29554 192.624 2.1927 193.829 0Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1206.85 155.785C1211.95 158.083 1232.46 165.79 1236.25 161.715C1236.79 159.29 1235.07 154.459 1233.46 152.722C1212.75 130.315 1234.81 103.58 1259.3 98.5536C1264.3 97.5259 1266.11 98.1483 1270.7 100.804V106.582C1266.61 109.614 1258.62 124.01 1252.88 124.512C1252.41 121.045 1259.42 115.146 1258.24 109.909C1252.56 105.73 1242.51 111.199 1238.44 115.774C1238.03 118.517 1235.2 128.101 1235.61 129.776C1237.14 135.932 1242.83 142.728 1245.58 148.59C1247.14 151.904 1248.08 154.604 1249.89 157.889C1243.63 165.045 1241.2 169.633 1231.01 171.249C1224.75 172.243 1198.51 173.251 1197.37 164.709C1198.67 162.665 1204.24 158.495 1206.85 155.785Z"/>
+        </svg>
       </a>
 
       <nav class="navbar__groups" aria-label="Primary">
@@ -169,8 +228,18 @@
       <!-- Also in their header, and easy to miss: a saved-vehicles counter.
            It stays, quiet, because a count nobody has filled yet should
            not outrank the call. -->
+      <!-- Glyph + count while the rail is packed, full label everywhere
+           else. This is where the bigger wordmark's width came from —
+           main.css said so before it was needed: "the width has to come
+           from the CONTENT — dropping My Garage to its glyph frees
+           100px". The label is only ever visually hidden, never removed,
+           so the control keeps its name for a screen reader. -->
       <a class="navbar__garage" href="https://www.chicagomotorcars.com/my-garage/">
-        My Garage <span class="navbar__count">0</span>
+        <svg class="navbar__garage-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path d="M4 2.2h7a.8.8 0 0 1 .8.8v9.4L7.5 9.9l-4.3 2.5V3a.8.8 0 0 1 .8-.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+        <span class="navbar__garage-label">My Garage</span>
+        <span class="navbar__count">0</span>
       </a>
 
       <!-- Absolutely positioned at the rail's trailing edge so it can
@@ -195,6 +264,23 @@
     </a>
   </div>
 </header>
+
+<!-- READ POSITION, along the bottom edge of the screen.
+
+     It started as a hairline under the masthead, doing two jobs at once
+     — separating the bar and reporting position. Moved down here it is
+     only doing the second, which is the honest arrangement: the bar no
+     longer needs a rule under it now that the nav items carry their own
+     ground, and a progress line reads better against the edge you are
+     scrolling toward than the one you are scrolling away from.
+
+     Outside <header> because it is no longer part of it. It appears only
+     after the hero has gone, so it never lies across the claim's air.
+
+     A persistent layer, and counted as one: 3px on the extreme edge,
+     below the menu's z-index so an open panel covers it rather than
+     having a red line float over a full-screen overlay. -->
+<div class="readbar" aria-hidden="true"><i class="readbar__fill"></i></div>
 
 <!-- Ships hidden; the toggle only becomes real once the script confirms
      it can open. Without JS the nav row above stays on the page, so no
@@ -264,37 +350,19 @@
       </section>
     </nav>
 
-    <!-- After ballance.framer.website: the panel is not a list of routes,
-         it surfaces CONTENT beside them. Theirs shows two articles; a
-         dealership has something better to put there — two cars that are
-         actually on the floor. It also answers the art direction's
-         "real inventory cars rather than universal stock supercars":
-         these are CMC's own frames, wordmark burned into the top and all.
+    <!-- The two feature cards that used to sit here are GONE.
 
-         Placeholder stock while the feed is out of scope — the two cards
-         are wired to real photographs, not to a grey box. -->
-    <aside class="menu__feature" aria-label="On the floor now">
-      <a class="fcard" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
-        <span class="fcard__media">
-          <img src="assets/img/stock/cmc-911-gt3-yellow.jpg" alt="" width="326" height="218" loading="lazy">
-        </span>
-        <span class="fcard__row">
-          <span class="fcard__title">2023 Porsche 911 GT3</span>
-          <svg class="fcard__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 10 10 3M4.4 3H10v5.6" stroke="currentColor" stroke-width="1.3"/></svg>
-        </span>
-        <span class="micro fcard__meta">West Chicago</span>
-      </a>
-      <a class="fcard" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
-        <span class="fcard__media">
-          <img src="assets/img/stock/cmc-458-spider.jpg" alt="" width="326" height="218" loading="lazy">
-        </span>
-        <span class="fcard__row">
-          <span class="fcard__title">2014 Ferrari 458 Spider</span>
-          <svg class="fcard__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 10 10 3M4.4 3H10v5.6" stroke="currentColor" stroke-width="1.3"/></svg>
-        </span>
-        <span class="micro fcard__meta">Naperville</span>
-      </a>
-    </aside>
+         They came from ballance.framer.website, where the panel surfaces
+         content beside the routes, and the idea was sound. It cost 303px
+         of a 1374px panel — a quarter of it — to show two cars the
+         visitor did not ask for, in a control whose entire job is to get
+         them somewhere. That is the device losing to the task: a menu
+         that has to be scrolled to reach its own links has stopped being
+         a menu. The cars belong on the page, not inside the way out of
+         it.
+
+         assets/img/stock/ keeps both frames for whoever wants them in a
+         section. -->
 
     <div class="menu__foot">
       <p class="micro menu__label">Showrooms</p>
@@ -311,9 +379,10 @@
 <main>
   <!-- Exactly one screen tall. The fold below it is now deliberate.
 
-       No type on the frame at this stage: the ground first, the words
-       after it, so the composition gets judged on the photograph rather
-       than on what is covering it. -->
+       The words are here now. The note that used to sit in this comment
+       said the ground came first and the type after it, so the
+       composition got judged on the photograph rather than on what was
+       covering it. That has happened; this is the second half of it. -->
   <section class="hero" id="floor">
     <div class="hero__media">
       <img class="hero__photo"
@@ -323,19 +392,268 @@
            fetchpriority="high" decoding="async">
       <!-- Part of the ground, not a panel behind anything. It stays here
            when the photograph changes, so legibility never depends on
-           which frame the feed happens to return. -->
+           which frame the feed happens to return.
+
+           It was ALREADY built for this: its own note records that the
+           bottom gradient exists to fix the lower left, which measured
+           1.58:1 against near-white, at the ground layer — "so the claim
+           that goes there later needs no panel behind it". This is that
+           claim, and it duly carries no panel. -->
       <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+
+    <!-- PAGINATION FOR A SLIDER THAT DOES NOT EXIST YET.
+
+         aria-hidden, and not a <button> anywhere in it, on purpose: it
+         is wired to nothing. A control that looks operable and does not
+         respond is worse than no control, and announcing "slide 1 of 4"
+         to a screen reader would be a straight lie about a hero that
+         currently holds one photograph.
+
+         So it is presentational until the slider lands. When it does,
+         these become buttons, this gets a real label, the aria-hidden
+         comes off — and the count stops being four because someone
+         decided four looked right. FOUR IS A PLACEHOLDER. -->
+    <div class="hero__pager" aria-hidden="true">
+      <i class="hero__tick is-current"></i>
+      <i class="hero__tick"></i>
+      <i class="hero__tick"></i>
+      <i class="hero__tick"></i>
+    </div>
+
+    <!-- Bottom left, on the WORDMARK's line — the full-bleed gutter, not
+         the centred .shell the sections below use.
+
+         It was on .shell first, on the argument that the claim is reading
+         matter and the mark is chrome. That was wrong on the only screen
+         where it shows: past 1440 the container starts centring and the
+         claim walked inward while the mark stayed pinned, so the first
+         screen had two different left edges and no reason for either.
+         The mark and the claim are the only two things ON the frame, and
+         one edge under both is worth more here than agreement with a
+         section that has not been built yet.
+
+         The first h1 on the page. There was none at all before this. -->
+    <div class="hero__foot">
+        <div class="hero__claim stack">
+          <p class="micro hero__eyebrow">Luxury <span aria-hidden="true">·</span> Exotic <span aria-hidden="true">·</span> Performance</p>
+          <!-- Two spans, not one wrapped sentence, because the two lines
+               have to leave at different speeds on the scroll — and
+               because a break this size should be authored rather than
+               left to a max-width to discover. -->
+          <h1 class="claim"><span class="claim__line">Find the car</span><span class="claim__line">worth chasing.</span></h1>
+          <p class="lede">Curated performance and collector vehicles, available nationwide.</p>
+          <!-- Two doors of equal rank, which is the recorded yield on
+               anti-patterns D6 — buying and selling are genuinely
+               parallel here, not a primary with a decoy beside it. The
+               RANK still differs: the light mass is the one the business
+               leads with. -->
+          <div class="cta-row">
+            <a class="btn btn--fill" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
+              View Inventory
+              <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 10 10 3M4.4 3H10v5.6" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+            <a class="btn btn--line" href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">
+              Sell Your Car
+              <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 10 10 3M4.4 3H10v5.6" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+          </div>
+        </div>
     </div>
   </section>
 
-  <!-- PLACEHOLDER. Empty on purpose: it exists so the bottom of the
-       gradient can be seen resolving into the page ground, and so the
-       header has something to scroll over. It carries no content and no
-       divider — if a rule were needed here, the gradient would have
-       failed at its one job. Replace it with the real second chapter. -->
-  <section class="after" id="after"></section>
+  <!-- ============================================================
+       2 — INVENTORY
+
+       EVERY CAR, PRICE, MILEAGE AND STOCK NUMBER ON THIS PAGE IS REAL.
+
+       They are read off refferences/current-site/cmc-inventory-full.png,
+       which is a full-page capture of Chicago Motor Cars' own live
+       inventory, and matched to the frames in assets/img/stock/, which
+       came out of that same capture. So each card is that dealership's
+       photograph of that dealership's car at that dealership's price.
+
+       This matters more here than anywhere else on the page. A hero can
+       carry a placeholder frame with a sidecar declaring it; a LISTING
+       cannot carry a placeholder price. "2019 McLaren Senna — $3,500,212
+       — 2,615 miles" is a specific factual claim about a specific car
+       for sale, and inventing one to fill a layout would be putting a
+       false statement on a dealership's website. The rough sketch this
+       was built from carried figures for a Ferrari 296 GTB and a
+       Cullinan Black Badge; there are no CMC frames for either car, so
+       neither is here.
+
+       WHAT IS STILL PROVISIONAL: the photographs are ~326x218, because
+       that is what a screenshot gives. Fine for judging a card system,
+       too small to ship — assets/img/stock/README.txt says so and says
+       where the originals are. And no showroom is named on any card,
+       because the inventory capture does not say which floor each car
+       is standing on, and guessing that is the same class of error as
+       guessing a price.
+       ============================================================ -->
+  <section class="inv" id="inventory">
+    <div class="shell inv__inner">
+
+      <!-- The finder rides up over the hero's bottom edge, which is the
+           sketch's move and a good one: it stitches the two chapters
+           instead of stacking them. The overlap is bounded at 40px and
+           the hero claim's own bottom offset never goes below 48px, so
+           the bar cannot reach the buttons at any viewport height. -->
+      <form class="finder-bar" action="https://www.chicagomotorcars.com/used-cars-chicago-il/" method="get">
+        <div class="finder">
+          <p class="field">
+            <label class="micro field__label" for="f-make">Make</label>
+            <select class="field__control" id="f-make" name="make">
+              <option value="">Select Make</option>
+              <option>Ferrari</option><option>Lamborghini</option><option>McLaren</option>
+              <option>Porsche</option><option>Rolls-Royce</option><option>Dodge</option>
+              <option>Koenigsegg</option><option>Rimac</option>
+            </select>
+          </p>
+          <p class="field">
+            <label class="micro field__label" for="f-model">Model</label>
+            <select class="field__control" id="f-model" name="model">
+              <option value="">Select Model</option>
+            </select>
+          </p>
+          <!-- Their own body-style taxonomy, straight off the nav. -->
+          <p class="field">
+            <label class="micro field__label" for="f-body">Body Style</label>
+            <select class="field__control" id="f-body" name="bodystyle">
+              <option value="">Select Body Style</option>
+              <option>Convertible</option><option>Coupe</option><option>Hatchback</option>
+              <option>Sedan</option><option>SUV</option><option>Wagon</option>
+              <option>Pickup Truck</option><option>Sprinter Van</option>
+              <option>Motorcycle</option><option>Boat</option>
+            </select>
+          </p>
+          <p class="field">
+            <label class="micro field__label" for="f-price">Price</label>
+            <select class="field__control" id="f-price" name="price">
+              <option value="">Any Price</option>
+              <option>Under $250,000</option><option>$250,000 – $500,000</option>
+              <option>$500,000 – $1,000,000</option><option>Over $1,000,000</option>
+            </select>
+          </p>
+        </div>
+        <button class="btn btn--fill finder-bar__go" type="submit">
+          Search Inventory
+          <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+      </form>
+
+      <!-- SECTION INTRO — belongs to the whole section, not to the index.
+           It sat inside the index column and read as sidebar copy; the
+           heading of a section has to span the section. Browse-all closes
+           the opposite end of the same line. No rule under it. -->
+      <header class="inv__intro">
+        <p class="micro inv__eyebrow">New &amp; Noteworthy</p>
+        <a class="inv__all" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">Browse all 301 vehicles <span aria-hidden="true">&rarr;</span></a>
+        <h2 class="inv__title">Featured Inventory</h2>
+        <p class="lede">Hand-selected performance, luxury and collector vehicles. Each one chosen for its pedigree, condition and driving experience.</p>
+      </header>
+
+      <div class="showcase">
+
+
+        <!-- The dominant field. The cut-outs replaced full-frame dealer
+             photography because that photography brought its own room with
+             it — turntables, curtains, burned-in branding. A cut-out has no
+             room, so this field builds one: a radial light behind the car, a
+             tonal floor under it, and a contact shadow where it meets that
+             floor. Without those three the car is a sticker. -->
+        <div class="showcase__stage">
+          <div class="stage__field" aria-hidden="true">
+            <span class="stage__light"></span>
+          </div>
+
+          <!-- INSIDE the field now. The stage clips its own overflow, so a
+               pill placed here is contained by construction — no element can
+               half-escape the boundary the way the corner flag did.
+
+               CONTENT WARNING, unchanged and still outstanding: "Just in" is
+               a claim about a vehicle's arrival date and the feed exposes
+               none. This is static and sits over whichever car is active,
+               which asserts that all four are new arrivals. Bind it to a real
+               date-added field and render it conditionally before shipping. -->
+          <p class="justin"><span class="justin__lead">Just in</span></p>
+          <div class="stage__cars">
+            <img class="stage__car is-active" data-frame="0"
+                 src="assets/img/inventory/cutout-porsche-gt2rs.png" alt=""
+                 width="1400" height="560" fetchpriority="high" decoding="async">
+            <img class="stage__car" data-frame="1"
+                 src="assets/img/inventory/cutout-aventador-svj-roadster.png" alt=""
+                 width="1400" height="560" loading="lazy" decoding="async">
+            <img class="stage__car" data-frame="2"
+                 src="assets/img/inventory/cutout-koenigsegg-regera.png" alt=""
+                 width="1400" height="560" loading="lazy" decoding="async">
+            <img class="stage__car" data-frame="3"
+                 src="assets/img/inventory/cutout-ferrari-812-gts.png" alt=""
+                 width="1400" height="560" loading="lazy" decoding="async">
+          </div>
+        </div>
+
+        <div class="showcase__index">
+          <div class="recs">
+          <a class="rec is-active" data-frame="0" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
+            <span class="rec__no">01</span>
+            <span class="rec__body">
+              <span class="micro rec__make">2018 Porsche</span>
+              <span class="rec__model">911 GT2 RS Weissach</span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts">$900,212 <span class="rec__dot" aria-hidden="true">·</span> 2,850 miles</span>
+                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory/cutout-porsche-gt2rs.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
+          </a>
+
+          <a class="rec" data-frame="1" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
+            <span class="rec__no">02</span>
+            <span class="rec__body">
+              <span class="micro rec__make">2021 Lamborghini</span>
+              <span class="rec__model">Aventador SVJ Roadster</span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts">$1,600,212 <span class="rec__dot" aria-hidden="true">·</span> 7,671 miles</span>
+                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory/cutout-aventador-svj-roadster.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
+          </a>
+
+          <a class="rec" data-frame="2" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
+            <span class="rec__no">03</span>
+            <span class="rec__body">
+              <span class="micro rec__make">2021 Koenigsegg</span>
+              <span class="rec__model">Regera</span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts">$2,900,212 <span class="rec__dot" aria-hidden="true">·</span> 2,055 miles</span>
+                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory/cutout-koenigsegg-regera.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
+          </a>
+
+          <a class="rec" data-frame="3" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
+            <span class="rec__no">04</span>
+            <span class="rec__body">
+              <span class="micro rec__make">2023 Ferrari</span>
+              <span class="rec__model">812 GTS</span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts">$1,100,212 <span class="rec__dot" aria-hidden="true">·</span> 1,641 miles</span>
+                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory/cutout-ferrari-812-gts.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<script src="assets/js/main.js?v=7" defer></script>
+
+<script src="assets/js/main.js?v=10" defer></script>
 </body>
 </html>

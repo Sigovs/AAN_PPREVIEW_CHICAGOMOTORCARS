@@ -145,3 +145,48 @@
     if (!bar.contains(e.target)) closeAll();
   });
 })();
+
+/* ============================================================
+   FEATURED INVENTORY — the index drives the dominant field
+   ============================================================
+   Hover or focus a record and the field crossfades to that vehicle.
+   Enhancement only: without this script the first car stays up and every
+   record is still a link to the inventory, so nothing a visitor needs
+   depends on it. Pointer AND focus, so the keyboard gets the same
+   behaviour rather than a degraded one. No timers, no autoplay, no
+   carousel — the visitor drives it and it holds where they leave it.
+
+   Only records carrying data-frame drive the field. The others are real
+   inventory with no cut-out asset yet: they light on hover and they link
+   out, but they never take the enlarged active state, because that state
+   means "this is the car in the field" and awarding it to a vehicle the
+   field is not showing would be the interface telling a lie.
+   ============================================================ */
+(function () {
+  var wrap = document.querySelector('.showcase');
+  if (!wrap) return;
+
+  var cars = [].slice.call(wrap.querySelectorAll('.stage__car'));
+  var recs = [].slice.call(wrap.querySelectorAll('.rec'));
+  if (cars.length < 2) return;
+
+  var driving = recs.filter(function (r) {
+    return r.getAttribute('data-frame') !== null;
+  });
+  if (!driving.length) return;
+
+  function show(i) {
+    cars.forEach(function (c, n) {
+      c.classList.toggle('is-active', n === i);
+    });
+    recs.forEach(function (r) {
+      r.classList.toggle('is-active', r.getAttribute('data-frame') === String(i));
+    });
+  }
+
+  driving.forEach(function (rec) {
+    var i = Number(rec.getAttribute('data-frame'));
+    rec.addEventListener('mouseenter', function () { show(i); });
+    rec.addEventListener('focus', function () { show(i); });
+  });
+})();

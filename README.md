@@ -8,7 +8,9 @@ assets/css/tokens.css   единственный источник правды: 
 assets/css/main.css
 assets/js/main.js       только мобильное меню
 assets/img/hero/        PLACEHOLDER-* — AI-заглушки, не фото CMC
-assets/logos/           cmc-wordmark.svg — настоящий вектор
+assets/logos/           cmc-wordmark.svg — канонический вектор (currentColor, без stroke)
+                        cmc-mark.svg     — компакт-форма: «C» из того же wordmark
+                        favicon.svg      — красная плашка + «C», запечённая
 refferences/            текущий сайт, бенчмарк Prestige, снятые экраны
 ```
 
@@ -28,6 +30,7 @@ refferences/            текущий сайт, бенчмарк Prestige, сн
 - **Красный не десатурируется** — это носитель бренда под REDESIGN. Уступка `color D2` заявлена; рационирование вместо смены оттенка.
 - **Две двери равного ранга** — покупка и продажа. Уступка `anti-patterns D6` по условию «genuinely parallel choices».
 - **Контраст меряется на композите**, не по токенам. Все замеры проходят AA; `--ink-3` подняли с 0.42 до 0.52 после провала на 3.7:1.
+- **Wordmark в хедере — контуры инлайном, не `<img>`.** Начертание не тронуто; менялись только цвет (был запечён `#FEFEFE`, стал `currentColor` → `--ink`) и вес: 0.6px `non-scaling-stroke`, потому что тончайшие штрихи скрипта — 0.29px при 146px и рендерятся ниже AA, хотя сам цвет даёт 7.12:1. Правки — из `cmc-wordmark.svg`, не руками в HTML.
 
 ## Открыто
 

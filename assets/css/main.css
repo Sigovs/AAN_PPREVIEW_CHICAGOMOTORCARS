@@ -76,6 +76,87 @@ button, input, select { font: inherit; color: inherit; }
   inset-inline: 0;
   z-index: 70;      /* above .menu, so the toggle stays the way out */
   height: var(--header-h);
+  transition: background-color var(--dur-4) var(--ease-out),
+              backdrop-filter var(--dur-4) var(--ease-out);
+}
+
+/* ---- The scrolled masthead ---------------------------------
+   The condensed state used to dissolve to nothing: the rail's ground,
+   border and blur all went, and what was left was a wordmark, a MENU
+   and a phone number floating separately over whatever happened to be
+   behind them. Each object was fine and the BAR had stopped existing —
+   three things at the top of a page are not a header, they are three
+   things.
+
+   So the chrome moves down a level instead of disappearing. The rail
+   still dissolves — that decision stands and its reasoning is below —
+   but the masthead itself picks up a quiet ground and a rule, which is
+   what puts the three objects back on one line and gives the page an
+   edge to scroll under.
+
+   THE RULE HAS TWO JOBS AND IS ONE DEVICE. It separates the header from
+   the page, and it reports read position by filling in --accent. That is
+   deliberate economy: a separate progress bar would be a second element
+   doing a job this line is already the right shape for. It is also the
+   one place the accent belongs by this project's own rationing — a mark,
+   never a ground, arriving in response to what the visitor is doing.
+
+   Scroll-driven, so it costs nothing per frame and the user keeps the
+   transport. Under reduced motion, and anywhere scroll timelines are not
+   supported, the rule is simply a rule: still separating, no fill. */
+/* No ground on the masthead itself. A full-width bar was tried here and
+   was both wrong and dead — the ground belongs under the nav items only
+   (see .navbar__groups), and a later rule in this file was already
+   setting `background: none` on the same selector, so it never rendered.
+   The rule and its progress fill are what the scrolled masthead gets. */
+
+/* ---- Read position, bottom edge ----------------------------
+   Fixed to the bottom of the VIEWPORT, not to the header. 3px rather
+   than a hairline: at 1px it was a scratch under the bar, and a line
+   that is reporting something has to be thick enough to be read as a
+   quantity rather than as a border.
+
+   Still scroll-driven, so it costs nothing per frame and the user keeps
+   the transport. Under reduced motion, and anywhere scroll timelines
+   are unsupported, the track is simply a track — no fill, no lie. */
+.readbar {
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: 55;              /* under .menu (60) so an open panel covers it */
+  height: 3px;
+  background: rgb(var(--bg-rgb) / 0.55);
+  opacity: 0;
+  transition: opacity var(--dur-4) var(--ease-out);
+  pointer-events: none;
+}
+/* Only after the hero. Over the photograph it would cut across the air
+   under the claim, which is the one thing that space is for. */
+.has-js.is-condensed .readbar { opacity: 1; }
+
+.readbar__fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left center;
+  scale: 0 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .readbar__fill {
+      animation-name: read-progress;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes read-progress { to { scale: 1 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead,
+  .readbar { transition: none; }
 }
 
 /* Full bleed, not contained. The rest of the page reads inside
@@ -92,13 +173,98 @@ button, input, select { font: inherit; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sp-6);
+  /* Down one step, from 32 to 16. This is the gap between the rail and
+     the call, so it is what sits between MENU and the number once the
+     rail has condensed — and with the rail's own 12px of right padding
+     on top of it, 32 was reading as 44px of nothing between two objects
+     that belong together. Now 28. */
+  gap: var(--sp-4);
 }
 
-.masthead__mark img {
-  width: clamp(150px, 15vw, 208px);
+/* ---- The wordmark -------------------------------------------
+   THE MARK IS INK, AND IT IS OPTICALLY CORRECTED AT SIZE.
+
+   Two defects, both of them in how the mark was RENDERED rather than in
+   how it is drawn — the outlines are untouched, which the mandate
+   requires.
+
+   1. Colour. The file had #FEFEFE baked into every path, so the
+      identity was the only cold-white object on a page whose ink is
+      --ink #F4F2EF. On the hero's blue sky that is the worst available
+      pairing: cold white on cold blue, no hue separation at all. It is
+      currentColor now, so the mark takes the ink of wherever it stands
+      and can be set --bone-ink on the light band without a second file.
+
+   2. Weight. This is the real one, and it is exactly the failure a token
+      check cannot see. The script's thinnest strokes are about 2.5 units
+      of a 1271-unit box — 0.29px at the 146px the rail can afford — so
+      they never fill a pixel and arrive as partial coverage.
+
+      Measured by rasterising the mark at 146px and reading the alpha
+      channel, against the composited ground behind it (30% --bg over the
+      hero sky = #2E527E, L 0.082):
+
+        nominal  #F4F2EF on that ground ......... 7.12:1   passes
+        actual   34.4% of the mark's pixels sit
+                 below 40% coverage, i.e. at ..... ≤2.5:1  fails
+
+      So the mark's COLOUR was never the problem and re-inking it fixes
+      nothing on its own. The problem is mass: the mark had 861 inked
+      pixels carrying 514 units of ink where the mono beside it carries
+      solid stems, which is why the navigation was outranking the
+      identity in the identity's own header.
+
+      Scaling up does not fix it either — 1px hairlines want ~508px of
+      width, which no header has. So the correction goes on the stroke:
+      0.6px of NON-SCALING stroke, constant in CSS pixels at every render
+      size. Measured at 146px it takes the mark from 861 inked pixels /
+      514 ink units to 1314 / 789 — 53% more ink mass, same letterforms —
+      and lifts the fully-inked share from 33.0% to 36.6%. At display
+      sizes the same 0.6px is 0.07% of the mark and invisible.
+
+      Tested at 0.4 / 0.6 / 0.8 / 1.0 over the real hero: 1.0 closes the
+      counters of "g" and "a" at 118px, 0.4 does not clear the pixel.
+      0.6 is the measured middle.
+
+   `paint-order: stroke fill` keeps the stroke behind the fill so the
+   outline never eats into the letterform's own shape.               */
+/* THE MARK HAS TWO SIZES, BECAUSE IT HAS TWO AMOUNTS OF ROOM.
+
+   Measured at 1440, which is the width that decides this:
+
+     full rail  — wordmark + six groups + My Garage + call + padding
+                  needs 1364px of 1441. Spare: 77px, and every pixel the
+                  mark takes pushes the compact breakpoint up by one.
+     condensed  — the rail has dissolved; only the mark, MENU and the
+                  call are left. Used: 443px. Spare: 882px.
+
+   One ramp for both states was therefore the wrong shape: it was being
+   held down by a constraint that only exists while the navigation is
+   unpacked, and starved the state where the mark stands alone with most
+   of the header empty beside it. So this is the mark's natural size, and
+   .navbar below is the only place it gets cut back. */
+.masthead__wm {
+  display: block;
+  width: clamp(200px, 17vw, 280px);
   height: auto;
+  color: var(--ink);
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0.6;
+  paint-order: stroke fill;
 }
+
+/* NO HOVER STATE, on purpose. The mark is already at full --ink, so the
+   only lift available is toward pure white — which is the exact cold
+   value this whole rule set just took OUT of the identity, and a 3%
+   luminance move nobody perceives. A home link on a wordmark needs no
+   affordance beyond being a wordmark. Focus is covered by the global
+   :focus-visible ring at the top of this file. */
+
+/* Wherever the mark stands on the light band it takes that ink instead.
+   It could not do this at all while the fill was baked into the file —
+   the light-ground case needed a second copy of the logo. */
+.on-bone .masthead__wm { color: var(--bone-ink); }
 
 /* ---- The navigation rail ------------------------------------
    One object carrying the wordmark and the whole navigation, with the
@@ -116,29 +282,160 @@ button, input, select { font: inherit; color: inherit; }
   display: flex;
   align-items: center;
   gap: var(--sp-5);
+  /* The padding STAYS even though the ground is gone. It is what holds
+     the wordmark --sp-4 in from the gutter, and the hero claim aligns to
+     exactly that — see .hero__foot. Removing it here would silently move
+     the claim's left edge on the other side of the file. */
   padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-4);
   border-radius: var(--r-rail);
-  background: rgb(var(--bg-rgb) / 0.30);
-  border: 1px solid rgba(244, 242, 239, 0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: background-color var(--dur-3) var(--ease-out);
+  /* NO GROUND OVER THE HERO. The rail was a frosted capsule at rest, and
+     over a photograph this good it was a box drawn around nothing — the
+     navigation reads on the sky without it, and the first screen goes
+     back to being the picture plus the words rather than the picture
+     plus a widget. Kept transparent rather than deleted so the border
+     still occupies its pixel and nothing shifts when it arrives below.
+
+     The ground is not gone from the project, it moved to the two places
+     that need it: the open dropdown, immediately below, and the
+     condensed masthead once the header has left the hero. */
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-3) var(--ease-out),
+              border-color var(--dur-3) var(--ease-out),
+              backdrop-filter var(--dur-3) var(--ease-out);
 }
-.navbar:has(.navmenu__trigger[aria-expanded="true"]) {
-  background: rgb(var(--bg-rgb) / 0.58);
-}
+
+/* The open-panel ground moved to .navbar__groups — see there. The rail
+   itself now carries no ground in any state. */
 
 .navbar .masthead__mark { flex: none; }
-.navbar .masthead__mark img { width: clamp(118px, 9.5vw, 146px); }
+
+/* ONE SIZE NOW, AND IT IS THE BIG ONE.
+
+   The mark used to shrink to 12.8vw/196 while the rail was packed and
+   only reach 17vw/280 once the rail dissolved on scroll. The scrolled
+   size is the right size, so it became the size — the rail no longer
+   gets to make the identity smaller than it should be.
+
+   What paid for it: "My Garage" collapses to its glyph and count while
+   the rail is packed, which is worth 67px. That is not an improvisation
+   — the COMPACT HEADER block below has said since it was written that
+   when the rail runs out of room the width has to come from the content
+   rather than from squeezing padding, and named this exact control.
+
+   Net effect is better than a straight trade. The mark is 33% wider than
+   it was a moment ago and 79% wider than it started, and the compact
+   breakpoint still came DOWN, 1410 to 1390, because the glyph freed more
+   than the mark took. */
+.navbar .masthead__wm { width: clamp(200px, 17vw, 280px); }
+
+/* The condensed state now inherits the same size, so nothing about the
+   mark changes on scroll. The transition stays declared because the
+   surrounding rail still dissolves around it under --dur-4, and a mark
+   whose box is animated by nothing while its neighbours move is the one
+   element that would look pinned. */
+.has-js.is-condensed .navbar .masthead__wm {
+  transition: width var(--dur-4) var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .has-js.is-condensed .navbar .masthead__wm { transition: none; }
+}
+
+/* The garage label is present for assistive tech at every width; it is
+   only the packed rail that hides it from sight, because that is the one
+   state short of room. Above the breakpoint the glyph carries it. */
+.navbar__garage-icon { display: none; flex: none; }
+@media (min-width: 1391px) {
+  .navbar__garage-icon { display: block; }
+  .navbar__garage-label {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    overflow: hidden; white-space: nowrap;
+    clip-path: inset(50%);
+  }
+}
 
 /* Centred in whatever the wordmark and the counter leave over. */
+/* THE GROUND IS UNDER THE NAV ITEMS AND NOWHERE ELSE.
+
+   It used to be the whole rail — one capsule from the wordmark across to
+   My Garage — and that box was mostly empty. Over a photograph a
+   translucent panel is only legible while it is a contained object, and
+   a container that is 60% air is not containing anything; it was reading
+   as a widget laid on the picture.
+
+   So the capsule shrank to the six items that actually need a ground to
+   sit on. `flex: 0 1 auto` with auto margins is what makes it hug them
+   while staying centred in whatever the mark and the garage leave over —
+   `flex: 1 1 auto` was stretching it to fill, which is why it could not
+   carry a background before. */
 .navbar__groups {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
+  margin-inline: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--sp-1);
+  /* Thicker than the items need. The capsule is an object now rather
+     than a tint behind some words, and an object wants its own margin
+     before its edge — at the triggers' own height it was shrink-wrap. */
+  padding-block: var(--sp-3);
+  padding-inline: var(--sp-4);
+  border-radius: var(--r-rail);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-3) var(--ease-out),
+              border-color var(--dur-3) var(--ease-out),
+              box-shadow var(--dur-3) var(--ease-out),
+              backdrop-filter var(--dur-3) var(--ease-out);
+}
+
+/* It arrives in exactly two situations, both of them the same reason —
+   the type underneath stops being reliable:
+
+     scrolled  — the header is now over page content and whatever
+                 photograph the hero slider happens to be holding;
+     open      — a panel is hanging off the bar and needs something to
+                 hang off.
+
+   Over the hero at rest it stays transparent, which is the state the
+   first screen is actually judged on. */
+/* NO GROUND UNDER THE WORDMARK. A glass capsule was tried here and
+   removed at your call — the mark stands on the page bare, like the
+   instruction said. The collision it was covering for is real but
+   small: the finder bar passes under the mark for a few hundred pixels
+   of scroll. If that ever needs solving it should be solved by the
+   finder, not by putting a box round the identity. */
+
+.has-js.is-condensed .navbar__groups,
+.navbar:has(.navmenu__trigger[aria-expanded="true"]) .navbar__groups {
+  background: rgb(var(--bg-rgb) / 0.52);
+  border-color: rgba(244, 242, 239, 0.16);
+  /* GLASS, and this is a REVERSAL worth naming. The art direction's own
+     terms include "minimum decorative glassmorphism", and the blur was
+     cut 24px to 12px under it on the grounds that the ground did the
+     legibility work and the blur was decoration. Client direction now
+     asks for glass, so it is glass — recorded here rather than applied
+     quietly, which is this project's rule for reversing a stated term.
+
+     What makes it glass rather than frost: url(#nav-glass) displaces the
+     backdrop, so the photograph BENDS through the capsule and keeps
+     bending as it scrolls. Blur and saturation alone are frosting; the
+     refraction is the part that reads as a material.
+
+     The order matters — displace first, then blur, then lift the colour.
+     Blurring before the displacement would smear the noise field itself
+     and the warp would vanish into mush. */
+  backdrop-filter: url(#nav-glass) blur(10px) saturate(1.5) brightness(1.06);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5) brightness(1.06);
+  /* The two edges a pane of glass actually has: a lit top rim where it
+     catches light and a darker underside where it sits off the surface.
+     Without them the capsule reads as a hole, not a solid. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.28),
+    0 8px 30px rgb(var(--bg-rgb) / 0.45);
 }
 
 .navmenu { position: relative; }
@@ -369,11 +666,25 @@ button, input, select { font: inherit; color: inherit; }
   transition: opacity var(--dur-4) var(--ease-out),
               visibility 0s linear var(--dur-4);
 }
-.has-js.is-condensed .navbar__groups,
-.has-js.is-condensed .navbar__garage {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+/* THE NAVIGATION SURVIVES THE SCROLL NOW.
+
+   It used to crossfade out and hand over to a MENU toggle at every
+   width. That is gone above the compact breakpoint: the bar stays
+   sticky and keeps all six groups, and the ground under the items
+   arrives instead. A hamburger on a 1440 screen was hiding a navigation
+   that fits, which costs a click on every use and is the one thing a
+   sticky header exists to avoid.
+
+   Below 1390 the toggle is still the whole way in — there the nav
+   genuinely does not fit, and that rule lives in the COMPACT HEADER
+   block, untouched. */
+@media (max-width: 1390px) {
+  .has-js.is-condensed .navbar__groups,
+  .has-js.is-condensed .navbar__garage {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 /* Absolute, so it fades in exactly where the groups fade out and takes
@@ -390,6 +701,9 @@ button, input, select { font: inherit; color: inherit; }
   transition: opacity var(--dur-4) var(--ease-out),
               visibility 0s linear var(--dur-4);
 }
+/* Only below the breakpoint now — above it the groups never leave, so
+   there is nothing for the toggle to replace. */
+@media (max-width: 1390px) {
 .has-js.is-condensed .menu-toggle {
   opacity: 1;
   visibility: visible;
@@ -403,27 +717,28 @@ button, input, select { font: inherit; color: inherit; }
               border-color var(--dur-4) var(--ease-out),
               border-radius var(--dur-4) var(--ease-out);
 }
+}
 
-/* The rail does not survive the scroll — it DISSOLVES.
+/* The rail has no ground in any state now, so there is nothing left for
+   this to dissolve — it only has to stop moving things.
 
-   Keeping a 1200px container up there once it holds only a wordmark is
-   a box drawn around nothing, and it makes the scrolled state heavier
-   than the state it came from. So the chrome goes: ground, border,
-   blur and radius all fade, and what is left reads as three separate
-   objects — the wordmark alone on the left, MENU and the call together
-   on the right.
+   THE WORDMARK DOES NOT MOVE ON SCROLL. The left padding used to
+   collapse to zero here, sliding the mark 16px onto the gutter line,
+   and the note that used to sit in this comment argued that 24px over
+   --dur-4 was "a settle, not a jump". It was still a move, and it was
+   the identity making it — the one thing on the page that should be
+   nailed down while everything else scrolls past. It also dragged the
+   mark off the line the hero claim is aligned to, so the two edges
+   agreed at rest and disagreed the moment you touched the wheel.
 
-   The rail keeps its BOX while doing it, which is what stops the
-   wordmark and the counter from jumping. The only thing that moves is
-   the left padding collapsing to zero, so the wordmark settles onto the
-   same gutter line as everything else on the page; 24px over --dur-4 is
-   a settle, not a jump. */
+   The padding stays. Nothing in the header changes position on scroll;
+   what changes is the ground arriving under the nav items and the rule
+   arriving under the bar. */
 .has-js.is-condensed .navbar {
   background: transparent;
   border-color: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  padding-inline-start: 0;
   border-radius: 0;
 }
 .has-js .navbar {
@@ -572,16 +887,13 @@ button, input, select { font: inherit; color: inherit; }
    Under reduced motion the whole thing is simply there. */
 @media (prefers-reduced-motion: no-preference) {
   .menu:not([hidden]) { animation: menu-in var(--dur-3) var(--ease-out) both; }
-  .menu:not([hidden]) .menu__group,
-  .menu:not([hidden]) .fcard {
+  .menu:not([hidden]) .menu__group {
     animation: menu-rise var(--dur-4) var(--ease-out) both;
   }
   .menu:not([hidden]) .menu__group:nth-child(2) { animation-delay: 60ms; }
   .menu:not([hidden]) .menu__group:nth-child(3) { animation-delay: 120ms; }
   .menu:not([hidden]) .menu__group:nth-child(4) { animation-delay: 180ms; }
   .menu:not([hidden]) .menu__group:nth-child(5) { animation-delay: 240ms; }
-  .menu:not([hidden]) .fcard:nth-child(1) { animation-delay: 160ms; }
-  .menu:not([hidden]) .fcard:nth-child(2) { animation-delay: 220ms; }
 }
 @keyframes menu-in {
   from { opacity: 0; }
@@ -597,86 +909,33 @@ button, input, select { font: inherit; color: inherit; }
 .menu-toggle__label::after { content: "Menu"; }
 .menu-toggle[aria-expanded="true"] .menu-toggle__label::after { content: "Close"; }
 
-/* Nav columns on the left, the two feature cards on the right, the
-   showrooms across the bottom — ballance's arrangement, with cars where
-   they put articles. */
+/* Two bands: the navigation from under the header down, and the
+   showrooms closing the panel along the bottom edge.
+
+   Two ROWS, not `align-content: start`, and that is what changed when
+   the feature cards left. With three bands the panel filled itself and
+   stacking from the top was right. With two it no longer does: at
+   1440x900 the content is 742px, so starting from the top left 159px of
+   dead ground under the showrooms — and at 1920x1080 it left 339. The
+   leftover now falls BETWEEN the two bands instead of below them, which
+   is what the direction asks of a panel like this anyway: mass at the
+   top, the tail settling onto the bottom edge, the air in the middle
+   where it separates two different kinds of thing.
+
+   At short viewports 1fr collapses to nothing and the two bands simply
+   sit at their gap, so this costs the tight cases nothing. */
 .menu__inner {
   min-height: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  align-content: start;
+  grid-template-rows: auto 1fr;
   gap: var(--sp-7) var(--sp-8);
   padding-block: calc(var(--header-h) + var(--sp-6)) var(--sp-8);
 }
-/* The cards do NOT sit beside the columns here, and that is a departure
-   from the reference for a reason: ballance's longest label is
-   "Customer Stories". This tree carries "Trucks & Equipment Online
-   Credit Approval" and eighteen inventory links. Squeezed into the left
-   half those columns wrapped to three and four lines each and the panel
-   turned to rubble.
-
-   So the navigation takes the full width and the cards take a band
-   beneath it. Same two ideas, room for both. */
-@media (min-width: 1024px) {
-  .menu__feature {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 44rem;
-  }
-}
-
-/* ---- The feature cards -------------------------------------- */
-.menu__feature {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-  gap: var(--sp-6);
-  align-content: start;
-}
-
-.fcard { display: grid; gap: var(--sp-3); align-content: start; }
-
-/* Horizontal, and the car is never cut.
-
-   `cover` cannot do both here: these frames run from 1.55 to 2.09 in
-   aspect — measured across the ten of them — so any single ratio crops
-   most of the set. A Viper at 2.09 loses its nose and tail to a 16:9
-   box; a Senna at 1.55 loses its wheels.
-
-   So `contain`, and the leftover becomes a deliberate mat rather than a
-   failed crop: the media box is a shade darker than the panel, the
-   image sits inside it with a little air, and the whole thing reads as
-   a mounted frame. Every car arrives whole, whatever the feed sends.
-
-   When the real feed lands with consistent crops this can go back to
-   cover and the mat disappears on its own. */
-.fcard__media {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  padding: var(--sp-2);
-  border-radius: var(--r-control);
-  background: rgb(var(--bg-rgb) / 0.55);
-  border: 1px solid rgba(244, 242, 239, 0.08);
-}
-.fcard__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: opacity var(--dur-3) var(--ease-out);
-}
-.fcard:hover .fcard__media img,
-.fcard:focus-visible .fcard__media img { opacity: 0.82; }
-
-.fcard__row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-4);
-}
-.fcard__title { font-size: 1.0625rem; line-height: 1.3; color: var(--ink); }
-.fcard__arrow { flex: none; opacity: 0.5; transition: opacity var(--dur-2) var(--ease-out); }
-.fcard:hover .fcard__arrow { opacity: 1; }
-.fcard__meta { color: var(--ink-3); }
+.menu__foot { align-self: end; }
+/* .menu__feature and the whole .fcard component are GONE — see the
+   comment where they used to sit in index.html. assets/img/stock/ still
+   holds both frames. */
 
 /* Four groups now, so the rows drop a rank: the group heading carries
    the structure and the rows sit under it. A 2.25rem row per item would
@@ -772,6 +1031,138 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--ink-2);
 }
 
+/* ---- FITTING THE PANEL TO THE SCREEN ------------------------
+   The panel must not scroll. A menu you have to scroll to reach its own
+   links has stopped being a menu — the way out of the page becomes a
+   second page.
+
+   Measured at 1440x900 with the feature cards already removed: 1071px
+   of panel in 901px of viewport, 170px over. The whole overflow came
+   from two places, and both were structure rather than air.
+
+     Inventory alone .... 467px of a 602px nav. It carries 18 of the 34
+                          links; in two sub-columns that is 9 rows, and
+                          it set the height of the panel by itself while
+                          its three neighbours ended 140–280px short.
+     Showrooms .......... 237px for four addresses, because they were
+                          stacked. Four showrooms are a SET, not a list —
+                          stacking them spends a fifth of the panel
+                          saying so, and reads as four separate facts
+                          rather than one fact with four parts.
+
+   So: Inventory goes to three sub-columns (9 rows to 6), and the
+   showrooms go to one row of four. Nothing is cut, no type shrinks, no
+   tap target moves. Measured after: 786px in 901. */
+/* Inventory's sub-columns are decided by the LABEL, not by a breakpoint.
+
+   The constraint is one string: "Schedule Test Drive" measures 154.4px at
+   17px and is the longest in the group. Below that the row wraps, and a
+   wrapped row costs more height than the column saved — which is exactly
+   what a hand-picked 1200px breakpoint produced when it was tried: three
+   columns at 139px each, every third row on two lines, TALLER than two
+   columns had been.
+
+   So the floor goes in the track instead. `auto-fit` with a 9.7rem
+   minimum takes three columns wherever three fit and two where they do
+   not, at every width, with no breakpoint to keep in sync.
+
+   The 24px gap is not a saving either: these three are sub-columns of ONE
+   group, so their gap has to read as clearly tighter than the 48px
+   between the groups themselves. Internal gap < external gap.
+
+   auto-fit is scoped to 1200 and up on purpose. Below that the Inventory
+   track drops under 334px — two 155px columns plus the gap — and auto-fit
+   would collapse it to a SINGLE column of eighteen rows, which is worse
+   than the wrapping it was brought in to prevent. There it stays pinned
+   at two.
+
+   The four track widths are set from the longest label in each group,
+   measured, not divided evenly: Services needs 181.5px for "Schedule
+   Appointment" and had 172; About Us needs 116.8 for "Our Dealership" and
+   had 191. Two of the four were the wrong way round. */
+@media (min-width: 1200px) {
+  .menu__nav { grid-template-columns: 2.7fr 1.15fr 1fr 0.8fr; }
+  .menu__nav .menu__group--wide {
+    grid-template-columns: repeat(auto-fit, minmax(9.7rem, 1fr));
+  }
+}
+@media (min-width: 901px) {
+  .menu__nav .menu__group--wide { column-gap: var(--sp-5); }
+}
+
+/* Rows are 39px on a desktop panel, not 47. The 24px of vertical padding
+   was set for a thumb; this panel opens under a mouse at every width
+   above 900, and 12px of it was buying nothing but height in a control
+   that has 34 rows. 39px still clears WCAG 2.5.8 target minimum (24px)
+   with room. Below 901 the touch rhythm is untouched. */
+@media (min-width: 901px) {
+  .menu__nav a { padding-block: var(--sp-2); }
+}
+
+/* SHORT VIEWPORTS: the panel tightens rather than scrolls.
+
+   A 1280x800 laptop cannot take the full rhythm — measured at 860px of
+   content against 801 of viewport. Rather than let it scroll, the panel
+   spends its air: the clearance under the header drops to the header
+   plus one step, the tail padding halves, and the three bands close up.
+   Nothing is cut and no type moves.
+
+   Bounded to min-width 901 on purpose. A phone in portrait is often
+   under 900px tall too (iPhone 14 is 844), and it must NOT inherit
+   desktop row heights — there the panel scrolls, which is the honest
+   answer for 34 links under a thumb. */
+@media (min-width: 901px) and (max-height: 880px) {
+  .menu__inner {
+    padding-block: calc(var(--header-h) + var(--sp-3)) var(--sp-6);
+    gap: var(--sp-6) var(--sp-8);
+  }
+  .menu__nav { gap: var(--sp-6) var(--sp-7); }
+  .menu__nav .menu__group--plain { padding-block-start: var(--sp-4); }
+}
+
+/* Second step, for the 1366x768 class of laptop — about 700px of viewport
+   once the browser has taken its chrome. Measured at 751px of content in
+   721, so the first step is not enough. The clearance under the header
+   goes to zero extra (the header's own height is the whole reservation,
+   which is all it ever needed to clear), the tail and the band gaps drop
+   one more step, and the group headings pull their rules in.
+
+   This is the floor. Below roughly 660px of viewport the panel scrolls,
+   and that is the correct answer rather than a failure: 34 links and four
+   showrooms do not fit in half a screen, and cutting routes or dropping
+   type under the 14px floor to pretend otherwise would break something
+   that matters more than the scrollbar. */
+@media (min-width: 901px) and (max-height: 800px) {
+  .menu__inner {
+    padding-block: var(--header-h) var(--sp-5);
+    gap: var(--sp-5) var(--sp-8);
+  }
+  .menu__nav { gap: var(--sp-5) var(--sp-7); }
+  .menu__group .menu__label {
+    margin-block-end: var(--sp-2);
+    padding-block-end: var(--sp-2);
+  }
+  .menu__nav .menu__group--plain { padding-block-start: var(--sp-3); }
+}
+
+/* One row of four, with the rule above rather than below: the showrooms
+   read as one band closing the panel instead of four stacked entries. */
+@media (min-width: 901px) {
+  .menu__places {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-6);
+  }
+  .menu__places li {
+    flex-direction: column;
+    align-items: start;
+    gap: var(--sp-2);
+    padding-block: var(--sp-3) 0;
+    border-bottom: 0;
+    border-top: 1px solid var(--rule);
+  }
+}
+
 /* ============================================================
    THE SINGLE-SCREEN PAGE
    Scoped to `body.page--screen`, never to the element, because
@@ -834,19 +1225,45 @@ button, input, select { font: inherit; color: inherit; }
                    height fits; above that it crops top and bottom.
      --frame-x     which part of the width stays when it overflows
      --frame-y     which part of the height stays when it overflows
+     --frame-drop  how far the frame is pushed BELOW the hero's bottom
+                   edge, as a share of the hero height. This is what
+                   lowers the car in the composition.
 
    They are custom properties rather than literal values so a re-frame
-   is one edit read as a sentence, not three unrelated numbers hidden
+   is one edit read as a sentence, not four unrelated numbers hidden
    in a shorthand. Overriding them per breakpoint is the whole mobile
-   story below. */
+   story below.
+
+   WHY --frame-drop EXISTS, AND WHY --frame-y COULD NOT DO IT.
+
+   --frame-y is inert on every ordinary viewport, which is not obvious
+   from reading it. `cover` only honours the vertical half of
+   object-position when the image OVERFLOWS vertically, and inside this
+   box it does not: at 1440x820 the box is 1426x1051 and the frame
+   scales to 1691x1051 — exactly the box height, 265px of overflow all
+   of it horizontal. So --frame-x does the work and --frame-y changes
+   nothing. It only wakes up past roughly 2:1, where the box finally
+   gets wider than the frame's own 1.609.
+
+   What actually decides the vertical crop is the ANCHOR: the element is
+   128% of the hero and pinned to its bottom, so the top 28% is what
+   hangs off the top edge and gets clipped. Moving the subject down means
+   moving that anchor, not repointing the image.
+
+   Hence the ceiling on this number, which is a real constraint and not
+   a preference: --frame-drop may never exceed --frame-zoom minus 100%.
+   Past that the frame's own top edge comes down past the hero's and the
+   composition opens a gap of background above the sky. Here that is 28%,
+   and 8% spends less than a third of it. */
 .hero__photo {
   --frame-zoom: 128%;
   --frame-x: 54%;
   --frame-y: 62%;
+  --frame-drop: 8%;
 
   position: absolute;
   inset-inline: 0;
-  inset-block-end: 0;
+  inset-block-end: calc(-1 * var(--frame-drop));
   width: 100%;
   height: var(--frame-zoom);
   object-fit: cover;
@@ -867,7 +1284,11 @@ button, input, select { font: inherit; color: inherit; }
    selected for the phone; a landscape original re-pointed is a repair,
    not an art direction. */
 @media (max-aspect-ratio: 1 / 1) {
-  .hero__photo { --frame-zoom: 100%; --frame-x: 60%; --frame-y: 62%; }
+  /* --frame-drop MUST go back to 0 here. The zoom is 100% in portrait,
+     so there is no overhang to spend: any drop at all would pull the
+     frame's top edge down into the hero and open bare ground above the
+     sky. This is the ceiling named above, hitting its floor. */
+  .hero__photo { --frame-zoom: 100%; --frame-x: 60%; --frame-y: 62%; --frame-drop: 0%; }
 }
 
 /* ---- The scrim ---------------------------------------------
@@ -913,26 +1334,388 @@ button, input, select { font: inherit; color: inherit; }
        0.85 the last 15% of the tarmac still showed through and left a
        faint line at the seam. The last stops sit close together so the
        ramp does its work higher up and the solid strip stays thin. */
+    /* The 32/44% stops came up — 0.22 to 0.30 and 0.04 to 0.12 — and the
+       left ramp went 0.46 to 0.56. Measured reason, not taste: the
+       eyebrow's worst pixel sat at 3.73:1 against 4.5, and closing that
+       needed about 0.14 more alpha in this one band. It is spent here,
+       at the ground, rather than on a plate behind the type, because
+       colour I4 puts legibility at the background layer.
+
+       The car is not paying for it. Its body runs 41-70% up the frame
+       where the bottom ramp is 0.12 falling to zero, and the left ramp
+       darkens the empty quarter the subject is not in — which is the job
+       that ramp was given in the first place. */
+    /* FOURTH LAYER: the claim's own ground, shaped like the claim.
+       Added when the display went to 107px — at that size the headline
+       stopped living in the tarmac and started crossing the car and the
+       bright ground beside it, and the first line measured 1.66:1.
+
+       A horizontal band strong enough to fix that would have taken the
+       car's whole lower half with it. An ellipse anchored at the bottom
+       left does not: it is 0.27 where the first line's worst pixel sits
+       and 0.11 across the car's front, because the subject is outside
+       the block's footprint and the falloff knows it.
+
+       It is a fourth gradient in one device, not a fourth device — the
+       scrim is still the ground, and this is the ground being shaped for
+       what stands on it. */
+    radial-gradient(110% 95% at 0% 100%,
+      rgb(var(--bg-rgb) / 0.74) 0%,
+      rgb(var(--bg-rgb) / 0.58) 35%,
+      rgb(var(--bg-rgb) / 0.36) 62%,
+      rgb(var(--bg-rgb) / 0.12) 82%,
+      transparent 100%),
     linear-gradient(to top,
       rgb(var(--bg-rgb)) 0%,
       rgb(var(--bg-rgb) / 0.97) 5%,
-      rgb(var(--bg-rgb) / 0.62) 17%,
-      rgb(var(--bg-rgb) / 0.22) 32%,
-      rgb(var(--bg-rgb) / 0.04) 44%,
-      transparent 54%),
+      rgb(var(--bg-rgb) / 0.66) 17%,
+      rgb(var(--bg-rgb) / 0.36) 32%,
+      rgb(var(--bg-rgb) / 0.18) 44%,
+      transparent 58%),
     linear-gradient(to bottom,
       rgb(var(--bg-rgb) / 0.55) 0%,
       rgb(var(--bg-rgb) / 0.16) 20%,
       transparent 36%),
     linear-gradient(to right,
-      rgb(var(--bg-rgb) / 0.46) 0%,
-      rgb(var(--bg-rgb) / 0.12) 34%,
-      transparent 62%);
+      rgb(var(--bg-rgb) / 0.56) 0%,
+      rgb(var(--bg-rgb) / 0.20) 34%,
+      transparent 64%);
 }
 
 
-/* The claim. The figure carries the display rank; the sentence that
-   explains it drops two ranks and sits under its shoulder. */
+/* ---- The claim, bottom left --------------------------------
+   Placed low and left because that is where the photograph has room:
+   the car sits right of centre with its mass in the upper-middle band,
+   and the tarmac below it is the only large quiet field in the frame.
+   Putting the claim there uses the picture's own empty quarter instead
+   of covering its subject — the type and the car are not competing for
+   the same ground, so neither has to be weakened for the other.
+
+   It also gives the first screen a diagonal: mark top left, car centre
+   right, claim bottom left. The eye enters at the identity, crosses the
+   subject, and lands on the sentence and the two doors.
+
+   NO PANEL, and the block was SHORTENED instead. This is the part that
+   had to be measured to be got right, and the first attempt was wrong.
+
+   Measured on the composite — the frame drawn with its real cover maths
+   and the three scrim gradients over it, sampled under the actual glyph
+   rects at 1440x900. First attempt, block 362px tall with its top at
+   y=477:
+
+     eyebrow  14px --ink-2 ....... 1.81:1   needs 4.5   FAIL
+     claim    81px --ink ......... 2.58:1   needs 3.0   FAIL
+     lede     16px --ink-2 ....... 3.86:1   needs 4.5   FAIL
+
+   All three, and the reason is structural rather than a wrong colour.
+   The scrim's bottom ramp is only meaningful below about a third of the
+   frame — deliberately, because the band where the car and the mountains
+   live is what the photograph was chosen for. A block 362px tall put its
+   own top squarely in that daylight band, on tarmac reading 152-198 per
+   channel.
+
+   The wrong fix was available and rejected: darkening the ramp enough to
+   rescue 14px type at y=477 needs about 0.78 alpha there, and the car's
+   front wheel and splitter sit at y=470-530. That trades the subject for
+   a caption. So the block lost 100px instead — smaller claim, one-line
+   lede, tighter stack, less bottom offset — which moves the small type
+   down into ground the scrim was already darkening for it, and the
+   eyebrow went to full --ink because at 62% it cannot clear 4.5 over
+   anything this photograph offers above its bottom quarter. */
+/* THE LEFT EDGE IS THE WORDMARK'S, AND IT IS NOT THE GUTTER.
+
+   The mark does not sit on the gutter while the rail is packed — the
+   rail carries --sp-4 of its own padding on that side, so the glyph
+   starts 16px further in. Setting the claim to --gutter alone put it
+   16px to the LEFT of the mark, which reads worse than no alignment at
+   all: two edges that near each other look like one edge drawn twice.
+
+   Below the compact breakpoint, and once condensed, the rail drops that
+   padding and the mark settles onto the gutter itself — so the claim
+   follows it there too. Same rule, two states, one visible edge in each.
+
+   If the rail's padding changes, this has to change with it. That is the
+   cost of aligning to another component's inside rather than to a shared
+   token, and it is worth paying here because those two objects are the
+   only things on the frame. */
+.hero__foot {
+  position: absolute;
+  z-index: 2;
+  inset-inline: var(--gutter) 0;
+  /* Lifted off the bottom edge rather than sitting on it: the scrim
+     reaches solid --bg in its last 5%, and type inside that strip would
+     read as sitting on the page ground rather than on the photograph. */
+  /* Real air under the block now, not just clearance. The claim used to
+     sit close to the bottom edge; this leaves the corner open, which is
+     what stops a 106px headline from looking like it fell to the floor
+     of the frame. It is also the room the slider's controls will want. */
+  inset-block-end: clamp(var(--sp-7), 8vh, var(--sp-9));
+}
+/* The packed rail holds the mark --sp-4 in from the gutter, so the claim
+   goes there too. Below the breakpoint the rail drops that padding and
+   both fall back to the gutter, which the rule above already does. */
+@media (min-width: 1391px) {
+  .hero__foot { inset-inline-start: calc(var(--gutter) + var(--sp-4)); }
+}
+
+/* Wide enough for the longest authored line to hold. At 44rem the box
+   was 704px and "worth chasing." wants ~720 at 107px, so it broke into
+   "worth / chasing." and the claim rendered as THREE lines — the one
+   thing the two spans exist to prevent. */
+.hero__claim { max-width: min(56rem, 100%); }
+
+/* ---- Slider pagination, right edge --------------------------
+   Vertical, on the gutter opposite the claim, so the first screen reads
+   left-to-right as claim then position — the same order a spread's
+   folio sits in. Ticks rather than dots: a dot says "one of several
+   equal things", a rule of varying length says "you are here in a
+   sequence", which is what a hero slider actually communicates.
+
+   Inert and aria-hidden until the slider exists — see the markup. */
+.hero__pager {
+  position: absolute;
+  z-index: 2;
+  inset-inline-end: var(--gutter);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--sp-3);
+}
+.hero__tick {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--ink-3);
+  transition: width var(--dur-3) var(--ease-out),
+              background-color var(--dur-3) var(--ease-out);
+}
+/* The active one is longer AND brighter — two signals, because length
+   alone is a hue-free difference that a 2px rule carries badly, and
+   colour alone would be meaning by brightness only. */
+.hero__tick.is-current {
+  width: 34px;
+  background: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__tick { transition: none; }
+}
+/* Below the compact breakpoint the frame is already recomposed to a
+   portrait crop and the right gutter is too tight to hold it. */
+@media (max-width: 1390px) {
+  .hero__pager { display: none; }
+}
+/* Full ink, not --ink-2. See the measurement above: a 62% alpha at 14px
+   cannot reach 4.5:1 anywhere on this frame that is not already the
+   bottom quarter, and this line sits above it. */
+.hero__eyebrow { color: var(--ink); }
+
+/* THE CLAIM IS THE GROTESQUE, BOLD, AT FULL DISPLAY SIZE.
+
+   Client direction, and it is a reversal of the serif display that was
+   itself a reversal — recorded here rather than quietly applied, which
+   is this project's standing rule for the display face.
+
+   It brings --tr-display back into use. That token reads "a grotesque at
+   display wants tight" and had been stranded when the display face went
+   serif; --tr-claim, added an hour ago for the serif, is now the stranded
+   one and stays only for whatever else takes that face.
+
+   It also happens to help the measurement. Bold sans lays down far more
+   ink per glyph than a 400-weight didone, so the worst-case pixel under
+   the claim is a solid stem rather than a hairline serif — the same
+   reason the wordmark needed a stroke put back on it. */
+.claim {
+  font-family: var(--font-body);
+  font-size: clamp(2.75rem, 7.4vw, 6.75rem);
+  font-weight: 700;
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+  /* 15ch breaks it as "Find the car / worth chasing." — two lines with
+     the verb and the object on the first. A measure that let it run to
+     one line would put the whole sentence across half the frame and take
+     the diagonal out of the composition. */
+}
+/* The break is authored, so no measure gets to add one. `nowrap` is the
+   guarantee: two spans only promise two lines if neither can wrap inside
+   itself, and a container 16px too narrow was enough to break that.
+
+   Safe at every width because the size is 7.4vw between its stops, so
+   the line scales with the viewport it has to fit in — and the clamp
+   floor is 2.75rem rather than 3.25 for exactly this reason: at 3.25 the
+   longest line needed 350px on a 390px phone with 48px of gutters, and
+   nowrap would have pushed 8px off the side. */
+.claim__line { display: block; white-space: nowrap; }
+
+.lede {
+  font-size: var(--t-lede);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  /* One line at desktop widths. Two lines put 25px of block height into
+     the bright band for a sentence that fits without them. */
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+
+/* The hero's stack is tighter than the page default, and the reason is
+   the measurement above, not preference: every step here is block height
+   that lifts the small type toward the daylight band. */
+.hero__claim.stack > .micro + *   { margin-block-start: var(--sp-2); }
+.hero__claim.stack > h1 + *       { margin-block-start: var(--sp-4); }
+.hero__claim.stack > * + .cta-row { margin-block-start: var(--sp-5); }
+
+/* ---- The claim leaves on the scroll -------------------------
+   MOTION READ. Role: transition, not decoration — it is the hero
+   handing the page over. Subject: the claim, which is the thing the
+   first screen is about; the photograph stays put and the type is what
+   moves, so the frame reads as a fixed stage the words step off. One
+   temporal idea for this viewport, and it is this one.
+
+   SCROLL-DRIVEN, NOT SCRIPTED. `view-timeline` on the hero, so the
+   whole thing runs on the compositor and the page keeps its scroll —
+   the user drives it, can stop it anywhere, and every stopped frame is
+   a designed frame. The alternative was a scroll listener, which this
+   project already rejected once for the header: it would run every
+   frame to answer a question the browser can answer for free.
+
+   THE STAGGER is the four rows leaving on four different ranges, so the
+   block opens out as it rises instead of sliding as one slab. The
+   eyebrow goes first because it is nearest the edge it leaves by, and
+   the buttons last because they are the last thing worth keeping.
+
+   @supports IS LOAD-BEARING, not politeness. Without a timeline an
+   `animation` with `fill: both` falls back to the document timeline,
+   runs once on load, and leaves the whole claim blurred to zero opacity
+   on a browser that simply does not do scroll-driven animation. The
+   guard is what stops "no animation" from meaning "no hero". */
+/* Only a `to`, and only a `from`, on purpose. The missing keyframe in
+   each is the UNDERLYING value, which is what lets these two coexist on
+   one element without fighting: hero-in resolves against the base style,
+   and hero-exit resolves against whatever hero-in has left behind. Give
+   either one both ends and the later effect starts clobbering the
+   earlier one at scroll 0. */
+@keyframes hero-in {
+  from {
+    translate: 0 var(--in-rise);
+    filter: blur(var(--in-blur));
+    opacity: 0;
+  }
+}
+
+@keyframes hero-exit {
+  to {
+    translate: 0 var(--rise);
+    filter: blur(var(--blur));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .hero { view-timeline: --hero block; }
+
+    /* FIVE MOVERS, NOT FOUR CHILDREN — and this is the reason the claim
+       is two spans. The lines have to travel independently, so the thing
+       that animates is the LINE, not the heading that contains it.
+
+       Only leaves are listed. Animating .claim as well as its lines
+       would compound two translates on the same pixels and the second
+       line would leave at the sum of both speeds. */
+    /* SCOPED TO THE HERO, and that is a bug fix rather than tidiness.
+       These read `.lede` and `.cta-row` unqualified, so the inventory
+       section's own lede picked up the hero's scroll-exit: by the time
+       you had scrolled to it, hero-exit had driven it to opacity 0 and
+       blurred it off, and the paragraph was invisible while still taking
+       its space in the flow. Any component class used as an animation
+       target has to be qualified by the section that owns the gesture. */
+    .hero__eyebrow,
+    .hero__claim .claim__line,
+    .hero__claim .lede,
+    .hero__claim .cta-row {
+      /* TWO animations, two timelines, one element. hero-in runs on the
+         document timeline once, at load; hero-exit runs on the hero's
+         view timeline, driven by the wheel. They are listed in that
+         order so the exit composes on top of whatever the entrance has
+         settled to — see the keyframes for why each has only one end. */
+      animation-name: hero-in, hero-exit;
+      animation-duration: var(--dur-4), auto;
+      animation-delay: var(--in-delay), 0s;
+      animation-fill-mode: both, both;
+      animation-timing-function: var(--ease-out), linear;
+      animation-timeline: auto, --hero;
+      animation-range: normal, var(--exit-range);
+      will-change: translate, filter, opacity;
+    }
+
+    /* Different distances over overlapping ranges IS the difference in
+       speed: same scroll, further to go, faster. Top travels furthest
+       because it has the least to say and the shortest way to the edge;
+       the buttons travel least because they are the last thing worth
+       keeping on screen. The block stretches open as it goes rather than
+       sliding as a slab.
+
+       Blur is tied to speed, not applied evenly — the faster a line
+       moves the more it smears, which is the only reading of blur that
+       is about motion rather than about frosting. */
+    /* The rise is roughly half as far again as it was. At the old
+       distances the top line cleared the frame before it had visibly
+       smeared, so the blur arrived and left without being seen; further
+       to travel over the same range means more speed, which means the
+       blur has time to register.
+
+       The entrance is the same idea run backwards: up out of blur from
+       below, stepped, and the step order is REVERSED. Coming in, the
+       eyebrow leads because it is the first thing to read; going out, it
+       leads because it is the first thing to lose. Same lean, opposite
+       reasons, and it keeps the two gestures from looking like one
+       animation played in reverse. */
+    .hero__eyebrow {
+      --rise: -340px; --blur: 18px; --exit-range: exit  0% exit 40%;
+      --in-rise:  44px; --in-blur: 14px; --in-delay:  80ms;
+    }
+    .hero__claim .claim__line:first-child {
+      --rise: -270px; --blur: 15px; --exit-range: exit  3% exit 46%;
+      --in-rise:  52px; --in-blur: 16px; --in-delay: 180ms;
+    }
+    .hero__claim .claim__line:last-child {
+      --rise: -205px; --blur: 12px; --exit-range: exit  7% exit 52%;
+      --in-rise:  52px; --in-blur: 16px; --in-delay: 280ms;
+    }
+    .hero__claim .lede {
+      --rise: -145px; --blur:  9px; --exit-range: exit 11% exit 58%;
+      --in-rise:  36px; --in-blur: 10px; --in-delay: 400ms;
+    }
+    .hero__claim .cta-row {
+      --rise:  -90px; --blur:  6px; --exit-range: exit 15% exit 64%;
+      --in-rise:  28px; --in-blur:  8px; --in-delay: 500ms;
+    }
+  }
+}
+
+/* Wraps rather than overflows: at 390px two pills do not fit on a line,
+   and a horizontal scrollbar on the first screen is worse than a second
+   row. */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+.cta-row .btn { align-self: start; }
+
+/* Matched to the nav chevron's 1.3 stroke — one icon set, one weight,
+   per typography I9. It moves on hover because the button already
+   promises a destination; nothing else in the pill moves. */
+.btn__arrow {
+  flex: none;
+  transition: translate var(--dur-2) var(--ease-out);
+}
+.btn:hover .btn__arrow { translate: 2px -2px; }
+@media (prefers-reduced-motion: reduce) {
+  .btn__arrow { transition: none; }
+  .btn:hover .btn__arrow { translate: none; }
+}
+
 /* No serif to lean on: the rank is size and weight, and the stress is
    a WEIGHT DROP rather than an italic — the move the 360 record
    extracted when the client took the serifs away. */
@@ -1240,18 +2023,34 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* ============================================================
    COMPACT HEADER — the measured breakpoint
    ============================================================
-   1360px is not a round number chosen by eye. It is what the full rail
-   MEASURES: wordmark 146 + six groups 676 + My Garage 143 + call 165 +
-   rail padding + two 64px gutters = 1360. Below it the items have
-   nowhere to go and they were overlapping the wordmark — which is
-   exactly what a 900px breakpoint inherited from the old layout was
-   letting happen for 460px of viewport width.
+   1410px is not a round number chosen by eye. It is what the full rail
+   MEASURES, re-derived after the second increase to the wordmark:
+
+     wordmark 196 + six groups 676 + My Garage 135 + call 165
+     + 28 rail padding + 48 rail gaps + 32 inner gap + 128 gutters = 1408
+
+   It has moved twice, and that is the point of writing it as a sum: it
+   is DERIVED, so it has to be re-derived every time one of its terms
+   moves. 1360 when the mark capped at 146, 1390 at 175, 1410 at 196.
+   Below it the items have nowhere to go and they overlap the wordmark,
+   which is exactly what a 900px breakpoint inherited from the old layout
+   was letting happen for 460px of viewport width.
+
+   The figures above are the WIDE case — the mark at its 196px cap and
+   64px gutters. Nearer the breakpoint both are smaller (12.8vw and 4vw),
+   so the real overlap does not start until about 1370; 1410 keeps a
+   margin rather than sitting on the edge.
+
+   THE COST, stated plainly: a 1400px window now gets the compact header
+   where it used to get the full rail. That is a 20px band of viewport
+   widths, and it is what the larger mark was bought with. 1440, 1512,
+   1728 and 1920 all keep the full navigation.
 
    If the full nav needs to survive a 1280 laptop, the width has to come
    from the CONTENT — dropping "My Garage" to its glyph frees 100px —
    not from squeezing the padding further.
    ============================================================ */
-@media (max-width: 1360px) {
+@media (max-width: 1410px) {
   /* No JS: the rail unpacks into a plain wrapped list under the
      wordmark and every panel stands open, so all six groups stay
      reachable without a script. The frosting comes off — a translucent
@@ -1328,11 +2127,30 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     border: 0;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    /* space-between would strand the call in the middle of the rail
-       with three children; this keeps it beside the toggle. */
-    margin-inline-start: auto;
-    flex: none;
   }
+
+  /* Groups and My Garage are hidden below this breakpoint, so the rail
+     is not being shared here either — the mark takes its natural size,
+     same as the condensed state, for the same reason. */
+  .has-js .navbar .masthead__wm { width: clamp(160px, 15vw, 240px); }
+
+  /* THE MARK KEEPS THE CORNER AT EVERY WIDTH.
+
+     This rail used to carry `margin-inline-start: auto; flex: none`, which
+     did keep the call beside the toggle — and took the WORDMARK with it,
+     because the wordmark lives inside the rail. So for the whole range
+     560–1360px, which is every tablet and most laptops, the identity let
+     go of the left gutter and arrived shoulder-to-shoulder with MENU, with
+     the entire left half of the header empty. Both other states of this
+     header — full rail, and condensed after scroll — have the mark alone
+     on the left. It was the one thing the header was supposed to hold
+     constant, and it was the one thing that moved.
+
+     The auto margin belongs on the TOGGLE, not on the rail. The rail keeps
+     its full width, the mark keeps the gutter, and the controls still
+     close the right end together, which is all the old rule was for. */
+  .has-js .navbar { flex: 1 1 auto; }
+  .has-js .menu-toggle { margin-inline-start: auto; }
 }
 
 /* The call keeps its number while there is room to print one, and drops
@@ -1414,42 +2232,161 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    and the whole card is the target — a repeated filled CTA across a
    grid is what turns a decision point into wallpaper.
    ============================================================ */
+/* Full-height column with the metadata pushed to the bottom. That is
+   what gives the row its common baseline: the photographs top-align at
+   their own heights, the captions bottom-align on one line, and the
+   air between them is the composition rather than an accident.
+
+   Without it the featured card's caption hung 250px below the other
+   three and the four read as unrelated search results. */
+/* EVERYTHING HANGS FROM THE BOTTOM LINE.
+
+   First attempt bottom-aligned only the captions and left the images
+   where they fell. That gave a common baseline and a 340px hole in the
+   middle of the row — the three small photographs floated at the top
+   with nothing under them until their captions. Technically aligned,
+   visually broken.
+
+   `justify-content: flex-end` drops the whole card — photograph and
+   caption together — onto the baseline. The leftover air moves to the
+   TOP of the row, where it reads as breathing space under the section
+   header instead of as a hole in the middle of the module. The images
+   now hang from a common line at different heights, which is the
+   editorial arrangement rather than a grid that failed to fill. */
 .vcard {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  justify-content: flex-end;
   min-width: 0;
+  height: 100%;
 }
 
+.vcard__meta {
+  display: flex;
+  flex-direction: column;
+  padding-block-start: var(--sp-5);
+}
+
+/* NO CAR IS CROPPED. Measured, because this looked like a styling
+   preference and is not:
+
+     senna     326x210   1.552
+     458       326x175   1.863
+     aventador 326x209   1.560
+     diablo    327x191   1.712
+
+   There is no single aspect ratio that holds that spread. At 4/3 the
+   458 lost 30% of its width; at 16/10 the others lost their roofs. Any
+   `cover` box crops most of the set, and picking the ratio that crops
+   least is still choosing which cars to damage.
+
+   So the box stops being a crop and becomes a MOUNT: the frame is
+   contained whole, and the leftover is a deliberate mat a shade below
+   the page rather than a failed fill. Every car arrives entire,
+   whatever the feed sends — which is the point, because the feed is
+   going to send exactly this spread.
+
+   This is the treatment the deleted feature-card component had worked
+   out and took with it when it went. Same reasoning, recovered.
+
+   When the real feed lands with consistent crops this can go back to
+   cover and the mat disappears on its own. */
+/* THE MAT IS GONE, and the live feed is why.
+
+   The mount treatment above it existed because the screenshot-derived
+   frames ran 1.55 to 1.86 and no single ratio held them without cutting
+   a car. The real feed does not have that problem — measured on the four
+   downloaded frames, 1.504 / 1.504 / 1.504 / 1.538. So a 3:2 box crops
+   at most 2.3%, on one car, at its edges.
+
+   That is the condition the old note set for going back: "when the real
+   feed lands with consistent crops this can go back to cover and the mat
+   disappears on its own." It landed. Full-bleed photography, no grey
+   bars, and effectively nothing lost.
+
+   2px radius, not 6. Rounding is the strongest single signal of an
+   ecommerce product tile, which the brief rules out; a near-square
+   corner reads as a mounted plate. */
 .vcard__media {
   position: relative;
   display: block;
+  /* 4:3 on the supporting cards so their photographs have real height
+     at a 300px column — a 3:2 box there was 179px tall and the cars were
+     too small to appreciate. It crops 11% of the frame width, 5.5% off
+     each end, and these are centred studio profiles with margin to spare.
+     The featured card keeps the true 3:2 below. */
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-raised);
-  border-radius: 3px;
+  border: 1px solid rgba(244, 242, 239, 0.07);
+  border-radius: 2px;
 }
 
-/* Crop from the top, not the centre. Their wordmark is burned into the
-   top band of every frame, so a centred crop slices it in half and the
-   card reads as broken rather than composed. The feed's frames arrive
-   at inconsistent ratios, so this cannot be left to chance. */
 .vcard__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  transition: opacity var(--dur-3) var(--ease-out),
+              scale var(--dur-3) var(--ease-out);
 }
 
 /* Hover budget is ONE move. Scale is out — it resamples the frame and
    costs a repaint; the rule firming up is the cheaper, quieter signal,
    and it has keyboard parity. */
+/* Hover: the frame lifts off the page and the car grows inside its
+   mount. Two moves that are one idea — the mount stays put, the picture
+   comes forward — rather than the whole card sliding, which would break
+   the row's alignment on every pointer pass. Keyboard parity throughout. */
 .vcard__media {
-  box-shadow: inset 0 0 0 1px transparent;
-  transition: box-shadow var(--dur-1) var(--ease-out);
+  transition: border-color var(--dur-2) var(--ease-out),
+              transform var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
 }
+/* Restrained: the border firms up and the car grows a little inside its
+   mount. The lift and the drop-shadow are gone — "heavy shadows" is on
+   the brief's avoid list, and a card that rises off the page is the
+   ecommerce tile gesture. Nothing moves; the frame just wakes up. */
 .vcard:hover .vcard__media,
-.vcard:focus-visible .vcard__media { box-shadow: inset 0 0 0 1px var(--rule-strong); }
+.vcard:focus-visible .vcard__media {
+  border-color: rgba(244, 242, 239, 0.26);
+}
+.vcard:hover .vcard__media img,
+.vcard:focus-visible .vcard__media img { scale: 1.03; }
+
+/* ---- View details -------------------------------------------
+   A SPAN, not a link. The whole card is already one <a>, and a link
+   inside a link is invalid markup that browsers silently unnest — so
+   this is the affordance for the card's own target, not a second one.
+   That also keeps the earlier objection satisfied: there is still only
+   one thing to click per card, so the row is not four competing CTAs. */
+.vcard__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  align-self: flex-start;
+  margin-block-start: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.vcard__more svg { transition: translate var(--dur-2) var(--ease-out); }
+.vcard:hover .vcard__more,
+.vcard:focus-visible .vcard__more { color: var(--ink); }
+.vcard:hover .vcard__more svg { translate: 3px 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vcard__more, .vcard__more svg { transition: none; }
+  .vcard:hover .vcard__more svg { translate: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vcard__media, .vcard__media img { transition: none; }
+  .vcard:hover .vcard__media, .vcard:focus-visible .vcard__media { transform: none; }
+  .vcard:hover .vcard__media img, .vcard:focus-visible .vcard__media img { scale: 1; }
+}
 
 /* The showroom, because four of them is a real differentiator and the
    buyer needs to know which floor the car is standing on. */
@@ -1470,32 +2407,56 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   border-radius: 999px;
 }
 
+/* FOUR RANKS, NOT FOUR THINGS AT THE SAME WEIGHT.
+
+   The old caption set year, model, price and mileage at nearly one
+   value, so the eye had nowhere to land and the block read as a data
+   row. Now: the model is the first thing read after the photograph,
+   the price answers it, the year/make and mileage are technical
+   support, and the action is the quietest thing in the card. */
+
+/* 1 — model. Largest type in the card. */
 .vcard__name {
-  font-size: 1.0625rem;
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  font-size: 1.3125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-block-start: var(--sp-2);
 }
 
+/* 2 — year + make. Technical label above the name. */
 .vcard__trim {
-  font-size: var(--t-micro);
-  line-height: 1.45;
-  color: var(--ink-2);
+  color: var(--ink-3);
+  letter-spacing: 0.16em;
 }
 
+/* 3 — price strong, mileage quiet. A middot between them rather than a
+   rule: the divider was drawing a spreadsheet line across every card. */
 .vcard__facts {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2) var(--sp-4);
-  padding-block-start: var(--sp-3);
-  border-top: 1px solid var(--rule);
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-4);
   font-family: var(--font-mono);
-  font-size: var(--t-micro);
-  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
 }
-
-.vcard__facts b { font-weight: 500; color: var(--ink); }
+.vcard__price {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.vcard__miles {
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+}
+.vcard__miles::before {
+  content: "·";
+  margin-inline-end: var(--sp-3);
+  color: var(--ink-3);
+}
 
 .on-bone .vcard__trim,
 .on-bone .vcard__facts { color: var(--bone-ink-2); }
@@ -1594,68 +2555,660 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* ============================================================
    3 — INVENTORY
    ============================================================ */
-.inv { background: var(--bg); }
+/* overflow-x: clip, not hidden — the full-bleed stage below uses 50vw,
+   which counts the scrollbar and pushed 7px of horizontal scroll onto
+   the page. `clip` contains it at the section without creating a scroll
+   container, so nothing inside loses position: sticky. */
+.inv {
+  background: var(--bg);
+  overflow-x: clip;
+}
 
+/* ---- The inventory container ------------------------------- */
 .inv__inner {
-  padding-block: clamp(var(--sp-8), 7vw, var(--sp-9)) clamp(var(--sp-9), 11vw, var(--sp-11));
+  width: min(100% - 2 * clamp(24px, 3.4vw, 60px), 1580px);
+  margin-inline: auto;
+  max-width: none;
+  padding-inline: 0;
+  /* The section now ends shortly after the index, not a screen later.
+     The old tail was leftover column height rather than negative space —
+     C11: a section resolves, it does not stop because the module ended. */
+  padding-block: 0 clamp(var(--sp-8), 5vw, var(--sp-9));
 }
 
-.inv__head {
-  display: flex;
-  flex-wrap: wrap;
+/* ---- Section intro -----------------------------------------
+   The browse link sits on the EYEBROW's line, not adrift at the side.
+   Together they make a utility line running the width of the section,
+   with the title beneath it — so the link reads as part of the intro
+   rather than as something parked in the corner.
+
+   The title carries real display scale now. At its previous size it was
+   smaller than the vehicle it was introducing and read as a label on a
+   module rather than the name of a section. */
+.inv__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-4);
-  padding-block-end: var(--sp-5);
-  border-bottom: 1px solid var(--rule);
-  margin-block-end: var(--sp-7);
+  column-gap: var(--sp-7);
+  margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
 }
-
+.inv__eyebrow { grid-column: 1; color: var(--ink-3); letter-spacing: 0.22em; }
+.inv__intro .inv__all { grid-column: 2; grid-row: 1; justify-self: end; }
 .inv__title {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3.4vw, 3rem);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: var(--tr-display);
+  grid-column: 1 / -1;
+  margin-block-start: var(--sp-4);
+  font-size: clamp(2.5rem, 4vw, 4rem);
+}
+.inv__intro .lede {
+  grid-column: 1;
+  margin-block-start: var(--sp-5);
+  max-width: 44ch;
 }
 
-.inv__all {
+/* ============================================================
+   FEATURED INVENTORY — one photographic mass, one typographic index
+   ============================================================
+   The Vault's verdict on the grid this replaces is filed under
+   rmsothebys-com, rating 1, OUT: "the repeated card cadence becomes
+   metronomic. The grid measures correctly without composing
+   meaningfully."
+
+   The counterweight is DIRECTION and CONTRAST, not area. A wide
+   horizontal photograph is answered by a narrow vertical column, and
+   inside that column one record is given real typographic scale while
+   three are compressed. Four equal entries would be the card grid again
+   in typographic clothing.
+   ============================================================ */
+.showcase {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(23rem, 31rem);
+  gap: clamp(var(--sp-7), 3.6vw, var(--sp-8));
+  align-items: stretch;
+}
+
+/* ---- The "Just in" ribbon ----------------------------------
+   Anchored to .showcase, not to the stage. The stage clips its own
+   overflow so the cut-outs stay in their field, so a ribbon inside it
+   could never break the corner it is supposed to cross — it would be
+   sheared off at exactly the edge that makes the gesture work.
+
+   Slimmer and about a quarter smaller than the reference: at the
+   reference's weight it read as a sale flash across the artwork. The
+   point is one editorial gesture, so it is a thin band, a shallow
+   angle, and two words at caption size rather than a banner.
+
+   Navy to muted blue, one hairline of light along the top edge, and no
+   drop shadow — the ribbon is meant to sit ON the composition, not hover
+   above it casting anything. */
+/* A STATUS PILL IN THE FIELD, NOT A FLAG ON ITS CORNER.
+
+   Two treatments have been tried and removed here. A long diagonal band
+   crossed the composition and read as sale tape; a small angled flag
+   clipped to the corner was better but still an object stuck ONTO the
+   frame rather than something living inside it, and its overhang made
+   the field's boundary look accidental.
+
+   A pill sitting properly inside the field is the quiet version: it
+   belongs to the picture, it cannot half-escape anything, and at this
+   size it registers without ever competing with the car. */
+.justin {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  inset-inline-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  /* A touch more vertical room than the labels strictly need, so the two
+     voices sit in air rather than against the pill wall. */
+  padding: 10px 19px 11px;
+  /* 8px, not a full pill. Fully rounded is the single strongest tell of
+     a generic UI chip; a soft rectangle reads as a plate. */
+  border-radius: 8px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  pointer-events: none;
+  /* Gradient inside the pill rather than a flat fill — a single tone at
+     this size reads as a UI chip; a shallow gradient reads as a surface
+     catching light, which is what keeps it in the photograph's world. */
+  background: linear-gradient(133deg,
+    rgba(38, 58, 110, 0.92) 0%,
+    rgba(27, 41, 78, 0.92) 52%,
+    rgba(20, 30, 56, 0.92) 100%);
+  /* One hairline of light along the top edge and one of shadow beneath —
+     no outer shadow and no glow, so it sits on the field rather than
+     hovering above it. */
+  box-shadow: inset 0 1px 0 rgba(178, 205, 255, 0.16),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+}
+
+
+/* ONE LABEL. "NEW ARRIVAL" WAS REMOVED.
+
+   Three attempts at the pair failed the same way. Same mono at two
+   opacities read as a disabled chip; changing the face helped; adding a
+   dot separator helped again — and it still read as a tag component,
+   because the second label was never carrying anything. It restated
+   "Just in" exactly, so every version of it was decoration wearing the
+   costume of information.
+
+   Subtract before adding. One label set properly is stronger than two
+   set weakly, and it also puts the pill back over the 14px functional
+   floor that the 12px descriptor had been sitting under. */
+.justin__lead {
   font-family: var(--font-mono);
   font-size: var(--t-micro);
-  letter-spacing: var(--tr-micro);
-  text-transform: uppercase;
-  color: var(--ink-3);
-  transition: color var(--dur-1) var(--ease-out);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  line-height: 1;
 }
-.inv__all:hover, .inv__all:focus-visible { color: var(--ink); }
 
-/* Not a grid of equals. One vehicle leads at twice the size, the rest
-   fall in behind it — rhythm with variation instead of a metronome, and
-   the lead frame gets enough scale that ordinary photography reads. */
-.inv__grid {
+
+
+/* Below the two-mass width the stage goes edge to edge, so there is no
+   corner left to break and the ribbon would sit on the viewport rather
+   than on the composition. */
+@media (max-width: 1080px) {
+  .justin { display: none; }
+}
+
+/* ---- The dominant field ------------------------------------
+   A cut-out has no environment of its own, which is the whole reason it
+   was chosen — the dealer photography brought turntables, curtains and
+   burned-in branding with it. So the field has to supply what the crop
+   removed, or the car reads as a sticker dropped on a page.
+
+   Three layers do that, and each has one job:
+     stage__light  a soft radial behind the car, off-centre, so the body
+                   separates from the ground by luminance rather than by
+                   an outline
+     stage__floor  a faint tonal band low in the field — an implied
+                   surface for the car to stand on rather than float over
+     ::after       an elliptical contact shadow directly under the wheels,
+                   tight and dark at the tyre and dissolving outward
+
+   The radius is on this field ONLY. Nothing else in the section is
+   rounded, so the corner reads as a deliberate frame rather than as the
+   house style — one rounded object is a decision, six is a UI kit. */
+.showcase__stage {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sp-7) var(--sp-5);
+  place-items: center;
+  /* 16:10, not 4:3. A cut-out car is a wide, shallow object; a tall
+     field left ~200px of empty box above and below it and the car read
+     as floating in a container rather than filling a frame. The field is
+     now shaped like its subject. */
+  aspect-ratio: 16 / 10;
+  border-radius: 22px;
+  overflow: hidden;
+  /* FOUR LAYERS, AND THE TOTAL IS DARKER THAN BEFORE, NOT LIGHTER.
+     Depth in a dark field comes from having more than one tonal event in
+     it, not from raising the light. So: a corner falloff that pulls the
+     edges down and pushes the centre back, a broad soft field for
+     atmosphere, a tighter core sitting behind the car's mass, and a base
+     that grades from slightly lifted at the top to near-black at the
+     floor. The car separates by luminance against a ground that is
+     itself modelled, rather than by sitting on a flat panel. */
+  background:
+    radial-gradient(125% 105% at 50% 44%,
+      transparent 34%, rgba(4, 7, 14, 0.5) 82%, rgba(3, 5, 11, 0.72) 100%),
+    radial-gradient(36% 30% at 50% 55%,
+      rgba(206, 222, 248, 0.11) 0%, rgba(150, 175, 214, 0.05) 55%, transparent 78%),
+    radial-gradient(88% 74% at 50% 40%,
+      rgba(138, 162, 200, 0.10) 0%, rgba(96, 118, 156, 0.045) 46%, transparent 80%),
+    linear-gradient(180deg, #121A2C 0%, #0C1220 48%, #070A12 100%);
+  isolation: isolate;
 }
 
-.vcard--lead { grid-column: span 2; grid-row: span 2; }
-.vcard--lead .vcard__media { aspect-ratio: 16 / 10; }
-.vcard--lead .vcard__name { font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.15; }
-.vcard--lead .vcard__trim { font-size: 1rem; }
-.vcard--lead .vcard__facts { font-size: 1rem; }
+/* Off-centre and elliptical. A centred circular glow reads as a vignette
+   filter; placing it behind the car's mass and slightly high reads as a
+   light source in a room. */
+.stage__field { position: absolute; inset: 0; }
+/* The single flat radial that used to live here is folded into the
+   field's own background above — one element carrying four layers reads
+   as depth; two elements each carrying one read as a stack. */
+.stage__light { display: none; }
+/* The tonal floor band was REMOVED. It was meant to imply a surface and
+   it rendered as a grey smudge sitting below the car — a horizontal
+   lighter band with visible edges, reading as a dirty patch rather than
+   as ground. The cut-outs already carry their own soft contact shadow,
+   so the surface was being described twice and neither description was
+   good. The radial alone now does the separating. */
 
-.vcard--wide { grid-column: span 2; }
-.vcard--wide .vcard__media { aspect-ratio: 21 / 9; }
+.stage__cars {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
 
-@media (max-width: 900px) {
-  .inv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6) var(--sp-4); }
-  .vcard--lead, .vcard--wide { grid-column: span 2; grid-row: auto; }
-  .vcard--lead .vcard__media { aspect-ratio: 16 / 10; }
+/* No added contact shadow either. The PNGs are cut out WITH one baked in,
+   directly under the tyres where it belongs; the ellipse added here sat
+   well below the wheels and read as a second, detached shadow. Two
+   shadows for one car is what made it look pasted. */
+
+.stage__car {
+  position: absolute;
+  z-index: 1;
+  /* Sits above the floor line, not centred in the box — a car centred in
+     its field looks suspended. Width is capped so the vehicle keeps air
+     on both sides and never touches the index column. */
+  /* 80%, down from 92%. At the larger size the car ran almost to both
+     side walls of its field and the clearances read as an accident of
+     fit rather than as air anyone chose. Smaller lets the negative space
+     become part of the composition instead of a margin the car happened
+     to leave. Still the dominant mass by a wide margin. */
+  width: 80%;
+  max-width: none;
+  height: auto;
+  /* PER-ASSET, because the cut-outs are not cropped alike. The GT2 RS and
+     the Aventador were traced with real margin around the bodywork; the
+     Regera and the 812 run almost edge to edge in their own PNG. Sized
+     identically, those two read as crowded against the field walls while
+     the other two read as placed — the difference is in the asset, so the
+     correction has to be too. One width for all four is only fair if all
+     four were cut the same way. */
+  /* A shade above centre — a car centred in its own field looks
+     suspended; sitting it slightly high reads as standing. */
+  translate: 0 -2%;
+  opacity: 0;
+  /* 420ms, and the outgoing car is still fading while the incoming one
+     rises — they overlap, so the field never blanks between vehicles. */
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.stage__car[src*="regera"],
+.stage__car[src*="812-gts"] { width: 71%; }
+
+.stage__car.is-active { opacity: 1; }
+
+/* ---- The index ---------------------------------------------
+   Records distributed down the column so the last one lands near the
+   photograph's lower edge — the two masses resolve together instead of
+   one hanging below the other. */
+.showcase__index { display: flex; flex-direction: column; }
+.recs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  border-top: 1px solid var(--rule);
+}
+
+/* No card, no box, no thumbnail, no pill. A record is a hairline, an
+   index numeral and ranked type — P3, metadata composed rather than
+   appended, promoted to the structure of the section. */
+.rec {
+  display: grid;
+  /* number · body · thumbnail. The thumbnail is marginalia in the outer
+     margin of the record, which is why it sits past the text rather than
+     inside it. */
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  /* start, not center — the numeral belongs on the make line at the top of
+     the record. Centred, it drifted down beside the second line of a
+     wrapped model name and read as a misalignment. The thumbnail centres
+     on its own below. */
+  align-items: start;
+  gap: var(--sp-4);
+  /* Generous on the inactive rows so the column fills its height by
+     RHYTHM rather than by space-between prising four items apart —
+     that left ~110px voids between records and read as a gappy list. */
+  padding-block: var(--sp-6);
+  border-bottom: 1px solid var(--rule);
+  transition: padding-block var(--sel-dur) var(--sel-ease),
+              border-color var(--sel-dur) var(--sel-ease);
+}
+
+/* THE BLOOM BEHIND THE SELECTED RECORD.
+
+   A soft radial sitting behind the type, not a background on a box —
+   it has no edges anywhere, so the index gains a lit region rather than
+   a card. inset is negative and the falloff reaches transparent well
+   inside that, which is what keeps the light from ever drawing a
+   rectangle or clipping against the hairlines above and below.
+
+   Weighted toward the left, where the type mass actually is, rather
+   than centred in the row — a centred glow would light the empty
+   channel between the model name and the thumbnail.
+
+   Same timing as the rest of the selection, so it arrives with the
+   emphasis instead of trailing it. */
+.rec {
+  position: relative;
+  isolation: isolate;
+}
+.rec::before {
+  content: "";
+  position: absolute;
+  /* THE BOTTOM IS FLUSH, EVERY OTHER SIDE OVERRUNS.
+
+     inset-block-end is 0, so the light stops dead on the record's own
+     bottom edge — that is the crisp cut, and because the border sits
+     outside the padding box the divider underneath stays clean and the
+     glow cannot bleed into the next row.
+
+     Top, left and right run well past the record instead, which is what
+     gives the falloff somewhere to happen. Nothing is visible up there:
+     the gradient has already reached transparent long before those
+     edges, so no rectangle is ever drawn. */
+  /* A LARGE LIGHT SOURCE WITH ITS CENTRE ON THE DIVIDER, BOTTOM HALF CUT.
+
+     The previous pass got this wrong by changing two things at once: it
+     moved the centre AND shrank the radial to a shallow band, which left
+     effectively nothing but the blue line. Only the position was meant
+     to move. The field is large again.
+
+     inset-block-end is 0 and the gradient's centre is at 100%, so the
+     source sits exactly on the row's bottom rule and everything below it
+     is physically cut — the line runs through the middle of the light and
+     only the upper dome is ever visible. Because the border sits outside
+     the padding box, the divider itself stays crisp and nothing reaches
+     the row beneath.
+
+     Every other side overruns far past the row so the falloff finishes
+     in open space. Offsets and radii are both PX on purpose: percentage
+     radii rescaled with the box, so enlarging the box never bought any
+     falloff and the gradient was still live where it ended — that was
+     the vertical seam. */
+  inset: -260px -300px 0 -260px;
+  z-index: -1;
+  pointer-events: none;
+  /* Light arriving from OUTSIDE the lower right, not a halo centred on
+     anything. The source sits low and right — around the thumbnail,
+     price and action — and washes up and left across the row, leaving
+     the upper left, where the year and model sit, substantially darker.
+     That asymmetry is the whole effect; a centred glow would just be a
+     spotlight circle.
+
+     Muted electric blue rather than the pale blue-grey this started as.
+     Against this ground that read as a white bloom — brighter instead of
+     richer. Saturated navy at low alpha adds colour density and almost
+     no luminance. */
+  /* Broad both ways — 320 across, 300 up — so what shows above the rule
+     is a wide dome rather than a strip. It rises roughly 275px, which
+     covers the active row's full height and a little beyond, so no top
+     edge is ever reachable.
+
+     62% of this box lands around 74% across the ROW itself, once the
+     box's own left and right overhangs are accounted for: the light is
+     weighted toward the thumbnail and action without the model name
+     dropping out of it.
+
+     Radii are set under the distance to every free edge — ~345px to the
+     right of centre, further left, ~570px up — and also under the gap to
+     the section's overflow clip, so the falloff completes before any
+     boundary rather than being sliced by one. */
+  background: radial-gradient(310px 200px at 62% 100%,
+    rgba(40, 91, 190, 0.34) 0%,
+    rgba(34, 78, 164, 0.21) 22%,
+    rgba(26, 62, 130, 0.095) 44%,
+    rgba(18, 44, 94, 0.032) 64%,
+    rgba(12, 28, 62, 0.008) 80%,
+    transparent 92%);
+  opacity: 0;
+  transition: opacity var(--sel-dur) var(--sel-ease);
+}
+/* Active only. Hover already promotes a record to active, so lighting
+   hover separately would double-light during the crossfade and the
+   inactive rows would never be as quiet as they should be. */
+.rec.is-active::before { opacity: 1; }
+
+.rec__no {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.rec__body { display: flex; flex-direction: column; min-width: 0; }
+
+/* THUMBNAILS AS MARGINALIA. The cut-outs are used at small size with no
+   frame at all — transparent PNGs on the page ground, so there is no
+   card, no border, no radius and no image box to make the index look
+   like a listing. They read as small objects in the margin, which is
+   the whole point: they preview and they reinforce the hover, and they
+   never compete with the type. */
+.rec__thumb {
+  /* Sized once, at the ACTIVE size, and scaled DOWN when inactive. The
+     box therefore never changes, so the thumbnail cannot move the row
+     it sits in — animating width did, every time. transform-origin
+     right keeps it pinned to the record's outer edge as it grows. */
+  width: 104px;
+  height: auto;
+  justify-self: end;
+  align-self: center;
+  transform-origin: 100% 50%;
+  scale: 0.71;
+  opacity: 0.34;
+  transition: scale var(--sel-dur) var(--sel-ease),
+              opacity var(--sel-dur) var(--sel-ease);
+}
+.rec:hover .rec__thumb, .rec:focus-visible .rec__thumb { opacity: 0.62; }
+.rec.is-active .rec__thumb { scale: 1; opacity: 1; }
+.rec__make { color: var(--ink-3); letter-spacing: 0.16em; }
+
+/* INACTIVE: compressed. One line of make, one of model, nothing else —
+   the facts and the action are withheld until the record is the one on
+   screen, which is what stops four equal entries forming. */
+.rec__model {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  margin-block-start: var(--sp-1);
+  /* font-size IS an animatable length, so this interpolates rather than
+     snapping. It is kept in preference to transform: scale() because a
+     scaled 17px glyph blown up 2.3x renders soft, and the model name is
+     the thing the eye lands on. */
+  transition: color var(--sel-dur) var(--sel-ease),
+              font-size var(--sel-dur) var(--sel-ease),
+              margin var(--sel-dur) var(--sel-ease);
+}
+/* THE DISCLOSURE ANIMATES, AND THAT IS THE WHOLE FIX.
+
+   This used to be height:0 -> height:auto. `auto` is not an animatable
+   length, so the browser had nothing to interpolate and the block
+   appeared in a single frame — which is what made the column snap and
+   shove its neighbours down. Everything else in the record was already
+   transitioning; this one property was doing all the damage.
+
+   grid-template-rows 0fr -> 1fr IS interpolatable, so the detail opens
+   and closes over a measured duration and the records below glide
+   instead of jumping. --sel-dur/--sel-ease are section-local so the
+   selection has one timing across type, thumbnail and disclosure. */
+.recs { --sel-dur: 320ms; --sel-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+
+.rec__detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--sel-dur) var(--sel-ease);
+}
+.rec__detail-in {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transition: opacity var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__detail { grid-template-rows: 1fr; }
+.rec.is-active .rec__detail-in { opacity: 1; }
+
+/* ACTIVE: the record becomes the counterweight. The model name steps up
+   several ranks, the facts and the action appear, and the rule under it
+   firms up. It gains INK and SCALE — never a background, a box or a
+   colour. Legible as the active one in a still screenshot, which was
+   the test. */
+/* The active rule is drawn in the glow's own blue rather than in the
+   neutral --rule-strong. It is the same hairline weight as every other
+   divider — only the colour changes — so the line reads as the precise,
+   technical edge of the light rather than as a heavier border. Inactive
+   dividers stay neutral and quiet. */
+.rec.is-active {
+  border-bottom-color: rgba(58, 108, 200, 0.62);
+  padding-block: var(--sp-6) var(--sp-7);
+}
+.rec.is-active .rec__no { color: var(--ink); }
+.rec.is-active .rec__model {
+  font-size: clamp(1.875rem, 2.15vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-block-start: var(--sp-3);
+}
+.rec.is-active .rec__facts {
+  margin-block-start: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+/* More intentional than the inactive rows' silence, still not a button:
+   it lifts to full ink with the arrow leading it, and gains its own air
+   above. No box, no pill, no fill. */
+.rec.is-active .rec__go {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-6);
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  transition: gap var(--dur-2) var(--ease-out);
+}
+.rec__dot { margin-inline: var(--sp-2); }
+.rec__arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
+
+.rec:hover .rec__model, .rec:focus-visible .rec__model { color: var(--ink); }
+
+/* A record with no cut-out yet still lights and still links, but it is
+   never given the enlarged active treatment — that state means "this is
+   the car in the field", and awarding it to a vehicle the field is not
+   showing would be the interface telling a lie. */
+.rec--noasset { cursor: pointer; }
+.rec.is-active:hover .rec__go { color: var(--ink); }
+.rec.is-active:hover .rec__arrow { translate: 3px 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage__frame, .rec, .rec__no, .rec__model,
+  .rec__facts, .rec__go, .rec__arrow { transition: none; }
+  .rec.is-active:hover .rec__arrow { translate: none; }
+}
+
+/* ---- Recomposition ------------------------------------------
+   The governing idea is one dominant vehicle with an index beside it.
+   Below the two-mass width it is re-established vertically: the stage
+   goes edge to edge and the index sits under it, still an index. */
+@media (max-width: 1080px) {
+  .showcase { grid-template-columns: minmax(0, 1fr); gap: clamp(var(--sp-6), 4vw, var(--sp-7)); }
+  .showcase__stage { margin-inline: calc(50% - 50vw); aspect-ratio: 2 / 1; }
+  .recs { flex: none; }
+  .inv__intro { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+@media (max-width: 620px) {
+  .showcase__stage { aspect-ratio: 3 / 2; }
+}
+
+/* ---- The finder bar ----------------------------------------
+   Lifted over the join so the two chapters are stitched rather than
+   stacked. -40px is bounded on purpose: the hero claim's bottom offset
+   is clamp(--sp-7, 8vh, --sp-9), whose floor is 48px, so the bar can
+   never reach the buttons at any viewport height.
+
+   It carries the ground the rail gave up. That is not a contradiction:
+   over the hero a capsule around navigation was a box drawn around
+   nothing, whereas this one is holding four controls that need to read
+   as one instrument, and it straddles the seam between a photograph and
+   the page — the one place on this page a contained object earns its
+   container. */
+/* It shares .inv__inner's box, so its edges line up with the cards
+   below — 1580 at desktop, which is the brief's 1500–1600 and 82vw at
+   1920. Height 96px sits in the asked-for 90–105.
+
+   -44px of overlap (asked: 35–50). Still bounded by the hero claim's own
+   bottom offset, whose floor is 48px, so it cannot reach the buttons. */
+.finder-bar {
+  position: relative;
+  z-index: 3;
+  /* 100%, not its own min() — it already sits inside .inv__inner, which
+     is the 1580 box. Repeating the gutter calculation here subtracted it
+     twice and the bar came out 1460 against the cards' 1580, so its
+     edges missed theirs by 60px on each side. */
+  width: 100%;
+  margin-block: -44px clamp(var(--sp-8), 6vw, var(--sp-9));
+  min-height: 96px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-6);
+  border-radius: var(--r-rail);
+  background: rgb(var(--bg-rgb) / 0.78);
+  border: 1px solid rgba(244, 242, 239, 0.12);
+  backdrop-filter: url(#nav-glass) blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  /* No outer drop shadow. A floating panel with a soft shadow under it
+     is the SaaS dashboard the brief rules out; the hairline and the
+     glass are enough to lift it off the photograph. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+/* More room per control — the fields were set for a 1311px bar and now
+   have half again the width to use. */
+.finder-bar .field { padding-block: var(--sp-3); }
+.finder-bar .field + .field { padding-inline-start: var(--sp-6); }
+.finder-bar .field__control { font-size: 1.125rem; }
+.finder-bar .field__label { letter-spacing: 0.16em; }
+
+/* The CTA stays the strongest thing in the bar: the only filled mass,
+   and now full-height against a 96px rail. */
+.finder-bar__go {
+  align-self: stretch;
+  padding-inline: clamp(var(--sp-6), 2.6vw, var(--sp-8));
+}
+
+/* Four fields, then the control that acts on them. */
+.finder-bar .finder {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.finder-bar__go { align-self: stretch; }
+
+/* 1100, not 900: at 1024 the four fields were 155px each and "Select
+     Body Style" at 18px does not fit one — they stack before they
+     truncate. */
+@media (max-width: 1100px) {
+  .finder-bar {
+    grid-template-columns: 1fr;
+    padding: var(--sp-4);
+    gap: var(--sp-4);
+    margin-block-start: var(--sp-6);   /* no overlap where the hero is recomposed */
+  }
+  .finder-bar .finder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .finder-bar .field + .field:nth-child(3) { padding-inline-start: 0; border-inline-start: 0; }
+  .finder-bar__go { justify-content: center; }
 }
 @media (max-width: 560px) {
-  .inv__grid { grid-template-columns: 1fr; }
-  .vcard--lead, .vcard--wide { grid-column: span 1; }
-  .vcard--wide .vcard__media { aspect-ratio: 4 / 3; }
+  .finder-bar .finder { grid-template-columns: 1fr; }
+  .finder-bar .field + .field {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    border-top: 1px solid var(--rule);
+    padding-block-start: var(--sp-3);
+  }
+}
+
+/* Centred, and the only button in the section — the cards deliberately
+   carry none, so this is where "more" lives. */
+/* `display: flex` + `width: fit-content`, not inline-flex. Auto inline
+   margins do not centre an inline-level box, so `margin-inline: auto` on
+   the inherited inline-flex was doing nothing and the button sat left. */
+.inv__more {
+  display: flex;
+  width: fit-content;
+  margin-block-start: clamp(var(--sp-8), 6vw, var(--sp-9));
+  margin-inline: auto;
 }
 
 /* ============================================================

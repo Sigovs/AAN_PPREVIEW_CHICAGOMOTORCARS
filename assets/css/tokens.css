@@ -113,7 +113,17 @@
      and the effort goes there instead of into shopping for a
      display serif. The mono stays: figures still have to scan as a
      ledger, which proportional digits cannot do.                   */
-  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  /* THE DISPLAY FACE IS THE GROTESQUE. Third and final position on this,
+     and it is the client's: no serif anywhere.
+
+     Repointed at the TOKEN rather than hunted down per selector, so every
+     consumer of --font-display follows in one move and none can be left
+     behind holding a serif. 'Instrument Serif' is also off the font link
+     in index.html — a face nothing uses is a request nothing needs.
+
+     --tr-claim is now stranded by this and stays only as a record; the
+     grotesque uses --tr-display, which was written for it originally. */
+  --font-display: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display-set: normal;
@@ -139,6 +149,12 @@
 
   --tr-micro:   0.14em;    /* uppercase mono needs the tracking   */
   --tr-display: -0.03em;   /* a grotesque at display wants tight  */
+  /* The display face is a SERIF now, and -0.03em was written for the
+     grotesque it replaced. A high-contrast serif at 80px already carries
+     its own fitting; pulling it another 3% collides the "r" into its
+     neighbour and closes the gap after "f". Near-zero, very slightly
+     negative, is what the face actually wants at claim size. */
+  --tr-claim:   -0.01em;
   --tr-count:   -0.045em;
 
   /* ---- Space -------------------------------------------------
