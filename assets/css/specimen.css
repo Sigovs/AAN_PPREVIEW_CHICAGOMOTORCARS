@@ -93,28 +93,52 @@
 /* ---- Findings: what the sheet caught ------------------------ */
 .finding {
   display: grid;
-  grid-template-columns: 8rem minmax(0, 1fr);
+  /* 9.5rem, not 8: the vault slugs in 03b are longer than the rule ids
+     in 01, and "immersive-g · 3" was breaking onto a second line for
+     the sake of four pixels. */
+  grid-template-columns: 9.5rem minmax(0, 1fr);
   gap: var(--sp-5);
   padding-block: var(--sp-4);
   border-top: 1px solid var(--rule);
 }
 .finding:last-child { border-bottom: 1px solid var(--rule); }
 
+/* The rule name was --accent and measured 3.43:1 — an AA failure the
+   runtime measurer never saw, because it only walks elements carrying
+   data-measure. It was also the sheet breaking its own newly-written
+   accent role list on the very page that declares it: red marks state,
+   it does not label. A defect list does not become more serious by
+   being printed in red; the was/now pair already carries the meaning. */
 .finding__rule {
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   letter-spacing: 0.02em;
-  color: var(--accent);
+  color: var(--ink);            /* 17.61:1 */
 }
 
+/* Bounded measure. The short findings hid this: the long one ran to
+   the full container and reached ~126 characters, past the 120 the
+   typography invariant names as failing outright. Mono has no width
+   variation to help the eye find the next line, so it wants a tighter
+   bound than the body face, not a looser one. */
 .finding__was,
 .finding__now {
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   line-height: 1.6;
+  max-width: 82ch;
 }
 .finding__was { color: var(--ink-3); }
 .finding__now { color: var(--ink); }
+
+/* The sheet's own verdict on itself. Printed at runtime, never typed. */
+.audit {
+  margin-block-start: var(--sp-5);
+  padding-block: var(--sp-3);
+  border-block: 1px solid var(--rule);
+  color: var(--ink-2);
+}
+.audit--fail { color: var(--ink); box-shadow: inset 3px 0 0 0 var(--accent); padding-inline-start: var(--sp-4); }
 
 /* ---- Swatch strip ------------------------------------------- */
 .strip { display: flex; flex-wrap: wrap; gap: var(--sp-1); }

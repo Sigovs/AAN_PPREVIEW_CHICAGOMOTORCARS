@@ -1,0 +1,37 @@
+hero_d.jpg — provenance record
+==============================
+
+file        hero_d.jpg
+dimensions  2301 x 1430 (re-saved 2026-08-06 with deliberate air on all
+            four sides, so the crop can be zoomed and panned freely —
+            see --frame-zoom / --frame-x / --frame-y in main.css)
+subject     McLaren Senna, front three-quarter, daylight, mountains behind
+weight      4.1 MB  ← NOT SHIPPABLE AS IS, see below
+
+origin      SUPPLIED BY ALEX. Not generated.
+            No `gen-` prefix, because nothing here is synthetic and the
+            prefix would be a false declaration in the other direction.
+
+OPEN — the one thing this file cannot state
+-------------------------------------------
+Whether this frame is CMC's own photography or a press/stock image is
+NOT established. It matters, and not on a technicality:
+
+  * the art direction says "real inventory cars rather than universal
+    stock supercars" — a stock Senna is exactly the thing it rules out;
+  * the ten frames in assets/img/stock/ are unmistakably CMC's, wordmark
+    burned into the top band. This one carries no such mark, and it was
+    shot somewhere that is not a Chicago showroom;
+  * a dealership hero implies the car is on the floor. If it is not, the
+    page makes a claim the business cannot stand behind.
+
+Needed before this goes anywhere near a client: confirmation that CMC
+owns or is licensed for this frame, and ideally that the car was theirs.
+
+ALSO OPEN — weight
+------------------
+4.1 MB for the LCP element. It is preloaded with fetchpriority=high, so
+it is the first thing every visitor pays for. Before shipping it wants a
+resize to the largest rendered size plus an AVIF/WebP pair. Left alone
+during the design phase on purpose: re-encoding now would mean judging
+the composition through a compression artefact.

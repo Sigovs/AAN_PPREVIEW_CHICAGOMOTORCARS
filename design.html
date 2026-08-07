@@ -8,11 +8,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=13">
-<link rel="stylesheet" href="assets/css/main.css?v=16">
-<link rel="stylesheet" href="assets/css/specimen.css?v=7">
+<link rel="stylesheet" href="assets/css/tokens.css?v=14">
+<link rel="stylesheet" href="assets/css/main.css?v=61">
+<link rel="stylesheet" href="assets/css/specimen.css?v=10">
 </head>
 <body>
 
@@ -50,11 +50,14 @@
     <div>
       <h2 class="chap__title">What the sheet caught</h2>
       <p class="chap__lede">
-        Five rules were being broken by work already shipped to the branch. Each was found by reading the
-        rule, not by looking at the screen — which is the point: none of them looked wrong.
+        <b><span data-count="#caught .finding" style="text-transform:capitalize">&mdash;</span> rules</b> were
+        being broken by work already shipped to the branch. Each was found by reading the rule, not by looking
+        at the screen — which is the point: none of them looked wrong. <b>The last one could not have been
+        found by measuring</b>, and it is the one Alex caught by eye.
       </p>
+      <p class="audit micro" data-audit>&mdash;</p>
 
-      <div style="margin-block-start:var(--sp-6)">
+      <div id="caught" style="margin-block-start:var(--sp-6)">
         <div class="finding">
           <p class="finding__rule">spacing D4</p>
           <div>
@@ -94,6 +97,23 @@
               frame, and the hover budget is one move.</p>
           </div>
         </div>
+        <div class="finding">
+          <p class="finding__rule">colour I5</p>
+          <div>
+            <p class="finding__was">was &mdash; the primary button was a saturated <code>#CB141D</code> slab
+              at full rail height</p>
+            <p class="finding__now">now &mdash; a bone pill, red on hover. The red measured <b>5.74:1 and
+              passed</b>, which is exactly why it survived. I5 has a name for this: <em>derivation without
+              judgement</em> &mdash; “a value taken correctly from an existing identity, corrected for
+              contrast, and still wrong in place, because it carries the register of the category it came
+              from.” The rule requires judging the accent <b>where it lands</b> and recording that the
+              derivation was sound and the result was not. It was: <code>#CB141D</code> is measured off CMC's
+              own site and stays. Three approved entries agree on the treatment &mdash;
+              <code>polestar</code>: promotional emphasis early “weakens the brand's premium confidence”;
+              <code>mclaren</code>: the accent works “without covering the interface in the brand color”;
+              <code>rolls-royce</code>, measured at capture: “3 pill controls”.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -131,10 +151,27 @@
         <p class="micro" style="color:var(--ink-3)" data-measure>Micro-labels &middot; the 14px floor</p>
         <p class="row__note" data-ratio-slot></p>
       </div>
-      <div class="row" data-measure-row style="background:var(--accent);padding-inline:var(--sp-4)">
-        <p class="row__key" style="color:#fff">white on --accent</p>
-        <p style="color:#fff" data-measure>The only text allowed on red</p>
+      <!-- The red field is bounded to the sample, not run across the row.
+           A full-bleed accent band here would contradict the rule stated
+           four lines below it. -->
+      <div class="row" data-measure-row>
+        <p class="row__key">white on --accent</p>
+        <p style="background:var(--accent);color:#fff;padding:var(--sp-3) var(--sp-4);border-radius:2px;justify-self:start" data-measure>The only text allowed on red</p>
         <p class="row__note" data-ratio-slot></p>
+      </div>
+
+      <p class="chap__lede" style="margin-block-start:var(--sp-7)">
+        <b>The accent has four roles and no fifth.</b> Colour D3 wants them decided up front, because an
+        accent works by scarcity — spread across many roles it signals nothing. <code>#CB141D</code> is
+        measured off CMC's own site, so the hue is carried, not chosen; what is decided here is where it
+        is allowed to land.
+      </p>
+      <div style="margin-block-start:var(--sp-5)">
+        <div class="row"><p class="row__key">01</p><p style="color:var(--ink-2)">The active chapter, as a 1px underline on its number</p><p class="row__note">a mark</p></div>
+        <div class="row"><p class="row__key">02</p><p style="color:var(--ink-2)">The reel's current slide, as a 2px rule under 01 / 02 / 03</p><p class="row__note">a mark</p></div>
+        <div class="row"><p class="row__key">03</p><p style="color:var(--ink-2)">The field error glyph, always beside an ink sentence</p><p class="row__note">never hue alone</p></div>
+        <div class="row"><p class="row__key">04</p><p style="color:var(--ink-2)">The primary button and a phone number, <b>on hover only</b></p><p class="row__note">a response,<br>not a plea</p></div>
+        <div class="row"><p class="row__key">never</p><p style="color:var(--ink-3)">A section ground, a border set, a heading, body text, a resting control</p><p class="row__note">under 5%<br>of pixels</p></div>
       </div>
     </div>
   </section>
@@ -195,10 +232,11 @@
       <h2 class="chap__title">Why there is no serif</h2>
       <p class="chap__lede">
         Nine pairings were proposed and rejected before the axis turned out to be wrong rather than the
-        names. The answer came from Alex's own approved vault, five entries deep, all <code>in</code>:
+        names. The answer came from Alex's own approved vault,
+        <span data-count="#vault .finding">&mdash;</span> entries deep, all <code>in</code>:
       </p>
 
-      <div style="margin-block-start:var(--sp-6)">
+      <div id="vault" style="margin-block-start:var(--sp-6)">
         <div class="finding">
           <p class="finding__rule">augen-pro</p>
           <div><p class="finding__now">“Типографика почти полностью нейтральная. Характер создаётся не выбором «интересного шрифта», а масштабом, прозрачностью, положением и движением”</p></div>
@@ -239,12 +277,15 @@
     <div>
       <h2 class="chap__title">Space, and the stack</h2>
       <p class="chap__lede">
-        Eleven steps on a 4px base, each with a stated job — a scale without stated jobs gets used by eye and
-        drifts on the second pass. Below it, the relationship that actually carries hierarchy: <b>internal
-        gaps smaller than the gap to the next group.</b>
+        <span data-count="#scale .row" style="text-transform:capitalize">&mdash;</span> steps on a 4px base,
+        each with a stated job — a scale without stated jobs gets used by eye and drifts on the second pass.
+        Below it, the relationship that actually carries hierarchy: <b>internal gaps smaller than the gap to
+        the next group.</b>
       </p>
 
-      <div style="margin-block-start:var(--sp-6)">
+      <div id="scale" style="margin-block-start:var(--sp-6)">
+        <div class="row"><p class="row__key">--sp-1 &middot; 4</p><span class="rule-bar" style="width:4px"></span><p class="row__note">hairline nudge</p></div>
+        <div class="row"><p class="row__key">--sp-2 &middot; 8</p><span class="rule-bar" style="width:8px"></span><p class="row__note">icon to label</p></div>
         <div class="row"><p class="row__key">--sp-3 &middot; 12</p><span class="rule-bar" style="width:12px"></span><p class="row__note">label to field</p></div>
         <div class="row"><p class="row__key">--sp-4 &middot; 16</p><span class="rule-bar" style="width:16px"></span><p class="row__note">paragraph rhythm</p></div>
         <div class="row"><p class="row__key">--sp-5 &middot; 24</p><span class="rule-bar" style="width:24px"></span><p class="row__note">component padding</p></div>
@@ -276,6 +317,12 @@
     <div>
       <h2 class="chap__title">Controls and states</h2>
       <p class="chap__lede">
+        Two pills, and <b>the primary is light rather than red</b>. On a black page the bone fill is the only
+        light mass in view, which makes it primary without spending any hue on it — and the accent is then
+        free to arrive on hover, as recognition rather than persuasion. The pill is not a style choice:
+        <code>rolls-royce</code> was measured at capture with three pill controls and no other control shape.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
         Nothing below is drawn by hand. Each state is produced by the same declaration as the real
         pseudo-class &mdash; <code>.btn--fill:hover</code> and <code>.btn--fill.is-hover</code> share one rule
         &mdash; so a specimen here cannot drift away from the component it documents. Hover the live row and
@@ -369,25 +416,31 @@
         The skeleton matches the card's real dimensions, so the swap shifts nothing; it pulses opacity and
         never sweeps a shimmer, which is the template look.
       </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        <b>These are CMC's own frames, not placeholders</b> — and that is the point of showing them here.
+        Every one carries the script wordmark burned into the top of the image, which is a real constraint on
+        where anything of ours may sit: the location pill is bottom-left because the top is already taken.
+        A synthetic placeholder is always perfectly composed and therefore silent about that.
+      </p>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--sp-5);margin-block-start:var(--sp-6)">
         <a class="vcard" href="#">
           <span class="vcard__media">
-            <img src="assets/img/hero/gen-hero-showroom-wide.jpg" alt="" width="2400" height="1339">
+            <img src="assets/img/stock/cmc-911-gt3-yellow.jpg" alt="" width="326" height="218">
             <span class="vcard__place">West Chicago</span>
           </span>
-          <span class="vcard__name">2019 McLaren Senna</span>
-          <span class="vcard__trim">Exposed blue tinted carbon fibre</span>
-          <span class="vcard__facts"><b>$3,499,800</b><span>2,615 mi</span></span>
+          <span class="vcard__name">2023 Porsche 911 GT3</span>
+          <span class="vcard__trim">Racing Yellow &middot; Weissach</span>
+          <span class="vcard__facts"><b>$259,800</b><span>1,240 mi</span></span>
         </a>
         <a class="vcard" href="#">
           <span class="vcard__media">
-            <img src="assets/img/hero/gen-hero-drive-portrait.jpg" alt="" width="900" height="1205">
+            <img src="assets/img/stock/cmc-458-spider.jpg" alt="" width="326" height="218">
             <span class="vcard__place">Naperville</span>
           </span>
-          <span class="vcard__name">2021 Koenigsegg Regera</span>
-          <span class="vcard__trim">Ghost package &middot; one of eighty</span>
-          <span class="vcard__facts"><b>$2,899,800</b><span>2,055 mi</span></span>
+          <span class="vcard__name">2014 Ferrari 458 Spider</span>
+          <span class="vcard__trim">Bianco Avus &middot; carbon interior</span>
+          <span class="vcard__facts"><b>$184,800</b><span>9,860 mi</span></span>
         </a>
         <div class="vcard" aria-hidden="true">
           <span class="skeleton skeleton--media"></span>
@@ -443,16 +496,27 @@
             <p class="row__note" data-ratio-slot></p>
           </div>
         </div>
-        <p class="chap__lede" style="margin-block-start:var(--sp-6);color:var(--accent)">
-          Limit of this sheet: the runtime measurement walks up to the nearest painted background, so it
-          cannot see image pixels. Every text-over-photograph pair is verified by sampling the composited
-          render instead — a sheet that silently cannot measure the hardest case is worse than one that says so.
+        <div class="row row--tall" style="margin-block-start:var(--sp-6)">
+          <p class="row__key">controls, inverted</p>
+          <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+            <button class="btn btn--fill" type="button">Our record</button>
+            <a class="btn btn--line" href="#">Sell yours</a>
+          </div>
+          <p class="row__note">the fill flips to<br>ink-on-bone<br>the accent does not</p>
+        </div>
+
+        <p class="chap__lede" style="margin-block-start:var(--sp-7);border-inline-start:2px solid var(--accent);padding-inline-start:var(--sp-4)">
+          <b>Two limits of this sheet.</b> The runtime measurement walks up to the nearest painted
+          background, so it cannot see image pixels; every text-over-photograph pair is verified by sampling
+          the composited render instead. And measurement cannot see <em>register</em> at all — the red
+          primary button passed at 5.74:1 and was still the wrong object. A sheet that silently cannot
+          measure the hardest cases is worse than one that says so.
         </p>
       </div>
     </section>
   </div>
 </div>
 
-<script src="assets/js/design.js?v=3" defer></script>
+<script src="assets/js/design.js?v=4" defer></script>
 </body>
 </html>

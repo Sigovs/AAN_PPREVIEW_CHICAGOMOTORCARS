@@ -103,4 +103,49 @@
     var out = el.querySelector('[data-token-value]');
     if (out) out.textContent = v || '—';
   });
+
+  /* Counts printed from the DOM. "Five rules were being broken" was
+     typed by hand and was wrong the moment a sixth finding was added —
+     the same staleness that let the prose claim Bodoni. Anything the
+     sheet counts about itself, it counts at runtime. */
+  var WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six',
+               'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  document.querySelectorAll('[data-count]').forEach(function (el) {
+    var n = document.querySelectorAll(el.getAttribute('data-count')).length;
+    el.textContent = WORDS[n] || String(n);
+  });
+
+  /* ---- The sheet audits itself -------------------------------------
+     The measurement above only ever looked at elements carrying
+     data-measure, so anything nobody thought to tag was never checked.
+     .finding__rule sat at 3.43:1 for the whole life of this page for
+     exactly that reason. This sweeps EVERY leaf text element on the
+     page against its own composited ground and reports the total —
+     a sheet that can only find the defects it was pointed at is not
+     an audit, it is a demonstration. */
+  var checked = 0, failed = [];
+  document.querySelectorAll('p, span, li, dd, dt, a, code, em, b, label, button, h1, h2, h3')
+    .forEach(function (el) {
+      if (el.children.length || !el.textContent.trim()) return;
+      if (el.closest('.ratio, .audit')) return;
+      var cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || cs.display === 'none') return;
+      var fg = parse(cs.color);
+      if (!fg) return;
+      var bg = groundOf(el);
+      var r = ratio(over(fg, bg), bg);
+      checked++;
+      if (r < required(el)) {
+        failed.push(el.className.split(' ')[0] || el.tagName.toLowerCase());
+        el.setAttribute('data-aa-fail', r.toFixed(2));
+      }
+    });
+
+  document.querySelectorAll('[data-audit]').forEach(function (el) {
+    el.textContent = failed.length
+      ? checked + ' text elements swept · ' + failed.length + ' below AA: ' +
+        failed.filter(function (v, i, a) { return a.indexOf(v) === i; }).join(', ')
+      : checked + ' text elements swept on painted grounds · none below AA';
+    el.className += failed.length ? ' audit--fail' : ' audit--pass';
+  });
 })();

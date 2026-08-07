@@ -6,11 +6,25 @@
 
 :root {
   /* ---- Ground ------------------------------------------------
-     Near-black, never #000. Pure black flattens photography and
-     leaves no room for a darker step underneath a light pool.   */
-  --bg:          #0B0B0C;
-  --bg-raised:   #121214;
-  --bg-sunk:     #060607;
+     DEEP NAVY, not black — the art direction is Performance
+     Editorial / Private Collection, and the first thing that
+     separates it from a nightclub or a crypto-luxury page is that
+     the dark is a colour rather than an absence.
+
+     It also earns its keep against the photography: the hero's sky
+     and the car itself are navy, so the page ground continues the
+     frame instead of sitting behind it. Measured against a neutral
+     #0B0B0C the ink barely moves — --ink 17.6 -> 17.1, --ink-2
+     7.00 -> 6.92, --ink-3 5.20 -> 5.21 — so the hue costs nothing.
+
+     --bg-rgb exists so gradients can be built from the SAME value
+     with alpha. The hero scrim had these numbers hard-coded, which
+     meant a change here would silently reopen the seam it was built
+     to close. */
+  --bg:          #0B101C;
+  --bg-rgb:      11 16 28;
+  --bg-raised:   #131A2A;
+  --bg-sunk:     #070B13;
 
   /* ---- Ink ---------------------------------------------------
      Warm off-white. Pure #FFF on near-black glares at display
@@ -49,8 +63,36 @@
   --rule:        rgba(244, 242, 239, 0.14);
   --rule-strong: rgba(244, 242, 239, 0.28);
 
+  /* ---- Radius ------------------------------------------------
+     Small and consistent. The controls were pills; the direction
+     asks for editorial rather than app, and a rounded rectangle
+     reads as print furniture where a pill reads as a UI chip. */
+  --r-control:   6px;
+  --r-rail:      18px;
+  --r-panel:     14px;
+
   /* ---- Type --------------------------------------------------
-     TWO voices, and the display face is deliberately forgettable.
+     THREE voices now, and the display face is a serif.
+
+     This reverses the earlier "no serif" call, and the reversal is
+     the client's direction rather than a change of mind on my part:
+     the brief is Performance Editorial / Private Collection, and the
+     reference sets the claim in a high-contrast serif. "No serif"
+     was itself a named yield on the dialect — the dialect asks for a
+     didone display — so this returns to the dialect rather than
+     breaking it.
+
+     What the old note below got RIGHT still stands and still governs:
+     the character comes from scale, position and air. The serif is
+     allowed at display size only. Body stays the grotesque, data
+     stays the mono, and nothing gets set in the serif because it
+     looks expensive.
+
+     Instrument Serif pairs with the Instrument Sans already loaded —
+     one superfamily, two roles, no third download.
+
+     The earlier reasoning, kept because it is still the reason the
+     BODY face is neutral:
 
      This is a named yield on the dialect's three-voice rule, and the
      evidence for it is Alex's own approved vault, five entries deep:
@@ -71,7 +113,7 @@
      and the effort goes there instead of into shopping for a
      display serif. The mono stays: figures still have to scan as a
      ledger, which proportional digits cannot do.                   */
-  --font-display: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display-set: normal;
@@ -133,9 +175,10 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);   /* entering, expanding */
   --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);   /* exiting, collapsing */
   --ease:     var(--ease-out);                  /* default direction   */
-  --dur-1: 150ms;
-  --dur-2: 250ms;
-  --dur-3: 400ms;
+  --dur-1: 180ms;
+  --dur-2: 320ms;
+  --dur-3: 520ms;
+  --dur-4: 760ms;   /* the cinematic step: state changes, crossfades */
 }
 
 @media (max-width: 900px) {

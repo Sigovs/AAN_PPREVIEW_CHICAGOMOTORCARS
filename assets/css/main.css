@@ -68,16 +68,27 @@ button, input, select { font: inherit; color: inherit; }
 /* ============================================================
    HEADER — transparent over the hero
    ============================================================ */
+/* Fixed, not absolute: the page scrolls now, and a header that scrolls
+   away takes the phone number with it. */
 .masthead {
-  position: absolute;
+  position: fixed;
   inset-block-start: 0;
   inset-inline: 0;
   z-index: 70;      /* above .menu, so the toggle stays the way out */
   height: var(--header-h);
 }
 
+/* Full bleed, not contained. The rest of the page reads inside
+   --container (1440px), but the header is chrome rather than reading
+   matter: on anything wider it was capping at 1440 and centring, which
+   left the wordmark floating inland on a 2560px screen instead of
+   holding the corner. It keeps the gutter — the mark and the bar still
+   line up with the page's own margin — but loses the ceiling, so the
+   two ends stay pinned to the two edges at any width. */
 .masthead__inner {
   height: 100%;
+  width: 100%;
+  padding-inline: var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,73 +100,444 @@ button, input, select { font: inherit; color: inherit; }
   height: auto;
 }
 
-.nav {
+/* ---- The navigation rail ------------------------------------
+   One object carrying the wordmark and the whole navigation, with the
+   call sitting outside it. That structure is the reference's, and it
+   is also what makes the scrolled state calm: the rail keeps its box,
+   so nothing slides when its contents change.
+
+   The direction asks for minimum decorative glassmorphism, so the blur
+   is down from 24px to 12px and the ground carries the legibility
+   instead. The blur was the decoration; the ground is the function. */
+.navbar {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: clamp(var(--sp-4), 2vw, var(--sp-6));
+  gap: var(--sp-5);
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-4);
+  border-radius: var(--r-rail);
+  background: rgb(var(--bg-rgb) / 0.30);
+  border: 1px solid rgba(244, 242, 239, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color var(--dur-3) var(--ease-out);
+}
+.navbar:has(.navmenu__trigger[aria-expanded="true"]) {
+  background: rgb(var(--bg-rgb) / 0.58);
 }
 
-.nav__link {
-  font-size: var(--t-micro);
-  font-weight: 500;
-  letter-spacing: 0.02em;
+.navbar .masthead__mark { flex: none; }
+.navbar .masthead__mark img { width: clamp(118px, 9.5vw, 146px); }
+
+/* Centred in whatever the wordmark and the counter leave over. */
+.navbar__groups {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+}
+
+.navmenu { position: relative; }
+
+.navmenu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);          /* 14px floor */
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
   color: var(--ink-2);
-  padding-block: var(--sp-2);
-  transition: color var(--dur-1) var(--ease);
+  padding: var(--sp-3);
+  border-radius: var(--r-control);
+  transition: color var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out);
 }
-.nav__link:hover,
-.nav__link:focus-visible { color: var(--ink); }
-
-.nav__link.is-current {
+.navmenu__trigger:hover,
+.navmenu__trigger[aria-expanded="true"] {
   color: var(--ink);
-  box-shadow: inset 0 -1px 0 0 var(--ink);
+  background: rgba(244, 242, 239, 0.08);
 }
 
-.masthead__end {
-  display: flex;
+.navmenu__chev {
+  opacity: 0.6;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.navmenu__trigger[aria-expanded="true"] .navmenu__chev { transform: rotate(180deg); }
+
+/* A top-level item with no children — Sell us your car. Same metrics as
+   a trigger so the row stays one line of type; it simply has no chevron
+   and nothing to open. */
+.navbar__link {
+  display: inline-flex;
   align-items: center;
-  gap: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-control);
+  transition: color var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out);
+}
+.navbar__link:hover,
+.navbar__link:focus-visible {
+  color: var(--ink);
+  background: rgba(244, 242, 239, 0.08);
 }
 
-.masthead__tel {
+/* The panel is anchored to ITS OWN trigger and sized to its content.
+
+   The earlier version spanned the whole bar, which was eco's geometry —
+   but eco has three evenly-loaded groups and this tree does not. Here
+   Inventory carries eighteen links over three levels and Services
+   carries three; one shared width either strands Services in a 950px
+   void or squeezes Inventory. So the panel opens under the word that
+   opened it, and takes the width its own content needs. */
+.navmenu { position: relative; }
+
+.navmenu__panel {
+  position: absolute;
+  inset-inline-start: 0;
+  /* Detached, not docked. At 8px it read as a panel stuck to the
+     underside of the bar — neither one object nor two. At 16px it is
+     plainly its own surface floating over the photograph, which is also
+     what its own blur and border were already claiming.
+     The pointer crosses this gap in far less than the 180ms grace
+     period on the bar, so hover does not break. */
+  top: calc(100% + var(--sp-4));
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-8);
+  /* max-content sized it to the longest label and no further, which read
+     as cramped — the links were touching the walls. A floor plus columns
+     that share the slack gives the list room without letting a short
+     menu sprawl. */
+  width: max-content;
+  min-width: 24rem;
+  max-width: min(60rem, calc(100vw - 2 * var(--gutter)));
+  padding: var(--sp-6);
+  border-radius: var(--r-panel);
+  background: rgb(var(--bg-rgb) / 0.82);
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  backdrop-filter: blur(40px) saturate(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(1.1);
+}
+.navmenu__panel[hidden] { display: none; }
+
+/* Panels near the right edge open leftward so they cannot run off the
+   viewport — the alternative is a menu the last group cannot show. */
+.navmenu:nth-last-child(-n + 2) .navmenu__panel {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
+/* Columns share whatever width the panel has over its content, so the
+   extra room lands between the lists rather than at one edge. */
+.navmenu__group { min-width: 0; flex: 1 1 auto; }
+.navmenu__group--wide { flex: 2 1 auto; }
+
+.navmenu__list { display: grid; align-content: start; }
+.navmenu__list--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-6); }
+
+/* Inventory carries eighteen links; the rest carry three to six. */
+.navmenu__panel--mega { min-width: 46rem; }
+
+.navmenu__list a {
+  display: block;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--ink-2);
+  padding: var(--sp-2) var(--sp-3);
+  margin-inline: calc(var(--sp-3) * -1);
+  border-radius: 8px;
+  transition: color var(--dur-1) var(--ease-out),
+              background-color var(--dur-1) var(--ease-out);
+}
+.navmenu__list a:hover,
+.navmenu__list a:focus-visible {
+  color: var(--ink);
+  background: rgba(244, 242, 239, 0.08);
+}
+
+/* Entering decelerates; nothing moves for anyone who asked it not to. */
+@media (prefers-reduced-motion: no-preference) {
+  .navmenu__panel { animation: nav-drop var(--dur-2) var(--ease-out) both; }
+}
+@keyframes nav-drop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* The pill that closes the bar. Same object as .btn--fill — bone at
+   rest, accent on hover — so the control register is one system and
+   not a lookalike. */
+.navbar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   letter-spacing: 0.04em;
+  flex: none;
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-control);
+  background: transparent;
   color: var(--ink);
-  padding: var(--sp-2) var(--sp-4);
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  transition: border-color var(--dur-1) var(--ease),
-              background-color var(--dur-1) var(--ease);
+  border: 1px solid rgba(244, 242, 239, 0.18);
+  transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out);
 }
-.masthead__tel:hover,
-.masthead__tel:focus-visible {
-  border-color: var(--rule-strong);
-  background: rgba(244, 242, 239, 0.06);
+.navbar__cta:hover,
+.navbar__cta:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #FFFFFF;                      /* 5.74:1 */
+}
+/* Outlined rather than filled, and outside the rail. In the reference
+   it is its own object beside the rail, not the light mass closing it —
+   which also frees the one bone fill on the screen for the hero's
+   primary action, where it does more work. */
+.navbar__cta .navbar__cta-icon { display: block; opacity: 0.55; }
+/* The glyph is the phone's affordance, not the desktop's — the number
+   itself says "call" perfectly well when there is room to print it. */
+.navbar__cta-icon { display: none; }
+
+/* My Garage. Present in their header, so present here — but outlined
+   rather than filled: one light mass in the bar, and the call has it. */
+.navbar__garage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--ink-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-control);
+  transition: color var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out);
+}
+.navbar__garage:hover,
+.navbar__garage:focus-visible {
+  color: var(--ink);
+  background: rgba(244, 242, 239, 0.08);
+}
+.navbar__count {
+  min-width: 1.375rem;
+  padding-inline: 0.3em;
+  text-align: center;
+  border-radius: 999px;
+  background: rgba(244, 242, 239, 0.12);
+  color: var(--ink);
+}
+
+/* ---- Condensed, once the header leaves the hero -------------
+   The previous version swapped display:none for display:flex, and that
+   is exactly why it read as crude: the groups did not fade, they
+   vanished, and the rail lost most of its width in one frame, so the
+   wordmark and the counter jumped sideways. The abruptness was the
+   GEOMETRY, not the speed — a slower display swap would have been just
+   as bad.
+
+   So nothing moves now. The rail keeps its box and the wordmark keeps
+   its place; only the contents dissolve. The groups and the counter go
+   out on opacity, the toggle comes in on opacity in the same trailing
+   slot. `visibility` is stepped at the end of the fade so nothing
+   invisible stays tabbable, and at --dur-4 it is a slow dissolve rather
+   than a cut — the cinematic register the direction asks for.
+
+   The call does NOT fold: it is the one action on a $1.2M car, and
+   putting it behind a tap exactly as the visitor gets more interested
+   is the wrong way round. */
+.navbar__groups,
+.navbar__garage {
+  transition: opacity var(--dur-4) var(--ease-out),
+              visibility 0s linear var(--dur-4);
+}
+.has-js.is-condensed .navbar__groups,
+.has-js.is-condensed .navbar__garage {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Absolute, so it fades in exactly where the groups fade out and takes
+   no part in the rail's layout — an appearing toggle must not push
+   anything sideways. */
+.has-js .menu-toggle {
+  position: absolute;
+  inset-inline-end: var(--sp-3);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  display: inline-flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-4) var(--ease-out),
+              visibility 0s linear var(--dur-4);
+}
+.has-js.is-condensed .menu-toggle {
+  opacity: 1;
+  visibility: visible;
+  /* Flush to the rail's edge so the gap to the call is the masthead's
+     own, and the two read as a spaced pair rather than one control
+     tucked inside a container and another loose beside it. */
+  inset-inline-end: 0;
+  transition: opacity var(--dur-4) var(--ease-out),
+              visibility 0s linear 0s,
+              background-color var(--dur-4) var(--ease-out),
+              border-color var(--dur-4) var(--ease-out),
+              border-radius var(--dur-4) var(--ease-out);
+}
+
+/* The rail does not survive the scroll — it DISSOLVES.
+
+   Keeping a 1200px container up there once it holds only a wordmark is
+   a box drawn around nothing, and it makes the scrolled state heavier
+   than the state it came from. So the chrome goes: ground, border,
+   blur and radius all fade, and what is left reads as three separate
+   objects — the wordmark alone on the left, MENU and the call together
+   on the right.
+
+   The rail keeps its BOX while doing it, which is what stops the
+   wordmark and the counter from jumping. The only thing that moves is
+   the left padding collapsing to zero, so the wordmark settles onto the
+   same gutter line as everything else on the page; 24px over --dur-4 is
+   a settle, not a jump. */
+.has-js.is-condensed .navbar {
+  background: transparent;
+  border-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding-inline-start: 0;
+  border-radius: 0;
+}
+.has-js .navbar {
+  transition: background-color var(--dur-4) var(--ease-out),
+              border-color var(--dur-4) var(--ease-out),
+              padding var(--dur-4) var(--ease-out);
+}
+
+/* NO continuous header. The masthead stays a transparent frame and the
+   chrome lives only in the objects themselves — a full-width bar would
+   put a band across the page for the sake of two controls, and it is
+   the heavier answer to a state that is supposed to be lighter.
+
+   Each object carries its own ground instead, which is also what keeps
+   them legible over whatever scrolls beneath. */
+.has-js.is-condensed .masthead {
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* The rail SPLITS rather than dissolves. Its treatment — radius, ground,
+   hairline, blur — does not disappear; it is inherited by the two
+   objects that survive, so the scrolled state is recognisably the same
+   material as the state it came from, just broken in two.
+   The wordmark keeps no box: three boxes would be a row of chips. */
+.has-js.is-condensed .menu-toggle,
+.has-js.is-condensed .navbar__cta {
+  border-radius: var(--r-rail);
+  background: rgb(var(--bg-rgb) / 0.30);
+  border-color: rgba(244, 242, 239, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.has-js.is-condensed .menu-toggle:hover,
+.has-js.is-condensed .navbar__cta:hover {
+  background: rgb(var(--bg-rgb) / 0.52);
+  border-color: rgba(244, 242, 239, 0.28);
+}
+/* The call keeps its accent on hover — the one action that outranks the
+   surface it sits on. */
+.has-js.is-condensed .navbar__cta:hover,
+.has-js.is-condensed .navbar__cta:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .has-js .masthead { transition: background-color var(--dur-3) var(--ease-out); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .navbar__groups, .navbar__garage,
+  .has-js .menu-toggle, .has-js.is-condensed .menu-toggle { transition: none; }
 }
 
 /* ---- Menu toggle + panel (mobile) --------------------------
    Hidden until JS confirms the panel can actually open. Without
    JS the nav row itself stays on the page — the routes are never
    locked behind a script. */
+/* ---- The header pair ---------------------------------------
+   MENU and the call are ONE PAIR and are drawn as one: identical
+   height, padding, border, radius and type. They had drifted apart —
+   40px against 52px, one filled and one not — which read as two
+   controls that happened to land next to each other rather than a set.
+
+   The MENU button itself is after ballance.framer.website: a compact
+   labelled rectangle beside its glyph, not a bare icon. Same
+   mono/uppercase register as the nav labels it replaces, so the swap
+   reads as one system changing state. It also says what it does,
+   which three stacked lines never quite manage. */
+.menu-toggle,
+.navbar__cta {
+  min-height: 46px;
+  padding-block: 0;
+  padding-inline: var(--sp-5);
+  border: 1px solid rgba(244, 242, 239, 0.18);
+  border-radius: var(--r-control);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* The radius travels with everything else when the rail splits, so
+     the two objects grow into the rail's shape rather than snapping
+     into it a frame later. */
+  transition: background-color var(--dur-4) var(--ease-out),
+              border-color var(--dur-4) var(--ease-out),
+              border-radius var(--dur-4) var(--ease-out),
+              color var(--dur-2) var(--ease-out);
+}
+
 .menu-toggle {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  background: transparent;
+  gap: var(--sp-3);
   cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out);
 }
-.menu-toggle:hover { border-color: var(--rule-strong); }
+.menu-toggle:hover {
+  border-color: rgba(244, 242, 239, 0.34);
+  background: rgba(244, 242, 239, 0.08);
+}
 
 .menu-toggle__bars {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 16px;
+  width: 15px;
+  flex: none;
 }
 .menu-toggle__bars i {
   display: block;
@@ -170,36 +552,208 @@ button, input, select { font: inherit; color: inherit; }
   transform: translateY(-3.25px) rotate(-45deg);
 }
 
+/* Not a solid slab. Ballance's panel keeps the page faintly present
+   underneath — you can still see where you were — which is what stops a
+   full-screen menu feeling like a page navigation. A heavy scrim plus
+   blur does that; an opaque fill does not. */
 .menu {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: var(--bg-sunk);
+  background: rgb(var(--bg-rgb) / 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   overflow-y: auto;
 }
 .menu[hidden] { display: none; }
 
-.menu__inner {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: var(--sp-8);
-  padding-block: calc(var(--header-h) + var(--sp-7)) var(--sp-8);
+/* Slow, and staggered by column. The panel arrives, then the groups
+   settle into it — one idea unfolding rather than a block appearing.
+   Under reduced motion the whole thing is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  .menu:not([hidden]) { animation: menu-in var(--dur-3) var(--ease-out) both; }
+  .menu:not([hidden]) .menu__group,
+  .menu:not([hidden]) .fcard {
+    animation: menu-rise var(--dur-4) var(--ease-out) both;
+  }
+  .menu:not([hidden]) .menu__group:nth-child(2) { animation-delay: 60ms; }
+  .menu:not([hidden]) .menu__group:nth-child(3) { animation-delay: 120ms; }
+  .menu:not([hidden]) .menu__group:nth-child(4) { animation-delay: 180ms; }
+  .menu:not([hidden]) .menu__group:nth-child(5) { animation-delay: 240ms; }
+  .menu:not([hidden]) .fcard:nth-child(1) { animation-delay: 160ms; }
+  .menu:not([hidden]) .fcard:nth-child(2) { animation-delay: 220ms; }
+}
+@keyframes menu-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes menu-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
 }
 
+/* The trigger does not turn into a different control — it relabels.
+   Same box, same place, same size, so the eye never loses it. */
+.menu-toggle__label::after { content: "Menu"; }
+.menu-toggle[aria-expanded="true"] .menu-toggle__label::after { content: "Close"; }
+
+/* Nav columns on the left, the two feature cards on the right, the
+   showrooms across the bottom — ballance's arrangement, with cars where
+   they put articles. */
+.menu__inner {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: var(--sp-7) var(--sp-8);
+  padding-block: calc(var(--header-h) + var(--sp-6)) var(--sp-8);
+}
+/* The cards do NOT sit beside the columns here, and that is a departure
+   from the reference for a reason: ballance's longest label is
+   "Customer Stories". This tree carries "Trucks & Equipment Online
+   Credit Approval" and eighteen inventory links. Squeezed into the left
+   half those columns wrapped to three and four lines each and the panel
+   turned to rubble.
+
+   So the navigation takes the full width and the cards take a band
+   beneath it. Same two ideas, room for both. */
+@media (min-width: 1024px) {
+  .menu__feature {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 44rem;
+  }
+}
+
+/* ---- The feature cards -------------------------------------- */
+.menu__feature {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: var(--sp-6);
+  align-content: start;
+}
+
+.fcard { display: grid; gap: var(--sp-3); align-content: start; }
+
+/* Horizontal, and the car is never cut.
+
+   `cover` cannot do both here: these frames run from 1.55 to 2.09 in
+   aspect — measured across the ten of them — so any single ratio crops
+   most of the set. A Viper at 2.09 loses its nose and tail to a 16:9
+   box; a Senna at 1.55 loses its wheels.
+
+   So `contain`, and the leftover becomes a deliberate mat rather than a
+   failed crop: the media box is a shade darker than the panel, the
+   image sits inside it with a little air, and the whole thing reads as
+   a mounted frame. Every car arrives whole, whatever the feed sends.
+
+   When the real feed lands with consistent crops this can go back to
+   cover and the mat disappears on its own. */
+.fcard__media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  padding: var(--sp-2);
+  border-radius: var(--r-control);
+  background: rgb(var(--bg-rgb) / 0.55);
+  border: 1px solid rgba(244, 242, 239, 0.08);
+}
+.fcard__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+.fcard:hover .fcard__media img,
+.fcard:focus-visible .fcard__media img { opacity: 0.82; }
+
+.fcard__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+.fcard__title { font-size: 1.0625rem; line-height: 1.3; color: var(--ink); }
+.fcard__arrow { flex: none; opacity: 0.5; transition: opacity var(--dur-2) var(--ease-out); }
+.fcard:hover .fcard__arrow { opacity: 1; }
+.fcard__meta { color: var(--ink-3); }
+
+/* Four groups now, so the rows drop a rank: the group heading carries
+   the structure and the rows sit under it. A 2.25rem row per item would
+   run four screens deep for a menu that used to be one. */
 .menu__nav {
   display: flex;
   flex-direction: column;
+  gap: var(--sp-7);
 }
-.menu__nav a {
-  font-size: clamp(1.5rem, 7vw, 2.25rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  padding-block: var(--sp-4);
+
+/* The panel is no longer phone-only — the condensed header opens it at
+   any width. One column of thirty-five links would be a page of its own
+   on a desktop, so the groups sit side by side where there is room. */
+@media (min-width: 901px) {
+  /* Column widths come from the CONTENT, not from equal division.
+     Inventory has eighteen SHORT labels and wants two narrow columns;
+     Financing has five LONG ones ("Trucks & Equipment Online Credit
+     Approval") and wants a wide single. Four equal columns gave the
+     long labels no room — they broke to three and four lines each —
+     and handed the short ones space they had no use for. */
+  .menu__nav {
+    display: grid;
+    grid-template-columns: 1.75fr 1.2fr 0.95fr 1fr;
+    gap: var(--sp-8) var(--sp-7);
+    align-items: start;
+  }
+  /* Inventory carries eighteen of the thirty-four links. Left in one
+     column it ran three times the depth of its neighbours and dragged
+     the whole panel down with it. */
+  /* Selector raised on purpose: .menu__group is declared after this
+     block with the same specificity, so `display: flex` was winning on
+     source order and the links stayed in one column while the group
+     obediently spanned two. Fourth time this trap has come up here —
+     raise the selector, never !important. */
+  .menu__nav .menu__group--wide {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--sp-6);
+    align-content: start;
+  }
+  .menu__nav .menu__group--wide .menu__label { grid-column: 1 / -1; }
+}
+
+/* The childless entries sit as a row beneath the columns rather than as
+   a fifth column with nothing at its head — which would leave its links
+   starting a heading's height above everyone else's and read as a
+   misalignment rather than a decision. */
+.menu__nav .menu__group--plain {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  padding-block-start: var(--sp-5);
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 901px) {
+  .menu__nav .menu__group--plain { grid-column: 1 / -1; }
+}
+
+.menu__group { display: flex; flex-direction: column; }
+.menu__group .menu__label {
+  margin-block-end: var(--sp-3);
+  padding-block-end: var(--sp-3);
   border-bottom: 1px solid var(--rule);
 }
-.menu__nav a:first-child { border-top: 1px solid var(--rule); }
+/* 17px, not 20px. At 20px the long financing labels could not hold a
+   line in any column arrangement that also fitted four groups across.
+   This is the size the reference sets its own menu at. */
+.menu__nav a {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+  padding-block: var(--sp-3);
+  color: var(--ink-2);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.menu__nav a:hover, .menu__nav a:focus-visible { color: var(--ink); }
 
 .menu__label {
   color: var(--ink-3);
@@ -219,42 +773,162 @@ button, input, select { font: inherit; color: inherit; }
 }
 
 /* ============================================================
+   THE SINGLE-SCREEN PAGE
+   Scoped to `body.page--screen`, never to the element, because
+   main.css is also the design system's stylesheet and design.html
+   is a long scrolling document that must keep its scrollbar.
+   ============================================================ */
+/* The single-screen lock is gone now that a section follows the hero.
+   The hero is still exactly 100dvh — the fold below it is a decision,
+   not an accident. */
+
+/* The sentinel is the height of the header, pinned at the top of the
+   document. Once it has scrolled out of view the header has left the
+   hero, and that is the moment the bar condenses. Watched by
+   IntersectionObserver, so this costs nothing per frame. */
+.scroll-sentinel {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: var(--header-h);
+  pointer-events: none;
+}
+
+/* Placeholder for the next chapter. No border, no rule: the hero's
+   gradient already resolves to this exact colour, so there is nothing
+   for a divider to divide. */
+.after {
+  min-height: 100svh;
+  background: var(--bg);
+}
+
+/* ============================================================
    HERO
-   Three masses: the light field, the claim, the finder rail.
+   One frame, full bleed, one screen.
    ============================================================ */
 .hero {
   position: relative;
-  min-height: 100svh;
+  height: 100dvh;
   background: var(--bg);
-  display: grid;
-  grid-template-rows: 1fr auto;
   isolation: isolate;
   overflow: hidden;
 }
 
-.reel  { order: 1; }
-.doors { order: 2; }
-
 /* ---- Ground ------------------------------------------------
-   Built in CSS so the composition holds before the photography
-   arrives — and still holds when an ordinary photograph does.
-   Drop an <img class="hero__photo"> into .hero__media and the
-   scrim below already fixes legibility at the background layer,
-   so no type has to move.                                      */
+   An <img> rather than a CSS background: it can carry
+   fetchpriority, intrinsic dimensions and a decoding hint, and it
+   is the LCP element on a page that is currently nothing else. */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
 
+/* ---- Framing --------------------------------------------------
+   The re-saved frame carries deliberate air on every side, so the crop
+   is now a composition decision rather than a rescue. Three numbers,
+   in one place, and nothing else needs touching to re-frame:
 
-/* The scrim is part of the ground, never a panel behind the
-   text. Legibility is fixed here so it cannot depend on which
-   photograph the feed happens to return. */
+     --frame-zoom  height relative to the box. 100% = the whole frame
+                   height fits; above that it crops top and bottom.
+     --frame-x     which part of the width stays when it overflows
+     --frame-y     which part of the height stays when it overflows
 
-/* ---- Content ---------------------------------------------- */
-/* The count and the roster are one mass in tension, not two parallel
-   islands: a single enormous figure against a dense quiet list, under
-   one shared stamp line. */
+   They are custom properties rather than literal values so a re-frame
+   is one edit read as a sentence, not three unrelated numbers hidden
+   in a shorthand. Overriding them per breakpoint is the whole mobile
+   story below. */
+.hero__photo {
+  --frame-zoom: 128%;
+  --frame-x: 54%;
+  --frame-y: 62%;
 
-/* The page is a record of one moment. The stamp says which moment —
-   and it is the reason the count means anything. */
-.hero__stamp { color: var(--ink-3); }
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  width: 100%;
+  height: var(--frame-zoom);
+  object-fit: cover;
+  object-position: var(--frame-x) var(--frame-y);
+}
+
+/* A portrait viewport sees roughly a quarter of a 16:9 frame — measured,
+   26% of the width at 390x844 — so no object-position shows a whole car
+   and pretending otherwise gives you a wheel and a door. Recomposed
+   rather than cropped-and-hoped: the crop moves to the front end, where
+   the nose, headlight and splitter still read as a car coming at you.
+
+   The condition is the aspect ratio, not a width breakpoint, because
+   the aspect ratio is what actually causes it — a short landscape
+   window on a laptop has the same problem at a much larger width.
+
+   This is the interim answer. The real one is a portrait frame shot or
+   selected for the phone; a landscape original re-pointed is a repair,
+   not an art direction. */
+@media (max-aspect-ratio: 1 / 1) {
+  .hero__photo { --frame-zoom: 100%; --frame-x: 60%; --frame-y: 62%; }
+}
+
+/* ---- The scrim ---------------------------------------------
+   Dramatic is a wider tonal range, not a darker picture. So this
+   deepens the two ends and leaves the middle band alone: the sky goes
+   down at the top, the tarmac goes down at the bottom, and the strip
+   where the car and the mountains actually live keeps its daylight.
+   Flattening the whole frame with one even wash would throw away the
+   reason this photograph was picked.
+
+   Three gradients, each with a job:
+
+   BOTTOM is the heaviest. The tarmac was the brightest thing in the
+   frame and it competed with the car; taking it down lifts the car off
+   its own floor. It also fixes the worst-measured region of the picture
+   — the lower left ran to 1.58:1 against near-white — at the GROUND
+   layer, which is where colour I4 says legibility gets fixed, so the
+   claim that goes there later needs no panel behind it.
+
+   TOP is light. The sky was already the deepest part of the frame and
+   the masthead already cleared AA over it at 6.11:1; this is for the
+   frame's shape, not for the chrome.
+
+   LEFT is the asymmetry. The car sits right of centre and the left half
+   is empty sky, so darkening from the left builds the contrast toward
+   the subject instead of ringing the picture evenly. A symmetrical
+   vignette would read as a filter applied to a photo rather than a
+   composition. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    /* Built from --bg-rgb — the SAME token the page ground uses — so the
+       bottom edge cannot drift away from the section beneath it. These
+       were hard-coded rgb(11,11,12); the ground then went navy and the
+       two would have parted by fourteen points of blue, drawing a band
+       exactly where the join is. A gradient whose job is to match a
+       colour has to be made OF that colour, not of a copy of it.
+
+       It reaches full opacity at the bottom edge, not merely dark: at
+       0.85 the last 15% of the tarmac still showed through and left a
+       faint line at the seam. The last stops sit close together so the
+       ramp does its work higher up and the solid strip stays thin. */
+    linear-gradient(to top,
+      rgb(var(--bg-rgb)) 0%,
+      rgb(var(--bg-rgb) / 0.97) 5%,
+      rgb(var(--bg-rgb) / 0.62) 17%,
+      rgb(var(--bg-rgb) / 0.22) 32%,
+      rgb(var(--bg-rgb) / 0.04) 44%,
+      transparent 54%),
+    linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0.55) 0%,
+      rgb(var(--bg-rgb) / 0.16) 20%,
+      transparent 36%),
+    linear-gradient(to right,
+      rgb(var(--bg-rgb) / 0.46) 0%,
+      rgb(var(--bg-rgb) / 0.12) 34%,
+      transparent 62%);
+}
 
 
 /* The claim. The figure carries the display rank; the sentence that
@@ -353,48 +1027,121 @@ select.field__control {
 }
 select.field__control option { background: var(--bg-raised); color: var(--ink); }
 
-/* The two doors carry the same rank. They are distinguished by
-   treatment, not by size — so the parallel choice reads as parallel
-   while the accent stays on one of them. */
+/* ============================================================
+   BUTTONS
+   Pills, and the primary is light rather than red.
+
+   What was wrong: the primary was a saturated #CB141D rectangle at
+   full rail height. It passed contrast at 5.74:1 and was still the
+   wrong object — measurement cannot catch register. Three vault
+   entries say so directly:
+
+     polestar-com-us (2, in), weaknesses — "Large discounts, monthly
+     lease prices, incentives and promotional disclaimers appear very
+     early... this weakens the brand's premium confidence."
+     mclaren-com (2, in), works — the accents are "used functionally,
+     adding recognition and energy WITHOUT COVERING THE INTERFACE IN
+     THE BRAND COLOR."
+     rolls-roycemotorcars-com (3, in), measured at capture — "3 pill
+     controls and 0 circular controls at 1440x900."
+
+   So: the primary is a bone pill with a near-black label. On a black
+   page it is the only light mass, which makes it primary without any
+   hue at all — and it is the most expensive control available here.
+
+   The red is not deleted, it is moved to where McLaren puts papaya:
+   it arrives on HOVER. Red becomes the response to intent rather than
+   a plea for it. Everywhere else the accent is a mark, never a
+   ground — active chapter, active reel number, the error glyph, a
+   link on hover.
+   ============================================================ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-3);
-  align-self: stretch;
+  align-self: center;
   border: 0;
-  padding-inline: clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  border-radius: 999px;
+  padding: var(--sp-4) clamp(var(--sp-6), 2.4vw, var(--sp-7));
   font-size: var(--t-micro);
-  font-weight: 600;
-  letter-spacing: var(--tr-micro);
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--dur-1) var(--ease),
-              border-color var(--dur-1) var(--ease);
+  transition: background-color var(--dur-1) var(--ease-out),
+              box-shadow var(--dur-1) var(--ease-out),
+              color var(--dur-1) var(--ease-out);
 }
-.btn svg { flex: none; }
 
+/* Primary — the light mass. 16.8:1 at rest, 5.74:1 on hover. */
 .btn--fill {
-  background: var(--accent);
-  color: #FFFFFF;                /* 5.74:1 on --accent */
+  background: var(--bone);
+  color: var(--bone-ink);
 }
+/* Hover changes the colour, focus draws the ring, and neither does the
+   other's job. Folding :focus-visible into the colour change also made
+   the specimen dishonest: .is-focus cannot fire :focus-visible, so the
+   forced row showed bone while the live control went red. */
 .btn--fill:hover,
-.btn--fill:focus-visible { background: var(--accent-deep); }
+.btn--fill.is-hover {
+  background: var(--accent);
+  color: #FFFFFF;                /* 5.74:1 */
+}
 
+/* Secondary — the same pill, drawn instead of filled. */
 .btn--line {
   background: transparent;
   color: var(--ink);
   box-shadow: inset 0 0 0 1px var(--rule-strong);
 }
 .btn--line:hover,
-.btn--line:focus-visible { box-shadow: inset 0 0 0 1px var(--ink); }
+.btn--line.is-hover { box-shadow: inset 0 0 0 1px var(--ink); }
+
+/* The ring follows the pill instead of boxing it. */
+.btn:focus-visible,
+.btn.is-focus {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* On the light band both invert or they disappear into it.
+
+   These carry their own hover rules on purpose. `.on-bone .btn--fill`
+   is (0,2,0) and so is `.btn--fill:hover` — equal specificity, and this
+   block comes later, so without the pair below the base rule silently
+   won and hover did nothing on the bone band. Third time this exact
+   trap has appeared in this project. Raise the selector, never reach
+   for !important. */
+.on-bone .btn--fill, .record .btn--fill {
+  background: var(--bone-ink);
+  color: var(--bone);
+}
+.on-bone .btn--fill:hover, .on-bone .btn--fill.is-hover,
+.record .btn--fill:hover, .record .btn--fill.is-hover {
+  background: var(--accent);
+  color: #FFFFFF;                /* 5.74:1 — the accent does not invert */
+}
+.on-bone .btn--line, .record .btn--line {
+  color: var(--bone-ink);
+  box-shadow: inset 0 0 0 1px var(--bone-rule);
+}
+.on-bone .btn--line:hover, .on-bone .btn--line.is-hover,
+.record .btn--line:hover, .record .btn--line.is-hover {
+  box-shadow: inset 0 0 0 1px var(--bone-ink);
+}
+.on-bone .btn:focus-visible, .on-bone .btn.is-focus,
+.record .btn:focus-visible, .record .btn.is-focus {
+  outline-color: var(--bone-ink);
+}
 
 .doors__sell {
   display: flex;
   align-items: center;
   gap: var(--sp-5);
-  padding-inline-start: clamp(var(--sp-5), 3vw, var(--sp-8));
+  padding: var(--sp-4) 0 var(--sp-4) clamp(var(--sp-5), 3vw, var(--sp-8));
   border-inline-start: 1px solid var(--rule);
 }
 
@@ -490,10 +1237,26 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    RESPONSIVE — the hero is recomposed, not stacked
    ============================================================ */
 
-@media (max-width: 900px) {
-  /* No JS: the masthead joins the flow and the nav wraps under the
-     wordmark, so every route stays reachable. With JS it returns to
-     a transparent overlay and the panel takes over. */
+/* ============================================================
+   COMPACT HEADER — the measured breakpoint
+   ============================================================
+   1360px is not a round number chosen by eye. It is what the full rail
+   MEASURES: wordmark 146 + six groups 676 + My Garage 143 + call 165 +
+   rail padding + two 64px gutters = 1360. Below it the items have
+   nowhere to go and they were overlapping the wordmark — which is
+   exactly what a 900px breakpoint inherited from the old layout was
+   letting happen for 460px of viewport width.
+
+   If the full nav needs to survive a 1280 laptop, the width has to come
+   from the CONTENT — dropping "My Garage" to its glyph frees 100px —
+   not from squeezing the padding further.
+   ============================================================ */
+@media (max-width: 1360px) {
+  /* No JS: the rail unpacks into a plain wrapped list under the
+     wordmark and every panel stands open, so all six groups stay
+     reachable without a script. The frosting comes off — a translucent
+     surface over a photograph is legible only while it is one contained
+     object, and this is now a column. */
   .masthead {
     position: static;
     height: auto;
@@ -501,17 +1264,90 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     border-bottom: 1px solid var(--rule);
   }
   .masthead__inner { flex-wrap: wrap; padding-block: var(--sp-4); row-gap: var(--sp-4); }
-  .nav { flex-wrap: wrap; row-gap: var(--sp-2); }
+  .navbar {
+    flex-wrap: wrap;
+    background: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    gap: var(--sp-4);
+  }
+  .navbar__groups { flex-wrap: wrap; gap: var(--sp-4); justify-content: flex-start; }
+  .navmenu { position: static; }
+  .navmenu__trigger { pointer-events: none; padding-inline: 0; }
+  .navmenu__chev { display: none; }
+  .navmenu__panel {
+    position: static;
+    display: block;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    background: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    animation: none;
+  }
+  .navmenu__panel[hidden] { display: block; }
+  .navmenu__list--2 { grid-template-columns: 1fr; }
+  .navmenu__list a { margin-inline: 0; padding-inline: 0; }
+  .navbar__garage { padding-inline: 0; }
 
+  /* With JS the header goes back to being an overlay and the panel
+     takes over. */
   .has-js .masthead {
-    position: absolute;
+    position: fixed;
     height: var(--header-h);
     background: none;
     border-bottom: 0;
   }
   .has-js .masthead__inner { flex-wrap: nowrap; padding-block: 0; }
-  .has-js .nav { display: none; }
-  .has-js .menu-toggle { display: inline-flex; }
+
+  .has-js .navbar__groups,
+  .has-js .navbar__garage { display: none; }
+
+  /* THE BUG THIS FIXES: the base rule hides the toggle with
+     opacity/visibility so it can crossfade on scroll. The old compact
+     rule only set `display`, so at narrow widths the button existed,
+     occupied space, and was completely invisible — a header with no way
+     into the navigation at all. Every property the base rule sets has
+     to be undone here, not just the one. */
+  .has-js .menu-toggle {
+    position: static;
+    translate: none;
+    display: inline-flex;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+  }
+
+  .has-js .navbar {
+    padding: 0;
+    background: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* space-between would strand the call in the middle of the rail
+       with three children; this keeps it beside the toggle. */
+    margin-inline-start: auto;
+    flex: none;
+  }
+}
+
+/* The call keeps its number while there is room to print one, and drops
+   to the glyph only when the wordmark, the toggle and a twelve-digit
+   number stop fitting together — measured, not assumed. */
+@media (max-width: 560px) {
+  .has-js .navbar__cta {
+    width: 46px;
+    padding-inline: 0;
+    justify-content: center;
+  }
+  .has-js .navbar__cta-text { display: none; }
+}
+
+@media (max-width: 900px) {
 
   /* One column. The roster stays — it is the content, not decoration
      — but shortens to what fits above the search. */
@@ -539,7 +1375,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     border-inline-start: 0;
     border-top: 1px solid var(--rule);
   }
-  .btn { grid-column: 1 / -1; padding-block: var(--sp-4); }
+  .btn { grid-column: 1 / -1; justify-self: stretch; }
   /* The label and the button are both nowrap; side by side their
      min-content exceeded 390px and stretched the whole grid column,
      which overflow-x:hidden then quietly cropped. They wrap here. */
@@ -594,10 +1430,15 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   border-radius: 3px;
 }
 
+/* Crop from the top, not the centre. Their wordmark is burned into the
+   top band of every frame, so a centred crop slices it in half and the
+   card reads as broken rather than composed. The feed's frames arrive
+   at inconsistent ratios, so this cannot be left to chance. */
 .vcard__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 
 /* Hover budget is ONE move. Scale is out — it resamples the frame and
@@ -703,9 +1544,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    targeted by the SAME rules as the real pseudo-classes, so a
    specimen cannot drift away from the component it documents.
    ============================================================ */
-.btn--fill:hover, .btn--fill:focus-visible, .btn--fill.is-hover { background: var(--accent-deep); }
-.btn--line:hover, .btn--line:focus-visible, .btn--line.is-hover { box-shadow: inset 0 0 0 1px var(--ink); }
-
 .is-focus { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
 
 .vcard:hover .vcard__media,
