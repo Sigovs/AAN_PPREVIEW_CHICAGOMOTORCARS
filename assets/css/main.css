@@ -2940,7 +2940,13 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      right of centre, further left, ~570px up — and also under the gap to
      the section's overflow clip, so the falloff completes before any
      boundary rather than being sliced by one. */
-  background: radial-gradient(310px 200px at 62% 100%,
+  /* Centre moved left. 62% of this box was landing around 74% across the
+     ROW; 45% lands around 44%, so the light now sits under the model
+     name and price rather than out by the thumbnail. Checked against the
+     free edges after the move — the falloff completes ~285px out, with
+     478px to the box's left edge and 578px to its right, so shifting it
+     has not brought either boundary into view. */
+  background: radial-gradient(310px 200px at 45% 100%,
     rgba(40, 91, 190, 0.34) 0%,
     rgba(34, 78, 164, 0.21) 22%,
     rgba(26, 62, 130, 0.095) 44%,
@@ -3543,4 +3549,82 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   .reel__media img { object-position: 60% 45%; }
   .reel__body { padding-block-end: clamp(13rem, 34vh, 20rem); }
   .reel__foot { inset-block-end: clamp(var(--sp-6), 6vh, var(--sp-8)); }
+}
+
+/* ============================================================
+   STAGE ARROWS
+   ============================================================
+   Bottom-left of the image field, mirroring the "Just in" pill's
+   inset and radius in the opposite corner. Same family, one gesture.
+
+   Revealed on hover of the FIELD, not of the buttons themselves —
+   a control that only appears once you are already on top of it is
+   a control nobody finds. The reveal is opacity plus a short rise,
+   so it arrives rather than blinks.
+
+   Glass is kept at the project's reduced 12px, not the 24px this
+   kind of control usually gets. The field behind them is already
+   dark and modelled; more blur here would read as decoration.  */
+.stage__nav {
+  position: absolute;
+  z-index: 3;
+  inset-block-end: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  inset-inline-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  translate: 0 6px;
+  transition: opacity var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out);
+}
+
+/* Hover reveals; focus-within is the keyboard's equivalent and is not
+   optional — see the note in the markup. */
+.showcase__stage:hover .stage__nav,
+.showcase__stage:focus-within .stage__nav {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.stage__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  background: rgba(24, 36, 66, 0.52);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  /* The two inset hairlines are what make it read as a pane of glass
+     with thickness rather than a translucent rectangle: light catches
+     the top edge, the bottom edge falls into shadow. Same construction
+     as the pill. */
+  box-shadow: inset 0 1px 0 rgba(178, 205, 255, 0.16),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+  transition: background var(--dur-1) var(--ease-out),
+              scale var(--dur-1) var(--ease-out);
+}
+.stage__arrow svg { inline-size: 20px; block-size: 20px; display: block; }
+.stage__arrow:hover { background: rgba(38, 58, 110, 0.66); }
+.stage__arrow:active { scale: 0.94; }
+.stage__arrow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Touch has no hover, so the arrows would never appear. They are the only
+   way to reach the other vehicles from the image, so they stay up. */
+@media (hover: none) {
+  .stage__nav { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage__nav { transition: opacity var(--dur-1) var(--ease-out); translate: none; }
+  .stage__arrow { transition: background var(--dur-1) var(--ease-out); }
+  .stage__arrow:active { scale: none; }
 }

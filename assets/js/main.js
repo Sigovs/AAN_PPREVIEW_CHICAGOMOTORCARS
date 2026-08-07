@@ -175,7 +175,16 @@
   });
   if (!driving.length) return;
 
+  // The order the arrows step through is the order the INDEX is written in,
+  // read off the DOM — not 0..n. If a record is ever removed or reordered,
+  // the arrows follow the list the reader can see rather than a count that
+  // has quietly stopped matching it.
+  var frames = driving.map(function (r) { return Number(r.getAttribute('data-frame')); });
+  var at = 0;
+
   function show(i) {
+    var seat = frames.indexOf(i);
+    if (seat !== -1) at = seat;
     cars.forEach(function (c, n) {
       c.classList.toggle('is-active', n === i);
     });
@@ -188,5 +197,16 @@
     var i = Number(rec.getAttribute('data-frame'));
     rec.addEventListener('mouseenter', function () { show(i); });
     rec.addEventListener('focus', function () { show(i); });
+  });
+
+  // Arrows wrap rather than disable at the ends. Four vehicles is a ring,
+  // not a document — a dead control at either end would be the only piece
+  // of this section that can be pressed and do nothing.
+  [].slice.call(wrap.querySelectorAll('.stage__arrow')).forEach(function (btn) {
+    var step = Number(btn.getAttribute('data-step'));
+    btn.addEventListener('click', function () {
+      var next = (at + step + frames.length) % frames.length;
+      show(frames[next]);
+    });
   });
 })();

@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=17">
-<link rel="stylesheet" href="assets/css/main.css?v=118">
+<link rel="stylesheet" href="assets/css/main.css?v=119">
 </head>
 <body>
 
@@ -591,6 +591,29 @@
                  src="assets/img/inventory/cutout-ferrari-812-gts.png" alt=""
                  width="1400" height="560" loading="lazy" decoding="async">
           </div>
+
+          <!-- Bottom-left, at the SAME inset and the SAME radius as the
+               "Just in" pill in the opposite corner. They are the only two
+               objects sitting in the field, so they are built as one family
+               rather than as a pill plus a pair of generic UI circles.
+
+               Hidden until the field is hovered, but they must also appear on
+               :focus-within — a control a keyboard reaches and cannot see is
+               a control that does not exist. -->
+          <div class="stage__nav">
+            <button class="stage__arrow" type="button" data-step="-1" aria-label="Previous vehicle">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor"
+                      stroke-width="1.6" stroke-linecap="square"/>
+              </svg>
+            </button>
+            <button class="stage__arrow" type="button" data-step="1" aria-label="Next vehicle">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor"
+                      stroke-width="1.6" stroke-linecap="square"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div class="showcase__index">
@@ -654,6 +677,6 @@
 </main>
 
 
-<script src="assets/js/main.js?v=10" defer></script>
+<script src="assets/js/main.js?v=11" defer></script>
 </body>
 </html>
