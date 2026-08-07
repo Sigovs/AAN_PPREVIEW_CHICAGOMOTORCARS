@@ -356,6 +356,75 @@
         <p class="row__note">2px --ink<br>3px offset<br>never removed</p>
       </div>
 
+      <!-- ============================================================
+           ACCENT ACTION — the third variant
+           ============================================================ -->
+      <p class="chap__lede" style="margin-block-start:var(--sp-8)">
+        <b>Accent Action</b> &mdash; <code>.btn--accent</code>. A high-priority conversion action, used
+        selectively on dark or cinematic surfaces: <em>Search Inventory</em>, <em>Get an Offer</em>, and
+        other major conversions where extra emphasis is deliberately required.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        <b>It is not a danger variant.</b> Nothing here means destructive, error or warning, and it must
+        never be reached for to mean them &mdash; which is why it is named for the job rather than the
+        colour. A <code>.btn--danger</code> would be a different component with a different meaning that
+        happens to share a hue.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        <b>Use sparingly: at most one dominant Accent Action per primary visual region.</b> Red works in
+        this system by scarcity &mdash; everywhere else it is a mark and never a ground &mdash; and a page
+        where every call to action is red has no call to action at all.
+      </p>
+
+      <div class="row row--tall" style="margin-block-start:var(--sp-6)">
+        <p class="row__key">accent &middot; rest</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--accent" type="button">Search Inventory</button>
+        </div>
+        <p class="row__note" data-measure-row>--action<br>#BE121A<br><span data-ratio-slot></span></p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">accent &middot; hover</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--accent is-hover" type="button" tabindex="-1">Search Inventory</button>
+        </div>
+        <p class="row__note">--action-hover<br>denser, never<br>brighter</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">accent &middot; focus</p>
+        <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">
+          <button class="btn btn--accent is-focus" type="button" tabindex="-1">Search Inventory</button>
+        </div>
+        <p class="row__note">--action-focus<br>2px, 3px offset</p>
+      </div>
+
+      <div class="row row--tall">
+        <p class="row__key">the three steps</p>
+        <div style="display:flex;gap:var(--sp-1);flex-wrap:wrap">
+          <span class="strip__chip" style="background:var(--action);width:5rem"></span>
+          <span class="strip__chip" style="background:var(--action-hover);width:5rem"></span>
+          <span class="strip__chip" style="background:var(--action-press);width:5rem"></span>
+        </div>
+        <p class="row__note">rest &middot; hover &middot; press<br>each one deeper<br>never lighter</p>
+      </div>
+
+      <p class="chap__lede" style="margin-block-start:var(--sp-6)">
+        <b>Why the action red is not the brand red.</b> <code>--accent</code> is <code>#CB141D</code>,
+        measured off CMC's live site, and it is a carried value that does not move. But it is what the
+        <em>marks</em> are drawn in &mdash; the active chapter, the slider's arc, the error glyph, all
+        hairlines. This is a filled plane roughly 300&times;56, and the saturation that reads as precise at
+        2px reads as candy at that size. So <code>--action</code> is one step deeper at
+        <code>#BE121A</code>. A mark and a surface are different objects; one value for both would treat
+        &ldquo;the brand is red&rdquo; as though it answered both questions.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        It stops there and not deeper because of a floor rather than a preference: <code>--action</code>
+        against <code>--bg</code> measures <b>2.98:1</b>, which is the 3:1 a control's own boundary needs
+        in order to be findable. Deeper improves the label and loses the button.
+      </p>
+
       <div class="row row--tall">
         <p class="row__key">field &middot; rest</p>
         <div class="field field--single" style="max-width:22rem">

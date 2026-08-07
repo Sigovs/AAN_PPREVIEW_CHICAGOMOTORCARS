@@ -652,11 +652,14 @@ button, input, select { font: inherit; color: inherit; }
               border-color var(--dur-2) var(--ease-out),
               color var(--dur-2) var(--ease-out);
 }
+/* Through the ACCENT ACTION tokens, not a second copy of the red. The
+   call is an action surface; when it fills, it fills with the system's
+   action colour. */
 .navbar__cta:hover,
 .navbar__cta:focus-visible {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #FFFFFF;                      /* 5.74:1 */
+  background: var(--action);
+  border-color: var(--action);
+  color: var(--action-ink);            /* 6.30:1 */
 }
 /* Outlined rather than filled, and outside the rail. In the reference
    it is its own object beside the rail, not the light mass closing it —
@@ -834,10 +837,12 @@ button, input, select { font: inherit; color: inherit; }
 }
 /* The call keeps its accent on hover — the one action that outranks the
    surface it sits on. */
+/* Re-asserted at this specificity only because the condensed rule above
+   sets a background at the same weight — the VALUE is not repeated. */
 .has-js.is-condensed .navbar__cta:hover,
 .has-js.is-condensed .navbar__cta:focus-visible {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--action);
+  border-color: var(--action);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1342,6 +1347,41 @@ button, input, select { font: inherit; color: inherit; }
 }
 .hero__slide.is-current { opacity: 1; }
 
+/* ---- The transition: the film pulls back and defocuses -----
+   The effect is carried ENTIRELY by the video slide, and that is a
+   decision rather than laziness. The photograph is the base layer and
+   is on screen from the first paint — blurring it in its resting state
+   would mean the page opens on an out-of-focus picture for however long
+   the film takes to arrive.
+
+   So only the film moves: it settles from 1.05 and 10px of blur as it
+   arrives, and lifts back out to them as it goes. Leaving, that reads
+   as the film receding and the frame beneath resolving into focus —
+   which is the sequence the hero actually is.
+
+   scale + filter on one element, both transitioned on the same 760ms
+   curve, so the two never separate into "it moved, then it sharpened".
+   Blur is the expensive half; 10px on one full-screen element for one
+   transition is affordable, 30px would not be. */
+.hero__slide[data-slide="0"] {
+  transform: scale(1.05);
+  filter: blur(10px);
+  transition: opacity var(--dur-4) var(--ease-out),
+              transform var(--dur-4) var(--ease-out),
+              filter var(--dur-4) var(--ease-out);
+}
+.hero__slide[data-slide="0"].is-current {
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No crossfade, no zoom, no defocus — a full-viewport scale-and-blur
+     is precisely the large-area motion the preference exists to stop. */
+  .hero__slide { transition: none; }
+  .hero__slide[data-slide="0"] { transition: none; transform: none; filter: none; }
+}
+
 /* The photograph is the BASE and never fades out — it is what everything
    else is layered over.
 
@@ -1355,14 +1395,19 @@ button, input, select { font: inherit; color: inherit; }
    The video sits above it and dissolves in when it is genuinely running;
    choosing slide 2 simply takes the video away again. Nothing ever has
    to cover a gap, because there is no gap. */
-.hero__slide[data-slide="1"] { opacity: 1; }
+.hero__slide[data-slide="1"] { opacity: 1; z-index: 0; }
 
-@media (prefers-reduced-motion: reduce) {
-  /* No crossfade either — the switch is instant. A slow dissolve across
-     the whole viewport is exactly the kind of large-area motion the
-     preference is asking to be spared. */
-  .hero__slide { transition: none; }
-}
+/* AND IT HAS TO BE BEHIND. Making the photograph the base fixed the
+   black opening but introduced a worse fault: it comes later in the DOM,
+   so at equal z-index it painted ON TOP and the video — playing, opaque,
+   reporting every sign of health — was covered by it. The state said
+   is-playing, the screen said photograph, and both were true.
+
+   Explicit layers rather than document order, because the order here is
+   meaningful in the other direction: the film is slide ONE and belongs
+   above the still it falls back to. */
+.hero__slide[data-slide="0"] { z-index: 1; }
+
 
 /* ---- The video ---------------------------------------------
    Its own framing variables, not the photograph's. The still is 2301x1430
@@ -1522,7 +1567,18 @@ button, input, select { font: inherit; color: inherit; }
       rgb(var(--bg-rgb) / 0.52) 22%,
       rgb(var(--bg-rgb) / 0.28) 44%,
       rgb(var(--bg-rgb) / 0.08) 64%,
-      rgb(var(--bg-rgb) / 0) 80%);
+      rgb(var(--bg-rgb) / 0) 80%),
+    /* The RIGHT ramp, for the search rail. Weaker than the left one and
+       reaching further in, because the claim is 106px bold type that
+       needs less help than a 14px label does, and because a hard onset
+       here would be the panel edge coming back by another route.
+       Mirrored device, not a mirrored curve. */
+    linear-gradient(to left,
+      rgb(var(--bg-rgb) / 0.62) 0%,
+      rgb(var(--bg-rgb) / 0.46) 18%,
+      rgb(var(--bg-rgb) / 0.24) 38%,
+      rgb(var(--bg-rgb) / 0.07) 58%,
+      rgb(var(--bg-rgb) / 0) 76%);
 }
 
 
@@ -1584,7 +1640,11 @@ button, input, select { font: inherit; color: inherit; }
 .hero__foot {
   position: absolute;
   z-index: 2;
-  inset-inline: var(--gutter) 0;
+  /* A RIGHT gutter now, not 0. It could end at the edge while the claim
+     was the only thing here; the search panel lives at that end and the
+     brief asks for it not to be stuck to the edge. Same gutter as the
+     left, so the two objects sit inside one measure. */
+  inset-inline: var(--gutter);
   /* Lifted off the bottom edge rather than sitting on it: the scrim
      reaches solid --bg in its last 5%, and type inside that strip would
      read as sitting on the page ground rather than on the photograph. */
@@ -1605,7 +1665,324 @@ button, input, select { font: inherit; color: inherit; }
    was 704px and "worth chasing." wants ~720 at 107px, so it broke into
    "worth / chasing." and the claim rendered as THREE lines — the one
    thing the two spans exist to prevent. */
-.hero__claim { max-width: min(56rem, 100%); }
+/* The claim and the search share the hero's foot: statement left,
+   search right, both lifted off the bottom edge by the same amount so
+   they sit on one line rather than one floating above the other.
+   flex-end, not centre — they are anchored to the same baseline of the
+   composition, which is what makes the panel read as belonging to the
+   hero rather than as a card dropped on it. */
+.hero__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-8);
+}
+.hero__claim { max-width: min(56rem, 100%); flex: 1 1 auto; min-width: 0; }
+
+/* ---- The hero search rail ----------------------------------
+   NOT A CARD. There is no border, no radius, no panel edge and no
+   silhouette — the container was removed rather than softened, because
+   a rounded rectangle with a lighter fill is still a rectangle and the
+   test is whether you notice the shape before the content.
+
+   What replaces it is a CONTRAST FIELD: a semi-transparent navy wash
+   that exists only to make type legible over film, and that is MASKED so
+   it has no edge to notice. A mask is the only way to do this honestly —
+   backdrop-filter and background both paint to the element's box and
+   stop dead at it, however soft the colour is. The mask fades the field
+   itself to nothing before it reaches any boundary, so there is no line
+   anywhere for the eye to find.
+
+   No blur. It was the last thing the field needed and the first thing
+   that would have given it away: a blurred region has a visible
+   perimeter wherever the mask has not fully reached zero, which is
+   exactly the silhouette this is removing. The wash alone carries the
+   legibility — measured below.
+
+   The field bleeds well past the content on every side so the fade
+   happens in empty space rather than across the words. */
+.hunt {
+  position: relative;
+  flex: none;
+  width: clamp(340px, 27vw, 390px);
+  padding-block: var(--sp-2);
+}
+/* NO FIELD OF ITS OWN. A masked wash behind the rail was tried first and
+   failed the brief's own test: at any strength that made the labels
+   legible it read as a soft rectangle with a findable edge, and the
+   shape arrived before the content.
+
+   The legibility comes from the FRAME instead. The scrim already carries
+   a left-hand ramp for the claim; it now carries a right-hand one for
+   the rail — see .hero__scrim. That belongs to the photograph's tonal
+   structure rather than to the search, so there is no object behind the
+   search at all, and therefore no edge to notice. It is also the same
+   device, in the same place, that every other piece of type on this
+   frame already sits on. */
+
+.hunt__eyebrow {
+  /* --ink-2, not --ink-3. The third ink level is calibrated against a
+     SOLID ground; on a feathered wash over film it never reaches 4.5:1.
+     Same correction the hero eyebrow needed for the same reason. */
+  color: var(--ink-2);
+  margin-block-end: var(--sp-5);
+}
+
+/* NO BOX PER FIELD. The row is a label over a value with a hairline
+   under it — a spec sheet, not a form. Four bordered slots is precisely
+   what makes a search widget read as a booking engine. */
+/* ONE LINE WHEN EMPTY, two when answered.
+
+   The label and the control occupy the SAME grid cell while nothing is
+   chosen, so the row reads as a single line — the category and its
+   chevron, nothing else. "MAKE" over "Select Make" was the category
+   said twice, and saying it twice is what made the rail read as a form.
+
+   The placeholder text is still in the <option>; it is only hidden in
+   the CLOSED state. Open the menu and "Select Make" is there at the top
+   where it is useful. Emptying the option instead would have bought the
+   clean line by leaving a blank first row in every dropdown. */
+.hunt__field {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  /* TWO ROWS, ALWAYS — the space for a value is held from the start.
+
+     Without this the row grew from one line to two the moment a value
+     was chosen, and measured, that moved everything above it 23px: fill
+     two fields and the rail's top climbed 45px while the visitor was
+     looking at it. The button stayed put because the rail is bottom
+     aligned, which made it worse, not better — the thing that moved was
+     the part being read.
+
+     The cost is honest and small: the empty rows carry air under the
+     label instead of closing up tight. That is the price of a rail that
+     never moves under the pointer, and it is the right way round. */
+  /* The reserved height is held by min-height, and the content is
+     CENTRED inside it rather than pinned to the top. That was the fault
+     in the first attempt: the label sat on row one, the empty value on
+     row two, and the chevron went down with it — a label at the top of
+     the row and an arrow at the bottom with a hole between them.
+
+     align-content centres the whole stack, so an empty row reads as one
+     line sitting on the row's middle and a filled row reads as two
+     lines sitting on the same middle. Neither is anchored to an edge,
+     so neither looks like it is waiting for something. */
+  min-height: 4.5rem;
+  align-content: center;
+  row-gap: 3px;
+  /* Padding INSIDE by default, and the row pulled back out by the same
+     amount. That gives three things at once:
+       · the hairline spans the row's padded box, so it is wider than
+         the words rather than ending exactly where they do;
+       · the hover wash can match that line precisely, because they are
+         now the same box;
+       · the text still starts on the rail's own left edge, in line with
+         FIND YOUR NEXT CAR above and the button below — which is why
+         the padding is paired with a negative margin instead of simply
+         indenting the row. */
+  padding-block: var(--sp-3);
+  padding-inline: var(--sp-4);
+  margin-inline: calc(var(--sp-4) * -1);
+  border-bottom: 1px solid rgba(244, 242, 239, 0.16);
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+/* ---- Hover -------------------------------------------------
+   The rows had no affordance at all: they read as type, not as
+   controls, and nothing said they could be operated.
+
+   The wash is on a PSEUDO-ELEMENT that bleeds sideways, not on the row
+   itself. Padding the row would indent its text, and that text is on
+   the same left edge as the eyebrow above and the button below —
+   one hover would have knocked a whole column out of alignment. The
+   bleed gives the highlight air around the words without moving them,
+   and the hairline keeps its own length.
+
+   Kept far lighter than a filled block: this rail had every trace of
+   card language taken out of it, and a solid panel appearing under the
+   pointer would put that back one row at a time. 0.055 is enough to
+   read as a target and not enough to read as a box.
+
+   focus-within as well as hover, so the keyboard gets the same signal
+   rather than a lesser one. */
+/* The chevron, centred on the row's full height. One mark for the whole
+   control, level with the middle of the stack in both states. */
+.hunt__field::after {
+  content: "";
+  position: absolute;
+  /* Inset by the row's own padding, so the chevron clears the highlight's
+     edge by the same amount the label clears it on the left. At 0 it sat
+     flush against the wash and read as stuck to it rather than as living
+     inside the row. */
+  inset-inline-end: var(--sp-4);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  width: 9px;
+  height: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6' viewBox='0 0 9 6' fill='none'%3E%3Cpath d='m1 1 3.5 3.5L8 1' stroke='%23F4F2EF' stroke-opacity='.62' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 9px 6px;
+  pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease-out);
+  opacity: 0.75;
+}
+.hunt__field:hover::after,
+.hunt__field:focus-within::after { opacity: 1; }
+
+.hunt__field::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  /* Flush with the row's own box, which is the line's box — so the
+     highlight ends exactly where the hairline ends. It bled 16px past
+     it before, which read as a wash floating loose of the rule it was
+     supposed to belong to. */
+  inset: 2px 0;
+  border-radius: 4px;
+  background: transparent;
+  transition: background-color var(--dur-2) var(--ease-out);
+  pointer-events: none;
+}
+.hunt__field:hover::before,
+.hunt__field:focus-within::before { background: rgba(244, 242, 239, 0.055); }
+
+/* The rule under the row firms up with it — the row's own edge
+   responding, rather than a second thing lighting up. */
+.hunt__field:hover,
+.hunt__field:focus-within { border-bottom-color: rgba(244, 242, 239, 0.34); }
+
+/* The label lifts out of its resting level. The value is already --ink
+   and has nowhere to go, which is correct: the answer does not need to
+   brighten, the question does. */
+.hunt__field:hover .hunt__label,
+.hunt__field:focus-within .hunt__label { color: var(--ink); }
+
+.hunt__label {
+  grid-area: 1 / 1;
+  color: var(--ink-2);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+/* The native control, stripped to its text and given the site's own
+   chevron. It stays a real <select>: the platform picker beats any
+   custom listbox on a touch device and it is keyboard-complete free. */
+/* THE CONTROL IS THE WHOLE ROW, and it is invisible.
+
+   It used to sit in the grid as a second line, which meant an empty row
+   still carried an empty control's height: the label centred above the
+   true middle and the chevron sat 15px below it — measured. Taking the
+   select out of the flow lets the row hold ONLY what it has to show, so
+   a label alone centres properly and lines up with the chevron.
+
+   It also makes the entire row the hit target rather than just the line
+   of text, which is what a row that looks like a control should be. */
+.hunt__control {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  opacity: 0;                       /* invisible, still fully operable */
+  cursor: pointer;
+  color: transparent;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.35;
+  padding: 0 var(--sp-5) 0 0;
+  cursor: pointer;
+  /* A stroked CHEVRON, not a filled triangle. The two-gradient trick
+     draws a solid wedge, which is heavier than anything else in this
+     rail and belongs to a different drawing vocabulary — every other
+     mark here is a hairline.
+
+     It is the same path the nav's chevrons use (`m1 1 3.5 3.5L8 1` at
+     1.3 stroke in a 9x6 box), so the two controls are provably the same
+     glyph rather than two things that look alike. A data URI cannot
+     inherit currentColor, so --ink-2's components are written out —
+     #F4F2EF at 0.62, which is that token, spelled. */
+  /* No chevron here any more. It sat on the control, so it rode the
+     control's line — which after the height was reserved put it at the
+     bottom of the row while the label sat at the top. It belongs to the
+     ROW, not to the value, so it is drawn on the row and centred there;
+     see .hunt__field::after. */
+  transition: color var(--dur-2) var(--ease-out);
+}
+.hunt__control:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 2px; }
+
+/* ---- Answered ----------------------------------------------
+   The row opens into two lines and the hierarchy inverts: the category
+   demotes to a caption and the VALUE takes the rank the label had.
+
+   Two lines rather than the value replacing the label outright. With
+   four fields, a rail reading FERRARI / MODEL / SUV / PRICE is a list
+   of unrelated words — you can no longer tell an answer from a
+   question. The caption costs one line and keeps every row legible as
+   a pair.
+
+   The rail is bottom-aligned with the claim, so this growth happens
+   UPWARD: the CTA never moves while the fields fill. */
+/* The value is its own line, and it only exists once there is one.
+   Empty rows therefore hold a single centred label; filled rows hold a
+   centred pair. Both sit on the row's middle, level with the chevron. */
+.hunt__value {
+  display: none;
+  color: var(--ink);
+  font-size: 1.125rem;
+  line-height: 1.35;
+  padding-inline-end: var(--sp-5);   /* clear of the chevron */
+}
+.hunt__field.is-filled .hunt__value { display: block; }
+.hunt__field.is-filled .hunt__label { color: var(--ink-3); }
+/* The list is drawn by the OS and cannot inherit any of this, so it is
+   given the page's own ground rather than left white. */
+.hunt__control option { background: var(--bg-raised); color: var(--ink); }
+
+/* The one hard-edged object in the rail, and deliberately so: it is the
+   final action, not part of a container. Warm-white pill, full width. */
+.hunt__go {
+  width: 100%;
+  margin-block-start: var(--sp-6);
+  justify-content: center;
+}
+
+/* ---- The panel on smaller screens --------------------------
+   Two stages, and the first one is NOT a breakpoint on width alone.
+
+   Between roughly 1100 and 1280 the claim and the panel both still fit
+   side by side but the headline starts losing its authored two-line
+   break to the narrower column — so the panel gives up width first,
+   down to its 300px floor, before anything stacks. */
+@media (max-width: 1180px) {
+  .hunt { width: 300px; padding: var(--sp-4); }
+  .hero__foot { gap: var(--sp-6); }
+}
+
+/* Below this the two cannot share a line without one of them becoming a
+   column of wrapped fragments, so the panel goes UNDER the copy rather
+   than beside it — the brief's instruction, and the right one: a 300px
+   panel next to a squeezed headline reads as a leftover, not a layout.
+
+   The hero also stops being a fixed 100dvh here: the foot is in normal
+   flow, so the section takes the height its contents need instead of
+   clipping them. That is the one structural change on mobile and it is
+   what stops the panel from being cut off by the fold. */
+@media (max-width: 900px) {
+  .hero { height: auto; min-height: 100svh; }
+  .hero__foot {
+    position: relative;
+    inset: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-7);
+    padding-block: calc(var(--header-h) + var(--sp-8)) var(--sp-8);
+  }
+  .hunt { width: 100%; max-width: 34rem; }
+  /* The media is absolute inside a now-taller hero, so it still covers
+     the whole section rather than only the first screen of it. */
+  .hero__media { position: absolute; inset: 0; }
+}
 
 /* ---- Slider pagination, right edge --------------------------
    Vertical, on the gutter opposite the claim, so the first screen reads
@@ -1615,73 +1992,146 @@ button, input, select { font: inherit; color: inherit; }
    sequence", which is what a hero slider actually communicates.
 
    Inert and aria-hidden until the slider exists — see the markup. */
-.hero__pager {
-  position: absolute;
-  z-index: 2;
-  inset-inline-end: var(--gutter);
-  inset-block-start: 50%;
-  translate: 0 -50%;
+/* ---- The slide counter -------------------------------------
+   An instrument detail, not a carousel widget: a thin ring, a large
+   muted number, and a red arc that reports how much of the current
+   slide is left. It sits in the claim's stack above the eyebrow, on the
+   same left edge as everything else in the text block, so it belongs to
+   the composition rather than floating near it.
+
+   Third in the hierarchy by construction — the number is --ink-3 and
+   the ring is barely there. Nothing here is allowed to reach the
+   headline's weight. */
+/* The instrument and the slide's name read as one line. The margin
+   that used to sit on the counter moves here, so the row is the thing
+   spaced from the claim rather than the dial inside it. */
+.hero__meter {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--sp-3);
+  align-items: center;
+  gap: var(--sp-5);
+  margin-block-end: var(--sp-5);
 }
-/* Buttons now, not decoration. The hit area is padded out to 44px of
-   height while the mark itself stays a 2px rule — a 2px target is a
-   miss waiting to happen, and the padding is transparent so nothing
-   about the drawing changes. */
-.hero__tick {
-  display: block;
-  width: 18px;
-  height: 2px;
+
+/* The name of the current slide. Same technical register the eyebrow
+   had, because it IS the eyebrow's words — tracked uppercase mono at
+   the 14px floor. Full --ink rather than --ink-2: it sits high on the
+   frame where the scrim is thinnest, which is the measurement that put
+   the eyebrow at full ink in the first place. */
+/* 16px and 2px tracking as briefed — and therefore NOT red.
+
+   The two requests are incompatible on this ground, and the numbers
+   say so rather than taste. Measured under the word itself with the
+   text hidden, the worst pixel of the frame behind it is rgb(10,39,54).
+   Against that, --accent #CB141D reads 2.70:1. At 16px the floor is
+   4.5:1, and font-weight cannot buy the exemption: "large" starts at
+   18.66px bold, or 24px at any weight.
+
+   The red that WOULD pass here is #F35A5A at 4.73:1 — a coral, not
+   this brand's red. Shipping that would mean quietly changing the
+   colour to keep the word "red" true, which is worse than not being
+   red.
+
+   So the accent stays where it already works and is already legal: the
+   arc, which is a rule and not text. Two ways to have red here if it
+   is wanted — 20px bold, where the 3:1 floor applies and #CB141D
+   clears at 3.31; or a darker ground under the word, which would mean
+   putting back the plate the hero just had removed. */
+.hero__slide-title {
+  color: var(--ink);        /* 12.5:1 on the measured ground */
+  font-size: 1rem;          /* 16px, as briefed */
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+/* It changes with the slide, so it crossfades rather than cutting —
+   the one thing on this row that swaps its content. */
+.hero__slide-title.is-swapping { opacity: 0; }
+
+.counter {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 68px;
+  height: 68px;
   padding: 0;
   border: 0;
-  background-color: var(--ink-3);
+  background: transparent;
   cursor: pointer;
-  box-sizing: content-box;
-  border-block: 21px solid transparent;   /* 2 + 42 = 44px of target */
-  background-clip: content-box;
-  transition: width var(--dur-3) var(--ease-out),
-              background-color var(--dur-3) var(--ease-out);
 }
-.hero__tick:hover { background-color: var(--ink-2); }
-.hero__tick:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
-/* The first attempt pulled the drawn rules back together with a negative
-   margin to keep the original 12px gap. Measured, that overlapped the
-   two 44px targets by 30px — the lower half of the first tick's target
-   sat under the second one and would have activated it. A control that
-   does something other than what it looks like it does is worse than a
-   small control.
+.counter:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 999px; }
 
-   So the marks are spaced by their targets instead. Two ticks 48px apart
-   is more air than the original 12px, and on a pager of two that reads
-   as deliberate rather than loose. */
-.hero__pager { gap: var(--sp-1); }
-/* The active one is longer AND brighter — two signals, because length
-   alone is a hue-free difference that a 2px rule carries badly, and
-   colour alone would be meaning by brightness only. */
-/* background-COLOR, not the `background` shorthand. The shorthand resets
-   every background longhand it does not mention, including the
-   background-clip: content-box that keeps the fill inside the 2px rule
-   rather than flooding the 44px transparent border that makes the
-   target. With the shorthand here, the active tick painted as a solid
-   18x44 white block. */
-.hero__tick.is-current {
-  width: 34px;
-  background-color: var(--ink);
+.counter__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
+.counter__track,
+.counter__arc {
+  fill: none;
+  stroke-width: 1.75;
+}
+/* Very thin, very low contrast — the ring is a bezel, not a border. */
+.counter__track { stroke: rgba(244, 242, 239, 0.18); }
+
+/* The arc. dasharray is the full circumference so dashoffset can run it
+   from empty to full; both are set here rather than in JS so the
+   geometry lives with the drawing. r=32.6 -> C=204.8. */
+.counter__arc {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-dasharray: 204.8;
+  stroke-dashoffset: 204.8;          /* empty */
+}
+
+/* Driven by the video: main.js writes the film's real duration into
+   --run and flips --run-state with playback, so the arc reports the
+   film rather than a timer running alongside it. Linear, because an
+   eased instrument misreports the quantity it is showing. */
+.counter.is-timing .counter__arc {
+  animation: counter-run var(--run, 47s) linear forwards;
+  animation-play-state: var(--run-state, running);
+}
+@keyframes counter-run {
+  from { stroke-dashoffset: 204.8; }
+  to   { stroke-dashoffset: 0; }
+}
+/* A slide with nothing timing it shows NO ARC — not a full one.
+
+   The photograph has no duration, so a complete red ring would be the
+   instrument reporting a quantity that does not exist, and a full red
+   circle reads as "finished" or worse as an alarm. Empty is the honest
+   state: the bezel and the number, nothing running, because nothing is.
+   The arc returns the moment the film does. */
+.counter.is-static .counter__arc { stroke-dashoffset: 204.8; }
+
+.counter__n {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;   /* 01 and 02 must not shift width */
+  transition: color var(--dur-2) var(--ease-out);
+}
+.counter:hover .counter__n { color: var(--ink-2); }
+
 @media (prefers-reduced-motion: reduce) {
-  .hero__tick { transition: none; }
+  .counter.is-timing .counter__arc { animation: none; stroke-dashoffset: 0; }
+  .counter__n { transition: none; }
 }
-/* Below the compact breakpoint the frame is already recomposed to a
-   portrait crop and the right gutter is too tight to hold it. */
-@media (max-width: 1390px) {
-  .hero__pager { display: none; }
+
+/* Below this the hero stacks and the instrument has nowhere quiet to
+   sit; the film still hands over on its own and the search rail is the
+   thing that matters on a phone. */
+@media (max-width: 900px) {
+  .hero__meter { display: none; }
 }
-/* Full ink, not --ink-2. See the measurement above: a 62% alpha at 14px
-   cannot reach 4.5:1 anywhere on this frame that is not already the
-   bottom quarter, and this line sits above it. */
-.hero__eyebrow { color: var(--ink); }
 
 /* THE CLAIM IS THE GROTESQUE, BOLD, AT FULL DISPLAY SIZE.
 
@@ -1801,7 +2251,6 @@ button, input, select { font: inherit; color: inherit; }
        blurred it off, and the paragraph was invisible while still taking
        its space in the flow. Any component class used as an animation
        target has to be qualified by the section that owns the gesture. */
-    .hero__eyebrow,
     .hero__claim .claim__line,
     .hero__claim .lede,
     .hero__claim .cta-row {
@@ -1842,25 +2291,29 @@ button, input, select { font: inherit; color: inherit; }
        leads because it is the first thing to lose. Same lean, opposite
        reasons, and it keeps the two gestures from looking like one
        animation played in reverse. */
-    .hero__eyebrow {
-      --rise: -340px; --blur: 18px; --exit-range: exit  0% exit 40%;
-      --in-rise:  44px; --in-blur: 14px; --in-delay:  80ms;
-    }
+    /* RE-TIMED after the eyebrow was removed. It was the leader of both
+       gestures — first in at 80ms, first out at exit 0%, and the deepest
+       lift at -340px. Deleting it and leaving the rest untouched would
+       have started the entrance 180ms late for no reason a viewer could
+       see, and shortened the exit's reach by the whole of its first
+       step. So the claim inherits the lead: the delays shift down by the
+       eyebrow's 100ms, and the exit ranges and lifts each move up one
+       place. Same shape, one fewer element. */
     .hero__claim .claim__line:first-child {
-      --rise: -270px; --blur: 15px; --exit-range: exit  3% exit 46%;
-      --in-rise:  52px; --in-blur: 16px; --in-delay: 180ms;
+      --rise: -300px; --blur: 17px; --exit-range: exit  0% exit 42%;
+      --in-rise:  52px; --in-blur: 16px; --in-delay:  80ms;
     }
     .hero__claim .claim__line:last-child {
-      --rise: -205px; --blur: 12px; --exit-range: exit  7% exit 52%;
-      --in-rise:  52px; --in-blur: 16px; --in-delay: 280ms;
+      --rise: -225px; --blur: 13px; --exit-range: exit  4% exit 48%;
+      --in-rise:  52px; --in-blur: 16px; --in-delay: 180ms;
     }
     .hero__claim .lede {
-      --rise: -145px; --blur:  9px; --exit-range: exit 11% exit 58%;
-      --in-rise:  36px; --in-blur: 10px; --in-delay: 400ms;
+      --rise: -150px; --blur:  9px; --exit-range: exit  9% exit 55%;
+      --in-rise:  36px; --in-blur: 10px; --in-delay: 300ms;
     }
     .hero__claim .cta-row {
-      --rise:  -90px; --blur:  6px; --exit-range: exit 15% exit 64%;
-      --in-rise:  28px; --in-blur:  8px; --in-delay: 500ms;
+      --rise:  -90px; --blur:  6px; --exit-range: exit 14% exit 62%;
+      --in-rise:  28px; --in-blur:  8px; --in-delay: 400ms;
     }
   }
 }
@@ -2041,8 +2494,45 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    forced row showed bone while the live control went red. */
 .btn--fill:hover,
 .btn--fill.is-hover {
-  background: var(--accent);
-  color: #FFFFFF;                /* 5.74:1 */
+  background: var(--action);
+  color: var(--action-ink);      /* 6.30:1 — via the tokens, not a literal */
+}
+
+/* ---- ACCENT ACTION -----------------------------------------
+   A high-priority conversion action, used selectively on dark or
+   cinematic surfaces. Search Inventory, Get an Offer, and their like.
+
+   IT IS NOT A DANGER VARIANT. Nothing here means destructive, error or
+   warning, and it must never be reached for to mean them — which is
+   the whole reason it is named for the job rather than the colour.
+   `.btn--danger` would be a different component with a different
+   meaning that happened to share a hue.
+
+   USE SPARINGLY: at most one dominant Accent Action inside a single
+   primary visual region. Red works in this system by scarcity — it is
+   otherwise a mark, never a ground — and a page where every call to
+   action is red has no call to action at all.
+
+   Hover and press go DENSER, never brighter. A CTA that lights up on
+   approach reads as a toy; one that deepens reads as taking the weight.
+   No glow, no gradient, no gloss, no shadow — the colour is the whole
+   signal. */
+.btn--accent {
+  background: var(--action);
+  color: var(--action-ink);              /* 6.30:1 */
+  box-shadow: inset 0 0 0 1px var(--action-edge);
+}
+.btn--accent:hover,
+.btn--accent.is-hover {
+  background: var(--action-hover);       /* 7.01:1 */
+}
+.btn--accent:active {
+  background: var(--action-press);       /* 8.50:1 */
+}
+.btn--accent:focus-visible,
+.btn--accent.is-focus {
+  outline: 2px solid var(--action-focus);
+  outline-offset: 3px;
 }
 
 /* Secondary — the same pill, drawn instead of filled. */
@@ -2076,8 +2566,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .on-bone .btn--fill:hover, .on-bone .btn--fill.is-hover,
 .record .btn--fill:hover, .record .btn--fill.is-hover {
-  background: var(--accent);
-  color: #FFFFFF;                /* 5.74:1 — the accent does not invert */
+  background: var(--action);
+  color: var(--action-ink);      /* the action colour does not invert */
 }
 .on-bone .btn--line, .record .btn--line {
   color: var(--bone-ink);
@@ -2757,24 +3247,29 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    The title carries real display scale now. At its previous size it was
    smaller than the vehicle it was introducing and read as a label on a
    module rather than the name of a section. */
+/* A single column now. The two-column grid existed to seat an eyebrow
+   on the left and a browse-all link on the right, on one line above the
+   title; both are gone, and a grid whose second column has nothing to
+   put in it is a rule describing a layout that no longer happens.
+   The heading and its lede are all that is left, so they are simply
+   stacked, and --sp-4 above the title goes with the eyebrow that used
+   to need clearing. */
 .inv__intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
-  column-gap: var(--sp-7);
-  margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
+  margin-block-end: clamp(var(--sp-6), 2.2vw, var(--sp-7));
 }
-.inv__eyebrow { grid-column: 1; color: var(--ink-3); letter-spacing: 0.22em; }
-.inv__intro .inv__all { grid-column: 2; grid-row: 1; justify-self: end; }
+/* The block read loose for one reason, and it was inside the heading
+   rather than around it: at 57.6px the title was inheriting the body's
+   1.6 line-height and rendering in a 92px box — 34px of leading a
+   display size does not want. Tightening the line does most of the
+   compacting on its own; the margins around it only finish the job. */
 .inv__title {
-  grid-column: 1 / -1;
-  margin-block-start: var(--sp-4);
-  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-size: clamp(2.25rem, 3.4vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: var(--tr-display);
 }
 .inv__intro .lede {
-  grid-column: 1;
-  margin-block-start: var(--sp-5);
-  max-width: 44ch;
+  margin-block-start: var(--sp-4);
+  max-width: 46ch;
 }
 
 /* ============================================================
@@ -2794,9 +3289,49 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .showcase {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(23rem, 31rem);
-  gap: clamp(var(--sp-7), 3.6vw, var(--sp-8));
+  /* REBALANCED to roughly 60/40. It was 1fr against a 23-31rem column,
+     which on a wide screen resolved closer to 72/28 — the index read as
+     something parked beside the picture rather than the second half of
+     one composition. Fractions rather than a fixed rem cap, so the
+     ratio holds at every width instead of drifting as the viewport
+     grows.
+
+     The counterweight argument in the note above still stands and is
+     not undone by this: a wide horizontal photograph answered by a
+     narrow vertical column. 40% is still narrow against 60% — it is
+     simply no longer a margin. */
+  grid-template-columns: minmax(0, 59fr) minmax(21rem, 41fr);
+  gap: clamp(var(--sp-7), 3.4vw, var(--sp-8));
   align-items: stretch;
+
+  /* ONE FIELD FOR THE WHOLE SECTION.
+
+     This is the four-layer ground that was on .showcase__stage. Lifting
+     it here is what unifies the section: the car and the index are now
+     two things standing in one modelled light, rather than a card
+     beside a list. The radius belongs to the scene, not to the picture.
+
+     The light is re-centred at 34% rather than 50%, because the subject
+     it is modelling now occupies the left 59% of a wider box. Leaving it
+     at centre would have pooled the brightest part of the ground in the
+     gap between the two columns — lighting the seam instead of the car.
+
+     Same layers, same reasoning as before: a corner falloff pulling the
+     edges down, a broad atmospheric field, a tighter core behind the
+     car's mass, and a base grading to near-black at the floor. Depth
+     from several tonal events, not from raising the light. */
+  padding: clamp(var(--sp-6), 2.6vw, var(--sp-8));
+  border-radius: 26px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(125% 118% at 34% 44%,
+      transparent 34%, rgba(4, 7, 14, 0.5) 82%, rgba(3, 5, 11, 0.72) 100%),
+    radial-gradient(26% 30% at 34% 55%,
+      rgba(206, 222, 248, 0.11) 0%, rgba(150, 175, 214, 0.05) 55%, transparent 78%),
+    radial-gradient(64% 74% at 34% 40%,
+      rgba(138, 162, 200, 0.10) 0%, rgba(96, 118, 156, 0.045) 46%, transparent 80%),
+    linear-gradient(180deg, #121A2C 0%, #0C1220 48%, #070A12 100%);
 }
 
 /* ---- The "Just in" ribbon ----------------------------------
@@ -2912,26 +3447,22 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      field left ~200px of empty box above and below it and the car read
      as floating in a container rather than filling a frame. The field is
      now shaped like its subject. */
+  /* WIDTH-LED, and that matters more than it looks. The parent stretches
+     its items, so with only an aspect-ratio the stage took its height
+     from the row and then demanded the width to match — it was running
+     1128px wide inside a 780px column. The old `overflow: hidden` hid
+     that by clipping it, so removing the card revealed an overflow that
+     had been there all along. Pinning the width and centring makes the
+     ratio derive height from width, which is the direction it was always
+     meant to work in. */
+  width: 100%;
+  align-self: center;
   aspect-ratio: 16 / 10;
-  border-radius: 22px;
-  overflow: hidden;
-  /* FOUR LAYERS, AND THE TOTAL IS DARKER THAN BEFORE, NOT LIGHTER.
-     Depth in a dark field comes from having more than one tonal event in
-     it, not from raising the light. So: a corner falloff that pulls the
-     edges down and pushes the centre back, a broad soft field for
-     atmosphere, a tighter core sitting behind the car's mass, and a base
-     that grades from slightly lifted at the top to near-black at the
-     floor. The car separates by luminance against a ground that is
-     itself modelled, rather than by sitting on a flat panel. */
-  background:
-    radial-gradient(125% 105% at 50% 44%,
-      transparent 34%, rgba(4, 7, 14, 0.5) 82%, rgba(3, 5, 11, 0.72) 100%),
-    radial-gradient(36% 30% at 50% 55%,
-      rgba(206, 222, 248, 0.11) 0%, rgba(150, 175, 214, 0.05) 55%, transparent 78%),
-    radial-gradient(88% 74% at 50% 40%,
-      rgba(138, 162, 200, 0.10) 0%, rgba(96, 118, 156, 0.045) 46%, transparent 80%),
-    linear-gradient(180deg, #121A2C 0%, #0C1220 48%, #070A12 100%);
-  isolation: isolate;
+  /* NO GROUND OF ITS OWN, AND NO RADIUS. The four-layer field that used
+     to live here has moved up to .showcase — see there for why. Keeping
+     it meant the car sat in a rounded box while the index sat on bare
+     page, which is exactly what made the section read as "picture on the
+     left, widget on the right". */
 }
 
 /* Off-centre and elliptical. A centred circular glow reads as a vignette
@@ -3001,11 +3532,44 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    photograph's lower edge — the two masses resolve together instead of
    one hanging below the other. */
 .showcase__index { display: flex; flex-direction: column; }
+
+/* ---- The index's last line ---------------------------------
+   A BUTTON now, and the outlined variant rather than the accent one:
+   the page's one Accent Action in this region is Search Inventory in
+   the hero, and the documented rule is at most one dominant accent per
+   primary visual region. A second red fill here would split the
+   decision between two reds of equal weight.
+
+   It keeps its place as the conclusion of the list — four cars, then
+   the way to the rest of them. */
+.index__all {
+  align-self: flex-start;
+  margin-block-start: var(--sp-6);
+}
+
+/* FOUR FIXED SLOTS. This is what stops the column jumping.
+
+   Selecting a record used to change three things that each alter its
+   height — the row's padding, the detail opening from 0fr to 1fr, and
+   the model's font-size — so the active row grew, the others gave way,
+   and every boundary below the pointer moved. The list's TOTAL height
+   was constant, which is why an earlier measurement of the section
+   found 0px and missed it entirely: the section never moved, the rows
+   inside it did.
+
+   Equal grid rows fix it at the cause. Every slot is the same height
+   whatever is in it, so a record can grow all it likes inside its own
+   and nothing outside it can feel the difference.
+
+   The cost is that the column is sized for its LARGEST state rather
+   than its average, so it is taller at rest than it used to be. That is
+   the correct trade: the alternative is a list that rearranges itself
+   under the reader. */
 .recs {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
   flex: 1;
+  min-height: 44rem;
   border-top: 1px solid var(--rule);
 }
 
@@ -3027,10 +3591,16 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   /* Generous on the inactive rows so the column fills its height by
      RHYTHM rather than by space-between prising four items apart —
      that left ~110px voids between records and read as a gappy list. */
-  padding-block: var(--sp-6);
+  /* The column is wider now, so the rows are given more air to match —
+     a wider measure at the same rhythm reads as looser horizontally and
+     tighter vertically. */
+  /* Fixed padding, and the content centred in the slot. The padding
+     used to change with selection, which was one of the three things
+     moving the rows. */
+  padding-block: var(--sp-5);
+  align-content: center;
   border-bottom: 1px solid var(--rule);
-  transition: padding-block var(--sel-dur) var(--sel-ease),
-              border-color var(--sel-dur) var(--sel-ease);
+  transition: border-color var(--sel-dur) var(--sel-ease);
 }
 
 /* THE BLOOM BEHIND THE SELECTED RECORD.
@@ -3223,9 +3793,9 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    divider — only the colour changes — so the line reads as the precise,
    technical edge of the light rather than as a heavier border. Inactive
    dividers stay neutral and quiet. */
+/* No padding change: the slot is fixed and the content centres in it. */
 .rec.is-active {
   border-bottom-color: rgba(58, 108, 200, 0.62);
-  padding-block: var(--sp-6) var(--sp-7);
 }
 .rec.is-active .rec__no { color: var(--ink); }
 .rec.is-active .rec__model {
@@ -3236,7 +3806,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--ink);
   margin-block-start: var(--sp-3);
 }
-.rec.is-active .rec__facts {
+.rec.is-active /* The facts and the action sat flush — "1,641 milesView vehicle" — because
+   nothing separated two inline spans. */
+.rec__detail-in { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-3) var(--sp-6); }
+
+.rec__facts {
   margin-block-start: var(--sp-5);
   font-family: var(--font-mono);
   font-size: 1.0625rem;
@@ -3282,7 +3856,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   .showcase { grid-template-columns: minmax(0, 1fr); gap: clamp(var(--sp-6), 4vw, var(--sp-7)); }
   .showcase__stage { margin-inline: calc(50% - 50vw); aspect-ratio: 2 / 1; }
   .recs { flex: none; }
-  .inv__intro { grid-template-columns: minmax(0, 1fr); align-items: start; }
 }
 @media (max-width: 620px) {
   .showcase__stage { aspect-ratio: 3 / 2; }
@@ -3799,4 +4372,155 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   .stage__nav { transition: opacity var(--dur-1) var(--ease-out); translate: none; }
   .stage__arrow { transition: background var(--dur-1) var(--ease-out); }
   .stage__arrow:active { scale: none; }
+}
+
+/* ============================================================
+   SELL / TRADE — the inverted band
+   ============================================================ */
+.sell {
+  background: var(--bone);
+  color: var(--bone-ink);
+  /* The band tucks under the dark section above it rather than butting
+     into it edge to edge. One corner, generous, on the side the reading
+     starts from — a radius on all four would make it a card, and this
+     is a ground. */
+  border-start-start-radius: clamp(40px, 5vw, 72px);
+  overflow: hidden;
+}
+
+.sell__grid {
+  display: grid;
+  /* Copy and photograph share the band; the steps run under both. The
+     photograph takes the larger share because it is the only thing here
+     that has to be looked at rather than read. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  align-items: center;
+  column-gap: clamp(var(--sp-7), 4vw, var(--sp-9));
+}
+
+/* A column, not a block of inline items. The button is inline-flex and
+   the link was inline-block, so they landed on the same line with the
+   text jammed against the button's edge — "GET AN OFFERHOW IT WORKS".
+   align-items: start keeps each one its own width instead of stretching
+   the button across the measure. */
+.sell__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding-block: clamp(var(--sp-9), 7vw, var(--sp-11));
+  padding-inline-start: clamp(var(--sp-7), 5vw, var(--sp-10));
+  max-width: 34rem;
+  justify-self: end;
+}
+
+/* 4.78:1 on --bone. The same red is a mark only on the dark ground,
+   where it reads 3.31:1 — this is the one part of the page where the
+   accent is allowed to BE text, and it is the ground that permits it. */
+.sell__eyebrow {
+  color: var(--accent);
+  letter-spacing: 0.22em;
+  margin-block-end: var(--sp-6);
+}
+.sell__eyebrow span { margin-inline: 0.4em; opacity: 0.5; }
+
+.sell__title {
+  font-size: clamp(2.25rem, 3.6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: var(--tr-display);
+  color: var(--bone-ink);          /* 15.23:1 */
+}
+
+.sell__lede {
+  margin-block-start: var(--sp-5);
+  max-width: 34ch;
+  color: var(--bone-ink-2);        /* 5.67:1 */
+  line-height: 1.6;
+}
+
+.sell__go { margin-block-start: var(--sp-7); }
+
+/* A text link, not a second button: the band already has its one
+   Accent Action and a second filled control beside it would split the
+   decision. The rule under it is the accent doing what it does on the
+   dark side — marking, not filling. */
+.sell__how {
+  display: inline-block;
+  margin-block-start: var(--sp-6);
+  color: var(--bone-ink);
+  letter-spacing: 0.18em;
+  padding-block-end: var(--sp-2);
+  border-bottom: 1px solid var(--accent);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.sell__how:hover, .sell__how:focus-visible { color: var(--accent); }
+
+/* Flush to the band's top and right: the picture is the other half of
+   the ground, not an image sitting on it. */
+.sell__media {
+  align-self: stretch;
+  min-height: 100%;
+  position: relative;
+}
+.sell__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ---- The three steps --------------------------------------- */
+.sell__steps {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--bone-rule);
+  margin-inline: clamp(var(--sp-7), 5vw, var(--sp-10));
+  /* The gap above was a section break's worth of space on top of the
+     row's own padding, which left the three steps stranded in bone with
+     no relationship to the block they conclude. They are the last line
+     of this band, not a section after it. */
+  padding-block: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+  margin-block-start: 0;
+}
+.sell__steps li {
+  display: grid;
+  gap: var(--sp-3);
+  padding-inline: clamp(var(--sp-5), 3vw, var(--sp-7));
+}
+.sell__steps li:first-child { padding-inline-start: 0; }
+/* Rules BETWEEN, not around: a border on every item would box each step
+   and turn three stages into three cards. */
+.sell__steps li + li { border-inline-start: 1px solid var(--bone-rule); }
+
+.sell__step-n { color: var(--accent); letter-spacing: 0.14em; }   /* 4.78:1 */
+.sell__step-t { color: var(--bone-ink); letter-spacing: 0.14em; }
+
+/* ---- Narrow --------------------------------------------------
+   The photograph goes ABOVE the copy rather than beside it, and keeps a
+   real height: dropping it, or letting it collapse to a strip, would
+   remove the only thing in this band a visitor looks at rather than
+   reads. */
+@media (max-width: 900px) {
+  .sell__grid { grid-template-columns: minmax(0, 1fr); }
+  .sell__media { order: -1; aspect-ratio: 16 / 10; min-height: 0; }
+  .sell__copy {
+    justify-self: stretch;
+    max-width: none;
+    padding-inline: var(--gutter);
+    padding-block: clamp(var(--sp-8), 9vw, var(--sp-9));
+  }
+  .sell__steps {
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline: var(--gutter);
+    gap: var(--sp-5);
+  }
+  .sell__steps li { padding-inline: 0; }
+  .sell__steps li + li {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--bone-rule);
+    padding-block-start: var(--sp-5);
+  }
 }

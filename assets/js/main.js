@@ -236,42 +236,113 @@
 
   var hero   = document.querySelector('.hero');
   if (!hero) return;
-  var slides = [].slice.call(hero.querySelectorAll('.hero__slide'));
-  var ticks  = [].slice.call(hero.querySelectorAll('.hero__tick'));
-  var video  = hero.querySelector('.hero__video');
+  var slides  = [].slice.call(hero.querySelectorAll('.hero__slide'));
+  var counter = hero.querySelector('.counter');
+  var num     = counter && counter.querySelector('.counter__n');
+  var video   = hero.querySelector('.hero__video');
   if (slides.length < 2) return;
 
+  var meter  = hero.querySelector('.hero__meter');
+  var title  = hero.querySelector('.hero__slide-title');
+  var words  = (meter && meter.getAttribute('data-titles') || '')
+                 .split(',').map(function (w) { return w.trim(); }).filter(Boolean);
+  var word   = 0;
+
+  var at = 0;
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  function go(i) {
-    slides.forEach(function (s, n) { s.classList.toggle('is-current', n === i); });
-    ticks.forEach(function (t, n) {
-      t.classList.toggle('is-current', n === i);
-      t.setAttribute('aria-selected', String(n === i));
-    });
-    // Nothing plays while it is not the thing on screen.
-    if (video && i !== 0) video.pause();
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* The arc is restarted by REPLACING the class, not by toggling a
+     property: a CSS animation does not rewind while its element keeps
+     the class, so a second visit to the film would have shown an arc
+     already full. Remove, force a reflow, add back — the one reliable
+     retrigger without a second set of keyframes. */
+  var STILL_HOLD = 5;          // seconds a still slide is given
+  var arc = counter && counter.querySelector('.counter__arc');
+  var onArcEnd = null;
+
+  function arm(seconds, andThen) {
+    if (!counter) return;
+    counter.classList.remove('is-timing', 'is-static');
+    void counter.offsetWidth;
+    counter.style.setProperty('--run', seconds + 's');
+    counter.style.setProperty('--run-state', 'running');
+    counter.classList.add('is-timing');
+
+    /* The ADVANCE is driven by the arc's own animationend, not by a
+       parallel setTimeout. One clock: whatever the arc shows is what
+       actually happens, and a paused arc is a paused slide for free —
+       a separate timer would keep counting behind a stopped instrument
+       and the two would drift apart within one cycle. */
+    if (arc && onArcEnd) arc.removeEventListener('animationend', onArcEnd);
+    onArcEnd = null;
+    if (arc && andThen) {
+      onArcEnd = function () { onArcEnd = null; andThen(); };
+      arc.addEventListener('animationend', onArcEnd, { once: true });
+    }
+  }
+  function settle() {
+    if (!counter) return;
+    counter.classList.remove('is-timing');
+    counter.classList.add('is-static');
   }
 
-  ticks.forEach(function (t) {
-    t.addEventListener('click', function () {
-      var i = Number(t.getAttribute('data-goto'));
-      go(i);
-      // Going back to the film restarts it rather than resuming a clip
-      // that already ended — a second visit should be the whole thing.
-      if (i === 0 && video && !calm.matches) {
-        video.currentTime = 0;
-        video.play().catch(function () {});
-      }
+  /* The word advances on EVERY change of slide — clicked or automatic —
+     and it runs its own, longer cycle. It is deliberately not read off
+     the slide: with four words over two frames it would otherwise be
+     captioning a picture it does not describe. It is the register the
+     house speaks in, turning over.
+
+     Crossfaded rather than cut: it is the only thing on this row whose
+     content swaps, and a hard swap beside a smoothly running arc reads
+     as a glitch. */
+  function stepWord() {
+    if (!title || words.length < 2) return;
+    word = (word + 1) % words.length;
+    title.classList.add('is-swapping');
+    setTimeout(function () {
+      title.textContent = words[word];
+      title.classList.remove('is-swapping');
+    }, 200);
+  }
+
+  function go(i) {
+    at = i;
+    slides.forEach(function (s, n) { s.classList.toggle('is-current', n === i); });
+    if (num) num.textContent = pad(i + 1);
+    // Nothing plays while it is not the thing on screen.
+    if (video && i !== 0) video.pause();
+    /* A still now has a duration too, so it gets a real arc rather than
+       an empty ring — five seconds, then it hands back to the film. The
+       film is timed by the film itself; see `ended` below. */
+    if (i !== 0) {
+      if (calm.matches) settle();
+      else arm(STILL_HOLD, function () { go(0); stepWord(); restartFilm(); });
+    }
+  }
+
+  function restartFilm() {
+    if (!video || calm.matches) return;
+    video.currentTime = 0;
+    if (isFinite(video.duration)) arm(video.duration.toFixed(2));
+    video.play().catch(function () {});
+  }
+
+  if (counter) {
+    counter.addEventListener('click', function () {
+      var next = (at + 1) % slides.length;
+      go(next);
+      stepWord();
+      if (next === 0) restartFilm();
     });
-  });
+  }
 
   /* ---- reduced motion: the photograph IS the hero ---- */
   function standDown() {
     if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
     go(1);
-    var pager = hero.querySelector('.hero__pager');
-    if (pager) pager.remove();          // one slide, so no choice to offer
+    if (counter) counter.remove();   // one slide reachable, so no instrument
   }
 
   if (calm.matches) { standDown(); return; }
@@ -279,38 +350,102 @@
 
   if (!video) return;
 
-  /* The video is transparent until it is genuinely running, and the
-     photograph stands behind it in the meantime.
-
-     This clip opens on an almost-black frame — measured, the first frame
-     averages rgb(21,43,55) — so a video element that is merely PRESENT
-     paints a black rectangle over the hero as soon as its metadata
-     arrives, poster or no poster. Revealing it only once playback has
-     actually started means the opening is a composed picture that
-     dissolves into moving film, rather than a black hole that later
-     brightens. */
   function reveal() { video.classList.add('is-playing'); }
 
+  video.addEventListener('play',  function () {
+    if (counter) counter.style.setProperty('--run-state', 'running');
+  });
+  video.addEventListener('pause', function () {
+    if (counter) counter.style.setProperty('--run-state', 'paused');
+  });
+
   video.addEventListener('canplaythrough', function () {
+    if (isFinite(video.duration)) arm(video.duration.toFixed(2));
     var p = video.play();
-    // Autoplay can still be refused — a battery saver, a browser policy,
-    // a tab opened in the background. If it is, the video stays
-    // transparent and the photograph behind it is the hero, which is a
-    // complete state rather than a failure.
     if (p && typeof p.catch === 'function') p.then(reveal).catch(function () {});
     else reveal();
   }, { once: true });
 
-  // The end of the film is the transition. This is the whole reason
-  // `loop` was removed from the markup.
-  video.addEventListener('ended', function () { go(1); });
+  // The end of the film is the transition.
+  video.addEventListener('ended', function () { go(1); stepWord(); });
 
-  // Nothing plays into a tab nobody is looking at.
-  document.addEventListener('visibilitychange', function () {
+  /* ---- Nothing advances past someone who is looking at it ----
+     The hero now moves on its own, so it has to stop when a visitor is
+     engaged with it. Pointer over the hero, or keyboard focus inside it,
+     holds BOTH the film and the arc — and because the arc is the clock,
+     holding the arc holds the slide. This is the same protection the
+     earlier reel carried, and it is what separates a sequence from a
+     carousel that talks over you. */
+  function hold(on) {
+    if (counter) counter.style.setProperty('--run-state', on ? 'paused' : 'running');
     if (!video) return;
-    if (document.hidden) video.pause();
+    if (on) video.pause();
     else if (slides[0].classList.contains('is-current')) video.play().catch(function () {});
+  }
+  hero.addEventListener('mouseenter', function () { hold(true); });
+  hero.addEventListener('mouseleave', function () { hold(false); });
+  /* Focus holds it only for a KEYBOARD user. Clicking the counter also
+     focuses it, and with a plain focusin handler that click paused the
+     hero permanently — the visitor stepped one slide and the sequence
+     never started again. :focus-visible is exactly the distinction:
+     someone navigating by keyboard needs the hold, someone who just
+     pressed a button does not.
+
+     The try/catch is not decoration — :focus-visible throws on engines
+     that do not know the selector, and a hero that stops advancing
+     because of a matches() call would be a poor trade for a nicety. */
+  function focusHolds(el) {
+    if (!el || el === document.body) return false;
+    try { return el.matches(':focus-visible'); }
+    catch (e) { return false; }
+  }
+  hero.addEventListener('focusin', function (e) {
+    if (focusHolds(e.target)) hold(true);
+  });
+  hero.addEventListener('focusout', function (e) {
+    if (!hero.contains(e.relatedTarget)) hold(false);
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    hold(document.hidden);
   });
 
   video.load();
+})();
+
+/* ============================================================
+   HERO SEARCH — a row knows whether it has been answered
+   ============================================================
+   CSS alone cannot ask this. :placeholder-shown does not apply to
+   <select>, and :has() cannot test a select's VALUE — only its
+   structure — so the one honest way to tell an empty control from an
+   answered one is to read it.
+
+   Two lines of state, and it also runs on load: a browser restoring
+   form values after a back-navigation would otherwise show four filled
+   selects behind four empty-looking labels.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var rows = [].slice.call(document.querySelectorAll('.hunt__field'));
+  if (!rows.length) return;
+
+  rows.forEach(function (row) {
+    var control = row.querySelector('.hunt__control');
+    var out     = row.querySelector('.hunt__value');
+    if (!control) return;
+    function sync() {
+      var filled = control.value !== '';
+      row.classList.toggle('is-filled', filled);
+      /* The visible value is a span, not the select's own text: the
+         select is an invisible sheet covering the row, so it has no text
+         to show. Writing the chosen option's label here is what keeps
+         the row readable — and it reads the OPTION rather than the raw
+         value, so what appears is exactly what was picked from the list. */
+      if (out) out.textContent = filled ? control.options[control.selectedIndex].text : '';
+    }
+    control.addEventListener('change', sync);
+    sync();
+  });
 })();

@@ -24,8 +24,8 @@
 <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=17">
-<link rel="stylesheet" href="assets/css/main.css?v=127">
+<link rel="stylesheet" href="assets/css/tokens.css?v=18">
+<link rel="stylesheet" href="assets/css/main.css?v=158">
 </head>
 <body>
 
@@ -440,24 +440,6 @@
       <div class="hero__scrim" aria-hidden="true"></div>
     </div>
 
-    <!-- The pager is real now, and it is TWO, because there are two
-         slides. It was four ticks, aria-hidden, wired to nothing, with
-         its own note saying FOUR IS A PLACEHOLDER — so the count is
-         taken from the slides rather than from what looked right.
-
-         Real <button>s with real labels: a hero a visitor cannot leave
-         except by waiting out a 47-second film is not a slider, it is a
-         film with dots drawn on it. -->
-    <div class="hero__pager" role="tablist" aria-label="Hero slides">
-      <button class="hero__tick is-current" type="button" role="tab"
-              aria-selected="true" data-goto="0">
-        <span class="u-visually-hidden">Show the film</span>
-      </button>
-      <button class="hero__tick" type="button" role="tab"
-              aria-selected="false" data-goto="1">
-        <span class="u-visually-hidden">Show the photograph</span>
-      </button>
-    </div>
 
     <!-- Bottom left, on the WORDMARK's line — the full-bleed gutter, not
          the centred .shell the sections below use.
@@ -474,7 +456,53 @@
          The first h1 on the page. There was none at all before this. -->
     <div class="hero__foot">
         <div class="hero__claim stack">
-          <p class="micro hero__eyebrow">Luxury <span aria-hidden="true">·</span> Exotic <span aria-hidden="true">·</span> Performance</p>
+          <!-- CIRCULAR SLIDE COUNTER — an instrument, not carousel chrome.
+
+               It replaces the line pagination outright; both systems
+               were never going to coexist without reading as two
+               opinions about the same fact.
+
+               THE COUNTER IS A BUTTON. The brief describes a counter,
+               and a counter alone would have left this hero with no way
+               back: the film hands over to the photograph when it ends,
+               and nothing would hand it back. Stepping on click keeps
+               the sequence in the visitor's hands without adding a
+               second control beside the instrument.
+
+               The arc is drawn with stroke-dashoffset on a real circle
+               rather than with a conic gradient, because only a stroked
+               path can be 1.75px thin and stay 1.75px at every radius. -->
+          <!-- The counter and the slide's own title read as one line.
+
+               The words are the EYEBROW's, not new copy: "Luxury ·
+               Exotic · Performance" used to sit here as one line for the
+               whole hero, and it has been distributed — one word per
+               slide, three words for three slides. Two are in use; the
+               third is waiting for a third slide rather than being
+               invented for one.
+
+               The title is written on the SLIDE (data-title), so a slide
+               and its name cannot drift apart when one is reordered. -->
+          <!-- The word list lives HERE, not in the script, so it can be
+               rewritten without touching code. It is longer than the
+               slide list on purpose: the word is a rotating register
+               rather than a caption on a picture, so it is not claiming
+               to describe the frame behind it. -->
+          <div class="hero__meter" data-titles="Luxury, Exotic, Performance, Service">
+          <button class="counter" type="button"
+                  aria-label="Next hero slide"
+                  data-total="2">
+            <svg class="counter__ring" viewBox="0 0 68 68" aria-hidden="true" focusable="false">
+              <circle class="counter__track" cx="34" cy="34" r="32.6"/>
+              <!-- Rotated so the arc starts at twelve o'clock, which is
+                   where an instrument reads from. -->
+              <circle class="counter__arc" cx="34" cy="34" r="32.6"
+                      transform="rotate(-90 34 34)"/>
+            </svg>
+            <span class="counter__n">01</span>
+          </button>
+            <span class="hero__slide-title micro">Luxury</span>
+          </div>
           <!-- Two spans, not one wrapped sentence, because the two lines
                have to leave at different speeds on the scroll — and
                because a break this size should be authored rather than
@@ -497,6 +525,76 @@
             </a>
           </div>
         </div>
+
+        <!-- THE SEARCH, INSIDE THE HERO.
+
+             Moved up from the horizontal bar that used to ride the hero's
+             bottom edge, and that bar is gone — two inventory searches one
+             after the other is the same question asked twice.
+
+             The fields carry NO BOXES, and that is the whole difference
+             between this and a booking form. A bordered input per field is
+             what makes a hotel widget read as a hotel widget: four framed
+             slots demanding to be filled. Here each row is a label over a
+             value with a hairline under it — the register of a spec sheet,
+             which is what a car is described by. Same controls, same
+             semantics, entirely different claim about what the thing is.
+
+             It stays a real <form> pointed at their live inventory: the
+             search is the one part of this hero that has to survive being
+             wired to the feed. -->
+        <form class="hunt" action="https://www.chicagomotorcars.com/used-cars-chicago-il/" method="get">
+          <p class="micro hunt__eyebrow">Find your next car</p>
+
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-make">Make</label>
+            <select class="hunt__control" id="h-make" name="make">
+              <option value="">Select Make</option>
+              <option>Ferrari</option><option>Lamborghini</option><option>McLaren</option>
+              <option>Porsche</option><option>Rolls-Royce</option><option>Dodge</option>
+              <option>Koenigsegg</option><option>Rimac</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-model">Model</label>
+            <select class="hunt__control" id="h-model" name="model">
+              <option value="">Select Model</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <!-- Their own body-style taxonomy, straight off the live nav. -->
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-body">Body Style</label>
+            <select class="hunt__control" id="h-body" name="bodystyle">
+              <option value="">Select Body Style</option>
+              <option>Convertible</option><option>Coupe</option><option>Hatchback</option>
+              <option>Sedan</option><option>SUV</option><option>Wagon</option>
+              <option>Pickup Truck</option><option>Sprinter Van</option>
+              <option>Motorcycle</option><option>Boat</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-price">Price</label>
+            <select class="hunt__control" id="h-price" name="price">
+              <option value="">Any Price</option>
+              <option>Under $250,000</option><option>$250,000 – $500,000</option>
+              <option>$500,000 – $1,000,000</option><option>Over $1,000,000</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <!-- The DS variant, consumed rather than reproduced: no colour is
+               declared here at all. See .btn--accent in main.css. -->
+          <button class="btn btn--accent hunt__go" type="submit">
+            Search Inventory
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+        </form>
     </div>
   </section>
 
@@ -532,61 +630,19 @@
   <section class="inv" id="inventory">
     <div class="shell inv__inner">
 
-      <!-- The finder rides up over the hero's bottom edge, which is the
-           sketch's move and a good one: it stitches the two chapters
-           instead of stacking them. The overlap is bounded at 40px and
-           the hero claim's own bottom offset never goes below 48px, so
-           the bar cannot reach the buttons at any viewport height. -->
-      <form class="finder-bar" action="https://www.chicagomotorcars.com/used-cars-chicago-il/" method="get">
-        <div class="finder">
-          <p class="field">
-            <label class="micro field__label" for="f-make">Make</label>
-            <select class="field__control" id="f-make" name="make">
-              <option value="">Select Make</option>
-              <option>Ferrari</option><option>Lamborghini</option><option>McLaren</option>
-              <option>Porsche</option><option>Rolls-Royce</option><option>Dodge</option>
-              <option>Koenigsegg</option><option>Rimac</option>
-            </select>
-          </p>
-          <p class="field">
-            <label class="micro field__label" for="f-model">Model</label>
-            <select class="field__control" id="f-model" name="model">
-              <option value="">Select Model</option>
-            </select>
-          </p>
-          <!-- Their own body-style taxonomy, straight off the nav. -->
-          <p class="field">
-            <label class="micro field__label" for="f-body">Body Style</label>
-            <select class="field__control" id="f-body" name="bodystyle">
-              <option value="">Select Body Style</option>
-              <option>Convertible</option><option>Coupe</option><option>Hatchback</option>
-              <option>Sedan</option><option>SUV</option><option>Wagon</option>
-              <option>Pickup Truck</option><option>Sprinter Van</option>
-              <option>Motorcycle</option><option>Boat</option>
-            </select>
-          </p>
-          <p class="field">
-            <label class="micro field__label" for="f-price">Price</label>
-            <select class="field__control" id="f-price" name="price">
-              <option value="">Any Price</option>
-              <option>Under $250,000</option><option>$250,000 – $500,000</option>
-              <option>$500,000 – $1,000,000</option><option>Over $1,000,000</option>
-            </select>
-          </p>
-        </div>
-        <button class="btn btn--fill finder-bar__go" type="submit">
-          Search Inventory
-          <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-        </button>
-      </form>
+      <!-- The horizontal finder that used to ride this edge is GONE.
+           It moved into the hero as a vertical panel; keeping both would
+           have asked the same question twice, forty pixels apart. Its
+           stitching job — overlapping the hero's bottom edge so the two
+           chapters read as joined rather than stacked — is now done by
+           the hero gradient resolving into this section's ground. -->
+
 
       <!-- SECTION INTRO — belongs to the whole section, not to the index.
            It sat inside the index column and read as sidebar copy; the
            heading of a section has to span the section. Browse-all closes
            the opposite end of the same line. No rule under it. -->
       <header class="inv__intro">
-        <p class="micro inv__eyebrow">New &amp; Noteworthy</p>
-        <a class="inv__all" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">Browse all 301 vehicles <span aria-hidden="true">&rarr;</span></a>
         <h2 class="inv__title">Featured Inventory</h2>
         <p class="lede">Hand-selected performance, luxury and collector vehicles. Each one chosen for its pedigree, condition and driving experience.</p>
       </header>
@@ -708,13 +764,82 @@
               <img class="rec__thumb" src="assets/img/inventory/cutout-ferrari-812-gts.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
           </a>
           </div>
+
+          <!-- The concluding line of the index, not a button.
+
+               It used to sit in the section header opposite the eyebrow,
+               where it was an escape hatch offered before anyone had
+               been shown anything. At the foot of the list it is the
+               opposite: four cars, then the way to the rest of them. A
+               list that ends in the total it was drawn from.
+
+               Deliberately the same mono/tracked register as the record
+               numbers above it, so it reads as the last row of the index
+               rather than as a control parked underneath it. -->
+          <a class="btn btn--line index__all" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
+            View all 301 vehicles
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SELL / TRADE — the one inverted band
+       ============================================================
+       This is the light ground the system allows itself ONCE, and it is
+       free: the record section that used to hold it is gone. It is what
+       gives the page a tonal structure rather than one continuous dark,
+       and it is what makes the hero's darkness mean something.
+
+       Selling is recorded in this project as equal in priority to
+       buying, which is why it gets a full band of its own rather than a
+       line in the footer.
+
+       Red is legible here in a way it is not on the dark ground: on
+       --bone it measures 4.78:1, so the eyebrow and the step numerals
+       can carry it as TEXT. On the dark side of the page the same red
+       is a mark only. Same value, different ground, different licence.
+       ============================================================ -->
+  <section class="sell" id="sell">
+    <div class="sell__grid">
+
+      <div class="sell__copy">
+        <p class="micro sell__eyebrow">Sell <span aria-hidden="true">/</span> Trade</p>
+        <h2 class="sell__title">Your car deserves<br>the right market.</h2>
+        <p class="sell__lede">We buy exceptional performance, exotic and collector
+          vehicles &mdash; with a straightforward offer and nationwide support.</p>
+
+        <!-- The DS variant again, consumed not copied: this is the second
+             ACCENT ACTION on the page and they are in different visual
+             regions, which is the documented limit. -->
+        <a class="btn btn--accent sell__go" href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">
+          Get an offer
+          <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </a>
+
+        <a class="micro sell__how" href="#sell-steps">How it works</a>
+      </div>
+
+      <!-- Bleeds to the right edge and up to the band's top: the
+           photograph is the band's other half, not a picture placed
+           inside it. -->
+      <div class="sell__media">
+        <img src="assets/img/sell/sell-carrera-gt.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+      </div>
+
+      <ol class="sell__steps" id="sell-steps">
+        <li><span class="micro sell__step-n">01</span><span class="micro sell__step-t">Tell us about your car</span></li>
+        <li><span class="micro sell__step-n">02</span><span class="micro sell__step-t">Receive an offer</span></li>
+        <li><span class="micro sell__step-n">03</span><span class="micro sell__step-t">Payment &amp; pickup</span></li>
+      </ol>
+
     </div>
   </section>
 </main>
 
 
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
 </body>
 </html>

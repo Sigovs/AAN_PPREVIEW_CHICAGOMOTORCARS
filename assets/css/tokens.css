@@ -49,6 +49,37 @@
   --accent:      #CB141D;
   --accent-deep: #A50F17;
 
+  /* ---- ACCENT ACTION -----------------------------------------
+     The action SURFACE, and deliberately a step deeper than the mark
+     above it.
+
+     --accent stays exactly #CB141D because it is a carried brand value,
+     measured off CMC's live site, and it is what the marks are drawn in:
+     the active chapter, the slider's current segment, the error glyph.
+     Those are hairlines. This is a 300x56 filled plane, and the same
+     saturation that reads as precise at 2px reads as candy at that size.
+     A mark and a surface are different objects; giving them one value
+     would be treating "the brand is red" as if it answered both.
+
+     Measured, --ink on each:
+       --action        6.30:1 at 40.8% L   default
+       --action-hover  7.01:1               denser, never brighter
+       --action-press  8.50:1               one step deeper again
+     And --action against --bg is 2.98:1 — at the 3:1 floor for a
+     control's own boundary, which is what stops it going deeper still.
+     That floor, not taste, is what fixes the default.
+
+     Naming follows this file's own pattern — role, then part, as in
+     --bone / --bone-ink / --bone-rule. NOT --action-accent-bg: that is
+     a different convention and two conventions in one file is worse
+     than either. */
+  --action:       #BE121A;
+  --action-hover: #A50F17;
+  --action-press: #8E0C13;
+  --action-ink:   #F4F2EF;   /* the warm light, = --ink. Never pure #FFF */
+  --action-edge:  rgba(255, 255, 255, 0.14);
+  --action-focus: #F4F2EF;
+
   /* ---- The inverted band -------------------------------------
      One light ground on the page, used once, for the record. It gives
      the page a tonal structure instead of one continuous black, and it
