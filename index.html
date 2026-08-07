@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=18">
-<link rel="stylesheet" href="assets/css/main.css?v=158">
+<link rel="stylesheet" href="assets/css/main.css?v=163">
 </head>
 <body>
 
@@ -803,6 +803,22 @@
        is a mark only. Same value, different ground, different licence.
        ============================================================ -->
   <section class="sell" id="sell">
+
+    <!-- THE PHOTOGRAPH IS THE GROUND, not a panel in a column.
+
+         The frame was shot for this: the left 45% is empty lit wall and
+         the car sits right of centre. Cropping that into a right-hand
+         box would throw away the half the composition actually needs —
+         the copy belongs ON the wall, which is where the photographer
+         left room for it.
+
+         The band keeps its bone colour underneath, so the section is
+         still the page's one inverted ground even before the image
+         arrives, and still is if it never does. -->
+    <div class="sell__bg" aria-hidden="true">
+      <img src="assets/img/sell/sell_page_image.jpg" alt="" width="4000" height="2304" loading="lazy" decoding="async">
+    </div>
+
     <div class="sell__grid">
 
       <div class="sell__copy">
@@ -822,12 +838,6 @@
         <a class="micro sell__how" href="#sell-steps">How it works</a>
       </div>
 
-      <!-- Bleeds to the right edge and up to the band's top: the
-           photograph is the band's other half, not a picture placed
-           inside it. -->
-      <div class="sell__media">
-        <img src="assets/img/sell/sell-carrera-gt.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async">
-      </div>
 
       <ol class="sell__steps" id="sell-steps">
         <li><span class="micro sell__step-n">01</span><span class="micro sell__step-t">Tell us about your car</span></li>

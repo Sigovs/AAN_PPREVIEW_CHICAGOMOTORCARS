@@ -4378,6 +4378,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    SELL / TRADE — the inverted band
    ============================================================ */
 .sell {
+  position: relative;
   background: var(--bone);
   color: var(--bone-ink);
   /* The band tucks under the dark section above it rather than butting
@@ -4388,14 +4389,25 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   overflow: hidden;
 }
 
+/* The photograph fills the band and everything sits ON it. */
+.sell__bg { position: absolute; inset: 0; z-index: 0; }
+.sell__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Held right-of-centre: the car is there and the wall the copy needs
+     is on the left, so as the band narrows it is the empty wall that
+     gets eaten rather than the subject. */
+  object-position: 68% center;
+}
+
 .sell__grid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  /* Copy and photograph share the band; the steps run under both. The
-     photograph takes the larger share because it is the only thing here
-     that has to be looked at rather than read. */
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-  align-items: center;
-  column-gap: clamp(var(--sp-7), 4vw, var(--sp-9));
+  /* One column of copy over the left of the frame, and the steps under
+     it. The old two-column split is gone with the panel it framed. */
+  grid-template-columns: minmax(0, 1fr);
 }
 
 /* A column, not a block of inline items. The button is inline-flex and
@@ -4407,17 +4419,22 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding-block: clamp(var(--sp-9), 7vw, var(--sp-11));
+  padding-block: clamp(var(--sp-9), 8vw, var(--sp-11));
   padding-inline-start: clamp(var(--sp-7), 5vw, var(--sp-10));
-  max-width: 34rem;
-  justify-self: end;
+  max-width: 32rem;
+  justify-self: start;
 }
 
 /* 4.78:1 on --bone. The same red is a mark only on the dark ground,
    where it reads 3.31:1 — this is the one part of the page where the
    accent is allowed to BE text, and it is the ground that permits it. */
 .sell__eyebrow {
-  color: var(--accent);
+  /* --accent-deep, not --accent. Measured on the photograph, not the token:
+     the wall's darkest patch under this line is rgb(213,200,184), where
+     #CB141D gives 3.50:1 — short of the 4.5 this 14px line needs. #A50F17
+     reads 4.77:1 on the same pixels. On the flat --bone band the mark itself
+     is fine; it is only on the photographed wall that it has to step down. */
+  color: var(--accent-deep);
   letter-spacing: 0.22em;
   margin-block-end: var(--sp-6);
 }
@@ -4438,7 +4455,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   line-height: 1.6;
 }
 
-.sell__go { margin-block-start: var(--sp-7); }
+/* align-self:start against the base .btn, which carries align-self:center
+   for the rows it usually lives in. In a flex COLUMN that centred it
+   horizontally, so the button sat indented from the eyebrow, headline
+   and lede it belongs under. */
+.sell__go { align-self: start; margin-block-start: var(--sp-7); }
 
 /* A text link, not a second button: the band already has its one
    Accent Action and a second filled control beside it would split the
@@ -4450,10 +4471,14 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--bone-ink);
   letter-spacing: 0.18em;
   padding-block-end: var(--sp-2);
-  border-bottom: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent-deep);
   transition: color var(--dur-2) var(--ease-out);
 }
-.sell__how:hover, .sell__how:focus-visible { color: var(--accent); }
+/* --accent-deep on both, because this band's ground is a photograph.
+   The rule is non-text and clears 3:1 either way, but hover recolours the
+   LABEL, and 14px needs 4.5 — #CB141D gives 3.67:1 on this wall, #A50F17
+   gives 4.77:1. One deep red for the whole light band rather than two. */
+.sell__how:hover, .sell__how:focus-visible { color: var(--accent-deep); }
 
 /* Flush to the band's top and right: the picture is the other half of
    the ground, not an image sitting on it. */
@@ -4476,7 +4501,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--bone-rule);
+  border-top: 1px solid rgba(22, 21, 15, 0.22);
   margin-inline: clamp(var(--sp-7), 5vw, var(--sp-10));
   /* The gap above was a section break's worth of space on top of the
      row's own padding, which left the three steps stranded in bone with
@@ -4493,10 +4518,28 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .sell__steps li:first-child { padding-inline-start: 0; }
 /* Rules BETWEEN, not around: a border on every item would box each step
    and turn three stages into three cards. */
-.sell__steps li + li { border-inline-start: 1px solid var(--bone-rule); }
+.sell__steps li + li { border-inline-start: 1px solid rgba(22, 21, 15, 0.22); }
 
-.sell__step-n { color: var(--accent); letter-spacing: 0.14em; }   /* 4.78:1 */
-.sell__step-t { color: var(--bone-ink); letter-spacing: 0.14em; }
+/* No accent here, for two reasons that agree.
+   Register: the accent has four roles and a resting step number is not one
+   of them — that is the same fifth-role drift that put red on .finding__rule.
+   Measurement: the 4.78:1 this line used to claim was taken on the flat bone
+   band. The ground is a photograph now, and under these numerals it falls to
+   rgb(147,137,125) where #CB141D reads 2.28:1 — not a near miss. Washing the
+   floor bright enough to rescue it would take a 0.65 bone scrim and bleach out
+   the car's reflection, which is the best thing in the frame.
+   So the sequence is carried by weight and by the rules between the steps.
+   --bone-ink holds 5.33:1 on that same darkest pixel with no help at all. */
+.sell__step-n {
+  color: var(--bone-ink);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.sell__step-t {
+  color: var(--bone-ink);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+}
 
 /* ---- Narrow --------------------------------------------------
    The photograph goes ABOVE the copy rather than beside it, and keeps a
@@ -4504,8 +4547,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    remove the only thing in this band a visitor looks at rather than
    reads. */
 @media (max-width: 900px) {
-  .sell__grid { grid-template-columns: minmax(0, 1fr); }
-  .sell__media { order: -1; aspect-ratio: 16 / 10; min-height: 0; }
+  /* The frame is 1.74 wide; on a phone it would crop to a slice of
+     wall with no car in it. So the image holds the car and the copy
+     gets its own legible ground beneath — see .sell::after. */
+  .sell__bg img { object-position: 72% center; }
   .sell__copy {
     justify-self: stretch;
     max-width: none;
