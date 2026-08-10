@@ -182,39 +182,46 @@
   var frames = driving.map(function (r) { return Number(r.getAttribute('data-frame')); });
   var at = 0;
 
-  /* THE TEAR FIRES ON A CHANGE, NOT ON A STATE.
+  /* THE SIDE ALTERNATES, AND IT IS DECIDED ON A CHANGE, NOT ON A STATE.
 
      `shown` is read off the DOM rather than assumed to be 0, so the
-     opening frame is whatever the markup says is active and the tear
-     does not fire on first paint. show() is also called by hover and by
+     opening frame is whatever the markup says is active and nothing
+     slides on first paint. show() is also called by hover and by
      restore(), which frequently re-assert the SAME car — without this
-     guard, crossing the list would have torn the picture repeatedly
-     while nothing was actually changing.
+     guard, crossing the list would have flung the picture sideways
+     repeatedly while nothing was actually changing.
 
-     remove / reflow / add is the retrigger this codebase already uses
-     for the hero: an animation does not restart on a class that is
-     already present, and reading offsetWidth is what forces the style
-     recalculation in between. The class comes off on animationend so a
-     later change starts from a clean element. */
+     Two elements are written on every change and they get OPPOSITE
+     signs: the arriving car comes from one edge and the departing one
+     leaves by the other, so they cross. Giving both the same sign made
+     them pile onto one side and read as a single object sliding off.
+
+     The reflow between setting --side and adding is-active is not
+     optional. A transition starts from the last RENDERED value, so
+     without forcing the style recalculation the browser would begin the
+     slide from wherever the car was parked last time and travel a
+     distance nobody chose — sometimes zero. Reading offsetWidth is what
+     makes the new starting edge real before the class lands. */
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
   var shown = -1;
   cars.forEach(function (c, n) { if (c.classList.contains('is-active')) shown = n; });
 
-  cars.forEach(function (c) {
-    c.addEventListener('animationend', function () { c.classList.remove('is-cut'); });
-  });
+  var side = 1;
 
-  function cut(el) {
-    if (!el || calm.matches) return;
-    el.classList.remove('is-cut');
-    void el.offsetWidth;
-    el.classList.add('is-cut');
+  function slide(incoming, outgoing) {
+    if (!incoming || calm.matches) return;
+    side = -side;
+    if (outgoing && outgoing !== incoming) {
+      outgoing.style.setProperty('--side', String(-side));
+    }
+    incoming.style.setProperty('--side', String(side));
+    void incoming.offsetWidth;
   }
 
   function show(i) {
     var seat = frames.indexOf(i);
     if (seat !== -1) at = seat;
-    if (i !== shown) { cut(cars[i]); shown = i; }
+    if (i !== shown) { slide(cars[i], cars[shown]); shown = i; }
     cars.forEach(function (c, n) {
       c.classList.toggle('is-active', n === i);
     });

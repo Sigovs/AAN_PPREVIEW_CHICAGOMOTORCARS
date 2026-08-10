@@ -3594,8 +3594,16 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      `transform` leaves that rule untouched. Putting both in one property
      would have silently dropped the vertical centring the moment a car
      changed, which is exactly the source-order trap this file has hit
-     before. */
-  transform: scale(var(--stage-recede));
+     before.
+
+     --side is written per element by script and is 1 or -1. A car that
+     is leaving carries the side OPPOSITE to the one arriving, so the two
+     cross rather than pile up on the same edge. A car merely waiting off
+     stage keeps whatever side it last had, which is invisible: it is at
+     opacity 0 and only its own next arrival will set it again. */
+  transform:
+    translateX(calc(var(--side, 1) * var(--slide-reach)))
+    scale(var(--stage-recede));
   filter: blur(var(--stage-defocus));
   /* BLUR RUNS ON ITS OWN, SHORTER CLOCK — this is the part that works.
 
@@ -3642,126 +3650,12 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    Blur is never a resting state: both ends of both transitions are 0. */
 .stage__car.is-active {
   opacity: 1;
-  transform: scale(1);
+  transform: translateX(0) scale(1);
   filter: blur(0);
   transition:
     opacity   var(--dur-3) var(--ease-out) var(--stage-lag),
     transform var(--dur-3) var(--ease-out) var(--stage-lag),
     filter    var(--dur-3) var(--ease-out) var(--stage-lag);
-}
-
-/* ---- The tear ------------------------------------------------
-   ONE break at the cut, then gone. Everything about this animation is
-   arranged so that the glitch is the CHANGE and never the vehicle: it
-   runs for --glitch-dur out of a ~610ms arrival, so the last two-thirds
-   of the car's appearance is the plain focus pull above, unmodified. A
-   visitor who looks away for a moment sees a clean photograph.
-
-   WHY IT IS ON A SEPARATE ELEMENT-LEVEL CLASS, NOT ON .is-active.
-   .is-active is also true at rest and true on first paint. An animation
-   hung on it would fire on page load and again on every re-render, so
-   the car would tear when nobody had asked for anything. .is-cut is
-   added by script only when the frame actually changes, and removed when
-   the animation ends — the same remove / reflow / add retrigger the hero
-   already uses.
-
-   The chromatic pair is drawn with drop-shadow rather than a channel
-   split because these are cut-out PNGs: drop-shadow follows the alpha,
-   so the break happens along the CAR's own silhouette rather than across
-   a rectangle. A rectangular tear would have announced the image box,
-   which is the one thing this stage has spent its whole design hiding.
-
-   Recorded yields, both real:
-   - motion-taste D1 caps travel at 8px. The peak here is --glitch-shift,
-     9px, and it is displacement rather than entrance travel. One pixel
-     over a guideline for a 260ms break is a small, stated exit.
-   - motion-taste I5 — motion must serve comprehension. This does not.
-     It is expressive, not communicative, and I5 is an INVARIANT, so this
-     cannot be waved through as a dialect yield. It stands only as long
-     as Alex wants it; the focus pull underneath is complete without it
-     and deleting .is-cut removes this entirely with nothing left behind.
-   - anti-patterns and the art direction both put digital-glitch language
-     in the register the project rules out. This is the restrained read
-     of it — one break, no stutter, no scanlines, no repeat. */
-/* DROP-SHADOW BEFORE BLUR, and the order is the whole difference.
-   Filter functions apply in sequence, so blur-then-shadow builds the
-   coloured copies out of an ALREADY blurred alpha and you get a soft red
-   halo — which is what the first version looked like, a glow rather than
-   a break. Shadow-then-blur casts crisp offset copies and softens the
-   composite afterwards, which is a chromatic split.
-
-   The blur also has to get out of the way fast. At --stage-defocus the
-   car is a haze, and a 9px separation inside a 14px blur is invisible;
-   the break is only legible once the vehicle is nearly readable, so the
-   defocus is spent in the first fifth and the tear happens against a
-   sharpening car.
-
-   THE ANIMATION OWNS OPACITY TOO, and this is the correction that made
-   the effect visible at all. Left on the focus pull's transition, the
-   arriving car was 0.17 opaque at 110ms and 0.54 at 165ms — measured —
-   so the whole break was performed on something barely on screen, and
-   what remained legible was the outgoing car's haze. The tear has to
-   happen to a car you can see. The ramp below reaches ~0.8 by the point
-   the outgoing vehicle has finished leaving, so the two never trade
-   sharpness, and both ends still agree with the transition at 1. */
-@keyframes stage-cut {
-  0% {
-    opacity: 0;
-    transform: scale(var(--stage-recede)) translateX(calc(var(--glitch-shift) * -0.5));
-    filter:
-      drop-shadow(calc(var(--glitch-shift) * 0.4) 0 0 var(--glitch-warm))
-      drop-shadow(calc(var(--glitch-shift) * -0.4) 0 0 var(--glitch-cool))
-      blur(var(--stage-defocus));
-  }
-  16% {
-    opacity: 0.52;
-    transform: scale(calc(var(--stage-recede) + 0.005)) translateX(var(--glitch-shift));
-    filter:
-      drop-shadow(calc(var(--glitch-shift) * -1) 0 0 var(--glitch-warm))
-      drop-shadow(var(--glitch-shift) 0 0 var(--glitch-cool))
-      blur(4px);
-  }
-  26% {
-    opacity: 0.8;
-    transform: scale(calc(var(--stage-recede) + 0.009)) translateX(calc(var(--glitch-shift) * -0.66));
-    filter:
-      drop-shadow(calc(var(--glitch-shift) * 0.7) 0 0 var(--glitch-warm))
-      drop-shadow(calc(var(--glitch-shift) * -0.7) 0 0 var(--glitch-cool))
-      blur(1px);
-  }
-  36% {
-    animation-timing-function: var(--ease-out);
-    opacity: 0.93;
-    transform: scale(calc(var(--stage-recede) + 0.013)) translateX(calc(var(--glitch-shift) * 0.3));
-    filter:
-      drop-shadow(calc(var(--glitch-shift) * -0.3) 0 0 var(--glitch-warm))
-      drop-shadow(calc(var(--glitch-shift) * 0.3) 0 0 var(--glitch-cool))
-      blur(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateX(0);
-    filter:
-      drop-shadow(0 0 0 transparent)
-      drop-shadow(0 0 0 transparent)
-      blur(0px);
-  }
-}
-
-/* linear through the break, eased only on the tail — the 36% keyframe
-   carries the switch. A curve across the whole thing turns the tear into
-   a wobble: the break has to arrive already in progress, and only the
-   settle afterwards should decelerate, which is what the focus pull
-   underneath is doing with the same --ease-out. */
-.stage__car.is-cut {
-  animation: stage-cut var(--glitch-dur) linear;
-}
-
-/* The tear is the first thing dropped, before the focus pull, because it
-   is the part with no job. Under reduced motion there is no break at
-   all — not a shortened one. */
-@media (prefers-reduced-motion: reduce) {
-  .stage__car.is-cut { animation: none; }
 }
 
 /* The designed static path, not the blanket reset degrading into one.
