@@ -275,6 +275,19 @@
   --rv-step: 130ms;   /* interval between staircase steps */
   --dur-3: 520ms;
   --dur-4: 760ms;   /* the cinematic step: state changes, crossfades */
+  /* THE STAGE'S FOCUS PULL — how one vehicle replaces another.
+     A symmetric crossfade put both cars at ~0.5 at the same instant, and
+     because the four cut-outs are different shapes in different colours,
+     that midpoint was a legible double exposure rather than a blend. The
+     lag is what stops the two silhouettes ever being equally readable:
+     the outgoing car is already leaving before the incoming one starts.
+
+     The depth axis is single-valued: the selected car is the near one.
+     A car that is leaving or waiting sits fractionally further back and
+     out of focus; the one being looked at is forward and sharp. */
+  --stage-lag: 90ms;     /* the incoming car waits this long to begin  */
+  --stage-recede: 0.98;  /* where an unselected car sits on that axis  */
+  --stage-defocus: 14px; /* the blur both pass through, never at rest  */
 }
 
 @media (max-width: 900px) {

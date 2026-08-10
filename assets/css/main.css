@@ -3559,9 +3559,109 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   inset-block-end: var(--ground);
   translate: 0 var(--sit);
   opacity: 0;
-  /* 420ms, and the outgoing car is still fading while the incoming one
-     rises — they overlap, so the field never blanks between vehicles. */
-  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* THE RESTING STATE IS THE *LEAVING* STATE.
+
+     A car with no .is-active is either on its way out or waiting off
+     stage, and both want the same thing: small, soft, gone. Declaring it
+     once here means the element losing .is-active inherits this rule's
+     timing automatically, while the element gaining it picks up the
+     timing on .is-active. One transition per direction, no JS involved.
+
+     WHY THIS REPLACED THE 420ms CROSSFADE.
+
+     The old rule faded both cars on one symmetric curve. Measured on the
+     render through a single arrow press, the two overlapped at 0.66/0.33
+     and again at 0.19/0.80 — a window where two saturated silhouettes,
+     a red 911 and a blue Aventador, were both plainly legible at once.
+     That is a double exposure, not a blend, and no duration fixes it:
+     slowing it down only lengthens the ghost.
+
+     So the two cars no longer do the same thing. The outgoing one
+     recedes and defocuses on --ease-in; the incoming one pulls into
+     focus on --ease-out after --stage-lag. During the overlap neither is
+     sharp, so there is never an instant with two readable cars in it.
+
+     Scale pivots on the default centre, which is correct HERE and would
+     not have been earlier: the --sit / --ground apparatus further up is
+     superseded by the centring rule near the end of this file, so the
+     car floats on the field's centre line rather than standing on a
+     floor. A centred object recedes about its middle. If that block is
+     ever reverted to a ground line, this needs transform-origin: bottom.
+
+     transform, not translate. The centring rule owns `translate`, and
+     the two are separate properties that compose — writing scale into
+     `transform` leaves that rule untouched. Putting both in one property
+     would have silently dropped the vertical centring the moment a car
+     changed, which is exactly the source-order trap this file has hit
+     before. */
+  transform: scale(var(--stage-recede));
+  filter: blur(var(--stage-defocus));
+  /* BLUR RUNS ON ITS OWN, SHORTER CLOCK — this is the part that works.
+
+     Matching blur to the fade left the outgoing car only ~2.5px soft at
+     the crossover, and 2.5px across a 640px vehicle hides nothing: the
+     blue Aventador was still plainly itself behind the white Regera. A
+     linear defocus reaches full blur while the car is still visible, so
+     it stops being a readable OBJECT before it stops being visible. What
+     overlaps the incoming vehicle is then a coloured haze, which is what
+     a dissolve is supposed to be.
+
+     linear, not --ease-in: an eased defocus spends its first frames
+     barely blurring, which is exactly the window that needed covering.
+
+     The fade is --dur-1 too. At --dur-2 the outgoing car measured 0.78
+     while the incoming one was already half here, and a 14px haze at
+     0.78 tints the arriving vehicle instead of sitting behind it — the
+     red 911 washed across the blue Lamborghini. Leaving is not the part
+     worth watching.
+
+     Recorded against motion-taste I3: an exit may be a step faster than
+     its entrance and this is three steps faster. The rule guards against
+     exits that DRAG, the opposite failure; nothing in it argues for a
+     slow departure. Stated rather than assumed. */
+  transition:
+    opacity   var(--dur-1) var(--ease-in),
+    transform var(--dur-1) var(--ease-in),
+    filter    var(--dur-1) linear;
+}
+
+/* Recorded yield — motion-taste I4, "animate opacity and transform only".
+   filter: blur() is animated here, on the stated exit that the ghost is a
+   figure-ground failure and opacity alone cannot solve it. It is the same
+   language Alex approved for the hero slide change, so the section and the
+   hero now describe a change the same way.
+
+   Cost measured rather than assumed, since that is the whole basis of I4.
+   Same transition run twice, once with filter forced to none: median frame
+   16.7ms both ways, p95 17.6 against 17.5, worst frame identical at 17.7,
+   19 frames over budget against 18 across 42. The blur is free here because
+   it is two composited layers, not a backdrop filter over live content.
+   Re-measure if this ever moves onto a backdrop.
+
+   Blur is never a resting state: both ends of both transitions are 0. */
+.stage__car.is-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  transition:
+    opacity   var(--dur-3) var(--ease-out) var(--stage-lag),
+    transform var(--dur-3) var(--ease-out) var(--stage-lag),
+    filter    var(--dur-3) var(--ease-out) var(--stage-lag);
+}
+
+/* The designed static path, not the blanket reset degrading into one.
+   Under reduced motion the vehicle simply IS the selected vehicle: no
+   blur to pass through, no scale to settle, nothing that depends on a
+   transition having run. The section still works if the swap is
+   instant, which is the test I1 actually asks. */
+@media (prefers-reduced-motion: reduce) {
+  .stage__car,
+  .stage__car.is-active {
+    transform: none;
+    filter: none;
+    transition: opacity 1ms linear;
+  }
 }
 /* WIDTH IS SET ON THE CAR, NOT ON THE FILE.
 
@@ -3591,7 +3691,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .stage__car[src*="regera"]   { --sit: 1.4%; }
 .stage__car[src*="812-gts"]  { --sit: 2.1%; }
 
-.stage__car.is-active { opacity: 1; }
+/* The old `.stage__car.is-active { opacity: 1 }` stood here. It sat AFTER
+   the focus-pull rule above at equal specificity, so it was one edit away
+   from silently winning — the trap this file has hit five times. The
+   active state is declared once, up there, with its timing. */
 
 /* ---- The index ---------------------------------------------
    Records distributed down the column so the last one lands near the
