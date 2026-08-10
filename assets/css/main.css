@@ -6240,15 +6240,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
    Fixed the same way both times before: a ring the ground cannot swallow,
    and a hover that closes to full ink. */
-.story__cta {
-  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.45);
-  padding-inline: var(--sp-6);
-}
-.story__cta:hover,
-.story__cta:focus-visible {
-  box-shadow: inset 0 0 0 1px var(--ink);
-  background: rgba(244, 242, 239, 0.07);
-}
+
 
 /* The copy's ellipse is stretched to cover the action as well. It was
    sized for the text block and the button hangs below it, so at narrower
@@ -6292,12 +6284,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    up to the 0.18em the sell secondary uses. Same variant, same section
    role, same measurements. */
 .story__lede { margin-block-start: var(--sp-5); }
-.story__cta {
-  padding-block: var(--sp-4);
-  padding-inline: clamp(var(--sp-6), 3vw, var(--sp-8));
-  letter-spacing: 0.18em;
-  margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-8));
-}
+
 
 /* Dimmed. At 0.85 the core was the brightest thing in the section — it
    competed with the vehicle it was supposed to be marking, and on the
@@ -7167,3 +7154,215 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 @media (max-width: 1200px) {
   .sell__copy { padding-inline: var(--page-gutter); }
 }
+
+/* ============================================================
+   THE PAGE GRID — Phase 1: header, hero, finder
+   ============================================================
+   One shell, one column system, applied as a utility rather than baked
+   into each section. Sections keep their own class for everything that
+   is theirs; .wrap decides only where their contents begin and end.
+   ============================================================ */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0 var(--grid-gap);
+}
+
+/* ---- Phase 1 ----
+   The masthead BAR stays full-bleed; its contents move onto the shell,
+   which is what puts the wordmark and the phone on the same verticals as
+   the sections below. Previously the bar padded itself by the gutter and
+   ignored --maxw entirely, so at 1920 the logo sat at 60 while the page
+   started at 170.
+
+   The hero foot and the finder rail come off their own inset-inline and
+   onto the same shell. The finder keeps its internal 16px — that is
+   component padding and always was; confusing it for a page gutter is
+   what sent the Sell column to the wrong line. */
+.masthead__inner,
+.hero__foot {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+.hero__foot { inset-inline: 0; }
+
+/* ---- Phase 2: Featured Inventory onto the shell ----
+   It was computing its own edge from a private clamp and a private
+   1580 cap — the same numbers by coincidence, not by system. Same
+   formula as the header and hero now, so a change to --pad or --maxw
+   moves all of them together. */
+.inv__inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+/* ============================================================
+   Phase 3: SELL / TRADE on the twelve columns
+   ============================================================
+   The copy column was placed by justify-self plus a padding that had to
+   be guessed, which is why the secondary CTA kept ending up on the
+   viewport edge — the button row was deciding the page width instead of
+   living inside a column.
+
+   It now occupies columns 7 through 11 of the shared grid. Column 12 is
+   left empty on purpose: that is the clearance between the longest CTA
+   and the shell edge, and it is structural rather than a padding someone
+   has to remember. The vehicle keeps the left of the frame; the
+   composition is unchanged.
+
+   Every local positioning hack on this column goes with it — the
+   justify-self, the invented end padding, and the :not(#x) written to
+   outrank an earlier block. */
+.sell__grid {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+}
+.sell__copy,
+.sell__copy:not(#x) {
+  grid-column: 7 / span 5;
+  justify-self: stretch;
+  max-width: none;
+  padding-inline: 0;
+}
+.sell__steps { grid-column: 1 / -1; margin-inline: 0; }
+
+/* The pair sits inside the column and is measured against it, not
+   against the viewport. Below the two-mass width the copy takes the full
+   twelve and the actions stack — a compositional break decided here,
+   before they are cramped, rather than at the moment they collide. */
+.sell__actions { flex-wrap: nowrap; }
+@media (max-width: 1200px) {
+  .sell__copy,
+  .sell__copy:not(#x) { grid-column: 1 / -1; }
+  .sell__actions { flex-wrap: wrap; }
+}
+
+/* ---- Phase 4: Story onto the shell ----
+   It was the last container computing its own edge — a 100rem cap and a
+   third gutter clamp. Same formula as the other four now. The band stays
+   full-bleed and the photograph still runs edge to edge behind it; only
+   the contents resolve against the shell. */
+.story__inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+/* ---- Regression from the grid migration, fixed at the photograph ----
+   The copy column now starts at column 7 rather than wherever a padding
+   put it, which at 1440 is 117px further left than before — and the frame
+   was still aimed for the wide band, so the Carrera's tail crossed into
+   the text. The collision starts around 1500, not 1200, so the narrow
+   aim begins there. This is the photograph being re-aimed per band, the
+   same value that already exists below 1200; the column is not moved and
+   nothing is nudged. */
+@media (max-width: 1500px) {
+  .sell__bg img { scale: -1.15 1.15; transform-origin: 46% 100%; }
+}
+
+
+
+/* ---- The 1200 collapse was wrong, and it was mine ----
+   Sending the copy to 1 / -1 put it back on top of the vehicle, which is
+   the composition this section exists to avoid. The two masses still fit
+   at this width — the column just has to stay on the right. It keeps the
+   right seven of twelve, and the CTA pair stacks, which is the change
+   that was actually needed here.
+
+   The real collapse waits until 900, where the frame genuinely cannot
+   hold a vehicle and a text column side by side. There the copy takes
+   the full twelve and the photograph is re-aimed to sit under it rather
+   than beside it. */
+@media (max-width: 1200px) {
+  .sell__copy,
+  .sell__copy:not(#x) { grid-column: 6 / -1; }
+}
+@media (max-width: 900px) {
+  .sell__copy,
+  .sell__copy:not(#x) { grid-column: 1 / -1; }
+  .sell__bg img { scale: -1.05 1.05; transform-origin: 38% 100%; }
+}
+
+/* ============================================================
+   THE SELL EDGES BECOME SCROLL-DRIVEN
+   ============================================================
+   Two independent systems, deliberately: the text enters ONCE on an
+   IntersectionObserver and stays; the edges are scrubbed continuously by
+   scroll and never latch. They must not be merged — a one-time entrance
+   that scrubs would re-run under the reader, and a scrubbed geometry that
+   latches would freeze mid-shape.
+
+   The depths are registered so they can be interpolated at all; an
+   unregistered custom property is a string to the animation engine and
+   would jump between keyframes rather than travel.
+
+   The static values this replaces sat at roughly 40 and 71 at 1440, so
+   the range is centred there: the shape already approved is the middle
+   state, and scroll opens it either side of that. The bottom moves
+   further than the top, which is what widens the window onto Story as
+   the band leaves. Its maximum stays under the 96px overlap, so Story is
+   never uncovered — only revealed. Geometry only; no height changes. */
+@property --cut-drop {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 40px;
+}
+@property --cut-drop-b {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 71px;
+}
+
+@keyframes sell-edges {
+  from { --cut-drop: 26px; --cut-drop-b: 46px; }
+  to   { --cut-drop: 56px; --cut-drop-b: 94px; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sell {
+      animation: sell-edges linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+/* The foot clearance must not ride the animated depth, or the section
+   grows and shrinks with the scroll and takes the document height with
+   it. It is pinned to the deepest the bottom edge ever reaches, so the
+   steps clear the cut at every point in the scrub and the geometry moves
+   without anything laying out. */
+.sell__inner,
+.sell__grid { padding-block-end: 94px; }
+
+/* ---- The document height was being set by the Story backdrop ----
+   .story__bg is inset -56px top and bottom so the scroll handoff can move
+   it without exposing an edge. It is absolutely positioned, but .story
+   never clipped, so that overhang joined the page's scrollable area — and
+   because story-lift translates the frame by 34px, the document grew and
+   shrank by exactly that as it scrubbed.
+
+   Clipped at its own section, which is where the overhang was always
+   meant to live. `clip`, not `hidden`: hidden would make .story a scroll
+   container and change how the sticky header and the scroll timelines
+   see it. Nothing visual changes — the overhang was never on screen. */
+.story { overflow: clip; }
+
+

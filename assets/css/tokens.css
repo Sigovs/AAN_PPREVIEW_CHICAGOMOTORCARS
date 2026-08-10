@@ -225,6 +225,24 @@
      shells had grown up in this file — a full-bleed header on --gutter,
      a 1580 cap on its own clamp, and a 100rem cap on a third — and the
      header ended up starting at 81px while the sections started at 162. */
+  /* ONE PAGE GRID — the system is index3's, the numbers are CMC's.
+     .wrap is a utility that sits BESIDE a section's own class, never
+     instead of it: the bar or band stays full-bleed and only its
+     contents resolve against the shell. No section computes its own
+     outer edge any more.
+
+     --maxw stays at the 1580 this composition was approved at rather
+     than dropping to index3's 88rem — the reference supplies the logic,
+     not the width. --pad keeps the gutter already in use, so Phase 1
+     moves alignment without moving the design. */
+  --pad:   clamp(24px, 3.4vw, 60px);
+  /* 1700, not 1580: in .wrap the padding sits INSIDE --maxw, so the
+     content column is maxw minus two gutters. 1700 - 2x60 gives back
+     exactly the 1580 this composition was approved at. */
+  --maxw:  1700px;
+  --bleed: calc((100vw - min(100vw, var(--maxw))) / 2 + var(--pad));
+  --grid-gap: var(--sp-5);
+
   --page-gutter: clamp(24px, 3.4vw, 60px);
   --shell:       1580px;
 
