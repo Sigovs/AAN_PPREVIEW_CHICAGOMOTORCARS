@@ -7239,7 +7239,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 }
 .sell__copy,
 .sell__copy:not(#x) {
-  grid-column: 7 / span 5;
+  grid-column: 7 / -1;
   justify-self: stretch;
   max-width: none;
   padding-inline: 0;
@@ -7371,3 +7371,22 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .story { overflow: clip; }
 
 
+
+/* ---- Sell's copy column sits on Featured Inventory's ----
+   Twelve equal columns put it at 724 while the inventory cards above
+   start at 773 — no twelfth lands on that line, so it could never match.
+   Both sections are the same shape: one wide mass, one right-hand
+   column. Sell now uses the showcase's own 53/47 split, so the two right
+   columns share a vertical. The steps still span the whole width. */
+.sell__grid {
+  grid-template-columns: minmax(0, 53fr) minmax(21rem, 47fr);
+  column-gap: clamp(var(--sp-7), 3.4vw, var(--sp-8));
+}
+.sell__copy,
+.sell__copy:not(#x) { grid-column: 2; }
+.sell__steps { grid-column: 1 / -1; }
+@media (max-width: 1200px) {
+  .sell__grid { grid-template-columns: minmax(0, 1fr); }
+  .sell__copy,
+  .sell__copy:not(#x) { grid-column: 1; }
+}
