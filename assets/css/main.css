@@ -1408,7 +1408,6 @@ button, input, select { font: inherit; color: inherit; }
    above the still it falls back to. */
 .hero__slide[data-slide="0"] { z-index: 1; }
 
-
 /* ---- The video ---------------------------------------------
    Its own framing variables, not the photograph's. The still is 2301x1430
    (1.61) and the video is 1920x1080 (1.78), so the same --frame-zoom
@@ -1599,7 +1598,6 @@ button, input, select { font: inherit; color: inherit; }
       rgb(var(--bg-rgb) / 0.07) 58%,
       rgb(var(--bg-rgb) / 0) 76%);
 }
-
 
 /* ---- The claim, bottom left --------------------------------
    Placed low and left because that is where the photograph has room:
@@ -2365,16 +2363,13 @@ button, input, select { font: inherit; color: inherit; }
    extracted when the client took the serifs away. */
 
 
-
 /* The stress is a weight drop, not an italic. Against 400 the 200 is
    four steps away — nothing can be mistaken for "the same word,
    emphasised". */
 
-
 /* ---- The roster -------------------------------------------
    Real stock, named. Everything else on this page could belong to any
    dealer; this list could not. */
-
 
 
 .roster__list a:hover,
@@ -2382,7 +2377,6 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--ink);
   padding-inline-start: var(--sp-3);
 }
-
 
 .roster__more:hover,
 .roster__more:focus-visible { color: var(--ink); }
@@ -2852,12 +2846,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      — but shortens to what fits above the search. */
 
 
-
   /* The note stays — it carries facts that exist nowhere else on the
      page. Only the roster shortens, and it was a sample of 299 to
      begin with; the count and the link still state the whole. */
   .roster__list li:nth-child(n + 5) { display: none; }
-
 
   /* One column: the two doors stack, and each keeps its full width
      so neither reads as the secondary one. */
@@ -2897,7 +2889,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   }
   .ledger__cell:nth-child(n + 3) { border-top: 1px solid var(--bone-rule); }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -3143,7 +3134,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .on-bone .vcard__facts { color: var(--bone-ink-2); }
 .on-bone .vcard__facts { border-color: var(--bone-rule); }
 .on-bone .vcard__facts b { color: var(--bone-ink); }
-
 
 /* ============================================================
    THE STACK — differentiated vertical rhythm
@@ -3409,7 +3399,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
               inset 0 -1px 0 rgba(0, 0, 0, 0.28);
 }
 
-
 /* ONE LABEL. "NEW ARRIVAL" WAS REMOVED.
 
    Three attempts at the pair failed the same way. Same mono at two
@@ -3430,7 +3419,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--ink);
   line-height: 1;
 }
-
 
 
 /* Below the two-mass width the stage goes edge to edge, so there is no
@@ -5708,7 +5696,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   to   { opacity: 1; translate: 0 0; }
 }
 
-
 /* The pair stays a pair at every width down to the phone breakpoint —
    side by side, primary left, secondary right. They were already in one
    row; this stops the row from wrapping the moment the label grew from
@@ -5741,7 +5728,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    `entry` completes, by definition, when the element is fully in view, so
    there is no arithmetic left that can strand an element at 23%. */
 
-
 /* ---- THE COPY ARRIVES AS A STAIRCASE, NOT AS A BLOCK ----
 
    The previous ranges overlapped almost entirely — 10-62, 16-72, 22-82,
@@ -5758,7 +5744,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   from { opacity: 0; translate: 0 var(--rise, 18px); }
   to   { opacity: 1; translate: 0 0; }
 }
-
 
 /* ============================================================
    THE FOOT OF THE BAND — a ground for the sequence
@@ -6022,7 +6007,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   100% { opacity: 0.35; }
 }
 
-
 /* ---- IN ON entry, OUT ON exit — two single-phase animations ----
 
    The `cover`-based pass was not wrong, it was unreadable. `view()` builds
@@ -6044,7 +6028,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
                        to   { opacity: 1; translate: 0 0; } }
 @keyframes story-out { from { opacity: 1; translate: 0 0; }
                        to   { opacity: 0; translate: 0 calc(-0.5 * var(--rise, 26px)); } }
-
 
 
 /* ============================================================
@@ -6352,7 +6335,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    Fixed the same way both times before: a ring the ground cannot swallow,
    and a hover that closes to full ink. */
 
-
 /* The copy's ellipse is stretched to cover the action as well. It was
    sized for the text block and the button hangs below it, so at narrower
    widths the CTA ended up standing on whatever the crop put there. */
@@ -6395,7 +6377,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    up to the 0.18em the sell secondary uses. Same variant, same section
    role, same measurements. */
 .story__lede { margin-block-start: var(--sp-5); }
-
 
 /* Dimmed. At 0.85 the core was the brightest thing in the section — it
    competed with the vehicle it was supposed to be marking, and on the
@@ -6781,7 +6762,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     linear-gradient(rgb(var(--bg-rgb) / 0.72), rgb(var(--bg-rgb) / 0.72));
 }
 
-
 /* ---- The title card ----------------------------------------
    Centred, and centred on purpose: STORY sets its statement in a left
    column with a data row beside it, and this band has to be a
@@ -7078,7 +7058,9 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .warranty__point {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  /* Two columns now, not three. The diagrams on the right are gone at
+     Alex's direction, and with them the reason the row was three wide. */
+  grid-template-columns: auto 1fr;
   align-items: start;
   gap: clamp(var(--sp-4), 2vw, var(--sp-6));
   padding-block: clamp(var(--sp-5), 2.4vw, var(--sp-6));
@@ -7091,21 +7073,38 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .warranty__point:first-child { padding-block-start: 0; }
 .warranty__point:last-child { padding-block-end: 0; }
 
-/* --bone-ink, not the mock's red, and the reason is consistency rather
-   than taste. The sell band's 01/02/03 lost their red because the
-   accent has four roles and a resting step number is not one of them.
-   Two sections on one page numbering their steps in two different
-   colours would say the system had not decided. It has. */
-.warranty__n {
+/* MATERIAL SYMBOLS, OUTLINED — the real paths, fetched from Google
+   rather than approximated by hand. A drawn-from-memory wrench is the
+   thing that makes an interface look almost right.
+
+   They replace 01/02/03. The numerals were doing two jobs badly: they
+   implied a SEQUENCE, and these three provisions are not steps — they
+   are three facts about one contract, true at the same time. The sell
+   band's 01/02/03 are genuinely ordered, so they stay numerals there;
+   the difference between the two sections is now meaningful instead of
+   decorative.
+
+   build / tune / verified: what the warranty pays for, choosing among
+   plans, and the assurance itself. Deliberately NOT a plain shield —
+   the assurance strip at the foot of this section already carries one,
+   and the same glyph twice in one section reads as a system with one
+   idea rather than two elements agreeing.
+
+   --bone-ink at 0.78 rather than --bone-ink-2. A filled glyph carries
+   more visual weight per unit of area than a letterform, so it needs
+   less ink to hold the same rank; and unlike --bone-ink-2 this stays a
+   solid colour, which is the lesson the break band's lede taught —
+   translucency inherits its ground. */
+.warranty__ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
   color: var(--bone-ink);
-  font-weight: 700;
-  font-size: 1.375rem;
-  line-height: 1;
-  letter-spacing: 0.06em;
-  padding-inline-end: clamp(var(--sp-4), 2vw, var(--sp-5));
-  border-inline-end: 1px solid rgba(22, 21, 15, 0.22);
-  align-self: stretch;
+  opacity: 0.78;
 }
+.warranty__ico svg { display: block; }
 
 .warranty__h {
   font-size: 1.0625rem;
@@ -7117,19 +7116,17 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .warranty__p {
   margin-block-start: var(--sp-3);
-  max-width: 32ch;
+  /* 32ch was the measure while a diagram held the third column. With
+     that column gone the same cap left ~260px of dead panel to the
+     right of every line, which reads as a layout that lost something
+     rather than one that never had it. 52ch fills the surface and is
+     still inside a comfortable measure at this size. */
+  max-inline-size: 52ch;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--bone-ink-2);
 }
 
-.warranty__mark {
-  width: clamp(4.5rem, 7vw, 6rem);
-  height: auto;
-  color: var(--bone-ink);
-  opacity: 0.4;
-  align-self: center;
-}
 
 /* ---- The rule of three -------------------------------------- */
 .warranty__assurances {
@@ -7180,8 +7177,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 
 @media (max-width: 760px) {
-  .warranty__mark { display: none; }
-  .warranty__point { grid-template-columns: auto 1fr; }
   .warranty__assurances {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--sp-5);
@@ -7225,7 +7220,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 
 .ttl-line { display: block; }
-
 
 
 /* ---- The sell cut: back to falling right, and top only ----
@@ -7627,7 +7621,6 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    car's source position lands the origin at 52%, which puts it a little
    over 400px in from the left with the wall open behind the copy. */
 
-
 /* 54%, not 52% — the tail was sitting on the left edge with nothing to
    spare. This gives the car about 95px of margin and still leaves the
    whole right half of the wall to the copy. */
@@ -7884,7 +7877,6 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 }
 
 
-
 /* ---- The 1200 collapse was wrong, and it was mine ----
    Sending the copy to 1 / -1 put it back on top of the vehicle, which is
    the composition this section exists to avoid. The two masses still fit
@@ -7971,7 +7963,6 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    container and change how the sticky header and the scroll timelines
    see it. Nothing visual changes — the overhang was never on screen. */
 .story { overflow: clip; }
-
 
 
 /* ---- Sell's copy column sits on Featured Inventory's ----
