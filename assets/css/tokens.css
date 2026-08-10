@@ -93,6 +93,39 @@
      Separation by hairline and air, not by card.                */
   --rule:        rgba(244, 242, 239, 0.14);
   --rule-strong: rgba(244, 242, 239, 0.28);
+  /* A rule that has to survive on a MOVING photograph, where the ground
+     under it is not a token and changes every frame.
+
+     The first attempt solved the wrong problem. Measured against the
+     film's extremes — darkest patch rgb(15,14,27), brightest near white
+     — 0.34 looked sufficient. Then the actual pixels beside the control
+     turned out to be rgb(77,65,61), a mid tone that defeats a dark edge
+     and a light one equally, and the rendered edge came back at 1.02:1.
+
+     No single value contrasts against arbitrary film. So this is only
+     half the answer and must be used with an OPAQUE ground: the disc
+     carries the boundary against bright frames, this rule carries it
+     against dark ones, and between them every frame is covered. Alone,
+     over a translucent surface, it guarantees nothing.
+
+     It is also drawn at 2px, not 1. A single pixel on a pill's rounded
+     cap is half-eaten by antialiasing, and the measurement showed the
+     edge collapsing to 1.4:1 at exactly the places the curve turns —
+     the value was fine and the hairline was the problem.
+
+     THE ALPHA IS NOT A TASTE DECISION, IT IS THE THRESHOLD. Against an
+     opaque --bg fill the arithmetic is closed: the fill alone clears
+     3:1 once the film is brighter than 0.120 luminance, and a ring at
+     alpha a clears 3:1 while the film is darker than (lum(a)+0.05)/3 −
+     0.05. Below 0.75 those two ranges do not meet and a band of mid
+     greys defeats both — which is exactly what the film delivered, at
+     1.68:1. At 0.75 they touch; 0.82 is that threshold plus enough
+     margin to survive antialiasing. Lower it and the control loses its
+     edge on some frame nobody thought to check.
+
+     Use it for a control that sits over video, nowhere else — on a
+     token ground --rule-strong is still the right weight. */
+  --rule-onfilm: rgba(244, 242, 239, 0.82);
 
   /* ---- Radius ------------------------------------------------
      Small and consistent. The controls were pills; the direction

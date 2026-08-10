@@ -24,8 +24,8 @@
 <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=28">
-<link rel="stylesheet" href="assets/css/main.css?v=255">
+<link rel="stylesheet" href="assets/css/tokens.css?v=32">
+<link rel="stylesheet" href="assets/css/main.css?v=260">
 </head>
 <body>
 
@@ -782,6 +782,62 @@
   </section>
 
   <!-- ============================================================
+       THE BREAK — a held shot between two dense chapters
+       ============================================================
+
+       It sits HERE, between the inventory and the sell band, because
+       this is where the page is densest: the showcase and its index
+       are the most information on the page, and the bone band that
+       follows is a change of ground. A break that arrives before the
+       ground changes reads as a breath; one placed at the end would
+       just be a second hero.
+
+       NOTHING IS WRITTEN OVER IT. A caption would make it a section,
+       and it is not one — it is the pause between two. The only
+       interface on it is the control, which exists because the film
+       must be stoppable, not because the band needs furniture.
+
+       TWENTY MEGABYTES DO NOT LOAD WITH THE PAGE. The <source> carries
+       no src: script attaches it when the band is one viewport away,
+       and never at all under reduced motion. Until then the poster is
+       the band, which is why the poster is a real frame from the film
+       rather than a black rectangle — if the video never loads, this
+       is still a photograph of the room. -->
+  <section class="brk" id="break" aria-label="Showroom film">
+    <div class="brk__frame">
+      <video class="brk__video"
+             poster="assets/video/visual-break-poster-1600.jpg"
+             muted loop playsinline
+             preload="none"
+             width="1920" height="1080"
+             aria-hidden="true" tabindex="-1">
+        <source data-src="assets/video/visual_brake_video.mp4" type="video/mp4">
+      </video>
+
+      <!-- Scrims top and bottom, built from --bg-rgb so the band is cut
+           from the same ground as the sections it sits between rather
+           than laid on top of them. Without them the film has two hard
+           horizontal seams and reads as an embed. -->
+      <span class="brk__scrim" aria-hidden="true"></span>
+
+      <!-- The control is the reduced-motion path made visible rather
+           than a feature: I1 wants an autoplaying loop stoppable, and a
+           control that only appears for some visitors is a control
+           nobody learns. It is here for everyone, quiet, and it says
+           what it will do next. -->
+      <button class="brk__toggle micro" type="button" aria-pressed="false">
+        <span class="brk__toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 12 14" width="11" height="13" fill="none">
+            <path class="brk__glyph-play" d="M1.5 1.2 10.8 7l-9.3 5.8z" fill="currentColor"/>
+            <g class="brk__glyph-pause"><rect x="1.6" y="1.4" width="3" height="11.2" fill="currentColor"/><rect x="7.4" y="1.4" width="3" height="11.2" fill="currentColor"/></g>
+          </svg>
+        </span>
+        <span class="brk__toggle-label">Play film</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================
        SELL / TRADE — the one inverted band
        ============================================================
        This is the light ground the system allows itself ONCE, and it is
@@ -1167,6 +1223,6 @@
 </main>
 
 
-<script src="assets/js/main.js?v=40" defer></script>
+<script src="assets/js/main.js?v=41" defer></script>
 </body>
 </html>

@@ -6711,6 +6711,148 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .stage__car[src*="812-gts"]   { --centre-fix: 2.24%; }
 
 /* ============================================================
+   THE BREAK — a held shot between two dense chapters
+   ============================================================
+   A band, not a screen. The hero is the full viewport and gets to be;
+   this is shorter on purpose, because a second full-height film would
+   read as a second opening rather than as a pause inside one page. */
+.brk {
+  position: relative;
+  background: var(--bg);
+  /* Height is driven by the viewport WIDTH, not its height. The frame
+     is 16:9 and a vh-based band would crop it differently on every
+     laptop; a vw-based one keeps the same slice of the room on all of
+     them, which is what makes it a composition rather than a window. */
+  block-size: clamp(19rem, 42vw, 32rem);
+  overflow: hidden;
+}
+
+.brk__frame {
+  position: absolute;
+  inset: 0;
+}
+
+.brk__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* The lower third of this frame is empty floor. Pulling the crop up
+     keeps the cars and the mural in the band and spends the loss on
+     polished concrete, which is the part with nothing in it. */
+  object-position: center 38%;
+  display: block;
+}
+
+/* TWO SCRIMS FROM THE PAGE'S OWN GROUND, one element.
+   --bg-rgb rather than a black — the band has to dissolve into the
+   sections above and below it, and those are #0B101C, not black. The
+   last stop is `rgb(... / 0)` and not `transparent`, because
+   `transparent` interpolates through transparent BLACK and leaves a
+   grey bruise across the middle of the fade. That bug is already in
+   this file's history once. */
+.brk__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0.92) 0%,
+      rgb(var(--bg-rgb) / 0.55) 8%,
+      rgb(var(--bg-rgb) / 0.12) 20%,
+      rgb(var(--bg-rgb) / 0) 34%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.92) 0%,
+      rgb(var(--bg-rgb) / 0.55) 8%,
+      rgb(var(--bg-rgb) / 0.12) 20%,
+      rgb(var(--bg-rgb) / 0) 34%);
+}
+
+/* ---- The control -------------------------------------------
+   Bottom right, out of the composition's way. It is the only piece of
+   interface on the band and it is deliberately small, but not smaller
+   than the 14px floor and not smaller than a 44px target. */
+.brk__toggle {
+  position: absolute;
+  inset-block-end: clamp(var(--sp-4), 2.4vw, var(--sp-6));
+  inset-inline-end: clamp(var(--sp-4), 2.4vw, var(--sp-6));
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: 44px;
+  padding-inline: var(--sp-5);
+  border: 0;
+  border-radius: 999px;
+  color: var(--ink);
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  /* A ground of its own, because the film underneath is a moving
+     photograph and no single value can be relied on. 12px of blur is
+     the project's ceiling — the fill does the legibility work and the
+     blur is only there so the disc does not read as a sticker. */
+  /* OPAQUE, AND THE RING IS BRIGHT, because no single value contrasts
+     against arbitrary film. Measured: this shot runs from rgb(15,14,27)
+     to near white, and beside the control it happened to be rgb(77,65,61)
+     — a mid tone that defeats a dark edge and a light one equally. A
+     translucent disc has no boundary on half its own background.
+
+     So the pair is deliberately opposed. The disc is the page's own
+     ground at full strength: against a bright frame IT carries the edge.
+     The ring is near-white: against a dark frame the RING carries it.
+     One of the two always has the contrast, whatever the film is doing.
+
+     The ring is a boundary, not a decorative shadow — the anti-pattern
+     ban is on glow used as ornament, and this is the only thing telling
+     a visitor where the control ends. */
+  background: rgb(var(--bg-rgb) / 0.94);
+  backdrop-filter: blur(12px);
+  /* 2px, and the second pixel is not cosmetic. At 1px the ring vanished
+     into antialiasing exactly where the pill's cap curves, and the edge
+     measured 1.4:1 there while reading 3.1:1 on the straight run. */
+  box-shadow: inset 0 0 0 2px var(--rule-onfilm);
+  transition: background var(--dur-1) var(--ease-out),
+              box-shadow var(--dur-1) var(--ease-out);
+}
+.brk__toggle:hover,
+.brk__toggle:focus-visible {
+  background: rgb(var(--bg-rgb) / 0.82);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+/* --ink, not --accent, and measured before it was decided: the red
+   glyph read 2.49:1 against this disc, short of the 3:1 a non-text
+   graphic needs. The register says the same thing independently — red
+   on the dark ground is a mark, never a resting control's glyph, and a
+   play triangle is as resting as a control gets. It also makes the
+   control one object rather than a red thing inside a grey pill. */
+.brk__toggle-icon {
+  display: inline-flex;
+  color: var(--ink);
+}
+
+/* One glyph is shown at a time, and which one is bound to aria-pressed
+   rather than to a second class — the accessible state and the drawn
+   state cannot drift apart if they are the same attribute. */
+.brk__toggle .brk__glyph-pause { display: none; }
+.brk__toggle[aria-pressed="true"] .brk__glyph-play { display: none; }
+.brk__toggle[aria-pressed="true"] .brk__glyph-pause { display: inline; }
+
+/* ---- Reduced motion ----------------------------------------
+   The film is never fetched and never runs; the poster IS the band.
+   The control stays, because a still frame with a play button is a
+   complete, honest offer — the visitor can start it if they want it.
+   Nothing here depends on the transition having run. */
+@media (prefers-reduced-motion: reduce) {
+  .brk__toggle { transition: none; }
+}
+
+@media (max-width: 760px) {
+  .brk { block-size: clamp(15rem, 60vw, 22rem); }
+  .brk__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .brk__toggle { padding-inline: 0; inline-size: 44px; justify-content: center; }
+}
+
+/* ============================================================
    6 — WARRANTY / PROTECTION — the second inverted band
    ============================================================
    The page's grounds now run dark, dark, bone, dark, bone. The two

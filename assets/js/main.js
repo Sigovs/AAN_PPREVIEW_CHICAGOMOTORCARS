@@ -729,3 +729,107 @@
     });
   });
 })();
+
+/* ============================================================
+   THE BREAK — a film that costs nothing until it is nearly seen
+   ============================================================
+   The file is 20MB. Shipping it in the markup would mean every visitor
+   who never scrolls past the inventory pays for a band they did not
+   reach, so the <source> ships with data-src and no src, and this
+   attaches it one viewport ahead of the band.
+
+   Under prefers-reduced-motion the source is NEVER attached. Not
+   attached-then-paused: not fetched at all. The poster is a real frame
+   from the film, so the band is a photograph of the room in that case
+   rather than a black rectangle waiting for something.
+
+   The control is not decoration for the reduced-motion path. It is
+   there for everyone, because a loop nobody can stop is the thing I1
+   objects to, and a control that only some visitors ever see is a
+   control nobody learns.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var band = document.querySelector('.brk');
+  if (!band) return;
+
+  var video = band.querySelector('.brk__video');
+  var source = band.querySelector('.brk__video source');
+  var toggle = band.querySelector('.brk__toggle');
+  if (!video || !source || !toggle) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var attached = false;
+  var wanted = false;   // has the visitor asked for it, or has autoplay?
+
+  function label(playing) {
+    toggle.setAttribute('aria-pressed', String(playing));
+    var text = toggle.querySelector('.brk__toggle-label');
+    /* The label says what the control WILL DO, not what the film is
+       doing. A button reading "Playing" looks like a status and gets
+       pressed by people trying to make it play. */
+    if (text) text.textContent = playing ? 'Pause film' : 'Play film';
+  }
+
+  function attach() {
+    if (attached) return;
+    attached = true;
+    source.src = source.getAttribute('data-src');
+    video.load();
+  }
+
+  function play() {
+    attach();
+    wanted = true;
+    var p = video.play();
+    /* Autoplay can be refused even when muted. If it is, the band
+       stays on its poster and the control still reads "Play film",
+       which is the truth rather than a button lying about its state. */
+    if (p && p.catch) p.catch(function () { wanted = false; label(false); });
+  }
+
+  function pause() {
+    wanted = false;
+    video.pause();
+  }
+
+  video.addEventListener('play', function () { label(true); });
+  video.addEventListener('pause', function () { label(false); });
+
+  toggle.addEventListener('click', function () {
+    if (video.paused) play(); else pause();
+  });
+
+  /* One observer, two jobs, two margins. The outer one attaches the
+     source early enough that the film is ready by the time the band
+     arrives; the inner one starts and stops playback, so a film left
+     running four sections up is not still decoding behind the page. */
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !calm.matches) attach();
+      });
+    }, { rootMargin: '100% 0px' }).observe(band);
+
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (calm.matches) return;
+        if (e.isIntersecting) play();
+        else if (!video.paused) { video.pause(); wanted = true; }
+      });
+    }, { threshold: 0.25 }).observe(band);
+  } else if (!calm.matches) {
+    attach();
+  }
+
+  /* Turning the setting on mid-visit stops the film and leaves the
+     poster. Turning it off does not start one nobody asked for. */
+  var onCalm = function () {
+    if (calm.matches) { video.pause(); wanted = false; }
+  };
+  if (calm.addEventListener) calm.addEventListener('change', onCalm);
+  else if (calm.addListener) calm.addListener(onCalm);
+
+  label(false);
+})();
