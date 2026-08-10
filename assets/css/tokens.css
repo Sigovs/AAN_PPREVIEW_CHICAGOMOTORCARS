@@ -288,6 +288,31 @@
   --stage-lag: 90ms;     /* the incoming car waits this long to begin  */
   --stage-recede: 0.98;  /* where an unselected car sits on that axis  */
   --stage-defocus: 14px; /* the blur both pass through, never at rest  */
+
+  /* THE TEAR — one chromatic break at the instant of the cut.
+     Not a stuttering glitch: it splits and recovers once, inside the
+     first third of the arrival, and never repeats. A repeated digital
+     stutter is the register the art direction rules out by name; a
+     single split-and-recover reads as a sensor or a broadcast cut,
+     which is a camera behaving like a camera.
+
+     The pair is not pure red/cyan. A pure channel split is the gamer
+     cliche, and it drags the accent's own red into a decorative role it
+     does not have here — these are pulled toward the page's own ground
+     so the break reads as light rather than as branding.
+
+     --glitch-dur is the FULL arrival, not the length of the break. It
+     has to be: the animation owns transform and filter for as long as it
+     runs, and the focus pull's transition takes them back the instant it
+     stops. A 260ms tear handed those properties over mid-flight — scale
+     1 and blur 0 snapping back to the 0.995 and 3.5px the transition had
+     reached by then — a pop exactly where the eye already is. Matching
+     the two end times means both arrive at the same values and the
+     handover is invisible. */
+  --glitch-dur: calc(var(--dur-3) + var(--stage-lag));   /* 610ms */
+  --glitch-shift: 9px;                    /* peak horizontal separation */
+  --glitch-warm: rgba(203, 20, 29, 0.62); /* the leading edge  */
+  --glitch-cool: rgba(96, 178, 228, 0.58);/* the trailing edge */
 }
 
 @media (max-width: 900px) {

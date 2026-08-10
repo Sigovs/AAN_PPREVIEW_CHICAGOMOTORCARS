@@ -182,9 +182,39 @@
   var frames = driving.map(function (r) { return Number(r.getAttribute('data-frame')); });
   var at = 0;
 
+  /* THE TEAR FIRES ON A CHANGE, NOT ON A STATE.
+
+     `shown` is read off the DOM rather than assumed to be 0, so the
+     opening frame is whatever the markup says is active and the tear
+     does not fire on first paint. show() is also called by hover and by
+     restore(), which frequently re-assert the SAME car — without this
+     guard, crossing the list would have torn the picture repeatedly
+     while nothing was actually changing.
+
+     remove / reflow / add is the retrigger this codebase already uses
+     for the hero: an animation does not restart on a class that is
+     already present, and reading offsetWidth is what forces the style
+     recalculation in between. The class comes off on animationend so a
+     later change starts from a clean element. */
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var shown = -1;
+  cars.forEach(function (c, n) { if (c.classList.contains('is-active')) shown = n; });
+
+  cars.forEach(function (c) {
+    c.addEventListener('animationend', function () { c.classList.remove('is-cut'); });
+  });
+
+  function cut(el) {
+    if (!el || calm.matches) return;
+    el.classList.remove('is-cut');
+    void el.offsetWidth;
+    el.classList.add('is-cut');
+  }
+
   function show(i) {
     var seat = frames.indexOf(i);
     if (seat !== -1) at = seat;
+    if (i !== shown) { cut(cars[i]); shown = i; }
     cars.forEach(function (c, n) {
       c.classList.toggle('is-active', n === i);
     });
