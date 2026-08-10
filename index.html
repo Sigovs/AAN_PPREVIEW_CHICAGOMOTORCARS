@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Instrument Serif is gone: nothing is set in it any more, and a face
      nothing uses is a request nothing needs. See tokens.css. -->
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- The frame is the whole page right now, so it is the LCP element and
      nothing should discover it late. -->
@@ -24,8 +24,8 @@
 <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=18">
-<link rel="stylesheet" href="assets/css/main.css?v=163">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20">
+<link rel="stylesheet" href="assets/css/main.css?v=227">
 </head>
 <body>
 
@@ -399,7 +399,7 @@
          They never appear together, so the repeat costs nothing. -->
     <div class="hero__media">
 
-      <div class="hero__slide is-current" data-slide="0">
+      <div class="hero__slide is-current" data-slide="0" data-title="Luxury">
         <!-- No `autoplay` attribute on purpose. Autoplay in the markup
              starts the download and the playback before anything can ask
              whether this visitor wants motion; main.js starts it instead,
@@ -421,7 +421,7 @@
         </video>
       </div>
 
-      <div class="hero__slide" data-slide="1">
+      <div class="hero__slide" data-slide="1" data-title="Performance">
         <img class="hero__photo"
              src="assets/img/hero/hero_d.jpg"
              alt=""
@@ -488,7 +488,7 @@
                slide list on purpose: the word is a rotating register
                rather than a caption on a picture, so it is not claiming
                to describe the frame behind it. -->
-          <div class="hero__meter" data-titles="Luxury, Exotic, Performance, Service">
+          <div class="hero__meter">
           <button class="counter" type="button"
                   aria-label="Next hero slide"
                   data-total="2">
@@ -549,7 +549,7 @@
           <p class="hunt__field">
             <label class="micro hunt__label" for="h-make">Make</label>
             <select class="hunt__control" id="h-make" name="make">
-              <option value="">Select Make</option>
+              <option value="">Any Make</option>
               <option>Ferrari</option><option>Lamborghini</option><option>McLaren</option>
               <option>Porsche</option><option>Rolls-Royce</option><option>Dodge</option>
               <option>Koenigsegg</option><option>Rimac</option>
@@ -560,7 +560,7 @@
           <p class="hunt__field">
             <label class="micro hunt__label" for="h-model">Model</label>
             <select class="hunt__control" id="h-model" name="model">
-              <option value="">Select Model</option>
+              <option value="">Any Model</option>
             </select>
             <span class="hunt__value" aria-hidden="true"></span>
           </p>
@@ -569,7 +569,7 @@
           <p class="hunt__field">
             <label class="micro hunt__label" for="h-body">Body Style</label>
             <select class="hunt__control" id="h-body" name="bodystyle">
-              <option value="">Select Body Style</option>
+              <option value="">Any Body Style</option>
               <option>Convertible</option><option>Coupe</option><option>Hatchback</option>
               <option>Sedan</option><option>SUV</option><option>Wagon</option>
               <option>Pickup Truck</option><option>Sprinter Van</option>
@@ -627,7 +627,7 @@
        is standing on, and guessing that is the same class of error as
        guessing a price.
        ============================================================ -->
-  <section class="inv" id="inventory">
+  <section class="inv" id="inventory" data-reveal>
     <div class="shell inv__inner">
 
       <!-- The horizontal finder that used to ride this edge is GONE.
@@ -643,7 +643,7 @@
            heading of a section has to span the section. Browse-all closes
            the opposite end of the same line. No rule under it. -->
       <header class="inv__intro">
-        <h2 class="inv__title">Featured Inventory</h2>
+        <h2 class="inv__title"><span class="ttl-line">Featured Inventory</span></h2>
         <p class="lede">Hand-selected performance, luxury and collector vehicles. Each one chosen for its pedigree, condition and driving experience.</p>
       </header>
 
@@ -712,57 +712,53 @@
 
         <div class="showcase__index">
           <div class="recs">
-          <a class="rec is-active" data-frame="0" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
-            <span class="rec__no">01</span>
+          <button class="rec is-active" type="button" data-frame="0" aria-pressed="true">
             <span class="rec__body">
               <span class="micro rec__make">2018 Porsche</span>
-              <span class="rec__model">911 GT2 RS Weissach</span>
+              <span class="rec__name"><span class="rec__model">911 GT2 RS Weissach</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts">$900,212 <span class="rec__dot" aria-hidden="true">·</span> 2,850 miles</span>
-                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+                <span class="rec__facts"><span class="rec__pill">$900,212</span><span class="rec__pill">2,850 miles</span></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-porsche-gt2rs.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
-          </a>
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </button>
 
-          <a class="rec" data-frame="1" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
-            <span class="rec__no">02</span>
+          <button class="rec" type="button" data-frame="1" aria-pressed="false">
             <span class="rec__body">
               <span class="micro rec__make">2021 Lamborghini</span>
-              <span class="rec__model">Aventador SVJ Roadster</span>
+              <span class="rec__name"><span class="rec__model">Aventador SVJ Roadster</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts">$1,600,212 <span class="rec__dot" aria-hidden="true">·</span> 7,671 miles</span>
-                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+                <span class="rec__facts"><span class="rec__pill">$1,600,212</span><span class="rec__pill">7,671 miles</span></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-aventador-svj-roadster.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
-          </a>
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </button>
 
-          <a class="rec" data-frame="2" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
-            <span class="rec__no">03</span>
+          <button class="rec" type="button" data-frame="2" aria-pressed="false">
             <span class="rec__body">
               <span class="micro rec__make">2021 Koenigsegg</span>
-              <span class="rec__model">Regera</span>
+              <span class="rec__name"><span class="rec__model">Regera</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts">$2,900,212 <span class="rec__dot" aria-hidden="true">·</span> 2,055 miles</span>
-                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+                <span class="rec__facts"><span class="rec__pill">$2,900,212</span><span class="rec__pill">2,055 miles</span></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-koenigsegg-regera.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
-          </a>
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </button>
 
-          <a class="rec" data-frame="3" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">
-            <span class="rec__no">04</span>
+          <button class="rec" type="button" data-frame="3" aria-pressed="false">
             <span class="rec__body">
               <span class="micro rec__make">2023 Ferrari</span>
-              <span class="rec__model">812 GTS</span>
+              <span class="rec__name"><span class="rec__model">812 GTS</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts">$1,100,212 <span class="rec__dot" aria-hidden="true">·</span> 1,641 miles</span>
-                <span class="micro rec__go">View vehicle <svg class="rec__arrow" width="16" height="16" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.4"/></svg></span>
+                <span class="rec__facts"><span class="rec__pill">$1,100,212</span><span class="rec__pill">1,641 miles</span></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-ferrari-812-gts.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
-          </a>
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </button>
           </div>
 
           <!-- The concluding line of the index, not a button.
@@ -802,7 +798,7 @@
        can carry it as TEXT. On the dark side of the page the same red
        is a mark only. Same value, different ground, different licence.
        ============================================================ -->
-  <section class="sell" id="sell">
+  <section class="sell" id="sell" data-reveal>
 
     <!-- THE PHOTOGRAPH IS THE GROUND, not a panel in a column.
 
@@ -829,20 +825,36 @@
     <div class="sell__grid">
 
       <div class="sell__copy">
-        <p class="micro sell__eyebrow">Sell <span aria-hidden="true">/</span> Trade</p>
-        <h2 class="sell__title">Your car deserves<br>the right market.</h2>
+        <h2 class="sell__title"><span class="ttl-line">Your car deserves</span><span class="ttl-line">the right market.</span></h2>
         <p class="sell__lede">We buy exceptional performance, exotic and collector
           vehicles &mdash; with a straightforward offer and nationwide support.</p>
 
         <!-- The DS variant again, consumed not copied: this is the second
              ACCENT ACTION on the page and they are in different visual
              regions, which is the documented limit. -->
-        <a class="btn btn--accent sell__go" href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">
-          Get an offer
-          <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-        </a>
+        <!-- Primary and secondary on one row. The secondary is the DS's
+             outlined variant now, not a text link: it is the second half
+             of a real decision — commit, or find out more first — and a
+             pair reads as a pair only when both are the same kind of
+             object. The accent stays the only filled control, so the
+             one-Accent-Action rule is untouched. -->
+        <div class="sell__actions">
+          <a class="btn btn--accent sell__go" href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">
+            Get an offer
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
 
-        <a class="micro sell__how" href="#sell-steps">How it works</a>
+          <!-- The label changed and the destination had to change with it.
+               "How it works" jumped to the three steps below, so it carried a
+               down arrow; "Talk to our specialist" is a person, not a passage
+               of this page, and it goes to the contact page. The arrow goes
+               back to the pair's right one, because now both buttons really
+               do leave. -->
+          <a class="btn btn--line sell__how" href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">
+            Talk to our specialist
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </div>
       </div>
 
 
@@ -854,9 +866,90 @@
 
     </div>
   </section>
+
+  <!-- ============================================================
+       STORY — the house behind the inventory
+       ============================================================
+       Dark again after the bone reset, which is the rhythm this page
+       runs on: cinematic, technical, bright, then this.
+
+       THE PHOTOGRAPH IS REAL, AND THAT WAS NOT OPTIONAL. The sketch
+       showed a generated showroom with the CMC wordmark on the wall.
+       generated-imagery GI3 forbids exactly that — nothing synthetic may
+       depict a real CMC car, a real CMC showroom or a real person — and
+       the same skill bars type and logos inside a generated frame. A
+       fabricated photograph of this dealership, with its own mark in it,
+       would be a picture of a place that does not exist, presented as
+       theirs. This is their own frame of their own space instead: the
+       Kansas industrial room, off their CDN, already in the repo.
+       ============================================================ -->
+  <section class="story" id="story" data-reveal>
+
+    <!-- FULL-BLEED GROUND. The photograph is the section now, not a framed
+         object inside it, so the copy and the figures stand ON the room
+         rather than beside a picture of it.
+
+         PLACEHOLDER: assets/img/backgrounds/ is empty. This is the Kansas
+         industrial frame standing in so the composition can be judged;
+         drop the intended file in that folder and this one src swaps.
+         It is a real CMC photograph either way — GI3 rules out a
+         generated showroom for this section, see the note in git. -->
+    <div class="story__bg" aria-hidden="true">
+      <!-- The master is 5760 wide and 2.05MB; nothing serves it. This band
+           is full-bleed, so a 1440 viewport asks for 1600 and a 2x one for
+           2560 — 57KB and 113KB. See the README beside the files.
+
+           Origin is UNCONFIRMED and it is recorded as such: whether the
+           room and the cars are CMC own is not established, and the copy
+           beside it reads as if they are. -->
+      <img src="assets/img/backgrounds/cmc-ford-gt-showroom-1600.jpg"
+           srcset="assets/img/backgrounds/cmc-ford-gt-showroom-1600.jpg 1600w,
+                   assets/img/backgrounds/cmc-ford-gt-showroom-2560.jpg 2560w"
+           sizes="100vw"
+           alt="" width="2560" height="1133" loading="lazy" decoding="async">
+    </div>
+
+    <div class="story__inner">
+
+      <div class="story__copy">
+        <h2 class="story__title"><span class="story__line ttl-line">Built on more</span><span class="story__line ttl-line">than exceptional cars.</span></h2>
+        <p class="story__lede">For over two decades, Chicago Motor Cars has connected
+          enthusiasts and collectors with exceptional vehicles across the country
+          and around the world.</p>
+        <a class="story__cta" href="https://www.chicagomotorcars.com/about-chicago-motor-cars/">
+          Our story
+          <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </a>
+      </div>
+
+      <!-- ONE FIGURE LEADS AND TWO ANSWER IT. Equal statistics in a row is
+           a data wall — the recorded weakness on hbbody-com, where several
+           similarly treated numbers stopped being evidence and became
+           wallpaper. 30,000+ is the claim; the other two are its context,
+           and they are sized as context.
+
+           The figures are on record: 2003 and 30,000+ are in this page's
+           own title and description, $2B is in the project fact set. -->
+      <dl class="story__stats">
+        <div class="stat stat--lead">
+          <dt class="micro stat__label">Vehicles sold</dt>
+          <dd class="stat__fig"><span class="stat__n" data-count-to="30000" data-suffix="+">30,000+</span></dd>
+        </div>
+        <div class="stat stat--proof">
+          <dt class="micro stat__label">Since</dt>
+          <dd class="stat__fig"><span class="stat__n">2003</span></dd>
+        </div>
+        <div class="stat stat--proof">
+          <dt class="micro stat__label">Worldwide sales</dt>
+          <dd class="stat__fig"><span class="stat__n">$2B+</span></dd>
+        </div>
+      </dl>
+
+    </div>
+  </section>
 </main>
 
 
-<script src="assets/js/main.js?v=22" defer></script>
+<script src="assets/js/main.js?v=37" defer></script>
 </body>
 </html>

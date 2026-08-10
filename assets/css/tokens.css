@@ -156,6 +156,14 @@
      grotesque uses --tr-display, which was written for it originally. */
   --font-display: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* A THIRD VOICE, AND THE JOB THE OTHER TWO CANNOT DO.
+     Figures at display weight. JetBrains Mono is fixed-width, so a bold
+     price comes out airy and wide and reads as a code sample; Instrument
+     Sans is a text grotesque and goes soft at weight. Inter Tight is the
+     condensed cut this art direction already asks for in its display
+     terms, and it is used for ONE role only: the numeric fact line.
+     Nothing else on the page is set in it. */
+  --font-data:    'Inter Tight', 'Instrument Sans', sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display-set: normal;
 
@@ -211,6 +219,21 @@
 
   /* ---- Layout ------------------------------------------------ */
   --container:   1440px;
+  /* THE PAGE SHELL — one horizontal system for the whole site.
+     Header, hero, inventory, sell and story all resolve their outer
+     edge from these two values and nothing else. Three different
+     shells had grown up in this file — a full-bleed header on --gutter,
+     a 1580 cap on its own clamp, and a 100rem cap on a third — and the
+     header ended up starting at 81px while the sections started at 162. */
+  --page-gutter: clamp(24px, 3.4vw, 60px);
+  --shell:       1580px;
+
+  /* CONTROL HEIGHTS. The header is deliberately more compact than the
+     page actions; both come from a token so the difference is a
+     decision rather than an accident of two selectors. */
+  --control-h-header:  46px;
+  --control-h-primary: 54px;
+
   --gutter:      clamp(24px, 4vw, 64px);   /* 24px floor — D4 */
   --header-h:    88px;
 
@@ -224,6 +247,14 @@
   --ease:     var(--ease-out);                  /* default direction   */
   --dur-1: 180ms;
   --dur-2: 320ms;
+  /* SECTION ENTRY — the homepage's motion language below the hero.
+     Headline lines slide from the left one at a time, the paragraph
+     rises, the action follows quietly. These are the only durations
+     that system uses; nothing in it is written inline. */
+  --rv-line: 640ms;   /* one headline line */
+  --rv-lede: 560ms;   /* the paragraph */
+  --rv-cta:  440ms;   /* the action */
+  --rv-step: 130ms;   /* interval between staircase steps */
   --dur-3: 520ms;
   --dur-4: 760ms;   /* the cinematic step: state changes, crossfades */
 }

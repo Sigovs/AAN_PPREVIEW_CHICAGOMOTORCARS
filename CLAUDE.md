@@ -92,3 +92,41 @@ because the token was correct and the CSS never loaded.
 
 `assets/css/tokens.css` is the single source of truth for colour, type scale and
 spacing. Values go there, never inline.
+
+## Section entry motion is a project rule, not a per-section effect
+
+**Every section below the hero uses one shared entry language.** The hero is
+excluded and keeps its own cinematic behaviour.
+
+| Role | Motion |
+|---|---|
+| headline | one **line** at a time, in from the **left**, −56px → 0 |
+| paragraph | one block, from **below**, +32px → 0 |
+| action | quiet vertical settle, +10px → 0 |
+| eyebrow | fade with 6px, never competing with the headline |
+| secondary proof | may enter from the **right** where the composition asks |
+
+Durations live in `tokens.css` as `--rv-line` / `--rv-lede` / `--rv-cta` and the
+staircase interval as `--rv-step`. Easing is `--ease-out`. Nothing in this system
+is written inline.
+
+**A new section opts in with `data-reveal` on the section and the existing role
+classes on its parts** — `.ttl-line` per headline line, `.lede`, the CTA. It then
+inherits the choreography with no new CSS. Do not author a different entrance for
+a new chapter; add it to this system.
+
+Scroll-**triggered**, not scroll-linked: one IntersectionObserver, `rootMargin`
+`-22%`, `unobserve` on first hit. One reveal per visit, and a section taller than
+the viewport still fires — a ratio threshold would not.
+
+`html.reveal-armed` is added **by script, after checking `prefers-reduced-motion`**.
+Nothing is hidden without it, so a blocked script or a reduced-motion setting
+leaves every section complete. The hidden state is written once per role as
+`[data-reveal]:not(.is-revealed)`; the revealed state is simply the element.
+
+**These animations survive later layout work.** Redesigning a section does not
+remove its entry motion unless Alex asks for that specifically.
+
+Recorded dialect yield: `motion-taste D1` caps travel at 8px and prefers a
+crossfade. The headline travels 56px horizontally, on the stated exit — direction
+encoding progress. Transform and opacity only; no geometry animates.

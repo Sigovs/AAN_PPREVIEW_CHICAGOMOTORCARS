@@ -189,15 +189,62 @@
       c.classList.toggle('is-active', n === i);
     });
     recs.forEach(function (r) {
-      r.classList.toggle('is-active', r.getAttribute('data-frame') === String(i));
+      var on = r.getAttribute('data-frame') === String(i);
+      r.classList.toggle('is-active', on);
+      /* The index looks identical whichever record is chosen — that is
+         the brief. aria-pressed is how the choice still reaches anyone
+         who cannot see the photograph change, and it costs no pixels. */
+      if (r.hasAttribute('aria-pressed')) r.setAttribute('aria-pressed', String(on));
     });
   }
 
+  /* THE INDEX NO LONGER DRIVES THE FIELD. The arrows do, and only the
+     arrows.
+
+     Hover used to select a record, which meant the composition changed
+     under a pointer that was only crossing the column on its way
+     somewhere else. Every one of those accidental changes moved
+     something — the type, the thumbnail, and the vehicle itself, which
+     is a different height in every photograph. Advancing on an explicit
+     press instead makes each change something the visitor asked for.
+
+     TWO LEVELS OF STATE, AND ONLY ONE OF THEM IS STICKY.
+
+     `locked` is the record the visitor actually chose — by clicking it,
+     or by stepping the arrows. `show()` paints whatever is being looked
+     at, which during a hover is the row under the pointer and at every
+     other moment is `locked`.
+
+     That distinction is the whole reason the earlier version had to be
+     torn out. Hover used to BE the selection, so a pointer crossing the
+     column on its way somewhere else left the section showing a car
+     nobody picked, and there was no state to return to. Now leaving the
+     list restores the choice, every time.
+
+     Keyboard gets the same shape: focus previews, blur out of the list
+     restores. The records are <button>s, not links — all four hrefs
+     pointed at the same generic inventory URL, so they were never
+     per-vehicle destinations, and "View all 301 vehicles" carries that
+     one destination once, at the foot of the list where it belongs. */
+  var locked = frames.length ? frames[0] : 0;
+
+  function select(i) { locked = i; show(i); }
+  function restore() { show(locked); }
+
   driving.forEach(function (rec) {
     var i = Number(rec.getAttribute('data-frame'));
+    rec.addEventListener('click', function () { select(i); });
     rec.addEventListener('mouseenter', function () { show(i); });
     rec.addEventListener('focus', function () { show(i); });
   });
+
+  var list = wrap.querySelector('.recs');
+  if (list) {
+    list.addEventListener('mouseleave', restore);
+    list.addEventListener('focusout', function (e) {
+      if (!list.contains(e.relatedTarget)) restore();
+    });
+  }
 
   // Arrows wrap rather than disable at the ends. Four vehicles is a ring,
   // not a document — a dead control at either end would be the only piece
@@ -205,8 +252,12 @@
   [].slice.call(wrap.querySelectorAll('.stage__arrow')).forEach(function (btn) {
     var step = Number(btn.getAttribute('data-step'));
     btn.addEventListener('click', function () {
+      /* select(), not show() — an arrow press is a CHOICE, so it moves
+         the locked record. Stepping with show() would have left `locked`
+         behind, and the next stray hover would have snapped the section
+         back to whatever it used to be. */
       var next = (at + step + frames.length) % frames.length;
-      show(frames[next]);
+      select(frames[next]);
     });
   });
 })();
@@ -242,11 +293,7 @@
   var video   = hero.querySelector('.hero__video');
   if (slides.length < 2) return;
 
-  var meter  = hero.querySelector('.hero__meter');
   var title  = hero.querySelector('.hero__slide-title');
-  var words  = (meter && meter.getAttribute('data-titles') || '')
-                 .split(',').map(function (w) { return w.trim(); }).filter(Boolean);
-  var word   = 0;
 
   var at = 0;
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -297,12 +344,25 @@
      Crossfaded rather than cut: it is the only thing on this row whose
      content swaps, and a hard swap beside a smoothly running arc reads
      as a glitch. */
-  function stepWord() {
-    if (!title || words.length < 2) return;
-    word = (word + 1) % words.length;
+  /* THE CHAPTER NAME IS READ OFF THE SLIDE, NOT OFF A LIST.
+
+     It used to run its own rotation through four words over two slides,
+     deliberately, so the word read as a register rather than a caption.
+     That is a defensible idea and it produced an undefensible artefact:
+     the numeral said 01 while the word said Performance, so the two
+     halves of one chapter marker disagreed twice per cycle.
+
+     Each slide now carries its own data-title, which is what the markup
+     comment already said it wanted. Number, name and media cannot drift,
+     because there is only one source for all three: the slide. A third
+     chapter arrives when a third slide does, not before. */
+  function nameSlide(i) {
+    if (!title) return;
+    var next = slides[i] && slides[i].getAttribute('data-title');
+    if (!next || next === title.textContent) return;
     title.classList.add('is-swapping');
     setTimeout(function () {
-      title.textContent = words[word];
+      title.textContent = next;
       title.classList.remove('is-swapping');
     }, 200);
   }
@@ -310,6 +370,7 @@
   function go(i) {
     at = i;
     slides.forEach(function (s, n) { s.classList.toggle('is-current', n === i); });
+    nameSlide(i);
     if (num) num.textContent = pad(i + 1);
     // Nothing plays while it is not the thing on screen.
     if (video && i !== 0) video.pause();
@@ -318,7 +379,7 @@
        film is timed by the film itself; see `ended` below. */
     if (i !== 0) {
       if (calm.matches) settle();
-      else arm(STILL_HOLD, function () { go(0); stepWord(); restartFilm(); });
+      else arm(STILL_HOLD, function () { go(0); restartFilm(); });
     }
   }
 
@@ -333,7 +394,6 @@
     counter.addEventListener('click', function () {
       var next = (at + 1) % slides.length;
       go(next);
-      stepWord();
       if (next === 0) restartFilm();
     });
   }
@@ -352,11 +412,33 @@
 
   function reveal() { video.classList.add('is-playing'); }
 
+  /* THE FILM DRIVES THE ARC ONLY WHILE THE FILM IS WHAT THE ARC IS TIMING.
+
+     Without the `at === 0` guard the still slide never ran and the hero
+     stopped dead on frame 02. HTMLMediaElement.pause() does not fire its
+     `pause` event synchronously — it queues a media element task — so
+     go(1) ran in this order:
+
+         video.pause()          queues `pause`
+         arm(STILL_HOLD, ...)   --run-state: running
+         (task queue drains)    `pause` handler -> --run-state: paused
+
+     The arc was armed with a real 5s duration and then immediately frozen
+     at dashoffset 204.8 by an event about a video that is not even on
+     screen. And because the advance hangs off the arc's animationend, a
+     stopped arc is a stopped sequence: measured on the page, frame 02 was
+     still up 6.3s into a 5s hold, and would have stayed up forever.
+
+     Guarding on `at` rather than reordering the two calls is the fix that
+     keeps holding true. The ordering could be swapped today, but any
+     later pause() from anywhere else would silently break the still
+     again; the film's playback state is simply not information about a
+     clock the film is not running. */
   video.addEventListener('play',  function () {
-    if (counter) counter.style.setProperty('--run-state', 'running');
+    if (counter && at === 0) counter.style.setProperty('--run-state', 'running');
   });
   video.addEventListener('pause', function () {
-    if (counter) counter.style.setProperty('--run-state', 'paused');
+    if (counter && at === 0) counter.style.setProperty('--run-state', 'paused');
   });
 
   video.addEventListener('canplaythrough', function () {
@@ -367,7 +449,7 @@
   }, { once: true });
 
   // The end of the film is the transition.
-  video.addEventListener('ended', function () { go(1); stepWord(); });
+  video.addEventListener('ended', function () { go(1); });
 
   /* ---- Nothing advances past someone who is looking at it ----
      The hero now moves on its own, so it has to stop when a visitor is
@@ -443,9 +525,170 @@
          to show. Writing the chosen option's label here is what keeps
          the row readable — and it reads the OPTION rather than the raw
          value, so what appears is exactly what was picked from the list. */
-      if (out) out.textContent = filled ? control.options[control.selectedIndex].text : '';
+      /* The value line is written in EVERY state, answered or not. Four
+         labels over four empty lines gave the visitor nothing to read and
+         no way to tell a filter that was open from one that was broken;
+         "Any Make" states the control's current setting, which is what a
+         resting filter actually is. The placeholder option carries that
+         wording, so the line is always the option list's own language and
+         never a second string invented here. */
+      if (out) out.textContent = control.options[control.selectedIndex].text;
     }
     control.addEventListener('change', sync);
     sync();
+  });
+})();
+
+/* ============================================================
+   STORY — one composed reveal for the proof area
+   ============================================================
+   Role: HIERARCHY. The three figures are not equal and the motion says
+   so — the claim counts, and the two facts that support it arrive once
+   it has landed. Order carries the ranking that scale alone was only
+   half carrying.
+
+   One sequence, one trigger, once per visit:
+
+     30,000+ counts, 1750ms, smootherstep
+     at 82% of that count -> 2003 slides in from the right
+     120ms later          -> $2B+ follows
+
+   The reveal is driven by the COUNTER'S OWN PROGRESS, not by a second
+   timer and not by a scroll range. A parallel timer would drift from the
+   thing it is supposed to be answering; scroll ranges would put the
+   secondary facts wherever the reader's scrolling happened to leave
+   them. Reading the count means the two events cannot come apart.
+
+   NOTHING IS HIDDEN UNTIL THE SCRIPT SAYS SO. The hidden state lives
+   behind .is-armed, which only this file adds, and only after it has
+   checked that motion is allowed. A failed script, a blocked file or a
+   reduced-motion setting all leave three finished figures on screen —
+   which is what the markup already contains.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var stats = document.querySelector('.story__stats');
+  if (!stats) return;
+
+  var fig    = stats.querySelector('.stat__n[data-count-to]');
+  var proofs = [].slice.call(stats.querySelectorAll('.stat--proof'));
+  if (!fig || !proofs.length) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (calm.matches || !('IntersectionObserver' in window)) return;
+
+  stats.classList.add('is-armed');
+
+  function render(el, value, done) {
+    var counting = !done && el.hasAttribute('data-decimals');
+    var text = counting
+      ? value.toFixed(Number(el.getAttribute('data-decimals')) || 1)
+      : (el.hasAttribute('data-plain')
+          ? String(Math.round(value))
+          : Math.round(value).toLocaleString('en-US'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    if (!done) suffix = suffix.replace(/\+$/, '');
+    el.textContent = (el.getAttribute('data-prefix') || '') + text + suffix;
+  }
+
+  /* Smootherstep: zero velocity at both ends, so the count starts from
+     rest and settles rather than bolting and braking. */
+  function ease(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+
+  var HANDOVER = 0.82;   /* the last 18% of the count */
+  var GAP      = 120;    /* ms between the two proof points */
+
+  function play() {
+    var target = Number(fig.getAttribute('data-count-to'));
+    if (!isFinite(target)) return;
+    var dur = 1750;
+    var t0 = null;
+    var handed = false;
+
+    function frame(now) {
+      if (t0 === null) t0 = now;
+      var p = Math.min(1, (now - t0) / dur);
+      render(fig, target * ease(p), p === 1);
+
+      if (!handed && p >= HANDOVER) {
+        handed = true;
+        proofs.forEach(function (el, i) {
+          setTimeout(function () { el.classList.add('is-in'); }, i * GAP);
+        });
+      }
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* An intentional threshold, not one pixel. 0.45 of the proof row means
+     the reader has arrived at the composition rather than clipped its top
+     edge on the way past — and unobserving on the first hit is what stops
+     a small scroll wobble replaying it. */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      stats.classList.add('is-live');
+      play();
+    });
+  }, { threshold: 0.45 });
+
+  io.observe(stats);
+})();
+
+/* ============================================================
+   SECTION ENTRY — one observer for every chapter below the hero
+   ============================================================
+   Sections opt in with `data-reveal`. The hero does not carry it and
+   keeps its own behaviour.
+
+   Nothing is hidden until this runs and has checked that motion is
+   allowed — the CSS states all sit behind `.reveal-armed`, which only
+   this file adds. A blocked script, a parse error or a reduced-motion
+   setting therefore leaves every section complete rather than blank,
+   which is the one failure mode a scroll-reveal must not have.
+
+   rootMargin rather than a ratio threshold: a section taller than the
+   viewport can never reach a 25% intersection ratio on a short screen,
+   and the reveal would simply never fire. Firing when the section's top
+   passes 78% of the viewport height means the same intentional moment
+   at every section height and every window size.
+
+   unobserve on the first hit — one clean entrance per visit, and a small
+   scroll wobble cannot replay it.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var sections = [].slice.call(document.querySelectorAll('[data-reveal]'));
+  if (!sections.length) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (calm.matches || !('IntersectionObserver' in window)) return;
+
+  document.documentElement.classList.add('reveal-armed');
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      e.target.classList.add('is-revealed');
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -22% 0px' });
+
+  sections.forEach(function (s) { io.observe(s); });
+
+  /* A section already on screen at load — a deep link, or a restored
+     scroll position — reveals immediately rather than waiting for a
+     scroll that may never come. */
+  requestAnimationFrame(function () {
+    sections.forEach(function (s) {
+      if (s.getBoundingClientRect().top < window.innerHeight * 0.78) {
+        io.unobserve(s);
+        s.classList.add('is-revealed');
+      }
+    });
   });
 })();

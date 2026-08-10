@@ -1534,6 +1534,25 @@ button, input, select { font: inherit; color: inherit; }
        It is a fourth gradient in one device, not a fourth device — the
        scrim is still the ground, and this is the ground being shaped for
        what stands on it. */
+    /* FIFTH LAYER: the same thing, on the other side, for the finder.
+
+       The bottom-left ellipse was built for the claim and the claim only,
+       so the rail on the opposite corner has been standing on the plain
+       bottom ramp this whole time. Measured on the composite against the
+       film's brightest pixels behind the rail, its value lines came out
+       at 4.39:1 with --ink-2 and 3.58:1 with --ink-3 — a functional line
+       stating what a control is set to, under the 4.5 floor either way.
+
+       Spent here rather than on the type, for the reason already written
+       above: colour I4 puts legibility at the background layer. 0.30 at
+       the corner falling to nothing by 42% across, which lands the rail
+       around 0.20 and its worst pixel at 4.95:1. The car sits outside
+       that footprint, the same way it sits outside the claim's. */
+    radial-gradient(58% 62% at 100% 100%,
+      rgb(var(--bg-rgb) / 0.30) 0%,
+      rgb(var(--bg-rgb) / 0.22) 45%,
+      rgb(var(--bg-rgb) / 0.08) 75%,
+      transparent 100%),
     radial-gradient(110% 95% at 0% 100%,
       rgb(var(--bg-rgb) / 0.74) 0%,
       rgb(var(--bg-rgb) / 0.58) 35%,
@@ -3514,16 +3533,63 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      the other two read as placed — the difference is in the asset, so the
      correction has to be too. One width for all four is only fair if all
      four were cut the same way. */
-  /* A shade above centre — a car centred in its own field looks
-     suspended; sitting it slightly high reads as standing. */
-  translate: 0 -2%;
+  /* ALL FOUR STAND ON ONE GROUND LINE.
+
+     They used to be centred in the field, and because the four cut-outs
+     are different heights, centring put each car's wheels somewhere
+     different. Measured on the render at 1783px: the tyre line landed
+     127px / 136px / 163px / 150px above the floor of the field — a 36px
+     swing on a 526px stage. Switching records made the car rise or drop,
+     which is the movement that read as the section jumping.
+
+     The correction cannot be one number, because the swing has two
+     causes. Each PNG carries a different strip of empty pixels below its
+     shadow, sampled off the alpha channel: 1.5% / 2.1% / 1.4% / 2.1% of
+     its own height. --sit is that strip. A percentage translate resolves
+     against the element's OWN height, so `translate: 0 var(--sit)` drops
+     each image by exactly its own empty margin and lands every car's
+     shadow on the element's bottom edge — whatever that image's height
+     happens to be.
+
+     Anchoring those edges to one --ground then puts every tyre line in
+     the same place. A taller car is still taller; it grows upward, the
+     way a taller car does when it is parked next to a shorter one. */
+  --ground: 24%;
+  --sit: 0%;
+  inset-block-end: var(--ground);
+  translate: 0 var(--sit);
   opacity: 0;
   /* 420ms, and the outgoing car is still fading while the incoming one
      rises — they overlap, so the field never blanks between vehicles. */
   transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.stage__car[src*="regera"],
-.stage__car[src*="812-gts"] { width: 71%; }
+/* WIDTH IS SET ON THE CAR, NOT ON THE FILE.
+
+   The old rule sized the PNG: 80%, with regera and 812-gts knocked down
+   to 71% by eye because they looked crowded. But the crowding was never
+   about those two cars — it was about how much empty canvas each file
+   carries. Sampled off the alpha channel, the car occupies 94.9% / 96.2%
+   / 92.6% / 95.1% of its own file's width, so one width for all four put
+   four different-sized cars on screen: 638px, 647px, 554px and 569px of
+   actual vehicle. Selecting the Regera shrank the subject by 13%, and
+   the hand-tuned 71% had made that worse, not better.
+
+   Each width below is that asset's own coverage divided into one target,
+   so all four render the SAME LENGTH OF CAR and the air either side is
+   identical whatever the file did. Re-sample if an asset is replaced. */
+.stage__car[src*="gt2rs"]     { width: 79.9%; }   /* 75.8 / 0.949 */
+.stage__car[src*="aventador"] { width: 78.8%; }   /* 75.8 / 0.962 */
+.stage__car[src*="regera"]    { width: 81.9%; }   /* 75.8 / 0.926 */
+.stage__car[src*="812-gts"]   { width: 79.7%; }   /* 75.8 / 0.951 */
+
+/* --sit is measured, not chosen: the empty strip under each cut-out's
+   shadow, read off the alpha channel of the file itself at threshold 24.
+   If a PNG is ever replaced, re-sample it — a guessed value here puts
+   that one car back off the ground line and nothing else will show it. */
+.stage__car[src*="gt2rs"]    { --sit: 1.5%; }
+.stage__car[src*="aventador"]{ --sit: 2.1%; }
+.stage__car[src*="regera"]   { --sit: 1.4%; }
+.stage__car[src*="812-gts"]  { --sit: 2.1%; }
 
 .stage__car.is-active { opacity: 1; }
 
@@ -3594,11 +3660,25 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   /* The column is wider now, so the rows are given more air to match —
      a wider measure at the same rhythm reads as looser horizontally and
      tighter vertically. */
-  /* Fixed padding, and the content centred in the slot. The padding
-     used to change with selection, which was one of the three things
-     moving the rows. */
+  /* Fixed padding, and the content anchored to the TOP of the slot. The
+     padding used to change with selection, which was one of the three
+     things moving the rows.
+
+     `start`, not `center`. Centring was the last thing still moving, and
+     it moved the part a reader is actually looking at. The slot is a
+     fixed 233px; an inactive record is 45px of content and an active one
+     185px, so centring parked them at 94px and 24px from the top of the
+     same slot — the numeral and the make line LEAPT 70px upward the
+     instant you hovered, and dropped back when you left. The rows never
+     changed size, which is why measuring the rows found nothing; the
+     type was sliding around inside rows that stood perfectly still.
+
+     Anchored to the top, the numeral and the make line are nailed to one
+     y for the life of the page and the disclosure grows DOWNWARD into
+     space that was already reserved for it. The slot needs no new height
+     to allow this: 185 + 24 + 24 is exactly the 233 it already had. */
   padding-block: var(--sp-5);
-  align-content: center;
+  align-content: start;
   border-bottom: 1px solid var(--rule);
   transition: border-color var(--sel-dur) var(--sel-ease);
 }
@@ -3726,14 +3806,23 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   width: 104px;
   height: auto;
   justify-self: end;
-  align-self: center;
-  transform-origin: 100% 50%;
+  /* Pinned to the top of the record, and scaled from its top-right rather
+     than its middle. Centred, it was the second thing moving: its grid
+     track is as tall as the body beside it, and the body goes 45px to
+     185px on selection, so a centred thumbnail rode 70px up with the type.
+     Origin at the top edge means the scale from 0.71 to 1 grows it
+     downward without shifting the edge it hangs from. */
+  align-self: start;
+  transform-origin: 100% 0%;
   scale: 0.71;
   opacity: 0.34;
   transition: scale var(--sel-dur) var(--sel-ease),
               opacity var(--sel-dur) var(--sel-ease);
 }
-.rec:hover .rec__thumb, .rec:focus-visible .rec__thumb { opacity: 0.62; }
+/* Hover is gone from the index: the arrows select now, so a pointer
+   merely crossing the column must not brighten anything. :focus-visible
+   stays — that is the keyboard telling you where it is, not an effect. */
+.rec:focus-visible .rec__thumb { opacity: 0.62; }
 .rec.is-active .rec__thumb { scale: 1; opacity: 1; }
 .rec__make { color: var(--ink-3); letter-spacing: 0.16em; }
 
@@ -3832,7 +3921,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .rec__dot { margin-inline: var(--sp-2); }
 .rec__arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
 
-.rec:hover .rec__model, .rec:focus-visible .rec__model { color: var(--ink); }
+.rec:focus-visible .rec__model { color: var(--ink); }
 
 /* A record with no cut-out yet still lights and still links, but it is
    never given the enlarged active treatment — that state means "this is
@@ -4317,19 +4406,19 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   inset-inline-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
   display: flex;
   gap: 8px;
-  opacity: 0;
-  translate: 0 6px;
-  transition: opacity var(--dur-2) var(--ease-out),
-              translate var(--dur-2) var(--ease-out);
 }
 
-/* Hover reveals; focus-within is the keyboard's equivalent and is not
-   optional — see the note in the markup. */
-.showcase__stage:hover .stage__nav,
-.showcase__stage:focus-within .stage__nav {
-  opacity: 1;
-  translate: 0 0;
-}
+/* THE ARROWS ARE PERMANENT.
+
+   They were revealed on hover, from a time when hovering the index also
+   selected a record and the arrows were a second way in. They are now
+   the only control that changes the photograph on its own, and a control
+   that has to be hunted for by hovering the thing it operates is a
+   control most people never find. They sit in the field, quietly, all
+   the time — which is also what the bottom-line alignment with the
+   index CTA was for.
+
+   The touch exception below is retired with the reveal it existed for. */
 
 .stage__arrow {
   display: inline-flex;
@@ -4362,14 +4451,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   outline-offset: 2px;
 }
 
-/* Touch has no hover, so the arrows would never appear. They are the only
-   way to reach the other vehicles from the image, so they stay up. */
-@media (hover: none) {
-  .stage__nav { opacity: 1; translate: 0 0; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .stage__nav { transition: opacity var(--dur-1) var(--ease-out); translate: none; }
   .stage__arrow { transition: background var(--dur-1) var(--ease-out); }
   .stage__arrow:active { scale: none; }
 }
@@ -4387,6 +4469,68 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      is a ground. */
   border-start-start-radius: clamp(40px, 5vw, 72px);
   overflow: hidden;
+
+  /* THE TOP EDGE IS CUT, NOT STRAIGHT.
+
+     A shelf over the copy, then a bevel dropping the edge for the rest
+     of the width. It is doing work, not decoration: the shelf is exactly
+     where the eyebrow and the headline sit, so the bone runs highest
+     over the reading and the dark section above keeps its full weight
+     over the photograph, where the wall is empty anyway.
+
+     The rounded start corner survives this — (0,0) is inside the shape,
+     so border-start-start-radius still shapes it. */
+  --cut-start: 58%;                     /* where the shelf ends */
+  --cut-run: 15%;                       /* horizontal travel of the fall */
+  --cut-drop: clamp(28px, 3vw, 52px);   /* how far the right side sits down */
+
+  /* Straight bevel as the floor. Every engine has polygon(). */
+  clip-path: polygon(
+    0 0,
+    var(--cut-start) 0,
+    calc(var(--cut-start) + var(--cut-run)) var(--cut-drop),
+    100% var(--cut-drop),
+    100% 100%,
+    0 100%
+  );
+}
+
+/* AND THE SOFT VERSION WHERE IT CAN BE HAD.
+
+   The fall wants to be an S, not a chamfer, and it wants to take its
+   time across the width — a long, shallow easing rather than a corner
+   knocked off. path() cannot do it: its coordinates are absolute px, so
+   the curve would stop scaling with the band the moment the viewport
+   changed. shape() takes the same percentages and calc() the polygon
+   does, so the curve stays proportional at every width.
+
+   Both control points sit at the midpoint of the run, one level with the
+   shelf and one level with the lower edge. That is what makes the two
+   ends leave and arrive flat, with all the movement in the middle —
+   the fall never shows a corner at either end.
+
+   @supports tests shape() with a real shape, not the bare keyword, since
+   the property parses long before the function does. */
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .sell {
+    clip-path: shape(
+      from 0 0,
+      line to var(--cut-start) 0,
+      curve to calc(var(--cut-start) + var(--cut-run)) var(--cut-drop)
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 0
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop),
+      line to 100% var(--cut-drop),
+      line to 100% 100%,
+      line to 0 100%,
+      close
+    );
+  }
+}
+
+/* The bevel is a gesture at desktop width and a nuisance at phone width,
+   where 20% is barely 75px and the drop eats the top of the eyebrow. */
+@media (max-width: 700px) {
+  .sell { clip-path: none; }
 }
 
 /* The photograph fills the band and everything sits ON it. */
@@ -4421,7 +4565,14 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   align-items: start;
   padding-block: clamp(var(--sp-9), 8vw, var(--sp-11));
   padding-inline-start: clamp(var(--sp-7), 5vw, var(--sp-10));
-  max-width: 32rem;
+  /* 32rem is the MEASURE, so the indent has to be added on top of it
+     rather than taken out of it. Under border-box the flat 32rem was the
+     padding plus the text, which left the copy 432px wide — 13px short of
+     the 445px "Your car deserves" needs, so the title's own <br> was
+     overridden by a wrap and the headline came out in three ragged lines
+     instead of the two it is written as. The lede is capped at 34ch and
+     the buttons size to content, so nothing else widens with this. */
+  max-width: calc(32rem + clamp(var(--sp-7), 5vw, var(--sp-10)));
   justify-self: start;
 }
 
@@ -4568,4 +4719,2451 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     border-block-start: 1px solid var(--bone-rule);
     padding-block-start: var(--sp-5);
   }
+}
+
+/* The records are buttons now, so the UA's own button skin has to go —
+   background, border, centred text, inherited font. Everything about how
+   a record LOOKS is unchanged; only the element under it is different. */
+.rec {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  width: 100%;
+  text-align: start;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ---- Sell: the two actions are a pair -----------------------
+   They used to stack, an accent pill with a small underlined link
+   adrift below it, which read as one control and one afterthought.
+   On one row they read as the choice they are. */
+.sell__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-block-start: var(--sp-7);
+}
+.sell__go { margin-block-start: 0; }
+
+/* The outlined variant, rewritten for THIS ground. The base .btn--line
+   draws itself in --ink for the dark page; on the bone band that is very
+   nearly the ground itself. --bone-ink for the label, and the hairline in
+   the deep red rather than the bright one: the ground here is a
+   PHOTOGRAPH, and the earlier measurement on this wall stands — #CB141D
+   falls to 3.67:1 on it, #A50F17 holds 4.77:1. Non-text would clear 3:1
+   either way, but hover recolours the label, so the border and the label
+   have to agree on one red. */
+.sell__how {
+  color: var(--bone-ink);
+  letter-spacing: 0.18em;
+  box-shadow: inset 0 0 0 1px rgba(22, 21, 15, 0.28);
+  border-bottom: 0;
+  padding-block-end: 0;
+  display: inline-flex;
+  margin-block-start: 0;
+  background: transparent;
+}
+.sell__how:hover, .sell__how:focus-visible {
+  color: var(--accent-deep);
+  box-shadow: inset 0 0 0 1px var(--accent-deep);
+}
+
+/* ============================================================
+   REFINEMENT PASS — hero finder, chapter marker, sell boundary
+   ============================================================ */
+
+/* ---- The finder reads as a set instrument, not four blanks ----
+
+   Four labels over four empty lines. Nothing stated what any control was
+   currently set to, so the rail read as a form waiting to be filled in
+   rather than as a filter already open on everything. ruadh-com records
+   this exact failure from the other side: its navigation, names and
+   prices are microtype and its calls to action sit under the hero
+   without enough contrast, and the note names both as what stops a
+   confident art direction from being a usable one.
+
+   The value line is now printed in every state. It is the option list's
+   own wording — "Any Make" — so the resting line is a real statement
+   about the control, not a placeholder pretending to be one. Rank
+   inverts on answer: unset, the LABEL leads and the value sits back;
+   answered, the value takes full ink and the label drops to --ink-3,
+   because at that point the question is settled and the answer is the
+   thing being read.
+
+   No box, no chevron field, no card. The row is still a label over a
+   value on a hairline. */
+.hunt__value {
+  display: block;
+  /* --ink-2, not --ink-3. Measured on the composite render against the
+     brightest pixels the film puts behind this rail, --ink-3 came out at
+     3.58:1 — the exact failure the eyebrow above it was already corrected
+     for, and this line is functional text stating what a control is set
+     to, so 4.5 is a floor and not a target. */
+  color: var(--ink-2);
+  /* 16px, set open. At 17px — and 18px once answered — these four lines
+     were the densest type in the rail and had started reading as its
+     content rather than as its settings. They state what a control is
+     currently on; that is a caption's job, not a headline's. A step down
+     with a little tracking and a looser line gives them air and puts them
+     back at the rank they actually hold.
+
+     Colour is unchanged, so the 4.96:1 measured on the composite still
+     stands: 16px normal answers to 4.5 and clears it. */
+  font-size: 1rem;
+  letter-spacing: 0.012em;
+  line-height: 1.45;
+}
+
+/* RANK IS CARRIED BY INK ALONE.
+
+   The answered value used to step up in size as well. That meant the line
+   resized under the reader every time a filter was set — the same small
+   movement this pass has spent its time removing everywhere else on the
+   page. Ink is enough, and it is unambiguous: the value comes up to full
+   --ink at the same moment the label drops to --ink-3, so the pair
+   inverts, the question recedes, the answer leads, and nothing moves. */
+.hunt__field.is-filled .hunt__value { color: var(--ink); }
+
+/* The title of the finder, not a caption above it. It was --ink-2 at the
+   mono floor and read as one more piece of metadata in a rail full of
+   metadata; at full ink and a step up in size it names the instrument.
+   Still the mono voice — this is the technical register the whole rail
+   speaks in, and a fourth voice for one line would be a voice without a
+   job (typography I8). */
+.hunt__eyebrow {
+  color: var(--ink);
+  font-size: 0.9375rem;
+  letter-spacing: 0.2em;
+  margin-block-end: var(--sp-6);
+}
+
+/* ---- The chapter marker ----
+   Number and name are one object now, so they are spaced as one. */
+.hero__slide-title {
+  color: var(--ink);
+  letter-spacing: 0.22em;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+.hero__slide-title.is-swapping { opacity: 0; }
+
+/* ---- The sell boundary, at half amplitude ----
+
+   The fall was 28-52px over 15% of the width. Long is right — a short
+   drop reads as a notch — but at that depth the long run stopped being a
+   surface and became a wave, and a wave is a decorative section divider
+   from a different kind of website.
+
+   Halved. The same length, half the descent: the boundary now reads as
+   one panel passing behind another rather than as liquid.
+
+   And the corner radius comes down with it. At clamp(40,5vw,72) the band
+   had TWO curved events competing to be the gesture — a soft card corner
+   at the left and a sweep in the middle. One gesture is the rule, so the
+   corner becomes a manufactured fillet and the fall keeps the job. */
+.sell {
+  --cut-drop: clamp(16px, 1.6vw, 26px);
+  border-start-start-radius: clamp(20px, 2vw, 30px);
+}
+
+/* ============================================================
+   THE RECORD WAKES UP INSIDE A FIXED FRAME
+   ============================================================
+   Every band in a record is declared once, at its ACTIVE height, and
+   never changes again. Inactive rows own exactly the same geometry as
+   the active one; they simply stand in it more quietly. Activation moves
+   opacity, translate, scale and colour — nothing that lays out.
+
+   The budget is the frame that already exists and may not grow:
+   135px per row, padding 16 top and bottom, 103px of content.
+
+       make line        20
+       gap               4
+       name band        38   <- sized for the DOMINANT model, always
+       gap              14
+       detail band      27   <- price, dot, mileage, action, always
+       ----------------------
+                       103
+
+   Both model sizes are real text in the same grid cell, crossfaded.
+   One node animated between two sizes would be layout work on every
+   frame and would render soft mid-transition; two nodes are sharp at
+   both ends and cost one opacity each. The large copy is aria-hidden so
+   the accessible name stays single.
+   ============================================================ */
+.recs {
+  /* Rows are content-driven, and the content is now a constant, so the
+     panel keeps the height it had before this pass. minmax(0,1fr) lets a
+     track refuse to grow rather than pushing the module taller — the
+     frame wins over the content if they ever disagree. */
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  min-height: 0;
+  --sel-dur: 300ms;
+  --sel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rec { padding-block: var(--sp-4); }
+
+/* ---- the name band ---- */
+.rec__name {
+  display: grid;
+  min-height: 38px;
+  margin-block-start: var(--sp-1);
+}
+.rec__name > .rec__model { grid-area: 1 / 1; align-self: start; }
+
+.rec__model {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  margin-block-start: 0;
+  opacity: 1;
+  transition: opacity var(--sel-dur) var(--sel-ease);
+}
+.rec__model--lead {
+  /* 24-30px. Measured against the body column: every one of the four
+     names sets on one line here, which is what the 38px band assumes.
+     A longer name than "Aventador SVJ Roadster" must be checked before
+     it goes in. */
+  font-size: clamp(1.5rem, 1.85vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  opacity: 0;
+  translate: 0 7px;
+  transition: opacity var(--sel-dur) var(--sel-ease),
+              translate var(--sel-dur) var(--sel-ease);
+}
+/* The old rule blew the quiet copy up to 40px on activation. It is the
+   lead copy's job now, so the quiet one keeps its index size and only
+   fades. */
+.rec.is-active .rec__model {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-block-start: 0;
+  opacity: 0;
+}
+.rec.is-active .rec__model--lead { opacity: 1; translate: 0 0; }
+
+/* ---- the detail band ---- */
+.rec__detail {
+  display: block;
+  grid-template-rows: none;      /* the 0fr->1fr disclosure is retired */
+  min-height: 27px;
+  margin-block-start: var(--sp-4);
+  transition: none;
+}
+.rec__detail-in {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: var(--sp-5);
+  overflow: visible;
+  opacity: 1;
+  transition: none;
+}
+
+/* Both are laid out in every state and hidden by opacity, which is what
+   makes the space pre-allocated rather than reclaimed. They arrive after
+   the name, a beat apart, so the row resolves in one direction instead
+   of everything appearing at once. Delays sit on the ACTIVE state only,
+   so leaving is parallel and immediate. */
+.rec__facts,
+.rec.is-active .rec__facts {
+  display: block;
+  margin-block-start: 0;
+  font-size: 1rem;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.rec__facts, .rec__go {
+  opacity: 0;
+  translate: 0 6px;
+  transition: opacity var(--sel-dur) var(--sel-ease),
+              translate var(--sel-dur) var(--sel-ease);
+}
+.rec__go,
+.rec.is-active .rec__go {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block-start: 0;
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+.rec.is-active .rec__facts { opacity: 1; translate: 0 0; transition-delay: 70ms; }
+.rec.is-active .rec__go    { opacity: 1; translate: 0 0; transition-delay: 130ms; }
+
+/* ---- the thumbnail ---- */
+/* The layout box is 104px in both states. Only the painted image scales,
+   so the column it sits in cannot change width and the row cannot change
+   height. Centred is safe now that the body's height is a constant. */
+.rec__thumb {
+  width: 104px;
+  align-self: center;
+  transform-origin: 100% 50%;
+  scale: 0.94;
+  opacity: 0.5;
+  transition: scale var(--sel-dur) var(--sel-ease),
+              opacity var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__thumb { scale: 1.06; opacity: 1; }
+
+/* ---- hover is a preview, not a selection ---- */
+/* A pointer crossing the column previews the row under it and the field
+   follows; taking the pointer away returns everything to the row that
+   was actually chosen. Nothing about the preview is sticky, so the list
+   never ends up showing a car nobody picked. */
+.rec:hover .rec__model { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rec__model, .rec__model--lead, .rec__facts, .rec__go, .rec__thumb,
+  .rec::before, .rec { transition: none; }
+  .rec__model--lead, .rec__facts, .rec__go { translate: none; }
+}
+
+/* ---- The frame is locked by construction, not by luck ----
+
+   .recs is given the height the panel already had, and the four tracks
+   divide it. The module can therefore not move when the content inside a
+   row changes, which is the whole brief — a row that wanted an extra
+   line would overflow its own track rather than push the section taller.
+
+   Content budget per row: 135 track - 32 padding - 1 rule = 102.
+
+       make        20
+       gap          4   sp-1
+       name band   36   sized for the dominant model
+       gap         12   sp-3
+       detail band 28
+       ----------------
+                  100   <= 102
+
+   THE BUG THIS REPLACES, recorded because it cost a pass: the detail row
+   inherited flex-wrap:wrap from `.rec.is-active .rec__detail-in`, which
+   outranks a bare `.rec__detail-in` three ways to one. On the Ferrari the
+   price and the action came to 440px in a 420px measure, wrapped to two
+   lines, and took the row to 167 — and because 1fr tracks in an
+   auto-height grid all resolve to the TALLEST item, every other row grew
+   with it. One row wrapping moved the whole module 129px. */
+.recs { min-height: 33.75rem; }
+
+.rec__name { min-height: 36px; }
+.rec__detail { min-height: 28px; margin-block-start: var(--sp-3); }
+
+/* Matched specificity, or the active row keeps the old wrapping rule.
+   space-between rather than a fixed gap: the price takes the left of the
+   measure and the action the right, so whatever is left over becomes the
+   interval instead of the interval being fixed and the pair overflowing. */
+.rec .rec__detail-in,
+.rec.is-active .rec__detail-in {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-4);
+}
+
+/* 15px, down from 16. The pair has to sit on one line in a 420px measure
+   and it did not: 246 + 162 with a 32px gap is 440. At 15px the price
+   comes to 231 and the row closes at 409 with air to spare. Still mono,
+   still well clear of the 14px floor that functional text answers to. */
+.rec__facts,
+.rec.is-active .rec__facts { font-size: 0.9375rem; }
+
+/* ============================================================
+   THE TWO COLUMNS SHARE A TOP LINE AND A BOTTOM LINE
+   ============================================================
+   The stage was a 16:10 box centred in a taller row, so the objects
+   living in it — the "Just in" pill, the prev/next arrows — were hung
+   off a box whose edges corresponded to nothing on the right-hand side.
+   The pill floated 83px below the top of the index, the arrows stopped
+   76px above the bottom of it, and neither misalignment was intentional;
+   they were both just where the invisible box happened to end.
+
+   The stage now spans the full row, exactly like the index beside it.
+   It still has no ground of its own — the four-layer field belongs to
+   .showcase — so nothing about it is visible; it is a positioning frame,
+   and a positioning frame should agree with the composition it serves.
+
+   With that, `0` is the right answer for both objects instead of a
+   guessed inset, and the two masses open and close on the same lines. */
+.showcase__stage {
+  align-self: stretch;
+  aspect-ratio: auto;
+}
+
+/* Re-tuned so the CAR DOES NOT MOVE. --ground is a percentage of the
+   stage's height, and the stage just grew from 526 to 626, so the same
+   24% would have dropped the tyre line 51px. 28% of the new box puts it
+   back on the pixel it was already standing on. */
+.showcase__stage { --ground: 28%; }
+.stage__car { --ground: 28%; }
+
+.justin { inset-block-start: 0; }
+.stage__nav { inset-block-end: 0; }
+
+/* ---- The way out of the section, at the weight of a way out ----
+   Full column width, so it closes the index on the same right edge every
+   record is measured against, and reads as the list's last line rather
+   than a small control parked under it. Taller, brighter rule, larger
+   label.
+
+   Deliberately NOT filled. The car is the dominant mass here; a 585px
+   bone pill under it would be a second bright object competing for that
+   job, and the section would have two subjects. Width and edge carry the
+   prominence instead of fill. */
+.index__all {
+  align-self: stretch;
+  justify-content: center;
+  padding-block: var(--sp-5);
+  font-size: 0.9375rem;
+  letter-spacing: 0.18em;
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.42);
+}
+.index__all:hover,
+.index__all:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: rgba(244, 242, 239, 0.055);
+}
+
+/* ---- The field name leads, the setting annotates ----
+
+   Reversed from the previous pass. The rail reads as a spec sheet, and on
+   a spec sheet the FIELD is the structure and its current setting is the
+   annotation hanging off it — so MAKE takes full ink and a step up in
+   size, and "Any Make" sits under it smaller and quieter.
+
+   Rank still inverts on an answer, and still by INK ALONE: once a real
+   make is chosen the value comes up to full ink and the label drops back,
+   because at that point the answer is the content. Sizes never change, so
+   the line cannot resize under the reader.
+
+   14px is the floor, not a preference — typography's functional-text
+   invariant. The value states what a control is set to, so it stops
+   exactly there and goes no smaller, whatever the visual argument for
+   more contrast between the two lines.
+
+   COLOUR IS AS FAR APART AS IT CAN GO HERE. --ink-3 was the obvious next
+   step down for the value and it does not survive the ground: measured on
+   the composite against the brightest pixels the film puts behind this
+   rail, it comes out at 3.98:1 against a 4.5 floor. --ink-2 measures
+   4.96:1 and stays. The separation is carried by the label going UP to
+   full ink instead. */
+.hunt__label {
+  font-size: 0.9375rem;
+  color: var(--ink);
+  letter-spacing: 0.18em;
+}
+.hunt__value {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+.hunt__field.is-filled .hunt__label { color: var(--ink-2); }
+.hunt__field.is-filled .hunt__value { color: var(--ink); }
+
+/* ============================================================
+   THE ACTIVE ROW, LOOSENED
+   ============================================================
+   Three complaints, one cause: everything in the row was arriving at
+   once, in one register, with nothing between it. The fixes are a
+   different voice for the figures, a shorter word for the action, and
+   real air between the name and the data line.
+
+   The row budget grows with it. This is a static change to every row
+   equally, not something that happens on hover — the frame is still
+   locked and still cannot move when a record activates, which was the
+   point of locking it.
+
+       track       152
+       padding      32
+       rule          1
+       ---------------
+       content     119
+
+       make         20
+       gap           4
+       name band    36
+       gap          24   <- was 12; this is the air that was missing
+       detail band  34   <- sized for the pill
+       ---------------
+                   118
+   ============================================================ */
+.recs { min-height: 38rem; }
+.rec__detail { min-height: 34px; margin-block-start: var(--sp-5); }
+
+/* THE FIGURES GET THEIR OWN VOICE.
+
+   Mono was doing two different jobs — the technical captions AND the
+   price — and at the size the price needs it read as a terminal, not as
+   a number on a car. Inter Tight is condensed and holds weight, so the
+   figure can be bold and still take less width than the mono did: the
+   line went from 246px to about 200 in a 420 measure, which is most of
+   the horizontal crowding gone on its own.
+
+   Tabular figures so the four prices align down the column, and a tight
+   optical tracking because that is what the face is for. */
+.rec__facts,
+.rec.is-active .rec__facts {
+  font-family: var(--font-data);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.rec__dot { color: var(--ink-3); font-weight: 400; }
+
+/* THE ACTION IS A PILL NOW, AND THE ARROW IS GONE.
+
+   "View vehicle →" was 162px of tracked mono plus a glyph, sitting on the
+   same baseline as the price with nothing to separate them — two pieces
+   of text of similar weight reading as one run. "Details" in a pill is a
+   different KIND of object: it stops competing with the figure beside it
+   and reads as the thing you press.
+
+   The arrow went with it. At this size an arrow inside a pill is a second
+   affordance saying what the pill already says. */
+.rec__go,
+.rec.is-active .rec__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.34);
+  margin-block-start: 0;
+}
+.rec.is-active:hover .rec__go {
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: rgba(244, 242, 239, 0.07);
+}
+
+/* ---- The row's action is gone, and it should be ----
+
+   "Details" sat inside a <button> whose only job is to change the
+   photograph. Pressing it selected a car; it did not open details. A
+   control that names a destination it cannot reach is worse than no
+   control, and the way to the full record already exists once, at full
+   width, at the foot of the list.
+
+   What is left on the line is the fact — price and mileage — which is
+   what the active row was for. The band comes down to the height of one
+   figure line; the row keeps its 152 so the frame does not move, and the
+   space the pill was holding becomes air under the price. */
+.rec__detail { min-height: 26px; }
+.rec__go { display: none; }
+
+/* ============================================================
+   THE FACT IS PERMANENT; THE EMPHASIS IS WHAT MOVES
+   ============================================================
+   Price and mileage now stand in every row, not only the chosen one. The
+   list stops being four names with one priced record and becomes what it
+   should have been from the start: a priced index. Activation no longer
+   REVEALS the figure, it promotes it — which is a better job for a hover
+   to be doing, because nothing a visitor needs is hidden behind it.
+   ============================================================ */
+.rec__facts {
+  opacity: 1;
+  translate: none;
+  color: var(--ink-2);
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__facts {
+  opacity: 1;
+  translate: none;
+  color: var(--ink);
+  transition-delay: 0s;
+}
+
+/* Air between the make and the name. At 4px the two lines were one
+   block and the eyebrow read as part of the title rather than as the
+   line above it. */
+.rec__name { margin-block-start: var(--sp-3); }
+
+/* ---- The thumbnail steps aside and a chevron takes the margin ----
+
+   On activation the vehicle slides left and a chevron arrives in the
+   space it leaves. It is the row saying where it goes without adding a
+   button to say it — the "Details" pill this replaces was a whole object
+   competing with the price beside it; this is one glyph in the margin
+   that is empty the rest of the time.
+
+   Neither of them lays out. The thumbnail moves on `translate` and keeps
+   its 104px box; the chevron is absolutely positioned, so it occupies no
+   column and the row cannot change width or height when it appears. */
+.rec__thumb {
+  translate: 0 0;
+  transition: scale var(--sel-dur) var(--sel-ease),
+              opacity var(--sel-dur) var(--sel-ease),
+              translate var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__thumb { translate: -36px 0; }
+
+.rec__chev {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: 50%;
+  display: flex;
+  color: var(--ink);
+  pointer-events: none;
+  opacity: 0;
+  translate: 8px -50%;
+  transition: opacity var(--sel-dur) var(--sel-ease),
+              translate var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__chev { opacity: 1; translate: 0 -50%; transition-delay: 80ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rec__chev, .rec__thumb { transition: none; }
+  .rec__chev { translate: 0 -50%; }
+}
+
+/* ============================================================
+   THE INDEX AS FOUR PANELS — built to the draft
+   ============================================================
+   The hairline list becomes four outlined panels separated by a gap, and
+   the active one is marked by its own edge and a light sitting on its
+   bottom border. That moves the whole burden of "which one is chosen"
+   off the TYPE and onto the PANEL, which is why the model name is now
+   one size in every row: the two-copy crossfade existed to make the name
+   dominant, the frame does that job now, and a device with no job does
+   not stay.
+
+   Everything the previous pass bought is kept: the panel heights are
+   equal and fixed, nothing reflows on activation, and only opacity,
+   colour and transform move.
+   ============================================================ */
+.recs {
+  gap: 18px;
+  min-height: 40.5rem;      /* 4 panels of 148 + 3 gaps of 18 */
+  border-top: 0;
+}
+
+.rec {
+  /* number | body | thumbnail | arrow, all on one centred line */
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  align-content: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 14px;
+  transition: border-color var(--sel-dur) var(--sel-ease),
+              background-color var(--sel-dur) var(--sel-ease);
+}
+.rec:hover { border-color: rgba(244, 242, 239, 0.20); }
+.rec.is-active {
+  border-color: rgba(104, 156, 236, 0.55);
+  background: rgba(28, 44, 82, 0.22);
+}
+
+.rec__no {
+  align-self: center;
+  color: var(--ink-3);
+  font-size: 1rem;
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__no { color: var(--ink); }
+
+.rec__body { gap: 0; }
+.rec__make { color: var(--ink-3); }
+.rec__name { margin-block-start: 6px; min-height: 0; }
+.rec__model,
+.rec.is-active .rec__model {
+  font-size: 1.4375rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  opacity: 1;
+}
+.rec__detail { min-height: 0; margin-block-start: 8px; }
+.rec__facts { font-size: 1rem; }
+
+/* Larger, and it keeps its own box in every state — the slide-left is
+   retired with the chevron that used to arrive in the space, because the
+   arrow has a column of its own in this layout. */
+.rec__thumb {
+  width: 140px;
+  align-self: center;
+  translate: none;
+  scale: 1;
+  opacity: 0.86;
+  transition: opacity var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__thumb { scale: 1; translate: none; opacity: 1; }
+
+/* Present on every panel, quiet until the panel is chosen. */
+.rec__chev {
+  position: static;
+  display: flex;
+  align-self: center;
+  translate: none;
+  opacity: 1;
+  color: var(--ink-3);
+  transition: color var(--sel-dur) var(--sel-ease),
+              translate var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__chev { opacity: 1; translate: none; color: var(--ink); }
+.rec.is-active:hover .rec__chev { translate: 4px 0; }
+
+/* THE LIGHT SITS ON THE BOTTOM EDGE.
+
+   Not the large field that washed up the whole row before — a narrow
+   source lying along the panel's own bottom border, brightest at the
+   centre and gone by the corners. It reads as the edge being lit rather
+   than as a glow behind the type, which is what the draft shows and what
+   keeps the figures on the row legible while it is on. */
+.rec::before {
+  content: "";
+  position: absolute;
+  inset: auto 8% -1px 8%;
+  height: 40px;
+  z-index: -1;
+  border-radius: 0;
+  background: radial-gradient(52% 100% at 50% 100%,
+    rgba(168, 202, 255, 0.85) 0%,
+    rgba(104, 156, 236, 0.34) 34%,
+    rgba(70, 116, 200, 0.12) 58%,
+    transparent 78%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active::before { opacity: 1; }
+
+/* ---- Measured off the draft ----
+   The numeral sits on the MAKE line, not in the middle of the panel; the
+   gap between it and the text is wide enough to read as a margin rather
+   than as a prefix; the thumbnail is larger and the arrow keeps its own
+   air at the panel's edge. All of it geometry, none of it state. */
+.rec {
+  padding: var(--sp-5) var(--sp-6);
+  column-gap: var(--sp-6);
+}
+.rec__no {
+  align-self: start;
+  padding-block-start: 3px;
+}
+.rec__thumb { width: 160px; }
+.rec__chev { margin-inline-start: var(--sp-4); }
+
+/* ---- The two masses rebalanced to the draft: roughly 53 / 47 ----
+
+   The panels need a wider column than the hairline list did. Measured on
+   the draft the index takes about 47% of the card, and it has to: with a
+   160px thumbnail, an arrow column and 32px gutters, a 41% column left
+   the model 239px of measure and "911 GT2 RS Weissach" wrapped to two
+   lines. One wrapped name took every panel from 148 to 165, because the
+   four tracks are equal — the same mechanism that cost a pass earlier.
+
+   At 47% the measure is ~325px, every name sets on one line, the panels
+   fall back to the floor height, and the list stops depending on how
+   long the longest model name happens to be. */
+.showcase { grid-template-columns: minmax(0, 53fr) minmax(21rem, 47fr); }
+
+/* ============================================================
+   THE PANEL, QUIETED AND OPENED OUT
+   ============================================================
+   Four changes, one intent: the card should hold still. The only thing
+   that moves inside it on hover is the arrow — everything else changes
+   by colour, which the eye reads as emphasis rather than as motion.
+   ============================================================ */
+
+/* The index numerals are gone with the column that held them. They were
+   ordinal decoration on a list of four: the order is visible, and
+   nothing on the page refers to a record by its number. */
+.rec {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  padding: var(--sp-6);
+  column-gap: var(--sp-6);
+}
+
+/* TWO LINES, ALWAYS RESERVED.
+
+   The name is smaller and its band holds two lines whether or not the
+   name needs them. That is the last dependency on content length in this
+   list: a longer model than any of these four can arrive without taking
+   the panel — and every other panel with it — to a new height. The name
+   centres in the band, so the common one-line case sits balanced rather
+   than hanging from the top of an empty box. */
+.rec__name {
+  display: grid;
+  align-items: center;
+  min-height: 3.1rem;
+  margin-block-start: var(--sp-2);
+}
+.rec__model,
+.rec.is-active .rec__model {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: -0.012em;
+}
+
+/* ---- Price and mileage as two small plates ----
+   Separated into their own objects, the figures stop reading as one run
+   of text with a dot in it and start reading as two facts. The pill is
+   the smallest container on the page and it earns that: it is what makes
+   a number look measured rather than written. */
+.rec__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-block-start: var(--sp-3);
+}
+.rec__pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: var(--font-data);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+  background: rgba(244, 242, 239, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.09);
+  transition: color var(--sel-dur) var(--sel-ease),
+              background-color var(--sel-dur) var(--sel-ease),
+              box-shadow var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active .rec__pill {
+  color: var(--ink);
+  background: rgba(122, 168, 240, 0.13);
+  box-shadow: inset 0 0 0 1px rgba(122, 168, 240, 0.26);
+}
+
+/* ---- Only the arrow moves ----
+   And it moves on HOVER of the panel, not on selection, because that is
+   what a hover is for: it answers "is this pressable", and the answer is
+   the same whether or not this row is the one currently shown. */
+.rec__chev { translate: none; }
+.rec.is-active .rec__chev { translate: none; }
+.rec:hover .rec__chev,
+.rec.is-active:hover .rec__chev { translate: 5px 0; }
+
+/* ---- Softer switching, and the chosen panel lifts ----
+   420ms instead of 300: the panels are large objects and a fast crossfade
+   between two of them reads as a flicker rather than as a handover. The
+   shadow is what makes the active one sit in front of the other three —
+   a real elevation, small, no coloured bloom, so it reads as the panel
+   being nearer rather than as another light. */
+.recs { --sel-dur: 420ms; }
+.rec {
+  transition: border-color var(--sel-dur) var(--sel-ease),
+              background-color var(--sel-dur) var(--sel-ease),
+              box-shadow var(--sel-dur) var(--sel-ease);
+}
+.rec.is-active {
+  box-shadow: 0 14px 34px -14px rgba(0, 0, 0, 0.62),
+              0 3px 10px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================
+   SELL / TRADE — the copy arrives with the scroll
+   ============================================================
+   One temporal idea for the whole section: the text rises into place as
+   the band enters. Not four separate animations — one gesture, applied
+   to four elements at four offsets, so the block resolves top to bottom
+   the way it is read.
+
+   Driven by the scroll position, not by a timer: `view()` ties each
+   element's progress to where the section actually is in the viewport,
+   so scrolling back up reverses it and stopping halfway leaves a frame
+   that was designed rather than a frame that was interrupted.
+
+   Wrapped in no-preference, so reduced motion is not a fallback that has
+   to be written twice — it is simply the static page, complete, with
+   nothing hidden. Nothing here uses opacity outside the animation, so
+   there is no state in which the copy can fail to appear. */
+@keyframes sell-rise {
+  from { opacity: 0; translate: 0 18px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+
+/* The pair stays a pair at every width down to the phone breakpoint —
+   side by side, primary left, secondary right. They were already in one
+   row; this stops the row from wrapping the moment the label grew from
+   "How it works" to "Talk to our specialist". */
+.sell__actions { flex-wrap: nowrap; }
+@media (max-width: 560px) {
+  .sell__actions { flex-wrap: wrap; }
+}
+
+/* 8px was enough while the pills were bare text and not enough once the
+   active state gives each of them a ring and a fill: two rings 8px apart
+   read as one object with a seam. */
+.rec__facts { gap: var(--sp-3); }
+
+/* ---- THE STEPS ARE NOT ANIMATED, AND THE RANGES ARE MADE SAFE ----
+
+   Two defects in the pass above, both mine.
+
+   The three steps were dimmed and left that way. Measured with the row
+   centred in the viewport they sat at opacity 0.23 and never finished:
+   a range written as `entry X% cover Y%` mixes two phases whose progress
+   runs at completely different rates for a short element near the foot of
+   a tall section, and the animation simply never reached its end. With
+   `both` fill, an animation that never ends is content that never
+   appears. They come out of the animation altogether — the earlier brief
+   asked for the sequence to stay calm and technical, and animating it was
+   my addition, not the request.
+
+   The copy keeps the rise, but every range is now expressed in ONE phase.
+   `entry` completes, by definition, when the element is fully in view, so
+   there is no arithmetic left that can strand an element at 23%. */
+
+
+/* ---- THE COPY ARRIVES AS A STAIRCASE, NOT AS A BLOCK ----
+
+   The previous ranges overlapped almost entirely — 10-62, 16-72, 22-82,
+   28-92 — so all four lines were in motion at the same moment and the
+   block read as one mass fading up. A stagger you cannot count is not a
+   stagger.
+
+   Each beat now opens after the one before it is most of the way home,
+   with a short overlap so the sequence flows rather than clicking through
+   four discrete states. And each travels a different distance over a
+   different span, which is what makes them read as separate objects
+   moving at their own speeds instead of one object with a delay. */
+@keyframes sell-rise {
+  from { opacity: 0; translate: 0 var(--rise, 18px); }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+
+/* ============================================================
+   THE FOOT OF THE BAND — a ground for the sequence
+   ============================================================
+   The three steps sat directly on the photograph's floor, which is a
+   mid-tone with the car's reflection running through it. They read as
+   printed on the picture rather than as the line that closes the band.
+
+   The gradient is confined to the bottom of the frame and reaches full
+   bone only at the very edge. That is the whole reason it is allowed:
+   the earlier note here rejected a bone scrim because washing the floor
+   bright enough would bleach out the reflection, and it was right — so
+   this one does not touch the floor where the reflection is. It is a
+   ramp in the last fifth of the image, under the steps and nowhere else,
+   and the car keeps its reflection above it.
+
+   Built from --bone so the band's foot cannot drift away from the
+   section's own colour the way a hard-coded value would. */
+.sell__bg::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: clamp(170px, 24%, 300px);
+  pointer-events: none;
+  background: linear-gradient(to top,
+    var(--bone) 0%,
+    rgba(237, 234, 228, 0.92) 26%,
+    rgba(237, 234, 228, 0.66) 52%,
+    rgba(237, 234, 228, 0.28) 78%,
+    rgba(237, 234, 228, 0) 100%);
+}
+
+/* ---- The sequence, made solid ----
+   The numerals carry the count, so they are the part that gets weight:
+   larger, tabular, and set in the data face the prices already use, which
+   is what the face is in the project for. The titles come up to 500 and
+   drop their wide tracking — at 0.14em a sentence-length label reads as a
+   caption spaced out to fill a slot rather than as a step in a process. */
+.sell__steps { border-top-color: rgba(22, 21, 15, 0.3); }
+.sell__steps li + li { border-inline-start-color: rgba(22, 21, 15, 0.3); }
+.sell__step-n {
+  font-family: var(--font-data);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.sell__step-t {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+/* ---- NOTHING INSIDE THE CARD MOVES. MEASURED, NOT ASSERTED. ----
+
+   The make and the model were sliding 6px down and the figures 6px up
+   whenever a card activated. Cause, for the third time in this file:
+   `.rec.is-active .rec__facts` is (0,3,0) and still carried
+   `margin-block-start: 0` from an earlier layout, so the plain
+   `.rec__facts { margin-block-start: 12px }` lost to it. The detail band
+   went 44px to 32px, the body went 130 to 118, and `align-content:
+   center` split the missing 12 between the top and the bottom.
+
+   Both states are pinned here at matched specificity — same margin, same
+   font-size, same everything. The only difference between an inactive and
+   an active card is now colour, ring, light and shadow. */
+.rec__facts,
+.rec.is-active .rec__facts {
+  margin-block-start: var(--sp-3);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---- THE GAP WAS NOT BEING APPLIED AT ALL ON THE ACTIVE CARD ----
+
+   Same trap, same file, one more time — and this one was invisible to a
+   declared-value check, because `gap: 12px` computed correctly the whole
+   while. It just had nothing to act on: an older
+   `.rec.is-active .rec__facts { display: block }` at (0,3,0) was beating
+   the flex declaration at (0,1,0), and `gap` does nothing in a block box.
+   With no whitespace between the two pills in the markup either, the
+   chosen card rendered them at a measured 0px apart while the other
+   three sat correctly at 12.
+
+   Pinned at matched specificity, and the gap goes to 16 while we are
+   here — with a ring and a fill on each, 12 was tight even where it
+   worked. */
+.rec__facts,
+.rec.is-active .rec__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+/* ============================================================
+   6 — STORY
+   ============================================================ */
+.story {
+  position: relative;
+  background: var(--bg);
+  overflow-x: clip;
+}
+.story__inner {
+  max-width: var(--measure-wide, 100rem);
+  margin-inline: auto;
+  padding-inline: clamp(var(--sp-6), 5vw, var(--sp-9));
+  padding-block: clamp(var(--sp-9), 9vw, var(--sp-11));
+  display: grid;
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+  column-gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+  align-items: center;
+}
+
+.story__copy { max-width: 34rem; }
+.story__eyebrow { color: var(--ink-3); letter-spacing: 0.2em; }
+/* The date is the one word in the line that is a FACT rather than a
+   label, so it is the one word that carries colour. Cool, not the accent:
+   red is the action colour on this ground and a date is not an action. */
+.story__est { color: #7FA6E0; }
+
+.story__title {
+  margin-block-start: var(--sp-5);
+  font-size: clamp(2.125rem, 3.4vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: var(--tr-display);
+}
+/* Two authored lines, because the break is a composition decision and not
+   something a measure should be left to discover — and because each line
+   arrives on its own beat. */
+.story__line { display: block; }
+
+/* The one piece of accent in the section, and it is a mark, not a fill:
+   a short rule under the claim, the same gesture the sell band uses. */
+.story__rule {
+  display: block;
+  width: 52px;
+  height: 2px;
+  margin-block: var(--sp-6) var(--sp-6);
+  background: var(--accent);
+}
+
+.story__lede {
+  max-width: 44ch;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+.story__media {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  /* The frame carries its own edge rather than a shadow: on this ground a
+     drop shadow under a dark photograph is invisible work. */
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.08);
+}
+.story__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: 58% 50%;
+}
+
+/* ---- The figures ----
+   Three columns, rules between them rather than around them — the same
+   construction as the sell steps, so the two sequences on this page read
+   as one system. */
+.story__stats {
+  grid-column: 1 / -1;
+  margin-block-start: clamp(var(--sp-8), 6vw, var(--sp-9));
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.stat { position: relative; padding-inline: clamp(var(--sp-5), 3vw, var(--sp-7)); }
+.stat:first-child { padding-inline-start: 0; }
+.stat + .stat { border-inline-start: 1px solid var(--rule); }
+.stat__label { color: #7FA6E0; letter-spacing: 0.2em; }
+.stat__fig { margin: 0; margin-block-start: var(--sp-4); position: relative; }
+.stat__n {
+  display: block;
+  font-family: var(--font-data);
+  font-size: clamp(3rem, 5.4vw, 5.25rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+/* The same light that sits under a chosen inventory panel, reused here
+   under each figure. Not a new device — the section inherits the one the
+   index already established, which is what keeps the two dark chapters
+   speaking the same language. */
+.stat__fig::after {
+  content: "";
+  position: absolute;
+  inset-inline: 4% 34%;
+  inset-block-end: -14px;
+  height: 26px;
+  pointer-events: none;
+  background: radial-gradient(50% 100% at 50% 100%,
+    rgba(168, 202, 255, 0.8) 0%,
+    rgba(104, 156, 236, 0.3) 34%,
+    transparent 74%);
+}
+
+.story__cta {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-8));
+  padding-block-start: 0;
+}
+/* A rule across the full measure above the action, so the section closes
+   on a line the way the index does. */
+.story__stats + .story__cta { position: relative; }
+.story__stats + .story__cta::before {
+  content: "";
+  position: absolute;
+  inset-block-start: calc(-1 * clamp(var(--sp-6), 2.6vw, var(--sp-7)));
+  inset-inline-start: 0;
+  width: 100vw;
+  max-width: var(--measure-wide, 100rem);
+  height: 1px;
+  background: var(--rule);
+}
+
+@media (max-width: 900px) {
+  .story__inner { grid-template-columns: 1fr; row-gap: clamp(var(--sp-7), 6vw, var(--sp-8)); }
+  .story__copy { max-width: none; }
+  .story__stats { grid-template-columns: 1fr; row-gap: var(--sp-6); }
+  .stat { padding-inline: 0; }
+  .stat + .stat { border-inline-start: 0; border-block-start: 1px solid var(--rule); padding-block-start: var(--sp-5); }
+}
+
+/* ---- The story text passes through the viewport ----
+
+   In on the way up, out on the way down: one keyframe set covering the
+   whole of each element's time on screen, so the same gesture does both
+   ends and there is no second animation to keep in sync.
+
+   The hold between 24% and 72% is the point — a pass that is always in
+   motion never lets anything be read. It is still for roughly half of
+   its life on screen, which is when it is doing its job.
+
+   The FIGURES are excluded on purpose. They are counted up by script,
+   and a number sliding away while it is still counting would be an
+   instrument you cannot read. They fade only. */
+@keyframes story-pass {
+  0%   { opacity: 0; translate: 0 var(--rise, 26px); }
+  24%  { opacity: 1; translate: 0 0; }
+  72%  { opacity: 1; translate: 0 0; }
+  100% { opacity: 0; translate: 0 calc(-0.55 * var(--rise, 26px)); }
+}
+@keyframes story-fade {
+  0%   { opacity: 0; }
+  24%  { opacity: 1; }
+  76%  { opacity: 1; }
+  100% { opacity: 0.35; }
+}
+
+
+/* ---- IN ON entry, OUT ON exit — two single-phase animations ----
+
+   The `cover`-based pass was not wrong, it was unreadable. `view()` builds
+   its timeline from the ELEMENT, not the section, so a figure sitting low
+   in the viewport is genuinely still early in its own cover progress —
+   which rendered as three statistics at three different opacities, side
+   by side, looking like a gradient across the row rather than a stagger.
+
+   Split in two. `entry` completes, by definition, the moment the element
+   is fully in view, so everything on screen is at full strength and the
+   row reads as one. `exit` starts the moment it begins to leave. No
+   arithmetic across phases, which is the third time that arithmetic has
+   produced something stuck at a value nobody chose.
+
+   The out animation fills FORWARDS only. With `both` it would hold its
+   from-state before the exit range began and quietly overwrite the
+   entry animation still running underneath it. */
+@keyframes story-in  { from { opacity: 0; translate: 0 var(--rise, 26px); }
+                       to   { opacity: 1; translate: 0 0; } }
+@keyframes story-out { from { opacity: 1; translate: 0 0; }
+                       to   { opacity: 0; translate: 0 calc(-0.5 * var(--rise, 26px)); } }
+
+
+
+/* ============================================================
+   STORY, REBUILT — the room is the ground
+   ============================================================
+   The framed photograph on the right is gone. The picture is the section
+   now: copy stands on it top-left, the figures close it along the bottom,
+   and the whole band is one image rather than a column of text beside a
+   rectangle. That is also what lets the figures get the scale they need —
+   there is no second object competing for the right-hand half.
+   ============================================================ */
+.story { isolation: isolate; }
+.story__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.story__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+/* THE GROUND IS DARKENED WHERE THE TEXT IS, AND ONLY THERE.
+
+   Two layers doing two different jobs. A wash from the left carries the
+   copy block, which sits over the busiest part of any showroom frame; a
+   ramp from the bottom carries the figures. Between them the photograph
+   is left alone, which is the point — a flat scrim over the whole image
+   would buy legibility by throwing away the reason the image is here. */
+.story__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,
+      rgb(var(--bg-rgb) / 0.94) 0%,
+      rgb(var(--bg-rgb) / 0.86) 26%,
+      rgb(var(--bg-rgb) / 0.52) 52%,
+      rgb(var(--bg-rgb) / 0.22) 74%,
+      rgb(var(--bg-rgb) / 0.12) 100%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.92) 0%,
+      rgb(var(--bg-rgb) / 0.64) 18%,
+      rgb(var(--bg-rgb) / 0.2) 38%,
+      transparent 58%);
+}
+
+.story__inner {
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-height: clamp(38rem, 46vw, 52rem);
+  padding-block: clamp(var(--sp-9), 8vw, var(--sp-11));
+}
+
+.story__copy { max-width: 33rem; }
+.story__lede { max-width: 40ch; }
+.story__cta {
+  display: inline-flex;
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+
+/* ---- The figures along the foot ----
+   One leads, two answer. The interval after the lead is deliberately much
+   larger than the interval between the pair, so the row reads as a claim
+   followed by its context rather than as three equal statistics. */
+.story__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  column-gap: clamp(var(--sp-7), 4vw, var(--sp-8));
+  row-gap: var(--sp-7);
+  margin-block-start: clamp(var(--sp-8), 8vw, var(--sp-10));
+}
+.story__stats .stat {
+  padding-inline: 0;
+  border-inline-start: 0;
+}
+.stat--lead { margin-inline-end: clamp(var(--sp-8), 8vw, 10rem); }
+
+/* The label sits UNDER the figure now — the number arrives first and the
+   caption tells you what it counted, which is the order the eye takes a
+   statistic in anyway. */
+.stat__fig { margin: 0; }
+.stat__label {
+  display: block;
+  margin-block-start: var(--sp-4);
+  color: var(--ink-2);
+  letter-spacing: 0.24em;
+}
+.stat__n { font-size: clamp(2.5rem, 3.6vw, 3.5rem); }
+.stat--lead .stat__n { font-size: clamp(4rem, 9vw, 8.5rem); letter-spacing: -0.035em; }
+.stat--lead .stat__label { font-size: 1rem; letter-spacing: 0.3em; }
+
+/* A short accent rule under the two SUBORDINATE labels only. The lead has
+   its scale; marking it as well would be saying the same thing twice.
+   Under the pair it does real work — it binds them as a set answering the
+   figure to their left. */
+.stat:not(.stat--lead) .stat__label::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 2px;
+  margin-block-start: var(--sp-4);
+  background: var(--accent);
+}
+
+/* The light under each figure is retired here. On a photographic ground it
+   read as a lens flare rather than as the edge-light it is on the flat
+   panels of the index — same device, wrong surface. */
+.stat__fig::after { content: none; }
+
+@media (max-width: 900px) {
+  .story__inner { min-height: 0; }
+  .stat--lead { margin-inline-end: 0; flex-basis: 100%; }
+}
+
+/* ---- Tuned to the frame that actually arrived ----
+
+   The photograph is 2.26:1 against a band nearer 1.84, so cover crops the
+   sides and shows the full height — which is what the composition needs:
+   the lower third is empty floor and that is where the figures stand.
+
+   The left scrim comes DOWN from 0.94. In the placeholder the left of the
+   frame was dark and could take it; here the first-generation GT sits
+   left of centre in white, and a wash that heavy turned the best-lit car
+   in the picture grey. 0.78 falling to nothing by 60% carries the copy
+   and leaves the car. The bottom ramp does the rest of the work, and it
+   has an easy job — the floor under the figures is already near-black. */
+.story__bg img { object-position: 50% 46%; }
+.story__bg::after {
+  background:
+    linear-gradient(to right,
+      rgb(var(--bg-rgb) / 0.78) 0%,
+      rgb(var(--bg-rgb) / 0.66) 22%,
+      rgb(var(--bg-rgb) / 0.34) 44%,
+      rgb(var(--bg-rgb) / 0.08) 62%,
+      transparent 80%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.9) 0%,
+      rgb(var(--bg-rgb) / 0.55) 16%,
+      rgb(var(--bg-rgb) / 0.14) 34%,
+      transparent 52%);
+}
+
+/* ============================================================
+   THE PHOTOGRAPH IS THE MASS. THE SCRIM IS LOCAL.
+   ============================================================
+   The previous build buried it, and the culprit was not the left wash —
+   it was the BOTTOM RAMP, which ran the full width at 0.9 and pulled the
+   right-hand third of the frame down with it. A gradient that darkens
+   everything is not a scrim, it is an opacity.
+
+   Rewritten as three LOCAL sources, each one placed over the thing it is
+   protecting and nowhere else:
+
+     1. the copy block, top-left      — an ellipse, strong
+     2. the lead figure, bottom-left  — an ellipse, strong
+     3. the two small figures, ~55-78% across the foot — a small pool,
+        weak, because the floor there is already near-black in the frame
+
+   Everything past roughly two-thirds is left alone: the blue GT, the red
+   rim light, the reflections and the Cobra mural come through at the
+   photograph's own contrast. There is no full-width layer left anywhere
+   in this section. */
+.story__bg::after {
+  background:
+    /* 1 — behind the copy */
+    radial-gradient(78% 82% at 4% 30%,
+      rgb(var(--bg-rgb) / 0.92) 0%,
+      rgb(var(--bg-rgb) / 0.8) 34%,
+      rgb(var(--bg-rgb) / 0.44) 62%,
+      rgb(var(--bg-rgb) / 0.12) 84%,
+      transparent 100%),
+    /* 2 — under the lead figure */
+    radial-gradient(58% 46% at 6% 100%,
+      rgb(var(--bg-rgb) / 0.9) 0%,
+      rgb(var(--bg-rgb) / 0.66) 38%,
+      rgb(var(--bg-rgb) / 0.24) 70%,
+      transparent 100%),
+    /* 3 — under the pair, and no stronger than they need */
+    radial-gradient(30% 34% at 62% 100%,
+      rgb(var(--bg-rgb) / 0.62) 0%,
+      rgb(var(--bg-rgb) / 0.34) 46%,
+      transparent 82%),
+    /* 4 — a hairline seam at the very bottom so the band closes into the
+       page rather than ending on a cut edge. 40px, not a ramp. */
+    linear-gradient(to top,
+      rgb(var(--bg-rgb)) 0%,
+      rgb(var(--bg-rgb) / 0.55) 2%,
+      transparent 5%);
+}
+
+/* The frame is worth more room now that it is doing real work. */
+.story__inner { min-height: clamp(42rem, 52vw, 58rem); }
+
+/* ============================================================
+   STORY, ALIGNED TO THE DESIGN SYSTEM
+   ============================================================
+   Three things in this section were invented rather than consumed, and
+   all three go. The rule is the sell band: same eyebrow construction,
+   same label register, same colour roles. Nothing new.
+
+   1. THE BLUE. #7FA6E0 was a colour this project does not have. The
+      accent is the only chromatic role on a dark ground and the eyebrow
+      is where the sell band spends it, so the date takes --accent and
+      the rest of the line takes --ink-3 — the same shape as SELL / TRADE.
+
+   2. THE RED BARS. A rule under the headline and two more under the
+      labels: three marks doing what nothing in the sell band does. The
+      figures have scale and the eyebrow has colour; a bar as well was a
+      third way of saying the same thing.
+
+   3. THE LABEL BELOW THE FIGURE. It sits above now, which is where every
+      other label in this system sits — the sell steps, the inventory
+      records, the finder rows all name the field before they answer it.
+   ============================================================ */
+.story__est { color: var(--accent); }
+.story__eyebrow span[aria-hidden] { margin-inline: 0.4em; opacity: 0.5; }
+.stat:not(.stat--lead) .stat__label::after { content: none; }
+
+.stat__label {
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: var(--sp-4);
+  color: var(--ink-3);
+  letter-spacing: var(--tr-micro);
+}
+.stat--lead .stat__label {
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-micro);
+  margin-block-end: var(--sp-3);
+}
+
+/* The lead is still the lead — by SCALE, which is the one mechanism this
+   system uses for rank and the only one it needs here. */
+.story__stats { align-items: flex-start; }
+
+/* ---- The figures arrive as a staircase ----
+   The same shape as the sell copy: each beat opens once the one before it
+   is most of the way home, and each travels its own distance. Wide enough
+   apart to be counted, which is what the sell band had to be corrected
+   to and what this had not been given yet. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stat:nth-child(1) { --rise: 26px; animation-range: entry 10% entry 46%, exit 14% exit 76%; }
+    .stat:nth-child(2) { --rise: 20px; animation-range: entry 26% entry 62%, exit 14% exit 76%; }
+    .stat:nth-child(3) { --rise: 20px; animation-range: entry 40% entry 76%, exit 14% exit 76%; }
+  }
+}
+
+/* ============================================================
+   NARROW: THE LEFT SIDE GOES, THE CARDS CARRY THE IMAGERY
+   ============================================================
+   The two-mass composition needs a wide index, and the index needs it
+   because a panel now holds a name, two figure plates, a 160px vehicle
+   and an arrow on one line. Below roughly 1200px the column starves: the
+   model wraps to three lines, the plates stack, one panel takes the other
+   three with it and the stage stretches to match — which is how a section
+   that measured perfectly at 1783 came out as a tall empty field beside a
+   column of broken cards.
+
+   The dominant vehicle is dropped rather than shrunk. A cut-out car at a
+   third of its size stops being a dominant mass and becomes a second,
+   smaller thumbnail beside four real ones, and then the section has no
+   subject at all. Removing it re-establishes the governing idea honestly:
+   at this width the index IS the section, so the vehicles move into the
+   panels and get the size to carry it.
+
+   This supersedes the 1080px rule above, which stacked the stage over the
+   index. That was written for a hairline list with 58px thumbnails and
+   does not survive the panels. */
+@media (max-width: 1200px) {
+  .showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .showcase__stage { display: none; }
+  .recs { flex: none; min-height: 0; }
+  .rec { grid-template-columns: minmax(0, 1fr) auto auto; }
+  /* The photograph the section lost on the left comes back here. */
+  .rec__thumb { width: clamp(150px, 17vw, 230px); }
+  .rec__name { min-height: 0; }
+}
+
+/* Below the panel's own comfortable measure the vehicle steps down again
+   rather than crushing the name beside it. */
+@media (max-width: 720px) {
+  .rec { padding: var(--sp-5); column-gap: var(--sp-5); }
+  .rec__thumb { width: clamp(96px, 22vw, 150px); }
+  .rec__chev { display: none; }
+}
+
+/* ---- The outlined button on a photograph, for the third time ----
+
+   .btn--line draws its ring in --rule-strong, which is 0.28 alpha. On the
+   flat page ground that is a considered hairline; on a photograph it is
+   nothing, and the button reads as a washed-out ghost of itself. The sell
+   band needed the same correction and so did the index CTA — three
+   sections in, this is a gap in the variant rather than three local
+   accidents, and it belongs in the DS the next time that file is opened.
+
+   Fixed the same way both times before: a ring the ground cannot swallow,
+   and a hover that closes to full ink. */
+.story__cta {
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.45);
+  padding-inline: var(--sp-6);
+}
+.story__cta:hover,
+.story__cta:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: rgba(244, 242, 239, 0.07);
+}
+
+/* The copy's ellipse is stretched to cover the action as well. It was
+   sized for the text block and the button hangs below it, so at narrower
+   widths the CTA ended up standing on whatever the crop put there. */
+.story__bg::after {
+  background:
+    radial-gradient(82% 96% at 4% 34%,
+      rgb(var(--bg-rgb) / 0.92) 0%,
+      rgb(var(--bg-rgb) / 0.8) 36%,
+      rgb(var(--bg-rgb) / 0.44) 64%,
+      rgb(var(--bg-rgb) / 0.12) 85%,
+      transparent 100%),
+    radial-gradient(58% 46% at 6% 100%,
+      rgb(var(--bg-rgb) / 0.9) 0%,
+      rgb(var(--bg-rgb) / 0.66) 38%,
+      rgb(var(--bg-rgb) / 0.24) 70%,
+      transparent 100%),
+    radial-gradient(30% 34% at 62% 100%,
+      rgb(var(--bg-rgb) / 0.62) 0%,
+      rgb(var(--bg-rgb) / 0.34) 46%,
+      transparent 82%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb)) 0%,
+      rgb(var(--bg-rgb) / 0.55) 2%,
+      transparent 5%);
+}
+
+/* ---- The story copy block, measured against the sell block ----
+
+   Two faults, both from removing things that were holding the block up.
+
+   THE LEDE had no top margin at all. The red rule I deleted carried
+   margin-block: var(--sp-6) on both sides, so taking it out took the
+   interval with it and the paragraph closed up under the headline. Sell
+   sets var(--sp-5) between title and lede; so does this now.
+
+   THE BUTTON was 38px tall against sell's 54, with padding-top 0 and
+   padding-bottom 16 — a leftover from when the CTA was a grid row and
+   needed its top interval suppressed. It is a flex child in the copy
+   block now, so it takes the .btn geometry whole, and the tracking comes
+   up to the 0.18em the sell secondary uses. Same variant, same section
+   role, same measurements. */
+.story__lede { margin-block-start: var(--sp-5); }
+.story__cta {
+  padding-block: var(--sp-4);
+  padding-inline: clamp(var(--sp-6), 3vw, var(--sp-8));
+  letter-spacing: 0.18em;
+  margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-8));
+}
+
+/* Dimmed. At 0.85 the core was the brightest thing in the section — it
+   competed with the vehicle it was supposed to be marking, and on the
+   pale cut-outs it washed into the car's own reflection. The geometry is
+   unchanged; only the intensity comes down, so it still reads as the
+   panel's edge being lit rather than as a light of its own. */
+.rec::before {
+  background: radial-gradient(52% 100% at 50% 100%,
+    rgba(168, 202, 255, 0.44) 0%,
+    rgba(104, 156, 236, 0.19) 34%,
+    rgba(70, 116, 200, 0.07) 58%,
+    transparent 78%);
+}
+
+/* ============================================================
+   THE BAND IS CUT AT BOTH ENDS NOW
+   ============================================================
+   The same gesture, repeated at the foot, and in the SAME DIRECTION —
+   high on the left, low on the right, on both edges. That makes the band
+   a sheared slab whose two cuts are parallel, rather than a shape that
+   tapers. A wedge would have said the section is running out; a shear
+   says it is passing through, which is the automotive read the boundary
+   was asked for in the first place.
+
+   Amplitude up from clamp(16,1.6vw,26) to clamp(26,2.8vw,48) — about
+   1.8x. It was halved once for reading as an agency wave; what made it a
+   wave then was depth over a long lazy run with nothing answering it at
+   the other end. With a matching cut below, the slope is legible as
+   geometry and can afford to be seen. */
+.sell {
+  --cut-drop: clamp(26px, 2.8vw, 48px);
+  clip-path: polygon(
+    0 0,
+    var(--cut-start) 0,
+    calc(var(--cut-start) + var(--cut-run)) var(--cut-drop),
+    100% var(--cut-drop),
+    100% 100%,
+    calc(var(--cut-start) + var(--cut-run)) 100%,
+    var(--cut-start) calc(100% - var(--cut-drop)),
+    0 calc(100% - var(--cut-drop))
+  );
+}
+
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .sell {
+    clip-path: shape(
+      from 0 0,
+      line to var(--cut-start) 0,
+      curve to calc(var(--cut-start) + var(--cut-run)) var(--cut-drop)
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 0
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop),
+      line to 100% var(--cut-drop),
+      line to 100% 100%,
+      line to calc(var(--cut-start) + var(--cut-run)) 100%,
+      curve to var(--cut-start) calc(100% - var(--cut-drop))
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 100%
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop)),
+      line to 0 calc(100% - var(--cut-drop)),
+      close
+    );
+  }
+}
+
+/* The foot cut takes up to 48px off the LEFT of the bottom edge, which is
+   exactly where "01 Tell us about your car" sits. The band gets that back
+   as padding so the sequence clears its own boundary instead of being
+   trimmed by it. */
+.sell__inner,
+.sell__grid { padding-block-end: var(--cut-drop); }
+
+@media (max-width: 700px) {
+  .sell { clip-path: none; }
+  .sell__inner, .sell__grid { padding-block-end: 0; }
+}
+
+/* ============================================================
+   STORY — final polish, then frozen
+   ============================================================ */
+
+/* 2 — 2003 AND $2B+ ARE FACTS, NOT ODOMETERS.
+   Their counters are gone from the markup. They keep the reveal the row
+   already had — the fade and short rise every .stat carries — and the
+   existing entry ranges put them a beat behind the figure that does
+   count. No new motion was added to replace what was removed. */
+
+/* 5 — THE PAIR IS ONE PROOF GROUP.
+   They were two items of whatever width their content happened to be,
+   which is what made them read as floating rather than placed. Equal
+   columns line up both the labels and the figures, so the group has an
+   internal grid of its own and answers the lead as a single object.
+   Alignment only — no rule, no box, no background. */
+.stat:not(.stat--lead) {
+  flex: 0 0 auto;
+  min-inline-size: 11.5rem;
+}
+.story__stats { column-gap: clamp(var(--sp-6), 2.4vw, var(--sp-7)); }
+.stat--lead { margin-inline-end: clamp(var(--sp-8), 7vw, 8.5rem); }
+
+/* 3 — THE PARAGRAPH CARRIES A LITTLE MORE.
+   Still secondary to the headline and still --ink-2, but at full-page
+   scale it was reading as a caption under a display line rather than as
+   the section's one piece of prose. One step of size and a slightly
+   tighter measure, which is what actually makes a paragraph feel present:
+   the line length, not the weight. */
+.story__lede {
+  font-size: 1.125rem;
+  line-height: 1.65;
+  max-width: 36ch;
+}
+
+/* 4 — THE ACTION IS TEXT, NOT A CONTAINER.
+   The pill is gone. What is left is the label, the arrow, and the space
+   between them — the arrow moves on hover and nothing else does. No
+   underline: a rule here would be the decorative line this pass rules
+   out, and the arrow already says the direction. */
+.story__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: gap var(--dur-2) var(--ease-out);
+}
+.story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
+.story__cta:hover,
+.story__cta:focus-visible { background: none; box-shadow: none; }
+.story__cta:hover .story__cta-arrow,
+.story__cta:focus-visible .story__cta-arrow { translate: 5px 0; }
+.story__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+/* ============================================================
+   STORY PROOF — the reveal, and nothing else
+   ============================================================
+   The three figures come off the scroll timeline. They were fading in
+   and out with the rest of the copy, which meant the two secondary facts
+   were already sitting in their final positions long before the counter
+   had anything to say — the exact complaint. They are driven by the
+   counter now.
+
+   .is-armed is added by script, and only after it has checked that
+   motion is allowed. Nothing here hides anything without it: script off,
+   script broken, or reduced motion, and the row is three finished
+   figures with no travel and no count.
+
+   DIALECT YIELD — motion-taste D1 caps travel at 8px and prefers a
+   crossfade to a slide. This slides 34px, horizontally. The condition it
+   yields on is the stated one: direction encoding progress. The whole
+   point of the sequence is that these two arrive AFTER the claim lands,
+   and a horizontal entrance from outside the group is what makes "after"
+   legible — an 8px fade in place would read as three things appearing at
+   slightly different times, which is what this replaces. The floor still
+   binds: opacity and transform only, no layout touched, reduced motion
+   complete. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stat { animation: none; }
+  }
+}
+
+.story__stats.is-armed .stat--lead { opacity: 0; translate: 0 8px; }
+.story__stats.is-armed.is-live .stat--lead { opacity: 1; translate: 0 0; }
+.stat--lead {
+  transition: opacity var(--dur-3) var(--ease-out),
+              translate var(--dur-3) var(--ease-out);
+}
+
+.story__stats.is-armed .stat--proof { opacity: 0; translate: 34px 0; }
+.story__stats.is-armed .stat--proof.is-in { opacity: 1; translate: 0 0; }
+.stat--proof {
+  transition: opacity var(--dur-3) var(--ease-out),
+              translate var(--dur-3) var(--ease-out);
+}
+
+/* MOBILE IS AUTHORED, NOT INHERITED. In one column the pair sits under
+   the claim rather than beside it, so "in from the right" points at
+   nothing — the group it would be entering is not to the right of
+   anything. The sequence and its timing are kept; the travel becomes a
+   short rise in the reading direction, which is what the dialect asks
+   for by default anyway. */
+@media (max-width: 900px) {
+  .story__stats.is-armed .stat--proof { translate: 0 12px; }
+}
+
+/* ============================================================
+   SELL / TRADE OVERLAPS STORY — a real overlap, not a gradient
+   ============================================================
+   The two chapters were flush at the join, which sounds like continuity
+   and reads as a break: the bone plate ended, and what appeared below it
+   was the dark top of the next section behaving like page background. The
+   shaped bottom cut terminated Sell instead of revealing anything.
+
+   Story is pulled up under Sell now and Sell paints over it. The cut is
+   a window: what shows through it is the Story photograph, already in
+   place, already lit — the dark chapter arriving underneath the light
+   panel rather than starting after it.
+
+   Nothing here is a colour transition, a spacer or a strip to hide the
+   seam. It is z-order and a negative margin, and the thing revealed is
+   the actual next section.
+
+   The overlap is added back to the Story's own top padding, so the
+   composition inside it does not move by a pixel — only the section's
+   box starts higher. Header is z-70 and untouched. */
+.story {
+  --story-overlap: clamp(72px, 7vw, 120px);
+  margin-block-start: calc(-1 * var(--story-overlap));
+  z-index: 0;
+}
+.sell { z-index: 1; }
+.story__inner {
+  padding-block-start: calc(clamp(var(--sp-9), 8vw, var(--sp-11)) + var(--story-overlap));
+}
+
+/* The frame is taller than the band at both ends so the handoff below can
+   move it without ever exposing an edge. */
+.story__bg { inset: -56px 0; }
+
+/* THE HANDOFF, AND ONLY THAT.
+   34px of rise as the section enters, on transform, finishing before the
+   content does. It is the panel-under-panel idea given a moment of
+   movement — not parallax, which would keep moving for the whole scroll
+   and turn the photograph into a background effect. */
+@keyframes story-lift {
+  from { translate: 0 34px; }
+  to   { translate: 0 0; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .story__bg {
+      animation: story-lift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 64%;
+    }
+  }
+}
+
+/* ---- The cut is mirrored: the shelf moves to the RIGHT ----
+   Same shear, same amplitude, same parallel edges — reflected. The high
+   side is now the right, the fall descends toward the left, and the
+   corner radius follows the shelf to the corner that is actually raised.
+
+   Two derived stops so the mirror stays tied to the originals rather
+   than becoming a second set of numbers to keep in sync:
+     --cut-a  where the fall begins, measured from the left
+     --cut-b  where the shelf begins */
+.sell {
+  --cut-a: calc(100% - var(--cut-start) - var(--cut-run));
+  --cut-b: calc(100% - var(--cut-start));
+  border-start-start-radius: 0;
+  border-start-end-radius: clamp(20px, 2vw, 30px);
+  clip-path: polygon(
+    0 var(--cut-drop),
+    var(--cut-a) var(--cut-drop),
+    var(--cut-b) 0,
+    100% 0,
+    100% calc(100% - var(--cut-drop)),
+    var(--cut-b) calc(100% - var(--cut-drop)),
+    var(--cut-a) 100%,
+    0 100%
+  );
+}
+
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .sell {
+    clip-path: shape(
+      from 0 var(--cut-drop),
+      line to var(--cut-a) var(--cut-drop),
+      curve to var(--cut-b) 0
+        with calc(var(--cut-a) + var(--cut-run) * 0.5) var(--cut-drop)
+           / calc(var(--cut-a) + var(--cut-run) * 0.5) 0,
+      line to 100% 0,
+      line to 100% calc(100% - var(--cut-drop)),
+      line to var(--cut-b) calc(100% - var(--cut-drop)),
+      curve to var(--cut-a) 100%
+        with calc(var(--cut-a) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop))
+           / calc(var(--cut-a) + var(--cut-run) * 0.5) 100%,
+      line to 0 100%,
+      close
+    );
+  }
+}
+
+/* ---- The car is centred on the field's height ----
+
+   It was standing on a ground line 28% up from the floor, which was right
+   when the stage was a 16:10 box. The stage stretches to the index now
+   and the index has grown with the panels, so the same percentage left
+   the car sitting low in a very tall field with dead space above it.
+
+   Centred on the CAR, not on the file. Each cut-out carries a different
+   strip of empty pixels above and below its bodywork — sampled off the
+   alpha channel, the top strips run 7.65 / 5.73 / 10.21 / 6.54 percent
+   against bottoms of 1.46 / 2.08 / 1.38 / 2.07 — so centring the image
+   box would leave every car a little low by its own asymmetry, the
+   Koenigsegg worst at 4.4%. --centre-fix is half that difference, lifting
+   each one until the vehicle itself is on the centre line. */
+.stage__car {
+  inset-block-start: 50%;
+  inset-block-end: auto;
+  translate: 0 calc(-50% - var(--centre-fix, 0%));
+}
+.stage__car[src*="gt2rs"]     { --centre-fix: 3.09%; }
+.stage__car[src*="aventador"] { --centre-fix: 1.83%; }
+.stage__car[src*="regera"]    { --centre-fix: 4.42%; }
+.stage__car[src*="812-gts"]   { --centre-fix: 2.24%; }
+
+/* ============================================================
+   THE TWO CHAPTER TITLES ARRIVE THE SAME WAY
+   ============================================================
+   Both headlines slide in from the left, a line at a time; both
+   paragraphs rise from below. One gesture per role, shared across the
+   two sections, so the pair reads as one authored language rather than
+   as two sections that each animate.
+
+   The eyebrows are gone with them — Est. 2003 and Sell / Trade — so the
+   headline is the first thing in both blocks and the sequence starts on
+   the line that matters.
+
+   DIALECT YIELD, the same one already taken on the proof row:
+   motion-taste D1 caps travel at 8px and prefers a crossfade. These
+   travel 44px horizontally. The condition is the stated one — direction
+   encoding progress: the lines are a sequence, and a stagger of 8px
+   fades reads as one block flickering rather than as lines arriving in
+   order. Floor holds: opacity and transform only, nothing laid out,
+   reduced motion complete and static.
+   ============================================================ */
+@keyframes ttl-in {
+  from { opacity: 0; translate: -44px 0; }
+  to   { opacity: 1; translate: 0 0; }
+}
+@keyframes lede-in {
+  from { opacity: 0; translate: 0 26px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+.ttl-line { display: block; }
+
+
+
+/* ---- The sell cut: back to falling right, and top only ----
+   The mirror is undone — the shelf returns to the left and the edge
+   descends toward the right — and the foot of the band goes flat. One
+   cut, at the head, where it does the work of handing the page from the
+   dark chapter into the light one. The bottom no longer needs a gesture:
+   the overlap with Story is what closes the band now, and a second cut
+   there was competing with it. */
+.sell {
+  border-start-start-radius: clamp(20px, 2vw, 30px);
+  border-start-end-radius: 0;
+  clip-path: polygon(
+    0 0,
+    var(--cut-start) 0,
+    calc(var(--cut-start) + var(--cut-run)) var(--cut-drop),
+    100% var(--cut-drop),
+    100% 100%,
+    0 100%
+  );
+}
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .sell {
+    clip-path: shape(
+      from 0 0,
+      line to var(--cut-start) 0,
+      curve to calc(var(--cut-start) + var(--cut-run)) var(--cut-drop)
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 0
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop),
+      line to 100% var(--cut-drop),
+      line to 100% 100%,
+      line to 0 100%,
+      close
+    );
+  }
+}
+/* The foot padding went in for the cut that is no longer there. */
+.sell__inner, .sell__grid { padding-block-end: 0; }
+
+/* ---- Two opposing cuts. Top falls right; bottom rises left. ---- */
+.sell {
+  --cut-drop-b: clamp(44px, 5vw, 88px);
+  --bcut-a: calc(100% - var(--cut-start) - var(--cut-run));
+  --bcut-b: calc(100% - var(--cut-start));
+  clip-path: polygon(
+    0 0,
+    var(--cut-start) 0,
+    calc(var(--cut-start) + var(--cut-run)) var(--cut-drop),
+    100% var(--cut-drop),
+    100% calc(100% - var(--cut-drop-b)),
+    var(--bcut-b) calc(100% - var(--cut-drop-b)),
+    var(--bcut-a) 100%,
+    0 100%
+  );
+}
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .sell {
+    clip-path: shape(
+      from 0 0,
+      line to var(--cut-start) 0,
+      curve to calc(var(--cut-start) + var(--cut-run)) var(--cut-drop)
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 0
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop),
+      line to 100% var(--cut-drop),
+      line to 100% calc(100% - var(--cut-drop-b)),
+      line to var(--bcut-b) calc(100% - var(--cut-drop-b)),
+      curve to var(--bcut-a) 100%
+        with calc(var(--bcut-a) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop-b))
+           / calc(var(--bcut-a) + var(--cut-run) * 0.5) 100%,
+      line to 0 100%,
+      close
+    );
+  }
+}
+/* The bottom cut lifts the RIGHT of the foot, which is where step 03 is. */
+.sell__inner, .sell__grid { padding-block-end: var(--cut-drop-b); }
+
+/* Deep enough that the bottom cut always opens onto the Story photograph
+   rather than onto the page. */
+.story { --story-overlap: clamp(96px, 8vw, 140px); }
+
+/* ---- The car is brought onto the band's centre line ----
+   Measured on the source: the vehicle occupies 50-80% of the frame's
+   height, centred at 65%, so at the band's own proportions it rendered
+   at two-thirds down. object-position could not fix it — the frame only
+   has 100px of vertical crop to give, and the car needed three times
+   that.
+
+   Scaled from the BOTTOM edge instead, which lifts the subject without
+   ever opening a gap under it, and about 62% horizontally so the growth
+   runs off the right side rather than into the wall the copy stands on. */
+.sell__bg img {
+  transform-origin: 62% 100%;
+  scale: 1.3;
+}
+
+/* ---- And the foot carries more, because the steps sit on it ----
+   The ramp was built when the band ended flat. It now ends on a cut that
+   lifts the right-hand side, which is exactly where step 03 sits, over
+   the brightest part of the floor. Deeper and stronger. */
+.sell__bg::after {
+  height: clamp(260px, 34%, 420px);
+  background: linear-gradient(to top,
+    var(--bone) 0%,
+    var(--bone) 18%,
+    rgba(237, 234, 228, 0.94) 38%,
+    rgba(237, 234, 228, 0.72) 58%,
+    rgba(237, 234, 228, 0.38) 78%,
+    rgba(237, 234, 228, 0) 100%);
+}
+
+/* ============================================================
+   SECTION ENTRY — the homepage's motion language below the hero
+   ============================================================
+   One system, every section after the hero. Not a per-section effect:
+   any new chapter opts in with `data-reveal` and marks its parts, and it
+   inherits the same choreography without a line of new CSS.
+
+   The language, and it does not vary by section:
+
+     headline   one LINE at a time, in from the LEFT, 130ms apart
+     paragraph  one block, rising from BELOW, after the last line
+     action     a quiet vertical settle, last
+     eyebrow    a fade with almost no travel — it must not compete
+
+   Direction carries meaning here, which is why it is fixed: horizontal
+   is the title arriving, vertical is the body answering it. Swapping
+   them section to section would make the page read as several authors.
+
+   SCROLL-TRIGGERED, NOT SCROLL-LINKED. An IntersectionObserver fires
+   once per section and the class stays. The earlier `view()` timelines
+   are gone with it — they ran the animation off scroll position, which
+   meant the text was mid-entrance whenever the reader stopped mid-scroll
+   and re-entered every time they came back.
+
+   THE HERO IS EXCLUDED. It has no `data-reveal` and keeps its own
+   cinematic behaviour.
+
+   Nothing is hidden until the script says so: `.reveal-armed` goes on
+   the root, by script, only after it has checked that motion is allowed.
+   Script off, script broken, or reduced motion, and every section is
+   simply complete.
+
+   DIALECT YIELD, stated once for the whole system: motion-taste D1 caps
+   travel at 8px and prefers a crossfade. Headline lines travel 56px
+   horizontally. The condition is the stated one — direction encoding
+   progress: the lines are a sequence and the staircase is the gesture.
+   The floor holds — transform and opacity only, no geometry animated,
+   reduced motion complete.
+   ============================================================ */
+
+.reveal-armed [data-reveal] .ttl-line,
+.reveal-armed [data-reveal] .lede,
+.reveal-armed [data-reveal] .sell__lede,
+.reveal-armed [data-reveal] .story__lede,
+.reveal-armed [data-reveal] .sell__actions,
+.reveal-armed [data-reveal] .story__cta,
+.reveal-armed [data-reveal] .index__all,
+.reveal-armed [data-reveal] .inv__eyebrow {
+  opacity: 0;
+  will-change: opacity, translate;
+}
+
+/* headline — the staircase */
+.reveal-armed [data-reveal] .ttl-line {
+  translate: -56px 0;
+  transition: opacity var(--rv-line) var(--ease-out),
+              translate var(--rv-line) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .ttl-line { opacity: 1; translate: 0 0; }
+.reveal-armed [data-reveal].is-revealed .ttl-line:nth-child(2) { transition-delay: var(--rv-step); }
+.reveal-armed [data-reveal].is-revealed .ttl-line:nth-child(3) { transition-delay: calc(var(--rv-step) * 2); }
+.reveal-armed [data-reveal].is-revealed .ttl-line:nth-child(4) { transition-delay: calc(var(--rv-step) * 3); }
+
+/* paragraph — one block, from below, after the last line */
+.reveal-armed [data-reveal] .lede,
+.reveal-armed [data-reveal] .sell__lede,
+.reveal-armed [data-reveal] .story__lede {
+  translate: 0 32px;
+  transition: opacity var(--rv-lede) var(--ease-out),
+              translate var(--rv-lede) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .lede,
+.reveal-armed [data-reveal].is-revealed .sell__lede,
+.reveal-armed [data-reveal].is-revealed .story__lede {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--rv-step) * 2.2);
+}
+
+/* action — quiet, last */
+.reveal-armed [data-reveal] .sell__actions,
+.reveal-armed [data-reveal] .story__cta,
+.reveal-armed [data-reveal] .index__all {
+  translate: 0 10px;
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .sell__actions,
+.reveal-armed [data-reveal].is-revealed .story__cta,
+.reveal-armed [data-reveal].is-revealed .index__all {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--rv-step) * 3.4);
+}
+
+/* eyebrow — present, not competing */
+.reveal-armed [data-reveal] .inv__eyebrow {
+  translate: 0 6px;
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .inv__eyebrow { opacity: 1; translate: 0 0; }
+
+/* The sell steps are that section's one content gesture, and they come
+   after its text — the same restrained rise, stepped. */
+.reveal-armed [data-reveal] .sell__steps li {
+  opacity: 0;
+  translate: 0 18px;
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .sell__steps li { opacity: 1; translate: 0 0; }
+.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(1) { transition-delay: calc(var(--rv-step) * 4); }
+.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(2) { transition-delay: calc(var(--rv-step) * 4.7); }
+.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(3) { transition-delay: calc(var(--rv-step) * 5.4); }
+
+/* ---- The hidden state, stated once per role ----
+   The previous pair — a hidden rule plus a shown rule — was losing the
+   hidden half somewhere in a file this long, and a scroll reveal that
+   never hides is just content. Inverted: the REVEALED state is the
+   element's ordinary self, and the only rule that exists is the one that
+   holds it back while the section has not been reached. One rule, one
+   direction, and `:not()` puts it out of reach of the cascade below it.
+   The transitions sit on the elements unconditionally so both directions
+   animate. */
+html.reveal-armed [data-reveal]:not(.is-revealed) .ttl-line {
+  opacity: 0;
+  translate: -56px 0;
+}
+html.reveal-armed [data-reveal]:not(.is-revealed) .lede,
+html.reveal-armed [data-reveal]:not(.is-revealed) .sell__lede,
+html.reveal-armed [data-reveal]:not(.is-revealed) .story__lede {
+  opacity: 0;
+  translate: 0 32px;
+}
+html.reveal-armed [data-reveal]:not(.is-revealed) .sell__actions,
+html.reveal-armed [data-reveal]:not(.is-revealed) .story__cta,
+html.reveal-armed [data-reveal]:not(.is-revealed) .index__all {
+  opacity: 0;
+  translate: 0 10px;
+}
+html.reveal-armed [data-reveal]:not(.is-revealed) .inv__eyebrow {
+  opacity: 0;
+  translate: 0 6px;
+}
+html.reveal-armed [data-reveal]:not(.is-revealed) .sell__steps li {
+  opacity: 0;
+  translate: 0 18px;
+}
+
+/* Revealed is simply the element, so these only carry timing. */
+html.reveal-armed [data-reveal] .ttl-line {
+  transition: opacity var(--rv-line) var(--ease-out),
+              translate var(--rv-line) var(--ease-out);
+}
+html.reveal-armed [data-reveal] .ttl-line:nth-child(2) { transition-delay: var(--rv-step); }
+html.reveal-armed [data-reveal] .ttl-line:nth-child(3) { transition-delay: calc(var(--rv-step) * 2); }
+html.reveal-armed [data-reveal] .ttl-line:nth-child(4) { transition-delay: calc(var(--rv-step) * 3); }
+
+html.reveal-armed [data-reveal] .lede,
+html.reveal-armed [data-reveal] .sell__lede,
+html.reveal-armed [data-reveal] .story__lede {
+  transition: opacity var(--rv-lede) var(--ease-out),
+              translate var(--rv-lede) var(--ease-out);
+  transition-delay: calc(var(--rv-step) * 2.2);
+}
+html.reveal-armed [data-reveal] .sell__actions,
+html.reveal-armed [data-reveal] .story__cta,
+html.reveal-armed [data-reveal] .index__all,
+html.reveal-armed [data-reveal] .inv__eyebrow {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+  transition-delay: calc(var(--rv-step) * 3.4);
+}
+html.reveal-armed [data-reveal] .inv__eyebrow { transition-delay: 0s; }
+html.reveal-armed [data-reveal] .sell__steps li {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+}
+html.reveal-armed [data-reveal] .sell__steps li:nth-child(1) { transition-delay: calc(var(--rv-step) * 4); }
+html.reveal-armed [data-reveal] .sell__steps li:nth-child(2) { transition-delay: calc(var(--rv-step) * 4.7); }
+html.reveal-armed [data-reveal] .sell__steps li:nth-child(3) { transition-delay: calc(var(--rv-step) * 5.4); }
+
+/* ============================================================
+   SELL / TRADE MIRRORED — the page stops repeating itself
+   ============================================================
+   Three chapters running text-left / vehicle-right is a rhythm the eye
+   stops reading. Only this one flips, and only its PHOTOGRAPH and its
+   copy column: nothing in the DOM is mirrored, so type, numbers and
+   buttons are untouched and the three process steps keep running left to
+   right, because a process does.
+
+   Featured Inventory  vehicle left  / index right
+   Sell / Trade        vehicle left  / copy  right
+   Story               copy left     / photograph right
+   ============================================================ */
+
+/* The photographic layer only. scaleX through the negative on the scale
+   property, with the origin mirrored to match — the 62% that pushed the
+   growth off the right edge becomes 38% to push it off the left. */
+.sell__bg img {
+  scale: -1.3 1.3;
+  transform-origin: 38% 100%;
+  /* Re-art-directed after the flip rather than left on the default: this
+     holds the Carrera clear of the left edge and keeps the architectural
+     wall — now on the right — open behind the copy. */
+  object-position: 44% center;
+}
+
+/* The copy crosses to the open wall. Right-hand column, still left-aligned
+   text: an editorial block placed on the right, not a mirrored template. */
+.sell__copy {
+  justify-self: end;
+  padding-inline-start: 0;
+  padding-inline-end: clamp(var(--sp-7), 5vw, var(--sp-10));
+}
+
+/* The cuts follow the flow. Top: shelf on the RIGHT, falling to the left.
+   Bottom: short on the LEFT, dropping to full depth on the right — so the
+   geometry runs vehicle-mass left, open space right, and hands down into
+   Story. Same amplitudes, same language, mirrored bias. */
+.sell {
+  border-start-start-radius: 0;
+  border-start-end-radius: clamp(20px, 2vw, 30px);
+  clip-path: polygon(
+    0 var(--cut-drop),
+    var(--bcut-a) var(--cut-drop),
+    var(--bcut-b) 0,
+    100% 0,
+    100% 100%,
+    calc(var(--cut-start) + var(--cut-run)) 100%,
+    var(--cut-start) calc(100% - var(--cut-drop-b)),
+    0 calc(100% - var(--cut-drop-b))
+  );
+}
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .sell {
+    clip-path: shape(
+      from 0 var(--cut-drop),
+      line to var(--bcut-a) var(--cut-drop),
+      curve to var(--bcut-b) 0
+        with calc(var(--bcut-a) + var(--cut-run) * 0.5) var(--cut-drop)
+           / calc(var(--bcut-a) + var(--cut-run) * 0.5) 0,
+      line to 100% 0,
+      line to 100% 100%,
+      line to calc(var(--cut-start) + var(--cut-run)) 100%,
+      curve to var(--cut-start) calc(100% - var(--cut-drop-b))
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 100%
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop-b)),
+      line to 0 calc(100% - var(--cut-drop-b)),
+      close
+    );
+  }
+}
+
+/* THE ONE DIRECTIONAL EXCEPTION IN THE GLOBAL SYSTEM.
+   Sell's headline enters from the RIGHT, because its composition is the
+   mirrored one and a left entrance would cross the whole photograph to
+   arrive. The paragraph and the actions still rise; Story and Featured
+   Inventory are untouched. Recorded here rather than in the shared block
+   so the global rule stays one rule with one stated exception. */
+html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
+  translate: 56px 0;
+}
+
+/* ---- Re-art-directed after the flip ----
+   At origin 38% the 1.3 scale threw the Carrera off the left edge and cut
+   it in half. The origin is the only horizontal control here — the frame
+   covers by width, so there is no crop for object-position to move — so
+   it comes in to 21%, which lands the car clear of the edge with its
+   whole length readable and the wall still open behind the copy.
+
+   And the copy comes off the right edge: at 5vw the headline was running
+   into the margin. */
+.sell__bg img { transform-origin: 21% 100%; }
+.sell__copy { padding-inline-end: clamp(var(--sp-8), 8vw, var(--sp-11)); }
+
+/* The origin, computed rather than nudged. A negative scale reflects
+   ABOUT the origin, so moving the origin left pushes the subject further
+   right and vice versa — the opposite of the intuition, which is how the
+   car went off the left edge twice. Solving O + (x - O) x -1.3 for the
+   car's source position lands the origin at 52%, which puts it a little
+   over 400px in from the left with the wall open behind the copy. */
+.sell__bg img { transform-origin: 52% 100%; }
+
+/* 54%, not 52% — the tail was sitting on the left edge with nothing to
+   spare. This gives the car about 95px of margin and still leaves the
+   whole right half of the wall to the copy. */
+.sell__bg img { transform-origin: 54% 100%; }
+
+/* ---- The mirrored frame re-aimed for the narrow band ----
+   Side by side, a vehicle and a text column need width the section stops
+   having below about 1200. At 1000 the 1.3 scale put the Carrera's nose
+   under "Get an offer" — the car was not too big, the room was too small.
+   Less scale and an origin computed for this width push it left until the
+   wall is clear behind the copy, and the car reads as the mass it is
+   without holding the text. */
+@media (max-width: 1200px) {
+  .sell__bg img { scale: -1.15 1.15; transform-origin: 48% 100%; }
+  .sell__copy { max-width: 30rem; padding-inline-end: clamp(var(--sp-6), 4vw, var(--sp-8)); }
+}
+
+/* The pair was pinned nowrap for the wide band, where it has the room.
+   In the narrow column it ran off the right edge of the viewport, so it
+   is allowed to break there — primary on its line, secondary under it. */
+@media (max-width: 1200px) {
+  .sell__actions { flex-wrap: wrap; }
+}
+
+/* ============================================================
+   ONE HORIZONTAL SHELL FOR THE WHOLE PAGE
+   ============================================================
+   Measured at 1920 before this pass: the header's wordmark sat 81px from
+   the edge, the inventory content 162, the story 152 — and the inventory
+   capped at 1580 while the story capped at 1600. Three shells, none of
+   them agreeing, which is why the header read as a different site.
+
+   Every outer container now resolves from --page-gutter and --shell.
+   Sections may still run a narrower editorial column inside this; what
+   they may not do is invent their own outer edge.
+   ============================================================ */
+.masthead__inner,
+.inv__inner,
+.sell__inner,
+.story__inner {
+  width: min(100% - 2 * var(--page-gutter), var(--shell));
+  max-width: none;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+/* ---- The header controls are one family ----
+   MENU and the phone share a height, a radius, a border weight and a
+   type size from the same tokens — their widths differ because their
+   content does, and nothing else about them is styled apart. Compact by
+   intent: --control-h-header is 46 against --control-h-primary at 54,
+   and that gap is a decision recorded in the tokens rather than two
+   selectors that drifted. */
+.menu-toggle,
+.masthead__call {
+  height: var(--control-h-header);
+  min-height: var(--control-h-header);
+  padding-block: 0;
+  padding-inline: var(--sp-5);
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  font-size: var(--t-micro);
+  line-height: 1;
+}
+
+/* The rail's own left padding held the wordmark 17px inside the shell at
+   1920 and 1440 and released it at 1024 — the logo sitting on a different
+   line depending on width, which is exactly the breakpoint-specific
+   second system this pass is for. The rail keeps its right padding, which
+   is doing real work between the nav items and the call. */
+.navbar { padding-inline-start: 0; }
+
+/* One tracking for the pair. The padding, height, radius and type size
+   were already identical; the secondary was set at 0.18em against the
+   primary's 0.08em, which pushed its label wider inside an identical box
+   and made two buttons of one family read as two different controls. */
+.sell__how { letter-spacing: 0.08em; }
+
+/* The copy column ends ON the shell line, so the secondary action's right
+   edge lands on the same vertical as the header's phone control. It had
+   its own end padding on top of the shell, which put it 20px inboard of
+   everything else on the page's right edge. */
+.sell__copy { padding-inline-end: 0; }
+@media (max-width: 1200px) {
+  .sell__copy { padding-inline-end: 0; }
+}
+
+/* .sell__grid is full-bleed — the shell lives on .sell__inner, which this
+   section does not route its copy through — so the column takes the page
+   gutter directly. Same value, same line as the header control and as
+   every other section's right edge. */
+.sell__copy,
+.sell__copy:not(#x) { padding-inline-end: var(--page-gutter); }
+
+/* ---- The header goes back to full width ----
+   It was pulled onto the content shell in the grid pass; the rail is
+   meant to span the viewport and only its contents sit on the gutter. */
+.masthead__inner {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: var(--page-gutter);
+}
+
+/* ---- The sell copy takes the SEARCH INVENTORY inset ----
+   That control is the reference for anything that runs to an edge: its
+   rail carries 16px of inline padding and the button sits on it. The sell
+   column now uses the same value, so "Talk to our specialist" ends on the
+   same line SEARCH does instead of on a gutter of its own. */
+.sell__copy,
+.sell__copy:not(#x) {
+  padding-inline: var(--sp-4);
+}
+@media (max-width: 1200px) {
+  .sell__copy { padding-inline: var(--sp-4); }
+}
+
+/* Reverted to the page gutter. Tying this column to the finder rail's own
+   16px inner padding was wrong: that is padding INSIDE a floating rail,
+   not the line the rail sits on. At 1440 it put the button 16px from the
+   viewport while the header, inventory and story all sit at 49. Until the
+   column grid is rebuilt properly, this at least agrees with them. */
+.sell__copy,
+.sell__copy:not(#x) { padding-inline: var(--page-gutter); }
+@media (max-width: 1200px) {
+  .sell__copy { padding-inline: var(--page-gutter); }
 }
