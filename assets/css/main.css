@@ -7015,7 +7015,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 
    And the copy comes off the right edge: at 5vw the headline was running
    into the margin. */
-.sell__bg img { transform-origin: 21% 100%; }
+
 .sell__copy { padding-inline-end: clamp(var(--sp-8), 8vw, var(--sp-11)); }
 
 /* The origin, computed rather than nudged. A negative scale reflects
@@ -7024,7 +7024,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    car went off the left edge twice. Solving O + (x - O) x -1.3 for the
    car's source position lands the origin at 52%, which puts it a little
    over 400px in from the left with the wall open behind the copy. */
-.sell__bg img { transform-origin: 52% 100%; }
+
 
 /* 54%, not 52% — the tail was sitting on the left edge with nothing to
    spare. This gives the car about 95px of margin and still leaves the
