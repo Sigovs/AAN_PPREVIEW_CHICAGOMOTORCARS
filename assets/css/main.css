@@ -6723,7 +6723,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      is 16:9 and a vh-based band would crop it differently on every
      laptop; a vw-based one keeps the same slice of the room on all of
      them, which is what makes it a composition rather than a window. */
-  block-size: clamp(19rem, 42vw, 32rem);
+  /* Taller than it was, because it holds a title card now. Still not
+     the full viewport: the hero is the page's one full-screen film and
+     a second one would read as a second opening. */
+  min-block-size: clamp(30rem, 62vw, 44rem);
   overflow: hidden;
 }
 
@@ -6757,6 +6760,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   inset: 0;
   pointer-events: none;
   background:
+    /* The edges — dissolving the band into the sections it sits between. */
     linear-gradient(to bottom,
       rgb(var(--bg-rgb) / 0.92) 0%,
       rgb(var(--bg-rgb) / 0.55) 8%,
@@ -6766,8 +6770,82 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
       rgb(var(--bg-rgb) / 0.92) 0%,
       rgb(var(--bg-rgb) / 0.55) 8%,
       rgb(var(--bg-rgb) / 0.12) 20%,
-      rgb(var(--bg-rgb) / 0) 34%);
+      rgb(var(--bg-rgb) / 0) 34%),
+    /* AND A FLAT WASH ACROSS THE WHOLE BAND, which is what makes copy
+       possible on it at all. The alpha is not a mood setting: --ink has
+       0.89 luminance, and for a 17px line to clear 4.5:1 the ground
+       under it must sit at or below 0.154. This film reaches near-white
+       on the polished floor, and --bg at this alpha pulls that worst
+       case down far enough with margin left over. Lower it and the
+       lede fails on exactly the frames nobody screenshots. */
+    linear-gradient(rgb(var(--bg-rgb) / 0.72), rgb(var(--bg-rgb) / 0.72));
 }
+
+
+/* ---- The title card ----------------------------------------
+   Centred, and centred on purpose: STORY sets its statement in a left
+   column with a data row beside it, and this band has to be a
+   different KIND of object or the two cancel out. A title card is
+   short, symmetrical and carries no figures. */
+.brk__copy {
+  position: relative;
+  z-index: 1;
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: var(--sp-6);
+  padding-block: clamp(var(--sp-8), 8vw, var(--sp-10));
+}
+
+.brk__eyebrow {
+  color: var(--ink-2);
+  letter-spacing: 0.28em;
+  margin-block-end: var(--sp-5);
+}
+
+.brk__title {
+  font-size: clamp(2rem, 4.4vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: var(--tr-display);
+  color: var(--ink);
+  max-inline-size: 18ch;
+}
+.brk__title .ttl-line { display: block; }
+
+.brk__lede {
+  margin-block-start: var(--sp-5);
+  /* Wider than the headline on purpose — it is one sentence of fact
+     under a line of voice, and breaking it into three short lines
+     would give it an emphasis it should not have. */
+  max-inline-size: 46ch;
+
+  /* FULL --ink, NOT --ink-2, and the reason generalises beyond this
+     band. At 0.62 the lede measured 3.79:1 against the brightest
+     ground it lands on, rgb(79,83,91). Darkening the wash barely moved
+     it: +0.18 alpha only reached 4.35, still short. A translucent ink
+     INHERITS its ground — darken behind it and the ink darkens with
+     it, so the contrast it gains at the back it gives away at the
+     front. Against a ground that varies, a secondary ink is
+     self-defeating; full strength reads 6.91:1 on the same pixels.
+
+     Hierarchy survives it. 16px/400 under 60px/700 is already two
+     steps apart, and this is the one line on the card carrying facts
+     rather than voice — the tone was never what separated them. */
+  color: var(--ink);
+}
+
+.brk__cta { margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7)); }
+.brk__cta .btn { align-self: center; }
+
+/* THE HEADLINE ARRIVES FROM THE LEFT LIKE EVERY OTHER ONE, but the
+   copy is centred, so the shared -56px would have pulled each line
+   out of the composition and let it drift back. Halved, and stated:
+   the entry language is the page's, the distance is this band's. */
+.reveal-armed [data-reveal] .brk__title .ttl-line { translate: -28px 0; }
 
 /* ---- The control -------------------------------------------
    Bottom right, out of the composition's way. It is the only piece of
@@ -6847,7 +6925,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 
 @media (max-width: 760px) {
-  .brk { block-size: clamp(15rem, 60vw, 22rem); }
+  .brk { min-block-size: clamp(28rem, 108vw, 40rem); }
   .brk__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .brk__toggle { padding-inline: 0; inline-size: 44px; justify-content: center; }
 }
@@ -7306,6 +7384,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .sell__actions,
 .reveal-armed [data-reveal] .story__cta,
 .reveal-armed [data-reveal] .warranty__actions,
+.reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .index__all,
 .reveal-armed [data-reveal] .inv__eyebrow {
   opacity: 0;
@@ -7343,6 +7422,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .sell__actions,
 .reveal-armed [data-reveal] .story__cta,
 .reveal-armed [data-reveal] .warranty__actions,
+.reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .index__all {
   translate: 0 10px;
   transition: opacity var(--rv-cta) var(--ease-out),
@@ -7351,6 +7431,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal].is-revealed .sell__actions,
 .reveal-armed [data-reveal].is-revealed .story__cta,
 .reveal-armed [data-reveal].is-revealed .warranty__actions,
+.reveal-armed [data-reveal].is-revealed .brk__cta,
 .reveal-armed [data-reveal].is-revealed .index__all {
   opacity: 1;
   translate: 0 0;

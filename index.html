@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=32">
-<link rel="stylesheet" href="assets/css/main.css?v=260">
+<link rel="stylesheet" href="assets/css/main.css?v=262">
 </head>
 <body>
 
@@ -792,18 +792,31 @@
        ground changes reads as a breath; one placed at the end would
        just be a second hero.
 
-       NOTHING IS WRITTEN OVER IT. A caption would make it a section,
-       and it is not one — it is the pause between two. The only
-       interface on it is the control, which exists because the film
-       must be stoppable, not because the band needs furniture.
+       THE FILM IS A BACKGROUND, and the copy is the section. It began
+       as a bare pause; Alex's direction is content over it.
+
+       IT IS A TITLE CARD, NOT A SECOND CHAPTER, and the difference is
+       deliberate. STORY already sets a statement over a photograph, and
+       two chapters doing the same thing in the same register weaken
+       each other. So that one is a left column with a data row on a
+       still frame, and this one is centred, larger, shorter, and
+       carries no figures at all.
+
+       THE ONE FACTUAL LINE IS VERIFIED. Four showrooms, and they are
+       not the four Chicago-area rooms this project had assumed: West
+       Chicago and Naperville in Illinois, Rock Hill in South Carolina,
+       Tonganoxie in Kansas — read off their own directions page. The
+       address list itself is not printed here; that was the option
+       Alex did not take, and one verified sentence is not a directory.
 
        TWENTY MEGABYTES DO NOT LOAD WITH THE PAGE. The <source> carries
        no src: script attaches it when the band is one viewport away,
        and never at all under reduced motion. Until then the poster is
        the band, which is why the poster is a real frame from the film
        rather than a black rectangle — if the video never loads, this
-       is still a photograph of the room. -->
-  <section class="brk" id="break" aria-label="Showroom film">
+       is still a photograph of the room, and the copy still reads on
+       it because the wash below sits on the poster too. -->
+  <section class="brk" id="break" data-reveal>
     <div class="brk__frame">
       <video class="brk__video"
              poster="assets/video/visual-break-poster-1600.jpg"
@@ -814,11 +827,28 @@
         <source data-src="assets/video/visual_brake_video.mp4" type="video/mp4">
       </video>
 
-      <!-- Scrims top and bottom, built from --bg-rgb so the band is cut
-           from the same ground as the sections it sits between rather
-           than laid on top of them. Without them the film has two hard
-           horizontal seams and reads as an embed. -->
+      <!-- Two jobs, one element. The edges dissolve the band into the
+           sections above and below it, built from --bg-rgb so it is cut
+           from the same ground rather than laid on top. The flat wash
+           underneath is what makes the copy legible: the film is a
+           moving photograph, so no single ink can be trusted against it
+           and the ground has to be guaranteed rather than hoped for. -->
       <span class="brk__scrim" aria-hidden="true"></span>
+
+      <div class="brk__copy">
+        <p class="micro brk__eyebrow">Visit</p>
+        <h2 class="brk__title">
+          <span class="ttl-line">Some cars only make</span><span class="ttl-line">sense in person.</span>
+        </h2>
+        <p class="lede brk__lede">Four showrooms &mdash; West Chicago and Naperville
+          in Illinois, Rock Hill in South Carolina, Tonganoxie in Kansas.</p>
+        <div class="brk__cta">
+          <a class="btn btn--fill" href="https://www.chicagomotorcars.com/dealership/directions.htm">
+            Plan a visit
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </div>
+      </div>
 
       <!-- The control is the reduced-motion path made visible rather
            than a feature: I1 wants an autoplaying loop stoppable, and a
