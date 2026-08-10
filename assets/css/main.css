@@ -6711,6 +6711,271 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .stage__car[src*="812-gts"]   { --centre-fix: 2.24%; }
 
 /* ============================================================
+   6 — WARRANTY / PROTECTION — the second inverted band
+   ============================================================
+   The page's grounds now run dark, dark, bone, dark, bone. The two
+   bone bands are deliberately the same device rather than two
+   different ones: an inverted ground is a statement about the page,
+   and making the second one look invented separately would turn a
+   system into a collection. Same cut, same colour, same ink. */
+.warranty {
+  position: relative;
+  background: var(--bone);
+  color: var(--bone-ink);
+  border-start-start-radius: clamp(40px, 5vw, 72px);
+  overflow: hidden;
+
+  /* The cut mirrors SELL's rather than repeating it: the shelf sits on
+     the RIGHT here, because this band's copy is on the left and the
+     shelf belongs over the copy. Same mechanism, read the other way. */
+  --cut-start: 34%;
+  --cut-run: 16%;
+  --cut-drop: clamp(24px, 2.6vw, 44px);
+  clip-path: polygon(
+    0 var(--cut-drop),
+    var(--cut-start) var(--cut-drop),
+    calc(var(--cut-start) + var(--cut-run)) 0,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+}
+
+.warranty__inner {
+  padding-block: clamp(var(--sp-8), 7vw, var(--sp-10)) clamp(var(--sp-8), 7vw, var(--sp-9));
+}
+
+.warranty__grid {
+  display: grid;
+  /* 40/60. The panel carries three provisions with a diagram each and
+     needs the room; the copy is four short elements and reads better
+     with a hard measure than with the width it could have taken. */
+  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+  gap: clamp(var(--sp-6), 5vw, var(--sp-9));
+  align-items: start;
+}
+
+/* ---- Left: the claim ---------------------------------------- */
+.warranty__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+/* --accent-deep, not --accent. The rule for this project is now simple
+   and worth keeping simple: on the bone ground red steps down one
+   value. It was arrived at on the sell band's photograph, where
+   #CB141D measured 3.50:1, and holding to it here means the two
+   inverted bands speak the same red rather than two nearby reds. */
+.warranty__eyebrow {
+  color: var(--accent-deep);
+  letter-spacing: 0.22em;
+  margin-block-end: var(--sp-6);
+}
+.warranty__eyebrow span { margin-inline: 0.45em; opacity: 0.5; }
+
+.warranty__title {
+  font-size: clamp(2.25rem, 3.9vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: var(--tr-display);
+  color: var(--bone-ink);
+}
+.warranty__title .ttl-line { display: block; }
+
+.warranty__lede {
+  margin-block-start: var(--sp-5);
+  max-width: 34ch;
+  color: var(--bone-ink-2);
+}
+
+/* STACKED ON PURPOSE, and the mock's single row is not reachable here.
+   Measured rather than eyeballed: the two pills come to 276 + 308 + a
+   16px gap = 600px, and this column is 490px at every width above the
+   design size, because the shell caps out before the column can grow.
+   Widening the grid to fit them would take a 49/51 split, which is no
+   longer the 40/60 composition the panel needs.
+
+   So the pair is declared as a column instead of left to wrap into one.
+   A wrap is an accident that happens to look deliberate until a label
+   changes length; this is the same picture, decided. The primary keeps
+   its dominance more clearly stacked than it did side by side. */
+.warranty__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--sp-4);
+  margin-block-start: var(--sp-7);
+}
+/* The base .btn carries align-self: center for the rows it usually
+   lives in. In this flex COLUMN that centred the whole row, which is
+   the same defect the sell CTA had. */
+.warranty__actions .btn { align-self: start; }
+
+/* The schematic sits under the actions and is the only thing in the
+   column allowed to be quiet. Low opacity because it is an annotation
+   on the composition, not a second subject competing with the
+   headline — figure and ground stay decided. */
+.warranty__draft {
+  width: min(100%, 30rem);
+  height: auto;
+  margin-block-start: clamp(var(--sp-7), 5vw, var(--sp-9));
+  color: var(--bone-ink);
+  opacity: 0.22;
+}
+
+/* ---- Right: the panel --------------------------------------- */
+.warranty__panel {
+  /* Raised by tone, not by a border or a shadow. A 1px outline here
+     would draw a card and the three provisions would read as three
+     objects inside a frame instead of one surface holding a list. */
+  background: rgba(22, 21, 15, 0.045);
+  border-radius: clamp(18px, 1.8vw, 26px);
+  padding: clamp(var(--sp-6), 3vw, var(--sp-8));
+}
+
+.warranty__panel-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  color: var(--bone-ink-2);
+  letter-spacing: 0.22em;
+  margin-block-end: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+/* The rule runs to the edge of the label's line and stops — a measure
+   mark, the same grammar as the technical captions elsewhere. */
+.warranty__panel-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(22, 21, 15, 0.22);
+}
+
+.warranty__points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.warranty__point {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: clamp(var(--sp-4), 2vw, var(--sp-6));
+  padding-block: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+}
+/* Rules BETWEEN, not around — the same reason the sell steps have
+   them: a border on every item boxes each provision. */
+.warranty__point + .warranty__point {
+  border-block-start: 1px solid rgba(22, 21, 15, 0.16);
+}
+.warranty__point:first-child { padding-block-start: 0; }
+.warranty__point:last-child { padding-block-end: 0; }
+
+/* --bone-ink, not the mock's red, and the reason is consistency rather
+   than taste. The sell band's 01/02/03 lost their red because the
+   accent has four roles and a resting step number is not one of them.
+   Two sections on one page numbering their steps in two different
+   colours would say the system had not decided. It has. */
+.warranty__n {
+  color: var(--bone-ink);
+  font-weight: 700;
+  font-size: 1.375rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  padding-inline-end: clamp(var(--sp-4), 2vw, var(--sp-5));
+  border-inline-end: 1px solid rgba(22, 21, 15, 0.22);
+  align-self: stretch;
+}
+
+.warranty__h {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--bone-ink);
+  margin: 0;
+}
+
+.warranty__p {
+  margin-block-start: var(--sp-3);
+  max-width: 32ch;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--bone-ink-2);
+}
+
+.warranty__mark {
+  width: clamp(4.5rem, 7vw, 6rem);
+  height: auto;
+  color: var(--bone-ink);
+  opacity: 0.4;
+  align-self: center;
+}
+
+/* ---- The rule of three -------------------------------------- */
+.warranty__assurances {
+  list-style: none;
+  margin: clamp(var(--sp-8), 6vw, var(--sp-9)) 0 0;
+  padding-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+  border-block-start: 1px solid rgba(22, 21, 15, 0.18);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-5), 3vw, var(--sp-7));
+}
+.warranty__assurances > li {
+  display: flex;
+  align-items: start;
+  gap: var(--sp-4);
+}
+.warranty__assurances > li + li {
+  padding-inline-start: clamp(var(--sp-5), 3vw, var(--sp-7));
+  border-inline-start: 1px solid rgba(22, 21, 15, 0.16);
+}
+
+.warranty__icon {
+  flex: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  color: var(--accent-deep);
+}
+
+.warranty__a-label {
+  color: var(--bone-ink);
+  letter-spacing: 0.16em;
+}
+.warranty__a-note {
+  margin-block-start: var(--sp-2);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--bone-ink-2);
+}
+
+/* ---- Narrow --------------------------------------------------
+   One column, and the panel's diagrams drop out rather than shrink.
+   At 6rem they were already the smallest legible version of
+   themselves; below that they stop being diagrams and become
+   texture, and texture beside a warranty provision is noise. */
+@media (max-width: 1080px) {
+  .warranty__grid { grid-template-columns: minmax(0, 1fr); }
+  .warranty__draft { width: min(100%, 26rem); }
+}
+
+@media (max-width: 760px) {
+  .warranty__mark { display: none; }
+  .warranty__point { grid-template-columns: auto 1fr; }
+  .warranty__assurances {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-5);
+  }
+  .warranty__assurances > li + li {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    padding-block-start: var(--sp-5);
+    border-block-start: 1px solid rgba(22, 21, 15, 0.16);
+  }
+  .warranty__actions .btn { width: 100%; justify-content: center; }
+}
+
+/* ============================================================
    THE TWO CHAPTER TITLES ARRIVE THE SAME WAY
    ============================================================
    Both headlines slide in from the left, a line at a time; both
@@ -6898,6 +7163,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .story__lede,
 .reveal-armed [data-reveal] .sell__actions,
 .reveal-armed [data-reveal] .story__cta,
+.reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .index__all,
 .reveal-armed [data-reveal] .inv__eyebrow {
   opacity: 0;
@@ -6934,6 +7200,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* action — quiet, last */
 .reveal-armed [data-reveal] .sell__actions,
 .reveal-armed [data-reveal] .story__cta,
+.reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .index__all {
   translate: 0 10px;
   transition: opacity var(--rv-cta) var(--ease-out),
@@ -6941,6 +7208,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .reveal-armed [data-reveal].is-revealed .sell__actions,
 .reveal-armed [data-reveal].is-revealed .story__cta,
+.reveal-armed [data-reveal].is-revealed .warranty__actions,
 .reveal-armed [data-reveal].is-revealed .index__all {
   opacity: 1;
   translate: 0 0;
