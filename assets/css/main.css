@@ -6947,10 +6947,15 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .warranty__grid {
   display: grid;
-  /* 40/60. The panel carries three provisions with a diagram each and
-     needs the room; the copy is four short elements and reads better
-     with a hard measure than with the width it could have taken. */
-  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+  /* 50/50, and the rebalance is what the two deletions actually asked
+     for. 40/60 was correct when the panel held three diagrams in a
+     third column and the copy column had a schematic to fill it. With
+     both gone the panel needs less width and the copy needs more —
+     enough more that the two actions finally fit on one row, which is
+     the composition the mock had and the old split could not reach.
+     The measured need was 600px against a 490px column; at 50 it is
+     587 and they sit side by side with room to spare. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(var(--sp-6), 5vw, var(--sp-9));
   align-items: start;
 }
@@ -6989,40 +6994,57 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--bone-ink-2);
 }
 
-/* STACKED ON PURPOSE, and the mock's single row is not reachable here.
-   Measured rather than eyeballed: the two pills come to 276 + 308 + a
-   16px gap = 600px, and this column is 490px at every width above the
-   design size, because the shell caps out before the column can grow.
-   Widening the grid to fit them would take a 49/51 split, which is no
-   longer the 40/60 composition the panel needs.
-
-   So the pair is declared as a column instead of left to wrap into one.
-   A wrap is an accident that happens to look deliberate until a label
-   changes length; this is the same picture, decided. The primary keeps
-   its dominance more clearly stacked than it did side by side. */
+/* A ROW AGAIN. This was a column, and the reason was honest at the
+   time: the pair measured 276 + 308 + 16 = 600px against a column that
+   was 490px at every width, so they could not sit together and a wrap
+   left to chance is worse than a stack declared. Removing the schematic
+   changed the arithmetic rather than the taste — the copy column is
+   587px now, and a decision made against a constraint should not
+   outlive the constraint. flex-wrap stays as the safety net. */
 .warranty__actions {
   display: flex;
-  flex-direction: column;
-  align-items: start;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--sp-4);
   margin-block-start: var(--sp-7);
+  /* THE ROW MUST SPAN THE COLUMN, or the basis below is measured
+     against the wrong number. .warranty__copy is a flex column with
+     align-items: start, which shrink-wraps its children — so this row
+     was 569px inside a 619px column, and the pair wrapped for want of
+     23px that were sitting right there unused. */
+  align-self: stretch;
 }
-/* The base .btn carries align-self: center for the rows it usually
-   lives in. In this flex COLUMN that centred the whole row, which is
-   the same defect the sell CTA had. */
+
+/* EQUAL WIDTHS, AND THE BASIS IS THE BREAKPOINT.
+   At their natural widths the pair is 255 + 287 + 16 = 558px, and the
+   column is 619px at 1440 but only 506px at 1180 — so "side by side"
+   would have been true on wide screens and quietly false on a 1280
+   laptop, which is most of them. A media query guessing at that
+   crossover would be a second place for the answer to live.
+
+   flex-basis lets the row itself decide: two of them plus the gap need
+   twice the basis, so above that they sit together and grow to equal
+   halves, and below it they wrap and each takes the full column. Both
+   outcomes are compositions rather than accidents.
+
+   THE BASIS IS NOT WHAT DECIDES IT, and that is worth knowing before
+   anyone tunes this number. Flex items default to min-width: auto, so
+   they cannot shrink below their own content: the row forms only when
+   the column can hold both buttons at their NATURAL widths, measured
+   here at 260 + 236 + a 16px gap = 512px. The basis only matters when
+   it is larger than that.
+
+   At "Talk to our specialist" the natural pair came to 558 and the
+   crossover landed above 1280 and 1360 — the two most ordinary laptop
+   widths — so both stacked. "Ask a specialist" is shorter and reads
+   more directly for it, and the row now forms from 512px of column,
+   which is every viewport from about 1250 up. Between the 1080
+   breakpoint and there the pair stacks at equal full width, which is a
+   composition rather than a failure. */
+.warranty__actions .btn { flex: 1 1 15rem; }
 .warranty__actions .btn { align-self: start; }
 
-/* The schematic sits under the actions and is the only thing in the
-   column allowed to be quiet. Low opacity because it is an annotation
-   on the composition, not a second subject competing with the
-   headline — figure and ground stay decided. */
-.warranty__draft {
-  width: min(100%, 30rem);
-  height: auto;
-  margin-block-start: clamp(var(--sp-7), 5vw, var(--sp-9));
-  color: var(--bone-ink);
-  opacity: 0.22;
-}
+
 
 /* ---- Right: the panel --------------------------------------- */
 .warranty__panel {
@@ -7173,7 +7195,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    texture, and texture beside a warranty provision is noise. */
 @media (max-width: 1080px) {
   .warranty__grid { grid-template-columns: minmax(0, 1fr); }
-  .warranty__draft { width: min(100%, 26rem); }
 }
 
 @media (max-width: 760px) {
