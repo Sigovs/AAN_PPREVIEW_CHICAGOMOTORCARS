@@ -7040,7 +7040,12 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    without holding the text. */
 @media (max-width: 1200px) {
   .sell__bg img { scale: -1.15 1.15; transform-origin: 48% 100%; }
-  .sell__copy { max-width: 30rem; padding-inline-end: clamp(var(--sp-6), 4vw, var(--sp-8)); }
+  /* The column places this block now, so it fills the column. The old
+     max-width and end padding were how it was positioned before the grid
+     existed; left in place they made the copy narrower than its own
+     column and parked it against the column start, with the wall to its
+     right empty. */
+  .sell__copy { max-width: none; padding-inline-end: 0; }
 }
 
 /* The pair was pinned nowrap for the wide band, where it has the room.
