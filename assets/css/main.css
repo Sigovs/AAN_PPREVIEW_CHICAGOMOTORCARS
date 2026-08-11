@@ -6931,6 +6931,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   --cut-start: 34%;
   --cut-run: 16%;
   --cut-drop: clamp(24px, 2.6vw, 44px);
+  /* Straight bevel as the floor — every engine has polygon(). */
   clip-path: polygon(
     0 var(--cut-drop),
     var(--cut-start) var(--cut-drop),
@@ -6939,6 +6940,35 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     100% 100%,
     0 100%
   );
+}
+
+/* AND THE SOFT VERSION WHERE IT CAN BE HAD.
+   The chamfer was the thing Alex called harsh, and he is right: sell
+   has had the S for a while and this band was still showing the corner
+   the polygon fallback knocks off. Same grammar, mirrored — this fall
+   RISES left to right because the shelf is on the left here.
+
+   Both control points sit at the midpoint of the run, one level with
+   the shelf and one level with the upper edge, which is what makes the
+   two ends leave and arrive flat with all the movement in the middle.
+   A curve with the handles anywhere else shows a corner at one end.
+
+   @supports tests shape() with a real shape rather than the bare
+   keyword, because the property parses long before the function does. */
+@supports (clip-path: shape(from 0 0, line to 1px 1px, close)) {
+  .warranty {
+    clip-path: shape(
+      from 0 var(--cut-drop),
+      line to var(--cut-start) var(--cut-drop),
+      curve to calc(var(--cut-start) + var(--cut-run)) 0
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop)
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) 0,
+      line to 100% 0,
+      line to 100% 100%,
+      line to 0 100%,
+      close
+    );
+  }
 }
 
 .warranty__inner {
@@ -7948,10 +7978,34 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   inherits: true;
   initial-value: 71px;
 }
+/* The HORIZONTAL position of the fall, registered for the same reason
+   the depths are: unregistered, a custom property is a string to the
+   animation engine and would jump between keyframes instead of
+   travelling. This is what Alex asked to move — the cut drifting
+   sideways as the band passes, rather than only deepening. */
+@property --cut-start {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 58%;
+}
 
 @keyframes sell-edges {
-  from { --cut-drop: 26px; --cut-drop-b: 46px; }
-  to   { --cut-drop: 56px; --cut-drop-b: 94px; }
+  /* --cut-start moves both edges at once, because --bcut-a and --bcut-b
+     are derived from it: the top shelf and the bottom step travel
+     together and stay in the same relationship. Six points either side
+     of the approved 58%, which is about 150px at 1440 — enough to read
+     as drift, not so much that the shape becomes a different one. */
+  from { --cut-drop: 26px; --cut-drop-b: 46px; --cut-start: 52%; }
+  to   { --cut-drop: 56px; --cut-drop-b: 94px; --cut-start: 64%; }
+}
+
+/* Warranty gets the same treatment on its own numbers. Its range is
+   `entry` rather than `cover`: it is the last section on the page, so it
+   never fully exits the top and a cover-based range would leave the
+   travel unfinished at the bottom of the document. */
+@keyframes warranty-edge {
+  from { --cut-start: 26%; }
+  to   { --cut-start: 42%; }
 }
 
 @supports (animation-timeline: view()) {
@@ -7960,6 +8014,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
       animation: sell-edges linear both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
+    }
+    .warranty {
+      animation: warranty-edge linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
     }
   }
 }
