@@ -261,31 +261,29 @@
   --lh-body:    1.6;
   --lh-label:   1.4;
 
-  --tr-micro:   0.14em;    /* uppercase mono needs the tracking   */
+  /* --tr-micro is gone. It said "uppercase mono needs the tracking" and
+     both halves stopped being true on the same day: there is no mono,
+     and the register does not track. Removed rather than left at a value
+     nothing reads, because a token nobody consumes is the next person's
+     false lead. */
 
-  /* THE TECHNICAL REGISTER HAS TWO ROLES, NOT FOURTEEN VALUES.
-     --tr-micro was defined for exactly this and then bypassed 24 times
-     with ad-hoc numbers: the register ran at 0.14 / 0.16 / 0.18 / 0.20 /
-     0.22 / 0.24 / 0.28 / 0.30em, and .stat__label alone existed at three
-     of them at once through later overrides. That is not a series of
-     choices, it is drift — and it is invisible section by section, which
-     is why the section-language ledger exists.
+  /* THE REGISTER DOES NOT TRACK.
 
-     vault/ciridae-com (3, in) praises the opposite in its `works`:
-     numbered lines, tables and thin rules turning technical information
-     into a designed system. A system is a role with one value.
+     It ran at fourteen values, then I settled it to two roles — 0.22em
+     for markers, 0.16em for labels — and that was still one decision too
+     many. Alex: the letter-spacing is not needed.
 
-       MARKER — a chapter or section mark. Wide, because it is a heading
-                for a passage and wants air around its letters.
-       LABEL  — a data label naming the value beside or under it.
-                Tighter, because it works at small size in quantity and
-                must not break into separate glyphs.
+     The vault agrees and I had the evidence on screen without reading
+     it. semlerpremium-dk-showroom (3, in) is the closest reference this
+     project has, and its labels barely track at all: FILTRERING is near
+     zero and the card titles LAMBORGHINI AVENTADOR have none. The wide
+     tracking was doing what the monospace had been doing before it —
+     performing "technical" instead of being it.
 
-     A third role — text actions — is deliberately NOT here. Those belong
-     to the control register with the buttons, and merging them would be
-     the opposite mistake. */
-  --tr-marker:  0.22em;
-  --tr-label:   0.16em;
+     One token, one value, and it is `normal`. Kept as a token rather
+     than deleted so the role still has a name and so the next person
+     who wants to open it up has one place to do it. */
+  --tr-label:   normal;
   --tr-display: -0.03em;   /* a grotesque at display wants tight  */
   /* A SERIF AT DISPLAY DOES NOT. Tight tracking on a high-contrast face
      closes the counters and the thin strokes start touching; the value

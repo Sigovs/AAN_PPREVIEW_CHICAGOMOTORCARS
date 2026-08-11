@@ -8,10 +8,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=14">
-<link rel="stylesheet" href="assets/css/main.css?v=61">
+<link rel="stylesheet" href="assets/css/tokens.css?v=39">
+<link rel="stylesheet" href="assets/css/main.css?v=286">
 <link rel="stylesheet" href="assets/css/specimen.css?v=10">
 </head>
 <body>
@@ -182,9 +182,23 @@
     <div>
       <h2 class="chap__title">Two voices</h2>
       <p class="chap__lede">
-        One restrained grotesque carries both display and body, and the mono carries anything factual.
-        <b>The face is deliberately forgettable</b> — it is not asked to supply the character. Scale,
-        position and air do that, which is what five approved vault entries say and 03b records.
+        <b>Two families, and the second one is not a mono.</b> Inter Tight is condensed and holds weight
+        at display size, where a text grotesque goes soft; Instrument Sans carries body copy and every
+        label. Anything factual is that same Instrument Sans, uppercased — the technical register is a
+        ROLE, not a third face.
+        <b>The faces are deliberately forgettable</b> — they are not asked to supply the character.
+        Scale, position and air do that, which is what five approved vault entries say and 03b records.
+      </p>
+      <p class="chap__lede" style="margin-block-start:var(--sp-4)">
+        <b>This chapter has been wrong twice, and both are recorded rather than quietly corrected.</b>
+        A monospace carried the factual register until 2026-08-11. Audited on the render, 45 elements
+        used it and 34 were words with no digit in them — it was performing “technical” rather than
+        doing anything. Alignment is <code>font-variant-numeric: tabular-nums</code> now, which was
+        always the mechanism doing the work.
+        And the register used to track: fourteen values across the file, settled to two roles, and now
+        none at all. <code>--tr-label</code> is <code>normal</code>, because
+        <code>vault/semlerpremium-dk-showroom</code> is the closest reference this project has and its
+        labels barely track.
       </p>
       <p class="chap__lede" style="margin-block-start:var(--sp-4)">
         Every family name in the right-hand column is <b>printed from the specimen's own computed style</b>.
@@ -201,7 +215,7 @@
 
       <div class="row row--tall">
         <p class="row__key">display &middot; claim</p>
-        <p class="js-claim" style="font-family:var(--font-display);font-size:var(--t-claim);font-weight:400;line-height:var(--lh-display);letter-spacing:var(--tr-display);color:var(--ink-2)">On the floor <em class="js-stress" style="font-style:normal;font-weight:200;color:var(--ink)">today</em>.</p>
+        <p class="js-claim" style="font-family:var(--font-display);font-size:var(--t-claim);font-weight:500;line-height:var(--lh-display);letter-spacing:var(--tr-display);color:var(--ink-2)">On the floor <em class="js-stress" style="font-style:normal;font-weight:500;color:var(--ink)">today</em>.</p>
         <p class="row__note"><span data-face=".js-claim"></span><br>stress drops to<br><span data-face=".js-stress"></span><br>four steps &mdash;<br>not an italic</p>
       </div>
 
@@ -219,7 +233,7 @@
 
       <div class="row row--tall">
         <p class="row__key">figures</p>
-        <p class="js-fig" style="font-family:var(--font-mono);font-variant-numeric:tabular-nums;line-height:1.8">$3,499,800<br>$2,899,800<br>&nbsp;&nbsp;$900,212</p>
+        <p class="js-fig" style="font-family:var(--font-label);font-variant-numeric:tabular-nums;line-height:1.8">$3,499,800<br>$2,899,800<br>&nbsp;&nbsp;$900,212</p>
         <p class="row__note"><span data-face=".js-fig"></span><br>tabular-nums<br>columns align</p>
       </div>
     </div>
