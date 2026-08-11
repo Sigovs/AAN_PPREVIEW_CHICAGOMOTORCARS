@@ -7449,6 +7449,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .story__cta,
 .reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .brk__cta,
+.reveal-armed [data-reveal] .svc__actions,
 .reveal-armed [data-reveal] .index__all,
 .reveal-armed [data-reveal] .inv__eyebrow {
   opacity: 0;
@@ -7487,6 +7488,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .story__cta,
 .reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .brk__cta,
+.reveal-armed [data-reveal] .svc__actions,
 .reveal-armed [data-reveal] .index__all {
   translate: 0 10px;
   transition: opacity var(--rv-cta) var(--ease-out),
@@ -7496,6 +7498,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal].is-revealed .story__cta,
 .reveal-armed [data-reveal].is-revealed .warranty__actions,
 .reveal-armed [data-reveal].is-revealed .brk__cta,
+.reveal-armed [data-reveal].is-revealed .svc__actions,
 .reveal-armed [data-reveal].is-revealed .index__all {
   opacity: 1;
   translate: 0 0;
@@ -8088,6 +8091,204 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   .sell__grid { grid-template-columns: minmax(0, 1fr); }
   .sell__copy,
   .sell__copy:not(#x) { grid-column: 1; }
+}
+
+/* ============================================================
+   7 — SERVICE
+   ============================================================
+   The chapter the page does not have yet: no display headline, no
+   paragraph, no pill pair under a statement. A register on the page's
+   own ground, and a film that takes the rest of the band.
+
+   THE APERTURE. Service is pulled UP into Warranty by a negative
+   margin, and the film opens through it as a horizontal slit widening
+   to full height. Warranty is pierced rather than ended — C11's handoff
+   — and the mechanism is the one this page already uses everywhere
+   else: a scroll-driven clip-path on a registered custom property.
+   Nothing new is introduced.
+   ============================================================ */
+
+/* The slit, registered so it can interpolate at all. Unregistered, a
+   custom property is a string to the animation engine and jumps. */
+@property --svc-open {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+.svc {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  /* Pulled up over the bone band so the opening happens INSIDE Warranty
+     rather than at a seam below it. The overlap is the transition. */
+  margin-block-start: calc(var(--sp-9) * -1);
+  z-index: 2;
+  min-block-size: clamp(34rem, 66vw, 46rem);
+  display: grid;
+  /* 36/64. The register needs a readable measure and nothing more; the
+     film is the dominant mass and takes the rest. */
+  grid-template-columns: minmax(0, 36fr) minmax(0, 64fr);
+  align-items: stretch;
+  overflow: hidden;
+  border-start-end-radius: clamp(28px, 3vw, 56px);
+}
+
+/* ---- The film ----------------------------------------------
+   Full bleed within its column, no frame, no player, no controls. */
+.svc__film {
+  position: relative;
+  /* BOTH children name their row. Without it, auto-placement puts the
+     film in column 2 of row 1, then refuses to go backwards for the
+     register — which lands in row 2 — and row 1 collapses to zero
+     because the video inside it is absolutely positioned and gives the
+     row no height. The column was 912px wide and 0px tall. */
+  grid-column: 2;
+  grid-row: 1;
+  overflow: hidden;
+  /* The aperture: a horizontal slit that opens. --svc-open runs 50 -> 0
+     so the film grows from a band at the vertical centre to the whole
+     column. */
+  clip-path: inset(var(--svc-open) 0 var(--svc-open) 0);
+}
+
+.svc__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* Measured, not chosen. The subject sits right of centre in the
+     workshop act and centre-left in the studio act; 62% splits the
+     difference so the car stays in frame through both. */
+  object-position: 62% center;
+  display: block;
+}
+
+/* A hairline where the film meets the register's ground — the only
+   edge in the section. Not a border round anything: one line, on the
+   side where two materials actually meet. */
+.svc__edge {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  background: var(--rule);
+  pointer-events: none;
+}
+
+/* ---- The register ------------------------------------------
+   On the page's ground, not on the film. */
+.svc__register {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-inline: clamp(var(--sp-6), 4vw, var(--sp-9));
+  padding-block: clamp(var(--sp-8), 6vw, var(--sp-9));
+}
+
+.svc__label {
+  color: var(--ink-2);
+  margin-block-end: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+}
+
+.svc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.svc__list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(var(--sp-4), 2vw, var(--sp-5));
+  align-items: baseline;
+  padding-block: clamp(var(--sp-3), 1.4vw, var(--sp-4));
+}
+/* Rules BETWEEN, not around — the same grammar as the sell steps and
+   the warranty provisions, which is what makes this a register rather
+   than a new device. */
+.svc__list li + li { border-block-start: 1px solid var(--rule); }
+
+.svc__n {
+  font-family: var(--font-display);
+  /* 14px, not 13. A register numeral is functional text and the floor
+     applies to it — the smaller size looked right and was not allowed. */
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.svc__item {
+  font-size: clamp(1rem, 1.25vw, 1.125rem);
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.svc__proof {
+  margin-block-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  max-inline-size: 30ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.svc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: stretch;
+  gap: var(--sp-4);
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+.svc__actions .btn { flex: 1 1 15rem; }
+
+/* ---- The aperture opens on scroll --------------------------
+   Scrubbed, unlike the register, which reveals once. Two systems, as
+   asked: the geometry is scroll-driven and the content is not. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes svc-aperture {
+      from { --svc-open: 46%; }
+      to   { --svc-open: 0%; }
+    }
+    .svc {
+      animation: svc-aperture linear both;
+      animation-timeline: view();
+      /* entry, not cover: Service is near the foot of the document and
+         a cover range would leave the aperture unfinished at the
+         bottom of the page. */
+      animation-range: entry 0% entry 68%;
+    }
+  }
+}
+
+/* The designed static path. With no scroll timeline — or with reduced
+   motion — the film is simply open. Nothing depends on the scrub. */
+@media (prefers-reduced-motion: reduce) {
+  .svc { --svc-open: 0%; }
+}
+
+/* ---- Narrow --------------------------------------------------
+   The film goes ABOVE the register rather than beside it, and keeps a
+   real height: D7 bans hiding imagery on mobile, and a film squeezed
+   into a strip is hidden by another means. */
+@media (max-width: 1000px) {
+  .svc {
+    grid-template-columns: minmax(0, 1fr);
+    min-block-size: 0;
+    margin-block-start: calc(var(--sp-8) * -1);
+  }
+  .svc__film {
+    grid-column: 1;
+    grid-row: 1;
+    aspect-ratio: 16 / 10;
+  }
+  .svc__edge { inset-inline: 0; inset-block-start: auto; inset-block-end: 0; block-size: 1px; inline-size: auto; }
+  .svc__register { grid-column: 1; grid-row: 2; }
+}
+@media (max-width: 560px) {
+  .svc__actions .btn { flex: 1 1 100%; }
 }
 
 /* ---- Grouped figures keep their grouping --------------------

@@ -810,3 +810,63 @@
   if (calm.addEventListener) calm.addEventListener('change', onCalm);
   else if (calm.addListener) calm.addListener(onCalm);
 })();
+
+/* ============================================================
+   SERVICE — the film loads when the band is nearly reached
+   ============================================================
+   Same contract as the break: the <source> ships with data-src and no
+   src, script attaches it a viewport out, and under reduced motion it
+   is never fetched. 1.9MB is small next to the other two, but "small"
+   is not a reason to spend it on a visitor who never scrolls this far.
+
+   There is no play control here and that is deliberate rather than an
+   omission: the film is muted, decorative and aria-hidden, the register
+   beside it carries every fact and every action, and under reduced
+   motion the section is complete with no film at all.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var band = document.querySelector('.svc');
+  if (!band) return;
+
+  var video = band.querySelector('.svc__video');
+  var source = band.querySelector('.svc__video source');
+  if (!video || !source) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var attached = false;
+
+  function attach() {
+    if (attached || calm.matches) return;
+    attached = true;
+    source.src = source.getAttribute('data-src');
+    video.load();
+  }
+
+  function play() {
+    if (calm.matches) return;
+    attach();
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      e.forEach(function (x) { if (x.isIntersecting) attach(); });
+    }, { rootMargin: '100% 0px' }).observe(band);
+
+    new IntersectionObserver(function (e) {
+      e.forEach(function (x) {
+        if (x.isIntersecting) play();
+        else if (!video.paused) video.pause();
+      });
+    }, { threshold: 0.2 }).observe(band);
+  } else {
+    attach();
+  }
+
+  var onCalm = function () { if (calm.matches) video.pause(); };
+  if (calm.addEventListener) calm.addEventListener('change', onCalm);
+  else if (calm.addListener) calm.addListener(onCalm);
+})();
