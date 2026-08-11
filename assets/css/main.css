@@ -3100,7 +3100,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* 2 — year + make. Technical label above the name. */
 .vcard__trim {
   color: var(--ink-3);
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tr-label);
 }
 
 /* 3 — price strong, mileage quiet. A middot between them rather than a
@@ -3923,7 +3923,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    stays — that is the keyboard telling you where it is, not an effect. */
 .rec:focus-visible .rec__thumb { opacity: 0.62; }
 .rec.is-active .rec__thumb { scale: 1; opacity: 1; }
-.rec__make { color: var(--ink-3); letter-spacing: 0.16em; }
+.rec__make { color: var(--ink-3); letter-spacing: var(--tr-label); }
 
 /* INACTIVE: compressed. One line of make, one of model, nothing else —
    the facts and the action are withheld until the record is the one on
@@ -4098,7 +4098,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .finder-bar .field { padding-block: var(--sp-3); }
 .finder-bar .field + .field { padding-inline-start: var(--sp-6); }
 .finder-bar .field__control { font-size: 1.125rem; }
-.finder-bar .field__label { letter-spacing: 0.16em; }
+.finder-bar .field__label { letter-spacing: var(--tr-label); }
 
 /* The CTA stays the strongest thing in the bar: the only filled mass,
    and now full-height against a 96px rail. */
@@ -4685,7 +4685,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      reads 4.77:1 on the same pixels. On the flat --bone band the mark itself
      is fine; it is only on the photographed wall that it has to step down. */
   color: var(--accent-deep);
-  letter-spacing: 0.22em;
+  letter-spacing: var(--tr-marker);
   margin-block-end: var(--sp-6);
 }
 .sell__eyebrow span { margin-inline: 0.4em; opacity: 0.5; }
@@ -4783,12 +4783,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .sell__step-n {
   color: var(--bone-ink);
   font-weight: 700;
-  letter-spacing: 0.14em;
 }
 .sell__step-t {
   color: var(--bone-ink);
   font-weight: 400;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tr-label);
 }
 
 /* ---- Narrow --------------------------------------------------
@@ -4937,7 +4936,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .hunt__eyebrow {
   color: var(--ink);
   font-size: 0.9375rem;
-  letter-spacing: 0.2em;
+  letter-spacing: var(--tr-marker);
   margin-block-end: var(--sp-6);
 }
 
@@ -4945,7 +4944,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    Number and name are one object now, so they are spaced as one. */
 .hero__slide-title {
   color: var(--ink);
-  letter-spacing: 0.22em;
+  letter-spacing: var(--tr-marker);
   transition: opacity var(--dur-2) var(--ease-out);
 }
 .hero__slide-title.is-swapping { opacity: 0; }
@@ -5261,7 +5260,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .hunt__label {
   font-size: 0.9375rem;
   color: var(--ink);
-  letter-spacing: 0.18em;
+  letter-spacing: var(--tr-label);
 }
 .hunt__value {
   font-size: 0.875rem;
@@ -5784,6 +5783,15 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    caption spaced out to fill a slot rather than as a step in a process. */
 .sell__steps { border-top-color: rgba(22, 21, 15, 0.3); }
 .sell__steps li + li { border-inline-start-color: rgba(22, 21, 15, 0.3); }
+/* A NUMERAL, NOT A LABEL. The two tracking roles are for uppercase mono
+   set as words; a figure at 22px/700 is the opposite case and wants to
+   close up rather than open out, so this is correct as it stands — I had
+   wrongly swept it into the label role and it is out again.
+
+   Numerals are a THIRD role in this register and they are not settled:
+   --tr-count is -0.045em for the story figures, this runs at -0.01em.
+   Two answers to one question, named here so the next pass starts from
+   it instead of discovering it again. */
 .sell__step-n {
   font-family: var(--font-data);
   font-size: 1.375rem;
@@ -5795,7 +5803,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .sell__step-t {
   font-size: 0.9375rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tr-label);
 }
 
 /* ---- NOTHING INSIDE THE CARD MOVES. MEASURED, NOT ASSERTED. ----
@@ -5860,7 +5868,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 
 .story__copy { max-width: 34rem; }
-.story__eyebrow { color: var(--ink-3); letter-spacing: 0.2em; }
+.story__eyebrow { color: var(--ink-3); letter-spacing: var(--tr-marker); }
 /* The date is the one word in the line that is a FACT rather than a
    label, so it is the one word that carries colour. Cool, not the accent:
    red is the action colour on this ground and a date is not an action. */
@@ -5924,7 +5932,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .stat { position: relative; padding-inline: clamp(var(--sp-5), 3vw, var(--sp-7)); }
 .stat:first-child { padding-inline-start: 0; }
 .stat + .stat { border-inline-start: 1px solid var(--rule); }
-.stat__label { color: #7FA6E0; letter-spacing: 0.2em; }
+.stat__label { color: #7FA6E0; letter-spacing: var(--tr-label); }
 .stat__fig { margin: 0; margin-block-start: var(--sp-4); position: relative; }
 .stat__n {
   display: block;
@@ -6118,11 +6126,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   display: block;
   margin-block-start: var(--sp-4);
   color: var(--ink-2);
-  letter-spacing: 0.24em;
+  letter-spacing: var(--tr-label);
 }
 .stat__n { font-size: clamp(2.5rem, 3.6vw, 3.5rem); }
 .stat--lead .stat__n { font-size: clamp(4rem, 9vw, 8.5rem); letter-spacing: -0.035em; }
-.stat--lead .stat__label { font-size: 1rem; letter-spacing: 0.3em; }
+.stat--lead .stat__label { font-size: 1rem; letter-spacing: var(--tr-label); }
 
 /* A short accent rule under the two SUBORDINATE labels only. The lead has
    its scale; marking it as well would be saying the same thing twice.
@@ -6256,11 +6264,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   margin-block-start: 0;
   margin-block-end: var(--sp-4);
   color: var(--ink-3);
-  letter-spacing: var(--tr-micro);
+  letter-spacing: var(--tr-label);
 }
 .stat--lead .stat__label {
   font-size: var(--t-micro);
-  letter-spacing: var(--tr-micro);
+  letter-spacing: var(--tr-label);
   margin-block-end: var(--sp-3);
 }
 
@@ -6798,7 +6806,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .brk__eyebrow {
   color: var(--ink-2);
-  letter-spacing: 0.28em;
+  letter-spacing: var(--tr-marker);
   margin-block-end: var(--sp-5);
 }
 
@@ -7011,7 +7019,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    inverted bands speak the same red rather than two nearby reds. */
 .warranty__eyebrow {
   color: var(--accent-deep);
-  letter-spacing: 0.22em;
+  letter-spacing: var(--tr-marker);
   margin-block-end: var(--sp-6);
 }
 .warranty__eyebrow span { margin-inline: 0.45em; opacity: 0.5; }
@@ -7098,7 +7106,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   align-items: center;
   gap: var(--sp-4);
   color: var(--bone-ink-2);
-  letter-spacing: 0.22em;
+  letter-spacing: var(--tr-marker);
   margin-block-end: clamp(var(--sp-6), 3vw, var(--sp-7));
 }
 /* The rule runs to the edge of the label's line and stops — a measure
@@ -7216,7 +7224,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .warranty__a-label {
   color: var(--bone-ink);
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tr-label);
 }
 .warranty__a-note {
   margin-block-start: var(--sp-2);

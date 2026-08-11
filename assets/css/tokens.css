@@ -220,6 +220,30 @@
   --lh-label:   1.4;
 
   --tr-micro:   0.14em;    /* uppercase mono needs the tracking   */
+
+  /* THE TECHNICAL REGISTER HAS TWO ROLES, NOT FOURTEEN VALUES.
+     --tr-micro was defined for exactly this and then bypassed 24 times
+     with ad-hoc numbers: the register ran at 0.14 / 0.16 / 0.18 / 0.20 /
+     0.22 / 0.24 / 0.28 / 0.30em, and .stat__label alone existed at three
+     of them at once through later overrides. That is not a series of
+     choices, it is drift — and it is invisible section by section, which
+     is why the section-language ledger exists.
+
+     vault/ciridae-com (3, in) praises the opposite in its `works`:
+     numbered lines, tables and thin rules turning technical information
+     into a designed system. A system is a role with one value.
+
+       MARKER — a chapter or section mark. Wide, because it is a heading
+                for a passage and wants air around its letters.
+       LABEL  — a data label naming the value beside or under it.
+                Tighter, because it works at small size in quantity and
+                must not break into separate glyphs.
+
+     A third role — text actions — is deliberately NOT here. Those belong
+     to the control register with the buttons, and merging them would be
+     the opposite mistake. */
+  --tr-marker:  0.22em;
+  --tr-label:   0.16em;
   --tr-display: -0.03em;   /* a grotesque at display wants tight  */
   /* The display face is a SERIF now, and -0.03em was written for the
      grotesque it replaced. A high-contrast serif at 80px already carries
