@@ -7990,13 +7990,20 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 }
 
 @keyframes sell-edges {
-  /* --cut-start moves both edges at once, because --bcut-a and --bcut-b
-     are derived from it: the top shelf and the bottom step travel
-     together and stay in the same relationship. Six points either side
-     of the approved 58%, which is about 150px at 1440 — enough to read
-     as drift, not so much that the shape becomes a different one. */
-  from { --cut-drop: 26px; --cut-drop-b: 46px; --cut-start: 52%; }
-  to   { --cut-drop: 56px; --cut-drop-b: 94px; --cut-start: 64%; }
+  /* AMPLITUDE IS THE WHOLE POINT, and the first attempt got it wrong.
+     Six points either side of 58% is about 100px of travel spread over
+     the entire passage of the band through the viewport — roughly 5px
+     of movement per 100px of scroll, which is not slow, it is invisible.
+     The resolved clip-path was genuinely changing and the effect still
+     read as nothing.
+
+     38% to 74% is 36% of the width, some 450px at 1440, and about 20px
+     per 100px of scroll. The ceiling is set by the geometry rather than
+     by taste: --bcut-a is calc(100% - --cut-start - --cut-run), so with
+     a 15% run anything past 85% would fold the top shelf through the
+     right edge. */
+  from { --cut-drop: 26px; --cut-drop-b: 46px; --cut-start: 38%; }
+  to   { --cut-drop: 56px; --cut-drop-b: 94px; --cut-start: 74%; }
 }
 
 /* Warranty gets the same treatment on its own numbers. Its range is
@@ -8004,8 +8011,8 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    never fully exits the top and a cover-based range would leave the
    travel unfinished at the bottom of the document. */
 @keyframes warranty-edge {
-  from { --cut-start: 26%; }
-  to   { --cut-start: 42%; }
+  from { --cut-start: 14%; }
+  to   { --cut-start: 54%; }
 }
 
 @supports (animation-timeline: view()) {
