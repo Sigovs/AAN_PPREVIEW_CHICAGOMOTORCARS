@@ -6704,12 +6704,28 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      is 16:9 and a vh-based band would crop it differently on every
      laptop; a vw-based one keeps the same slice of the room on all of
      them, which is what makes it a composition rather than a window. */
-  /* Taller than it was, because it holds a title card now. Still not
-     the full viewport: the hero is the page's one full-screen film and
-     a second one would read as a second opening. */
-  min-block-size: clamp(30rem, 62vw, 44rem);
+  /* PINNED, and the sell band rides up over it. Full height now, which
+     the earlier note argued against — that reasoning held while this was
+     a band you scrolled past. Pinned, a short one leaves a strip of the
+     next section showing beneath it for the whole hold, and the overlay
+     stops reading as an overlay. svh rather than vh so a mobile URL bar
+     retracting does not resize the pin mid-scroll. */
+  position: sticky;
+  inset-block-start: 0;
+  min-block-size: 100svh;
   overflow: hidden;
 }
+
+/* The wrapper bounds the pin. Nothing else: no positioning, no stacking
+   context — a stacking context here would trap .sell's z-index and the
+   overlay would stop working. */
+.stick { position: relative; }
+
+/* The band that does the covering. It is later in flow AND positioned,
+   so it paints over the pinned film without needing a z-index war; the
+   z-index is stated anyway because "later in the DOM" is a fact someone
+   will reorder one day. */
+.sell { z-index: 1; }
 
 .brk__frame {
   position: absolute;
@@ -6827,73 +6843,50 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    the entry language is the page's, the distance is this band's. */
 .reveal-armed [data-reveal] .brk__title .ttl-line { translate: -28px 0; }
 
-/* ---- The control -------------------------------------------
-   Bottom right, out of the composition's way. It is the only piece of
-   interface on the band and it is deliberately small, but not smaller
-   than the 14px floor and not smaller than a 44px target. */
-.brk__toggle {
-  position: absolute;
-  inset-block-end: clamp(var(--sp-4), 2.4vw, var(--sp-6));
-  inset-inline-end: clamp(var(--sp-4), 2.4vw, var(--sp-6));
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-3);
-  min-block-size: 44px;
-  padding-inline: var(--sp-5);
-  border: 0;
-  border-radius: 999px;
-  color: var(--ink);
-  letter-spacing: 0.14em;
-  cursor: pointer;
-  /* A ground of its own, because the film underneath is a moving
-     photograph and no single value can be relied on. 12px of blur is
-     the project's ceiling — the fill does the legibility work and the
-     blur is only there so the disc does not read as a sticker. */
-  /* OPAQUE, AND THE RING IS BRIGHT, because no single value contrasts
-     against arbitrary film. Measured: this shot runs from rgb(15,14,27)
-     to near white, and beside the control it happened to be rgb(77,65,61)
-     — a mid tone that defeats a dark edge and a light one equally. A
-     translucent disc has no boundary on half its own background.
 
-     So the pair is deliberately opposed. The disc is the page's own
-     ground at full strength: against a bright frame IT carries the edge.
-     The ring is near-white: against a dark frame the RING carries it.
-     One of the two always has the contrast, whatever the film is doing.
 
-     The ring is a boundary, not a decorative shadow — the anti-pattern
-     ban is on glow used as ornament, and this is the only thing telling
-     a visitor where the control ends. */
-  background: rgb(var(--bg-rgb) / 0.94);
-  backdrop-filter: blur(12px);
-  /* 2px, and the second pixel is not cosmetic. At 1px the ring vanished
-     into antialiasing exactly where the pill's cap curves, and the edge
-     measured 1.4:1 there while reading 3.1:1 on the straight run. */
-  box-shadow: inset 0 0 0 2px var(--rule-onfilm);
-  transition: background var(--dur-1) var(--ease-out),
-              box-shadow var(--dur-1) var(--ease-out);
-}
-.brk__toggle:hover,
-.brk__toggle:focus-visible {
-  background: rgb(var(--bg-rgb) / 0.82);
-  box-shadow: inset 0 0 0 1px var(--ink);
-}
-/* --ink, not --accent, and measured before it was decided: the red
-   glyph read 2.49:1 against this disc, short of the 3:1 a non-text
-   graphic needs. The register says the same thing independently — red
-   on the dark ground is a mark, never a resting control's glyph, and a
-   play triangle is as resting as a control gets. It also makes the
-   control one object rather than a red thing inside a grey pill. */
-.brk__toggle-icon {
-  display: inline-flex;
-  color: var(--ink);
-}
+/* ---- The card leaves as the next band covers it -------------
+   The same gesture as the hero, and literally the same keyframes:
+   hero-exit is `translate: 0 var(--rise); filter: blur(var(--blur));
+   opacity: 0`, and it reads its distance and its blur from custom
+   properties. Redefining it here under another name would be two
+   places to change one motion.
 
-/* One glyph is shown at a time, and which one is bound to aria-pressed
-   rather than to a second class — the accessible state and the drawn
-   state cannot drift apart if they are the same attribute. */
-.brk__toggle .brk__glyph-pause { display: none; }
-.brk__toggle[aria-pressed="true"] .brk__glyph-play { display: none; }
-.brk__toggle[aria-pressed="true"] .brk__glyph-pause { display: inline; }
+   DRIVEN BY THE COVERING SECTION, NOT BY THIS ONE. .brk is pinned, so
+   its own view() progress stops advancing the moment it sticks — the
+   element is not moving through the viewport any more, which is the
+   whole point of a pin. The thing that IS moving is .sell, so it owns
+   the timeline and .brk__copy borrows it through timeline-scope.
+
+   Different distances over overlapping ranges is what makes the block
+   stretch open as it goes rather than slide as a slab: the eyebrow has
+   the least to say and the furthest to travel, the button the least.
+   Blur is tied to speed, not applied evenly — the faster a thing moves
+   the more it smears, which is the only reading of blur that is about
+   motion rather than about frosting. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .stick { timeline-scope: --sell-in; }
+    .sell  { view-timeline: --sell-in block; }
+
+    .brk__eyebrow,
+    .brk__title .ttl-line,
+    .brk__lede,
+    .brk__cta {
+      animation: hero-exit linear both;
+      animation-timeline: --sell-in;
+      animation-range: var(--lift-range);
+      will-change: translate, filter, opacity;
+    }
+
+    .brk__eyebrow            { --rise: -260px; --blur: 15px; --lift-range: entry  0% entry 46%; }
+    .brk__title .ttl-line    { --rise: -210px; --blur: 12px; --lift-range: entry  4% entry 54%; }
+    .brk__title .ttl-line + .ttl-line
+                             { --rise: -180px; --blur: 10px; --lift-range: entry  8% entry 60%; }
+    .brk__lede               { --rise: -140px; --blur:  8px; --lift-range: entry 12% entry 66%; }
+    .brk__cta                { --rise: -110px; --blur:  6px; --lift-range: entry 16% entry 72%; }
+  }
+}
 
 /* ---- Reduced motion ----------------------------------------
    The film is never fetched and never runs; the poster IS the band.
@@ -6901,13 +6894,9 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    complete, honest offer — the visitor can start it if they want it.
    Nothing here depends on the transition having run. */
 @media (prefers-reduced-motion: reduce) {
-  .brk__toggle { transition: none; }
 }
 
 @media (max-width: 760px) {
-  .brk { min-block-size: clamp(28rem, 108vw, 40rem); }
-  .brk__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .brk__toggle { padding-inline: 0; inline-size: 44px; justify-content: center; }
 }
 
 /* ============================================================

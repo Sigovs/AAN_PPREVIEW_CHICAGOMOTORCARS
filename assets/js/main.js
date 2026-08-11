@@ -743,10 +743,15 @@
    from the film, so the band is a photograph of the room in that case
    rather than a black rectangle waiting for something.
 
-   The control is not decoration for the reduced-motion path. It is
-   there for everyone, because a loop nobody can stop is the thing I1
-   objects to, and a control that only some visitors ever see is a
-   control nobody learns.
+   THE PLAY/PAUSE CONTROL WAS REMOVED at Alex's direction. Recorded
+   because it has a cost: motion-taste I1 asks that an autoplaying loop
+   be stoppable, and now it is not. What is left standing in its place
+   is the reduced-motion path, which is the stronger half of that rule
+   anyway — anyone who has asked their system for less movement never
+   receives the film at all, and the band is a still photograph for
+   them. The loop only ever runs for someone who has not asked to be
+   spared it. It is also muted and aria-hidden, so it is decoration in
+   the accessibility tree rather than content that cannot be paused.
    ============================================================ */
 (function () {
   'use strict';
@@ -756,80 +761,52 @@
 
   var video = band.querySelector('.brk__video');
   var source = band.querySelector('.brk__video source');
-  var toggle = band.querySelector('.brk__toggle');
-  if (!video || !source || !toggle) return;
+  if (!video || !source) return;
 
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
   var attached = false;
-  var wanted = false;   // has the visitor asked for it, or has autoplay?
-
-  function label(playing) {
-    toggle.setAttribute('aria-pressed', String(playing));
-    var text = toggle.querySelector('.brk__toggle-label');
-    /* The label says what the control WILL DO, not what the film is
-       doing. A button reading "Playing" looks like a status and gets
-       pressed by people trying to make it play. */
-    if (text) text.textContent = playing ? 'Pause film' : 'Play film';
-  }
 
   function attach() {
-    if (attached) return;
+    if (attached || calm.matches) return;
     attached = true;
     source.src = source.getAttribute('data-src');
     video.load();
   }
 
   function play() {
+    if (calm.matches) return;
     attach();
-    wanted = true;
     var p = video.play();
-    /* Autoplay can be refused even when muted. If it is, the band
-       stays on its poster and the control still reads "Play film",
-       which is the truth rather than a button lying about its state. */
-    if (p && p.catch) p.catch(function () { wanted = false; label(false); });
+    /* Autoplay can be refused even when muted. If it is, the band keeps
+       its poster, which is a real frame of the same room — so a refusal
+       costs the movement and nothing else. */
+    if (p && p.catch) p.catch(function () {});
   }
 
-  function pause() {
-    wanted = false;
-    video.pause();
-  }
-
-  video.addEventListener('play', function () { label(true); });
-  video.addEventListener('pause', function () { label(false); });
-
-  toggle.addEventListener('click', function () {
-    if (video.paused) play(); else pause();
-  });
-
-  /* One observer, two jobs, two margins. The outer one attaches the
-     source early enough that the film is ready by the time the band
-     arrives; the inner one starts and stops playback, so a film left
-     running four sections up is not still decoding behind the page. */
   if ('IntersectionObserver' in window) {
+    /* Two observers, two margins. The outer one attaches the source
+       early enough that the film is ready when the band arrives; the
+       inner one starts and stops playback, so a film left running four
+       sections up is not still decoding behind the page. The band is
+       pinned now, which makes the second one matter more rather than
+       less: a pinned element stays intersecting for a long time. */
     new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && !calm.matches) attach();
-      });
+      entries.forEach(function (e) { if (e.isIntersecting) attach(); });
     }, { rootMargin: '100% 0px' }).observe(band);
 
     new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (calm.matches) return;
         if (e.isIntersecting) play();
-        else if (!video.paused) { video.pause(); wanted = true; }
+        else if (!video.paused) video.pause();
       });
     }, { threshold: 0.25 }).observe(band);
-  } else if (!calm.matches) {
+  } else {
     attach();
   }
 
   /* Turning the setting on mid-visit stops the film and leaves the
      poster. Turning it off does not start one nobody asked for. */
-  var onCalm = function () {
-    if (calm.matches) { video.pause(); wanted = false; }
-  };
+  var onCalm = function () { if (calm.matches) video.pause(); };
   if (calm.addEventListener) calm.addEventListener('change', onCalm);
   else if (calm.addListener) calm.addListener(onCalm);
-
-  label(false);
 })();

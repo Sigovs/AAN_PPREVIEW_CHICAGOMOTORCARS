@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=32">
-<link rel="stylesheet" href="assets/css/main.css?v=271">
+<link rel="stylesheet" href="assets/css/main.css?v=272">
 </head>
 <body>
 
@@ -781,6 +781,13 @@
     </div>
   </section>
 
+  <!-- The break is pinned and the sell band rides up over it, so the
+       two are one unit. The wrapper is what BOUNDS the stickiness:
+       position: sticky holds until its containing block ends, and
+       without this .brk would stay pinned behind every section to the
+       foot of the page — never seen, always composited. -->
+  <div class="stick">
+
   <!-- ============================================================
        THE BREAK — a held shot between two dense chapters
        ============================================================
@@ -849,21 +856,6 @@
           </a>
         </div>
       </div>
-
-      <!-- The control is the reduced-motion path made visible rather
-           than a feature: I1 wants an autoplaying loop stoppable, and a
-           control that only appears for some visitors is a control
-           nobody learns. It is here for everyone, quiet, and it says
-           what it will do next. -->
-      <button class="brk__toggle micro" type="button" aria-pressed="false">
-        <span class="brk__toggle-icon" aria-hidden="true">
-          <svg viewBox="0 0 12 14" width="11" height="13" fill="none">
-            <path class="brk__glyph-play" d="M1.5 1.2 10.8 7l-9.3 5.8z" fill="currentColor"/>
-            <g class="brk__glyph-pause"><rect x="1.6" y="1.4" width="3" height="11.2" fill="currentColor"/><rect x="7.4" y="1.4" width="3" height="11.2" fill="currentColor"/></g>
-          </svg>
-        </span>
-        <span class="brk__toggle-label">Play film</span>
-      </button>
     </div>
   </section>
 
@@ -1034,6 +1026,8 @@
     </div>
   </section>
 
+  </div>
+
   <!-- ============================================================
        6 — WARRANTY / PROTECTION
        ============================================================
@@ -1200,6 +1194,6 @@
 </main>
 
 
-<script src="assets/js/main.js?v=41" defer></script>
+<script src="assets/js/main.js?v=42" defer></script>
 </body>
 </html>
