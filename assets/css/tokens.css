@@ -187,24 +187,28 @@
 
      --tr-claim is now stranded by this and stays only as a record; the
      grotesque uses --tr-display, which was written for it originally. */
-  /* THE DISPLAY FACE IS THE SERIF, and this is the decision CLAUDE.md
-     has carried since 2026-08-06 that was never executed: the token
-     still pointed at Instrument Sans and the serif was not even in the
-     font request, so every headline on the page ran in the grotesque.
+  /* THE DISPLAY FACE IS A CONDENSED GROTESQUE, and the serif is out.
 
-     vault/ciridae-com (3, in) is the evidence, and it describes this
-     palette exactly: "крупная editorial serif-типографика сразу создаёт
-     характер; почти монохромная палитра с глубоким navy и тёплым cream."
-     Ours is #0B101C and #EDEAE4 — the two halves were already here and
-     the third was missing.
+     The serif was tried on 2026-08-11 because CLAUDE.md recorded it as
+     Alex's direction, and it was rejected on sight. The vault says why,
+     and I had queried it badly: I cited ciridae-com — an enterprise
+     software site — as the evidence, because its palette matched ours.
+     Filtering by colour instead of by category is the mistake.
 
-     ONE WEIGHT ONLY. Instrument Serif ships 400 and nothing else, so
-     every consumer drops to 400: a browser asked for 700 synthesises it
-     by smearing the outline, which is worse than no serif at all. Size
-     and measure carry the emphasis instead, which is what the art
-     direction said in the first place — character from scale, position
-     and air. */
-  --font-display: 'Instrument Serif', 'Instrument Sans', Georgia, serif;
+     Filtered properly, by the task: BOTH rating-3 automotive entries run
+     a grotesque. semlerpremium-dk-showroom and the 911-gt3 page set
+     everything in one grotesque and differentiate by CASE, SIZE and
+     WEIGHT — a huge tight uppercase statement, sentence-case support,
+     photography carrying the rest. oilstainlab-com, also automotive and
+     also rating 3, is a grotesque too. The only serif entries in the
+     vault are a recording studio and an enterprise product.
+
+     CLAUDE.md's own art-direction table says the term was "large,
+     slightly condensed type" and the serif was a later reversal of it.
+     This returns to the term. Inter Tight is condensed, holds weight at
+     display size where a text grotesque goes soft, and was already
+     loaded for the figures — so the page drops to TWO families. */
+  --font-display: 'Inter Tight', 'Instrument Sans', sans-serif;
   --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   /* A THIRD VOICE, AND THE JOB THE OTHER TWO CANNOT DO.
      Figures at display weight. JetBrains Mono is fixed-width, so a bold
@@ -213,7 +217,7 @@
      condensed cut this art direction already asks for in its display
      terms, and it is used for ONE role only: the numeric fact line.
      Nothing else on the page is set in it. */
-  --font-data:    'Inter Tight', 'Instrument Sans', sans-serif;
+  --font-data:    var(--font-display);   /* the figures and the display are one face now */
   /* THERE IS NO MONO. The technical register is the body face,
      uppercased and tracked, and this token exists only so the role has
      a name of its own.

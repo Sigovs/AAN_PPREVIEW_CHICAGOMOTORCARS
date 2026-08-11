@@ -8127,7 +8127,10 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .sell__title,
 .ttl-line {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: var(--tr-serif);
+  /* 700, not 400. Inter Tight holds weight; the 400 was there because
+     Instrument Serif had no other, and it does not apply to a grotesque
+     whose whole value at this size is mass. */
+  font-weight: 700;
+  letter-spacing: var(--tr-display);
 }
 
