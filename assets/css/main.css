@@ -8085,3 +8085,22 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   .sell__copy,
   .sell__copy:not(#x) { grid-column: 1; }
 }
+
+/* ---- THE DISPLAY VOICE IS THE SERIF ------------------------
+   Applied in one place so the page cannot drift back to five answers.
+   Weight 400 because Instrument Serif has no other; a synthesised bold
+   smears the outline and reads as a rendering fault, not as emphasis.
+   Tracking is --tr-serif rather than --tr-display: the negative value
+   that flatters a grotesque closes this face's counters. */
+.claim__line,
+.inv__title,
+.brk__title,
+.warranty__title,
+.story__line,
+.sell__title,
+.ttl-line {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--tr-serif);
+}
+

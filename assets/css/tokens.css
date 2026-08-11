@@ -187,7 +187,24 @@
 
      --tr-claim is now stranded by this and stays only as a record; the
      grotesque uses --tr-display, which was written for it originally. */
-  --font-display: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* THE DISPLAY FACE IS THE SERIF, and this is the decision CLAUDE.md
+     has carried since 2026-08-06 that was never executed: the token
+     still pointed at Instrument Sans and the serif was not even in the
+     font request, so every headline on the page ran in the grotesque.
+
+     vault/ciridae-com (3, in) is the evidence, and it describes this
+     palette exactly: "крупная editorial serif-типографика сразу создаёт
+     характер; почти монохромная палитра с глубоким navy и тёплым cream."
+     Ours is #0B101C and #EDEAE4 — the two halves were already here and
+     the third was missing.
+
+     ONE WEIGHT ONLY. Instrument Serif ships 400 and nothing else, so
+     every consumer drops to 400: a browser asked for 700 synthesises it
+     by smearing the outline, which is worse than no serif at all. Size
+     and measure carry the emphasis instead, which is what the art
+     direction said in the first place — character from scale, position
+     and air. */
+  --font-display: 'Instrument Serif', 'Instrument Sans', Georgia, serif;
   --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   /* A THIRD VOICE, AND THE JOB THE OTHER TWO CANNOT DO.
      Figures at display weight. JetBrains Mono is fixed-width, so a bold
@@ -245,6 +262,10 @@
   --tr-marker:  0.22em;
   --tr-label:   0.16em;
   --tr-display: -0.03em;   /* a grotesque at display wants tight  */
+  /* A SERIF AT DISPLAY DOES NOT. Tight tracking on a high-contrast face
+     closes the counters and the thin strokes start touching; the value
+     that flatters a grotesque disfigures this one. */
+  --tr-serif:   -0.005em;
   /* The display face is a SERIF now, and -0.03em was written for the
      grotesque it replaced. A high-contrast serif at 80px already carries
      its own fitting; pulling it another 3% collides the "r" into its
