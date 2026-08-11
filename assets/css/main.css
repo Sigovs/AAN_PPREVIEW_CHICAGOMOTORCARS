@@ -57,7 +57,11 @@ button, input, select { font: inherit; color: inherit; }
 /* ---- Micro label ------------------------------------------
    The machine register. Uppercase, tracked, never below 14px. */
 .micro {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
+  /* The alignment the monospace used to give for free, asked for
+     explicitly. This is the mechanism that was always doing the work
+     for figures; the face was never the reason. */
+  font-variant-numeric: tabular-nums;
   font-size: var(--t-micro);
   font-weight: 500;
   letter-spacing: var(--tr-micro);
@@ -501,7 +505,7 @@ button, input, select { font: inherit; color: inherit; }
   border: 0;
   background: transparent;
   cursor: pointer;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);          /* 14px floor */
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -531,7 +535,7 @@ button, input, select { font: inherit; color: inherit; }
 .navbar__link {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -639,7 +643,7 @@ button, input, select { font: inherit; color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: 0.04em;
   flex: none;
@@ -676,7 +680,7 @@ button, input, select { font: inherit; color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -877,7 +881,7 @@ button, input, select { font: inherit; color: inherit; }
   border-radius: var(--r-control);
   background: transparent;
   color: var(--ink);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1085,7 +1089,7 @@ button, input, select { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--rule);
 }
 .menu__places span {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   color: var(--ink-2);
 }
@@ -2127,7 +2131,7 @@ button, input, select { font: inherit; color: inherit; }
 
 .counter__n {
   position: relative;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -3037,7 +3041,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   gap: var(--sp-2);
   align-self: flex-start;
   margin-block-start: var(--sp-5);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: var(--tr-micro);
   text-transform: uppercase;
@@ -3069,7 +3073,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   position: absolute;
   inset-block-end: var(--sp-3);
   inset-inline-start: var(--sp-3);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: 0.04em;
   color: var(--ink);
@@ -3111,7 +3115,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   align-items: baseline;
   gap: var(--sp-3);
   margin-block-start: var(--sp-4);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-variant-numeric: tabular-nums;
 }
 .vcard__price {
@@ -3217,7 +3221,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .field--error .field__control { border-color: var(--accent); }
 .field__error {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   color: var(--ink);            /* the message is ink; red is the marker, not the text */
 }
@@ -3412,7 +3416,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    set weakly, and it also puts the pill back over the 14px functional
    floor that the 12px descriptor had been sitting under. */
 .justin__lead {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -3883,7 +3887,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .rec.is-active::before { opacity: 1; }
 
 .rec__no {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   color: var(--ink-3);
   font-variant-numeric: tabular-nums;
@@ -4000,7 +4004,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 .rec__facts {
   margin-block-start: var(--sp-5);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 1.0625rem;
   color: var(--ink-2);
   font-variant-numeric: tabular-nums;
@@ -4210,7 +4214,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   display: flex;
   align-items: baseline;
   gap: var(--sp-3);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: 0.04em;
   color: var(--ink-3);
@@ -4288,7 +4292,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .steps__n {
   grid-row: span 2;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   color: var(--ink-3);
   padding-block-start: 0.2em;
@@ -4331,7 +4335,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .places dt span {
   display: block;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: var(--tr-micro);
   text-transform: uppercase;
@@ -4348,7 +4352,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--ink-2);
 }
 .places dd a {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   color: var(--ink);
   transition: color var(--dur-1) var(--ease-out);
@@ -4433,7 +4437,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--sp-3) var(--sp-6);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   color: var(--ink-2);
   font-variant-numeric: tabular-nums;
@@ -4459,7 +4463,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   background: none;
   border: 0;
   padding: var(--sp-2) 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: 0.06em;
   color: var(--ink-3);
@@ -6508,7 +6512,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   border: 0;
   background: none;
   box-shadow: none;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
   letter-spacing: 0.2em;
@@ -8084,6 +8088,29 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   .sell__grid { grid-template-columns: minmax(0, 1fr); }
   .sell__copy,
   .sell__copy:not(#x) { grid-column: 1; }
+}
+
+/* ---- Grouped figures keep their grouping --------------------
+   The monospace used to do this for nothing: every glyph including the
+   space carried one advance, so 630 221 1800 fell into three blocks on
+   its own. A proportional face with letter-spacing widens the digits
+   and not the space — measured, the gap came to 3.9px against a 9.5px
+   digit, 41%, and the number read as 630 2211800.
+
+   word-spacing, not a wider letter-spacing: the grouping is what has to
+   grow, and tracking the digits further would only make it worse.
+
+   The markup had to change with it. The separators were U+202F, a
+   narrow no-break space — correct typography for a phone number, and
+   invisible here for two compounding reasons: a monospace gave it a
+   full advance so it never looked narrow, and CSS word-spacing applies
+   only to U+0020, so this rule could not have reached it. They are
+   U+00A0 now: still unbreakable, and a real word separator. */
+[href^="tel:"],
+.navbar__cta-text,
+.where__phone,
+.menu__phone {
+  word-spacing: 0.3em;
 }
 
 /* ---- THE DISPLAY VOICE IS THE SERIF ------------------------

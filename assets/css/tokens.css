@@ -214,18 +214,28 @@
      terms, and it is used for ONE role only: the numeric fact line.
      Nothing else on the page is set in it. */
   --font-data:    'Inter Tight', 'Instrument Sans', sans-serif;
-  /* DM MONO, NOT JETBRAINS MONO.
-     JetBrains Mono is a code-editor face: its brief is telling l from 1
-     from I at 13px in a terminal, and it carries that engineering in
-     every glyph. On a page selling collector cars it reads as developer
-     tooling — the association is doing work nobody asked it to do.
+  /* THERE IS NO MONO. The technical register is the body face,
+     uppercased and tracked, and this token exists only so the role has
+     a name of its own.
 
-     DM Mono comes from an editorial foundry rather than a tooling one,
-     runs narrower, and ships a 300 that answers the art direction's
-     "thin technical captions" literally rather than by approximation.
-     The register's job here is a lot mark in a printed catalogue and an
-     instrument label — both of which are quiet. */
-  --font-mono:    'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+     Two monos were tried and rejected, which was the signal: the
+     question was never WHICH mono. Audited on the render, 45 elements
+     carried the face and 34 of them were words with no digit in them —
+     the whole navigation among them — while the 11 with digits were
+     phone numbers and a badge count. Nothing columnar. The face was
+     doing no functional work at all, and a monospace on a page selling
+     collector cars imports a workshop-manual association nobody chose.
+
+     vault/ciridae-com (3, in) says where the technical quality actually
+     comes from: "numbered lines, таблицы и тонкие rules превращают
+     техническую информацию в оформленную систему" — rules, numbering
+     and tables, not a typeface. vault/beings-co (3, in) is praised for
+     having two type ideas and not three. typography I8 asks whether a
+     role is being confused with a new voice; this was.
+
+     Figures that need to align get font-variant-numeric: tabular-nums,
+     which is the actual mechanism and works in any face. */
+  --font-label:   'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display-set: normal;
 
   /* Scale — every size resolves here. No magic numbers.
