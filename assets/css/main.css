@@ -8359,3 +8359,42 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   letter-spacing: var(--tr-display);
 }
 
+/* ============================================================
+   ART-DIRECTION PASS — Alex, 2026-08-11
+   ============================================================
+   Direct corrections, applied as given. Only the marked items.
+   ============================================================ */
+
+/* 1 — WARRANTY: radius on all four corners.
+   It had one, top-left. The band reads as a block now rather than as a
+   full-bleed field, which is why the bottom pair matters as much as the
+   top pair. */
+.warranty {
+  border-radius: clamp(40px, 5vw, 72px);
+}
+
+/* 2 — SPACE BETWEEN WARRANTY AND SERVICE.
+   Service was pulled up 96px so its aperture opened inside the bone
+   band. That overlap is what left no air at the seam. It sits below
+   Warranty now with the page ground between them, which is also what
+   makes both sets of new corners visible. */
+.svc {
+  margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-9));
+}
+
+/* 3 — STORY: radius on all four corners. */
+.story {
+  border-radius: clamp(40px, 5vw, 72px);
+}
+
+/* 4 — STORY: move the content in off the edge. */
+.story__inner,
+.story__inner:not(#x) {
+  padding-inline: clamp(var(--sp-7), 6vw, var(--sp-10));
+}
+
+/* 5 — SERVICE: move the register in off the edge. */
+.svc__register {
+  padding-inline: clamp(var(--sp-7), 6vw, var(--sp-10));
+}
+
