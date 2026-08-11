@@ -8393,8 +8393,16 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   padding-inline: clamp(var(--sp-7), 6vw, var(--sp-10));
 }
 
-/* 5 — SERVICE: move the register in off the edge. */
+/* 5 — SERVICE: the register aligns to Warranty.
+   Not by matching a number — by sitting in the same .shell that carries
+   Warranty's copy, so "Our Services" starts on the exact vertical of
+   "Warranty / Protection" and the two chapters read as linked. The
+   register's own inline padding goes, or it would add to the shell's. */
+.svc__inner {
+  position: relative;
+  z-index: 1;
+}
 .svc__register {
-  padding-inline: clamp(var(--sp-7), 6vw, var(--sp-10));
+  padding-inline: 0;
 }
 
