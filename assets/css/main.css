@@ -2056,7 +2056,7 @@ button, input, select { font: inherit; color: inherit; }
 .hero__slide-title {
   color: var(--ink);        /* 12.5:1 on the measured ground */
   font-size: 1rem;          /* 16px, as briefed */
-  font-weight: 600;
+  font-weight: 500;   /* DM Mono tops out at 500 */
   letter-spacing: 2px;
   line-height: 1;
   transition: opacity var(--dur-2) var(--ease-out);
@@ -3414,7 +3414,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .justin__lead {
   font-family: var(--font-mono);
   font-size: var(--t-micro);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.15em;
   color: var(--ink);
   line-height: 1;
@@ -4782,7 +4782,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    --bone-ink holds 5.33:1 on that same darkest pixel with no help at all. */
 .sell__step-n {
   color: var(--bone-ink);
-  font-weight: 700;
+  font-weight: 500;
 }
 .sell__step-t {
   color: var(--bone-ink);
@@ -5795,7 +5795,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .sell__step-n {
   font-family: var(--font-data);
   font-size: 1.375rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
   line-height: 1;

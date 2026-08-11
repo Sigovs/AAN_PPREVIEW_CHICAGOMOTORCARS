@@ -214,7 +214,18 @@
      terms, and it is used for ONE role only: the numeric fact line.
      Nothing else on the page is set in it. */
   --font-data:    'Inter Tight', 'Instrument Sans', sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* DM MONO, NOT JETBRAINS MONO.
+     JetBrains Mono is a code-editor face: its brief is telling l from 1
+     from I at 13px in a terminal, and it carries that engineering in
+     every glyph. On a page selling collector cars it reads as developer
+     tooling — the association is doing work nobody asked it to do.
+
+     DM Mono comes from an editorial foundry rather than a tooling one,
+     runs narrower, and ships a 300 that answers the art direction's
+     "thin technical captions" literally rather than by approximation.
+     The register's job here is a lot mark in a printed catalogue and an
+     instrument label — both of which are quiet. */
+  --font-mono:    'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display-set: normal;
 
   /* Scale — every size resolves here. No magic numbers.
