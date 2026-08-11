@@ -87,6 +87,13 @@
   --bone:        #EDEAE4;
   --bone-ink:    #16150F;
   --bone-ink-2:  rgba(22, 21, 15, 0.66);
+  /* The same secondary ink, for when it lands on a PHOTOGRAPH rather than
+     the flat bone band. 0.66 measures 5.67:1 on --bone and 4.46:1 on the
+     sell frame's dimmest wall patch — under the 4.5 a 17px line needs. The
+     ground changed, so the ratio had to be taken again; 0.72 reads 5.9:1
+     there and keeps the tonal step below the headline. Same reason
+     --rule-onfilm exists. */
+  --bone-ink-2-onfilm: rgba(22, 21, 15, 0.72);
   --bone-rule:   rgba(22, 21, 15, 0.16);
 
   /* ---- Rules -------------------------------------------------

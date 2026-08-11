@@ -8406,3 +8406,61 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   padding-inline: 0;
 }
 
+
+/* ============================================================
+   THE SELL PHOTOGRAPH CHANGED, SO THE COMPOSITION FOLLOWS IT
+   ============================================================
+   Measured on the new frame, not assumed: a 24x12 occupancy pass puts
+   the clean field on the LEFT — bright wall from y6% to y38%, bright
+   floor from y45% to y88%, across x3%-x42% — with the cars grouped
+   right of centre (orange AMG x45-60%, the blue Aventador x40-85%,
+   the G-wagen x72-87%).
+
+   Every aim in the old rules belonged to the old picture. The copy sat
+   in the right column because the previous car was on the left; the
+   frame was MIRRORED below 1500 to keep that car out of the text; a 1.3
+   scale from 62%/bottom lifted it. Against this frame the mirror is
+   also a lie — a flipped Lamborghini badge and a backwards AMG grille
+   are a false statement about cars this business actually sells — so it
+   goes rather than being re-aimed.
+
+   The copy takes the left column and the photograph is shown as shot. */
+.sell__grid {
+  grid-template-columns: minmax(20rem, 44fr) minmax(0, 56fr);
+}
+.sell__copy,
+.sell__copy:not(#x) {
+  grid-column: 1;
+  justify-self: stretch;
+  max-width: none;
+}
+.sell__steps { grid-column: 1 / -1; }
+
+/* No mirror, no lift. 18% horizontal because the band is narrower than
+   the 1.778 frame at most widths: the crop is taken mostly off the
+   right, where the far white car is the least of the subject, while the
+   wall the copy stands on is held. */
+.sell__bg img,
+.sell__bg img:not(#x) {
+  scale: 1;
+  transform-origin: 50% 50%;
+  object-position: 18% center;
+}
+
+@media (max-width: 1200px) {
+  .sell__grid { grid-template-columns: minmax(0, 1fr); }
+  .sell__copy,
+  .sell__copy:not(#x) { grid-column: 1; }
+}
+
+/* Below 900 the copy is full-width on its own ground (.sell::after), so
+   the frame stops holding a wall open and simply holds the cars. */
+@media (max-width: 900px) {
+  .sell__bg img,
+  .sell__bg img:not(#x) { object-position: 62% center; }
+}
+
+/* The lede stands on the photograph, not on the bone band, so it takes
+   the on-film ink. Measured, glyph-located, on the composited render. */
+.sell__lede,
+.sell__lede:not(#x) { color: var(--bone-ink-2-onfilm); }

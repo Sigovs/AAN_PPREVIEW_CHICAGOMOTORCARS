@@ -24,8 +24,8 @@
 <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=39">
-<link rel="stylesheet" href="assets/css/main.css?v=291">
+<link rel="stylesheet" href="assets/css/tokens.css?v=40">
+<link rel="stylesheet" href="assets/css/main.css?v=294">
 </head>
 <body>
 
@@ -890,14 +890,14 @@
          still the page's one inverted ground even before the image
          arrives, and still is if it never does. -->
     <div class="sell__bg" aria-hidden="true">
-      <!-- The 4000px master stays in the repo as the source, but nothing
-           serves it: this band is full-bleed, so a 1440 viewport asks for
-           1600 and a 2x one for 2560. 1.89MB -> 208KB / 558KB. -->
+      <!-- The master is 1920 wide, so the ladder tops out there: a 2560
+           step would be an upscale, which costs bytes and returns nothing.
+           1.25MB -> 254KB / 418KB on the wire. -->
       <img src="assets/img/sell/sell_page_image-1600.jpg"
            srcset="assets/img/sell/sell_page_image-1600.jpg 1600w,
-                   assets/img/sell/sell_page_image-2560.jpg 2560w"
+                   assets/img/sell/sell_page_image-1920.jpg 1920w"
            sizes="100vw"
-           alt="" width="2560" height="1474" loading="lazy" decoding="async">
+           alt="" width="1920" height="1080" loading="lazy" decoding="async">
     </div>
 
     <div class="sell__grid">

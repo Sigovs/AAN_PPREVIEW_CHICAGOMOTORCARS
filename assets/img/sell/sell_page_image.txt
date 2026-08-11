@@ -1,0 +1,70 @@
+sell_page_image.jpg — provenance sidecar
+========================================
+
+FILE
+  sell_page_image.jpg        1920 x 1080   1.30 MB   (master, as supplied)
+  sell_page_image-1600.jpg   1600 x  900    317 KB   sips, q86
+  sell_page_image-1920.jpg   1920 x 1080    501 KB   sips, q86
+  The ladder stops at 1920 because the master is 1920 — a 2560 step would
+  be an upscale, costing bytes and returning nothing.
+
+SUPPLIED BY
+  Alex, 2026-08-11, named "Your car deserves the right market.jpg".
+  Renamed on install; the spaced original is left in place untracked.
+  md5 b5501e4386068a040dbb47ed6eb89bc5
+
+SUBJECT
+  Interior showroom. Blue Lamborghini Aventador SVJ Roadster front and
+  centre-right; orange Mercedes-AMG GT Black Series behind it; grey
+  Mercedes G-wagen right; a white car at the right edge. Glazed mezzanine
+  and workshop above. Polished light concrete floor.
+
+  Occupancy measured on a 24 x 12 grid: the clean field is the LEFT of
+  the frame — wall from y6% to y38%, floor from y45% to y88%, across
+  x3%-x42%. The section's copy column is placed there.
+
+OPEN QUESTIONS — resolve before this goes to the client
+  1. ORIGIN NOT DECLARED. The frame reads as a 3D render rather than a
+     photograph: the reflections, the light falloff and the showroom
+     geometry are all cleaner than a shot interior. It has NOT been
+     confirmed as photographic, and it has NOT been confirmed as CMC's
+     own premises or CMC's own cars.
+
+     This matters because of the project's GI3 rule: nothing synthetic
+     may depict a real CMC car, a real CMC showroom or a real person. On
+     a dealership page a showroom interior reads as THIS dealership's
+     showroom. If the frame is synthetic, GI3 applies and the file needs
+     the gen- prefix and a full generated-imagery audit; if it is a real
+     photograph of somewhere that is not CMC, the art direction's "real
+     inventory cars, not stock supercars" term applies instead.
+
+     Until Alex confirms which, the file carries NO gen- prefix, because
+     asserting synthesis is as wrong as asserting photography.
+
+  2. THIRD-PARTY SIGNATURE. There is a handwritten signature in the
+     bottom right of the frame, at roughly x95% / y82% — an artist's or
+     photographer's mark. It survives into the composited page at wide
+     viewports: the bone ramp at the foot of the band knocks it back but
+     does not cover it. Below about 1500px the band crops narrower than
+     the frame and the mark is cropped out with the right edge.
+
+     It has been left in place. Removing someone's signature from their
+     work is a rights question, not a layout one, and is Alex's call —
+     either the licence covers it, or the frame should be replaced.
+
+REPLACES
+  The previous sell frame (silver Porsche Carrera GT, 4000 x 2304). That
+  picture put its subject on the LEFT, which is why the section's copy
+  column sat on the right and why the frame was mirrored below 1500px.
+  Both of those aims died with it — see the CSS block "THE SELL
+  PHOTOGRAPH CHANGED, SO THE COMPOSITION FOLLOWS IT" in main.css.
+
+CONTRAST, measured on the composited render, glyph-located
+  1905 / 1440 / 1024 viewports, worst ground under each glyph run:
+    headline   12.18 / 6.28 / 3.33   (needs 3.0, large text)
+    lede        5.48 / 5.35 / 5.45   (needs 4.5)
+    steps      11.09 / 10.24 / 10.28 (needs 4.5)
+  The lede failed at 4.46 on --bone-ink-2 (0.66 alpha) against this
+  frame's dimmest wall patch and now uses --bone-ink-2-onfilm (0.72).
+  The 3.33 headline figure at 1024 is the header's own dark wash over the
+  top of the band, not the photograph.
