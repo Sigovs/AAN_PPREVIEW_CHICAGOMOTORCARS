@@ -6879,12 +6879,30 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
       will-change: translate, filter, opacity;
     }
 
-    .brk__eyebrow            { --rise: -260px; --blur: 15px; --lift-range: entry  0% entry 46%; }
-    .brk__title .ttl-line    { --rise: -210px; --blur: 12px; --lift-range: entry  4% entry 54%; }
+    /* THE RANGES ARE SHORT BECAUSE OF vault/morningstar-ventures.
+       Its recorded weakness is this exact gesture done at length: "the
+       page can stop on long transitional frames where the outgoing text
+       is heavily blurred and the incoming content is still faint or
+       invisible — the user controls the scroll, but not every stoppable
+       frame works as a complete composition."
+
+       Measured on the first version, which ran to entry 72%: walking the
+       handoff at 60px steps, 38% of the stopping points had the copy
+       neither present nor gone — half-lit, half-blurred, with the
+       covering band still 500-800px below. Six broken frames out of
+       sixteen. The scroll belongs to the reader, so every one of those
+       is a composition someone can be left looking at.
+
+       Finishing by entry 34% puts the whole lift inside about 290px of
+       scroll and makes the settled states dominate: film with copy, or
+       film without it. The blur is the same language as the hero either
+       way; it is the DURATION that was the defect. */
+    .brk__eyebrow            { --rise: -260px; --blur: 15px; --lift-range: entry  0% entry 20%; }
+    .brk__title .ttl-line    { --rise: -210px; --blur: 12px; --lift-range: entry  3% entry 25%; }
     .brk__title .ttl-line + .ttl-line
-                             { --rise: -180px; --blur: 10px; --lift-range: entry  8% entry 60%; }
-    .brk__lede               { --rise: -140px; --blur:  8px; --lift-range: entry 12% entry 66%; }
-    .brk__cta                { --rise: -110px; --blur:  6px; --lift-range: entry 16% entry 72%; }
+                             { --rise: -180px; --blur: 10px; --lift-range: entry  6% entry 28%; }
+    .brk__lede               { --rise: -140px; --blur:  8px; --lift-range: entry  9% entry 31%; }
+    .brk__cta                { --rise: -110px; --blur:  6px; --lift-range: entry 12% entry 34%; }
   }
 }
 
