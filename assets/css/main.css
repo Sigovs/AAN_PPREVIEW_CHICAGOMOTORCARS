@@ -8408,59 +8408,195 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 
 
 /* ============================================================
-   THE SELL PHOTOGRAPH CHANGED, SO THE COMPOSITION FOLLOWS IT
+   SELL IS FLIPPED — COPY RIGHT, FRAME MIRRORED
    ============================================================
-   Measured on the new frame, not assumed: a 24x12 occupancy pass puts
-   the clean field on the LEFT — bright wall from y6% to y38%, bright
-   floor from y45% to y88%, across x3%-x42% — with the cars grouped
-   right of centre (orange AMG x45-60%, the blue Aventador x40-85%,
-   the G-wagen x72-87%).
+   Alex's direction, 2026-08-11, after seeing the copy-left version.
 
-   Every aim in the old rules belonged to the old picture. The copy sat
-   in the right column because the previous car was on the left; the
-   frame was MIRRORED below 1500 to keep that car out of the text; a 1.3
-   scale from 62%/bottom lifted it. Against this frame the mirror is
-   also a lie — a flipped Lamborghini badge and a backwards AMG grille
-   are a false statement about cars this business actually sells — so it
-   goes rather than being re-aimed.
+   Measured on the frame as supplied: a 24x12 occupancy pass puts its
+   clean field on the LEFT — bright wall from y6% to y38%, bright floor
+   from y45% to y88%, across x3%-x42% — with the cars grouped right of
+   centre (orange AMG x45-60%, the blue Aventador x40-85%, the G-wagen
+   x72-87%). So a copy column on the right needs the picture mirrored;
+   the two moves are one decision, not two.
 
-   The copy takes the left column and the photograph is shown as shot. */
+   I argued against the mirror on the copy-left pass: it reverses the
+   Lamborghini badge and the AMG grille, and on a dealership page a
+   reversed car is a false statement about a car. Alex has directed the
+   flip with that on the table, so it stands as his call. It is also a
+   weaker objection against THIS file than it was against a photograph —
+   the frame reads as a render and has not been tied to a specific car
+   in inventory (see the sidecar).
+
+   Done in CSS, not by rewriting the master, so the file on disk stays
+   the file that was supplied and the flip lifts with one line.
+
+   The 1.3 scale from 62%/bottom is still gone. It aimed at the frame
+   before this one and nothing about it survives the change. */
 .sell__grid {
-  grid-template-columns: minmax(20rem, 44fr) minmax(0, 56fr);
+  grid-template-columns: minmax(0, 56fr) minmax(20rem, 44fr);
 }
 .sell__copy,
 .sell__copy:not(#x) {
-  grid-column: 1;
+  grid-column: 2;
   justify-self: stretch;
   max-width: none;
 }
 .sell__steps { grid-column: 1 / -1; }
 
-/* No mirror, no lift. 18% horizontal because the band is narrower than
-   the 1.778 frame at most widths: the crop is taken mostly off the
-   right, where the far white car is the least of the subject, while the
-   wall the copy stands on is held. */
+/* object-position resolves in the element's OWN box, before the mirror
+   is applied — so 18% still holds the frame's left edge, and the mirror
+   is what carries that edge to the screen's right, under the copy. The
+   crop keeps coming off the frame's right, where the far white car is
+   the least of the subject. */
 .sell__bg img,
 .sell__bg img:not(#x) {
-  scale: 1;
+  scale: -1 1;
   transform-origin: 50% 50%;
   object-position: 18% center;
 }
 
+/* The old 1200 rule sent the copy full-width and left. That was written
+   when the wall was on the left; after the flip it drops the whole block
+   onto the cars — the lede lands on the G-wagen and TALK TO OUR
+   SPECIALIST disappears into the Aventador. The column stays on the
+   right and simply takes a larger share of a narrower band. */
 @media (max-width: 1200px) {
+  .sell__grid { grid-template-columns: minmax(0, 46fr) minmax(17rem, 54fr); }
+  .sell__copy,
+  .sell__copy:not(#x) { grid-column: 2; }
+}
+
+/* Below 900 the band genuinely cannot hold a vehicle and a text column
+   side by side, so the copy takes the full width. 38% mirrored puts the
+   wall under the headline and the cars below it. */
+@media (max-width: 900px) {
   .sell__grid { grid-template-columns: minmax(0, 1fr); }
   .sell__copy,
   .sell__copy:not(#x) { grid-column: 1; }
-}
-
-/* Below 900 the copy is full-width on its own ground (.sell::after), so
-   the frame stops holding a wall open and simply holds the cars. */
-@media (max-width: 900px) {
   .sell__bg img,
-  .sell__bg img:not(#x) { object-position: 62% center; }
+  .sell__bg img:not(#x) { object-position: 38% center; }
+
+  /* The steps stack here, which makes the row three times taller and
+     pushes its top to about 52% of the band — well above the bone ramp,
+     which is sized for the short desktop row at 34%. So 01 was reading
+     against a car instead of against bone. This is not new with the
+     flip: the row has always run onto the picture at this width, it was
+     a different car under it.
+
+     The ramp is sized to the row rather than to a fixed height, and goes
+     effectively solid before the row begins. It costs the lower part of
+     the frame at phone widths, which is the trade — an unreadable step
+     is not a trade, it is a defect. */
+  .sell__bg::after {
+    height: 56%;
+    background: linear-gradient(to top,
+      var(--bone) 0%,
+      var(--bone) 78%,
+      rgba(237, 234, 228, 0.92) 88%,
+      rgba(237, 234, 228, 0.55) 95%,
+      rgba(237, 234, 228, 0) 100%);
+  }
 }
 
 /* The lede stands on the photograph, not on the bone band, so it takes
    the on-film ink. Measured, glyph-located, on the composited render. */
 .sell__lede,
 .sell__lede:not(#x) { color: var(--bone-ink-2-onfilm); }
+
+/* ============================================================
+   ALEX'S PASS — CORNERS ON ALL SIDES, THE SEAM CLOSED,
+   AND THE CUTS GIVEN REAL TRAVEL
+   ============================================================
+
+   1 — WHY border-radius DID NOTHING ON WARRANTY.
+   It has carried `border-radius: clamp(40px,5vw,72px)` since the last
+   pass and rendered four square corners anyway. clip-path does not
+   intersect with the border box: once a shape() is resolved the element
+   is clipped to THAT outline, and the outline had 90-degree corners at
+   0/100%. The radius has to be cut into the shape itself, as arcs, or it
+   is not there at all. So the shapes below are the same silhouettes —
+   same shelf, same run, same fall — with the four corners arced.
+
+   The polygon() floor keeps square corners. It is the no-shape() engine
+   path and has always been the plainer bevel; a rounded polygon would be
+   sixteen hand-computed points that drift the moment --cut-drop moves. */
+
+@supports (clip-path: shape(from 0 0, arc to 1px 1px of 1px, close)) {
+  .warranty {
+    clip-path: shape(
+      from var(--r-section) var(--cut-drop),
+      line to var(--cut-start) var(--cut-drop),
+      curve to calc(var(--cut-start) + var(--cut-run)) 0
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop)
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) 0,
+      line to calc(100% - var(--r-section)) 0,
+      arc to 100% var(--r-section) of var(--r-section) cw,
+      line to 100% calc(100% - var(--r-section)),
+      arc to calc(100% - var(--r-section)) 100% of var(--r-section) cw,
+      line to var(--r-section) 100%,
+      arc to 0 calc(100% - var(--r-section)) of var(--r-section) cw,
+      line to 0 calc(var(--cut-drop) + var(--r-section)),
+      arc to var(--r-section) var(--cut-drop) of var(--r-section) cw,
+      close
+    );
+  }
+
+  /* Sell carries two falls, top and bottom, so it has two shelf corners
+     as well as the two outer ones — four arcs, same radius. */
+  .sell {
+    clip-path: shape(
+      from var(--r-section) var(--cut-drop),
+      line to var(--bcut-a) var(--cut-drop),
+      curve to var(--bcut-b) 0
+        with calc(var(--bcut-a) + var(--cut-run) * 0.5) var(--cut-drop)
+           / calc(var(--bcut-a) + var(--cut-run) * 0.5) 0,
+      line to calc(100% - var(--r-section)) 0,
+      arc to 100% var(--r-section) of var(--r-section) cw,
+      line to 100% calc(100% - var(--r-section)),
+      arc to calc(100% - var(--r-section)) 100% of var(--r-section) cw,
+      line to calc(var(--cut-start) + var(--cut-run)) 100%,
+      curve to var(--cut-start) calc(100% - var(--cut-drop-b))
+        with calc(var(--cut-start) + var(--cut-run) * 0.5) 100%
+           / calc(var(--cut-start) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop-b)),
+      line to var(--r-section) calc(100% - var(--cut-drop-b)),
+      arc to 0 calc(100% - var(--cut-drop-b) - var(--r-section)) of var(--r-section) cw,
+      line to 0 calc(var(--cut-drop) + var(--r-section)),
+      arc to var(--r-section) var(--cut-drop) of var(--r-section) cw,
+      close
+    );
+  }
+}
+
+/* 2 — THE SEAM BETWEEN WARRANTY AND SERVICE CLOSES.
+   The last pass opened it to 57.6px so both sets of corners could be
+   read against the page ground. Alex has looked at it and wants it shut,
+   so Service butts straight onto Warranty. Not the old -96px overlap
+   either — that pulled the aperture up INSIDE the bone band. Zero. */
+.svc,
+.svc:not(#x) { margin-block-start: 0; }
+
+/* 3 — THE CUTS GET REAL TRAVEL.
+   The amplitude was already raised once, from 6% either side of 58% to a
+   38%-74% sweep, and it is still reading as a static bevel: about 20px
+   of horizontal drift per 100px of scroll, with the depth moving 30px
+   across the entire passage of the band.
+
+   Depth is the half a viewer actually notices — the fall changing shape
+   under the eye — and it was the half barely moving. It roughly triples
+   here, and the horizontal sweep widens to 24%-78%.
+
+   The ceiling is still geometry, not taste: --bcut-a is
+   calc(100% - --cut-start - --cut-run), so at 78% with a 15% run the top
+   shelf ends at 7% and still has somewhere to land. Past about 85% it
+   would fold through the right edge. */
+@keyframes sell-edges {
+  from { --cut-drop: 14px; --cut-drop-b: 30px; --cut-start: 24%; }
+  to   { --cut-drop: 78px; --cut-drop-b: 142px; --cut-start: 78%; }
+}
+
+/* Warranty's fall was the flatter of the two and its depth did not move
+   at all — a clamp, set once. It travels now, on the same reasoning. */
+@keyframes warranty-edge {
+  from { --cut-start: 6%;  --cut-drop: 16px; }
+  to   { --cut-start: 66%; --cut-drop: 72px; }
+}
