@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=42">
-<link rel="stylesheet" href="assets/css/main.css?v=320">
+<link rel="stylesheet" href="assets/css/main.css?v=321">
 </head>
 <body>
 
@@ -1276,59 +1276,65 @@
   <!-- ============================================================
        8 — FINANCING — a quieter sibling of Featured Inventory
        ============================================================
-       The campaign-banner direction is gone: no bone plane, no diagonal,
-       no clipped headline, no wheel as wallpaper, no black utility rail.
+       ONE STAGE HOLDS THE WHOLE CHAPTER. The previous pass put the
+       editorial intro above the panel and the panel under it, which read
+       as a title with a widget beneath. Alex drew it the other way and
+       he is right: the label, the headline, the supporting line, the car
+       and the register all stand inside one framed field, so the chapter
+       is a single object rather than two stacked ones.
 
-       This chapter borrows Featured Inventory's FAMILY, not its layout.
-       Same navy ground, same editorial intro over an inset stage, same
-       modelled light across one field, same record surface on the right.
-       It differs by content and by pace — Service above it is cinematic
-       and moving, this is static, structured and quiet, and that is the
-       contrast the seam needs rather than a colour reset.
+       Inside it the reading order is a diagonal — headline top left,
+       car filling the floor beneath it, register holding the right edge
+       top to bottom, and the payment method resolved on a rule at the
+       foot. The vertical hairline beside the headline is what lets the
+       supporting line sit next to it instead of under it.
 
-       The wheel is an OBJECT standing in the stage, exactly as the
-       vehicle is in Featured Inventory — generated on the site's own
-       navy so it has no visible frame.
+       Everything is the site's own: the field and the record surfaces
+       are Featured Inventory's, shared by selector; the car is a real
+       inventory cutout; the numerals are the register language Service
+       already uses.
        ============================================================ -->
   <section class="fin" data-reveal aria-labelledby="fin-title">
     <div class="shell fin__inner">
-
-      <div class="fin__intro">
-        <p class="fin__label">Financing</p>
-        <h2 class="fin__title" id="fin-title"><span class="ttl-line">Make it yours.</span></h2>
-        <p class="lede fin__lede">Three ways to start, and all of them open online.</p>
-      </div>
-
       <div class="fin__showcase">
 
-        <!-- A real CMC inventory car, cut out, treated exactly as the
-             vehicle in Featured Inventory is: an object standing in the
-             stage's modelled light. The 812 is the one car on this page
-             that appears nowhere else — Sell has the blue Aventador,
-             Story the blue Ford GT, Featured Inventory the red GT2 RS. -->
+        <div class="fin__head">
+          <div class="fin__headline">
+            <p class="fin__label">Financing</p>
+            <h2 class="fin__title" id="fin-title">
+              <span class="ttl-line">Make it</span>
+              <span class="ttl-line">yours.</span>
+            </h2>
+          </div>
+          <p class="fin__lede">Three ways to start,<br>and all of them<br>open online.</p>
+        </div>
+
+        <!-- A real CMC inventory car, treated as the object in the field
+             exactly as the vehicle is in Featured Inventory. The 812 is
+             the one car on this page that appears nowhere else. -->
         <div class="fin__stage" aria-hidden="true">
           <img class="fin__car" src="assets/img/inventory/cutout-ferrari-812-gts.png"
                alt="" width="1414" height="581" loading="lazy" decoding="async">
         </div>
 
         <div class="fin__index">
-          <a class="fin__rec is-lead" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
-            <span class="fin__rec-t">Online Credit Approval</span>
-            <svg class="fin__arrow" width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-          </a>
-          <a class="fin__rec" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">
-            <span class="fin__rec-t">Calculate Payments</span>
-            <svg class="fin__arrow" width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-          </a>
-          <a class="fin__rec" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">
-            <span class="fin__rec-t">Calculate Your Trade</span>
-            <svg class="fin__arrow" width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-          </a>
-          <!-- The client's own wordmark stands in for the word, which is
-               the whole use of it: BitPay is a payment method the
-               business accepts, so it is named in its own letters and
-               then left alone. No icon, no coin, no crypto language, and
-               no promotion to a fourth route. -->
+          <div class="fin__rows">
+            <a class="fin__rec is-lead" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
+              <span class="fin__rec-n">01</span>
+              <span class="fin__rec-t">Online Credit Approval</span>
+              <svg class="fin__arrow" width="17" height="17" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.2"/></svg>
+            </a>
+            <a class="fin__rec" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">
+              <span class="fin__rec-n">02</span>
+              <span class="fin__rec-t">Calculate Payments</span>
+              <svg class="fin__arrow" width="17" height="17" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.2"/></svg>
+            </a>
+            <a class="fin__rec" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">
+              <span class="fin__rec-n">03</span>
+              <span class="fin__rec-t">Calculate Your Trade</span>
+              <svg class="fin__arrow" width="17" height="17" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.2"/></svg>
+            </a>
+          </div>
           <a class="fin__tert" href="https://www.chicagomotorcars.com/bitpay/">
             <img class="fin__bitpay" src="assets/img/logos/bitpay.com-10.svg"
                  alt="BitPay" width="133" height="46" loading="lazy" decoding="async">

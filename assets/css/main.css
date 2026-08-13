@@ -8656,12 +8656,10 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* ============================================================
    8 — FINANCING — a quieter sibling of Featured Inventory
    ============================================================
-   Nothing here invents a surface. The stage IS .showcase — the same
-   rule, extended by selector, so the modelled light, the radius and the
-   two-column field are one definition. The rows ARE .rec's border,
-   radius and lead state, shared the same way. What is written below is
-   only what this chapter does differently: its own proportion, its own
-   object, and a register with one line instead of a vehicle's four. */
+   The field and the record surfaces are Featured Inventory's own rules,
+   shared by selector rather than copied. Everything below is only what
+   this chapter does differently: one stage holding the whole thing, a
+   diagonal reading order inside it, and a register of three. */
 .fin {
   position: relative;
   background: var(--bg);
@@ -8669,12 +8667,31 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   padding-block: clamp(var(--sp-9), 7vw, var(--sp-11));
 }
 
-/* The editorial intro sits above the stage, exactly as Featured
-   Inventory's title and lede do. */
-.fin__intro { max-inline-size: 44rem; margin-block-end: clamp(var(--sp-7), 4vw, var(--sp-8)); }
+/* ONE FIELD. Headline, supporting line, car and register all stand
+   inside it — the chapter is a single object, not a title with a panel
+   under it. The hairline is what makes it a field rather than a wash. */
+.fin__showcase {
+  grid-template-columns: minmax(0, 57fr) minmax(20rem, 43fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: clamp(var(--sp-7), 4vw, var(--sp-9));
+  row-gap: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+  padding: clamp(var(--sp-7), 3.4vw, var(--sp-9));
+  border: 1px solid rgba(244, 242, 239, 0.08);
+  align-items: stretch;
+}
+
+/* ---- The head: headline, a rule, and the line beside it ---- */
+.fin__head {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  align-items: start;
+}
 
 .fin__label {
-  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  margin: 0 0 clamp(var(--sp-5), 2vw, var(--sp-6));
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -8683,109 +8700,82 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   text-transform: uppercase;
   color: var(--accent-deep);
 }
+
 .fin__title {
-  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.5rem, 3.6vw, 3.5rem);
-  line-height: 1.05;
+  font-size: clamp(2.75rem, 4.4vw, 4.25rem);
+  line-height: 0.98;
   letter-spacing: var(--tr-display);
 }
-.fin__lede { margin: 0; max-inline-size: 42ch; }
+.fin__title .ttl-line { display: block; }
 
-/* Narrower than the showcase's 59/41 on purpose: this object is a
-   vertical, where Featured Inventory's subject is a wide car, and the
-   register carries one line per row instead of four. */
-.fin__showcase {
-  grid-template-columns: minmax(0, 57fr) minmax(20rem, 43fr);
-  padding: clamp(var(--sp-7), 3vw, var(--sp-8));
-  align-items: center;
+/* The supporting line sits BESIDE the headline, on the other side of a
+   hairline — which is what keeps the head one mass instead of a stack. */
+.fin__lede {
+  margin: 0;
+  align-self: center;
+  max-inline-size: 22ch;
+  padding-inline-start: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  border-inline-start: 1px solid var(--rule);
+  font-size: clamp(1rem, 1.05vw, 1.0625rem);
+  line-height: 1.55;
+  color: var(--ink-2);
 }
 
-/* The wheel stands in the field the way the vehicle does — given room,
-   never cropped to the edges, never a wallpaper. */
-/* Shaped like its subject, the way Featured Inventory's stage is: a
-   cut-out car is wide and shallow, so a tall field would leave it
-   floating in a box. Width-led, height derived. */
+/* ---- The car fills the floor under the head ---------------- */
 .fin__stage {
+  grid-column: 1;
+  grid-row: 2;
   position: relative;
   display: grid;
   place-items: center;
-  inline-size: 100%;
-  align-self: center;
-  aspect-ratio: 16 / 10;
+  min-block-size: clamp(16rem, 22vw, 24rem);
 }
 .fin__car {
-  inline-size: 92%;
+  inline-size: 100%;
   block-size: auto;
   display: block;
   position: relative;
   z-index: 1;
 }
-/* The ground the object stands on — elliptical and slightly below the
-   car, the same device that seats the vehicle in Featured Inventory. */
+/* The ground it stands on — the same seating device the vehicle has
+   above, elliptical and slightly under the body. */
 .fin__stage::after {
   content: "";
   position: absolute;
-  inset-inline: 8%;
-  inset-block-end: 16%;
-  block-size: 22%;
+  inset-inline: 10%;
+  inset-block-end: 8%;
+  block-size: 18%;
   border-radius: 50%;
   background: radial-gradient(closest-side,
-    rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.28) 52%, transparent 100%);
+    rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.26) 54%, transparent 100%);
   z-index: 0;
 }
 
-.fin__index { display: flex; flex-direction: column; justify-content: center; gap: var(--sp-5); }
+/* ---- The register holds the right edge, top to bottom ------ */
+.fin__index {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
+.fin__rows { display: flex; flex-direction: column; gap: var(--sp-5); }
 
 .fin__rec {
   display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
+  column-gap: clamp(var(--sp-5), 2vw, var(--sp-6));
+  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 14px;
   text-decoration: none;
   color: var(--ink);
   cursor: pointer;
-}
-.fin__rec-t {
-  font-family: var(--font-body);
-  font-size: clamp(1.0625rem, 1.2vw, 1.25rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--ink-2);
-  transition: color var(--sel-dur) var(--sel-ease);
-}
-.fin__rec.is-lead .fin__rec-t { color: var(--ink); }
-.fin__rec:hover .fin__rec-t { color: var(--ink); }
-
-.fin__arrow { flex: none; color: var(--ink-3); transition: color var(--sel-dur) var(--sel-ease), translate var(--dur-2) var(--ease-out); }
-.fin__rec.is-lead .fin__arrow { color: var(--ink); }
-.fin__rec:hover .fin__arrow { color: var(--ink); translate: 3px 0; }
-.fin__rec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-
-/* Tertiary, and outside the register rather than a fourth row in it. */
-.fin__tert { color: var(--ink-3); margin-block-start: var(--sp-4); align-self: start; }
-
-@media (max-width: 900px) {
-  .fin__showcase { grid-template-columns: minmax(0, 1fr); }
-  .fin__stage { aspect-ratio: 3 / 2; }
-}
-
-/* ---- Two corrections off the first render ------------------
-   1. THE ROWS HAD NO EDGE. The selector meant to share .rec's border
-      did not take, so the register was three labels floating in the
-      field. They carry the record's own border, radius and lead state
-      now — the values Featured Inventory uses, in its terms.
-
-   2. THE OBJECT READ AS A RECTANGLE. Its navy matches the ground almost
-      exactly, but "almost" is a visible box on a modelled field. The
-      frame is feathered on every side so the wheel stands in the stage
-      instead of sitting on a tile — which is the whole difference
-      between an object and a wallpaper. */
-.fin__rec {
-  border: 1px solid rgba(244, 242, 239, 0.10);
-  border-radius: 14px;
-  padding: var(--sp-6);
-  column-gap: var(--sp-6);
-  grid-template-columns: minmax(0, 1fr) auto;
   transition: border-color var(--sel-dur) var(--sel-ease),
               background-color var(--sel-dur) var(--sel-ease);
 }
@@ -8795,14 +8785,45 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   background: rgba(28, 44, 82, 0.22);
 }
 
-/* No mask and no height cap: a cut-out has no frame to dissolve. */
+/* The numeral is the register language Service already uses. On the lead
+   route it carries the page's blue rather than a second red. */
+.fin__rec-n {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.fin__rec.is-lead .fin__rec-n { color: rgb(126, 168, 240); }
 
-/* ---- BitPay: the client's wordmark, at the tertiary line's rank ----
-   Sized against the label's cap height rather than nominally, so it
-   reads as a word in the sentence and not as a badge dropped beside it.
-   The mark ships white; the line's own opacity carries it down to the
-   tertiary tone with everything else on that row. */
-.fin__tert { align-items: center; gap: var(--sp-3); }
+.fin__rec-t {
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.fin__rec.is-lead .fin__rec-t,
+.fin__rec:hover .fin__rec-t { color: var(--ink); }
+
+.fin__arrow {
+  flex: none;
+  color: var(--ink-3);
+  transition: color var(--sel-dur) var(--sel-ease), translate var(--dur-2) var(--ease-out);
+}
+.fin__rec.is-lead .fin__arrow { color: var(--ink); }
+.fin__rec:hover .fin__arrow { color: var(--ink); translate: 3px 0; }
+.fin__rec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Resolved on a rule at the foot of the register, not as a fourth row. */
+.fin__tert {
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+  border-block-start: 1px solid var(--rule);
+  color: var(--ink-3);
+}
 .fin__bitpay {
   block-size: 1.15rem;
   inline-size: auto;
@@ -8811,3 +8832,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   transition: opacity var(--dur-1) var(--ease-out);
 }
 .fin__tert:hover .fin__bitpay { opacity: 1; }
+
+@media (max-width: 900px) {
+  .fin__showcase { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; }
+  .fin__head { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-6); }
+  .fin__lede { padding-inline-start: 0; border-inline-start: 0; max-inline-size: 34ch; }
+  .fin__stage { grid-column: 1; grid-row: 2; }
+  .fin__index { grid-column: 1; grid-row: 3; }
+}
