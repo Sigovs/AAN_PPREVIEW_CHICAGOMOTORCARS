@@ -8765,18 +8765,30 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    Featured Inventory's language, as Alex asked: the page ground, and
    the same vertical rule that already separates Sell's steps and
    Story's figures. A list, not a new component. */
+/* ---- The foot is Featured Inventory's register --------------
+   Alex asked for that section's language, so these are its CARDS, not
+   cells divided by a rule: the same 14px corner, the same hairline
+   border at 0.10 that firms to 0.20 on approach, the same transition
+   pair on the same duration token. Nothing here is a new surface — the
+   values are `.rec`'s, and if that card moves these follow by hand
+   rather than by accident, which is why they are written next to it in
+   the same terms.
+
+   All three sit at equal rank on purpose. The primary is the filled
+   pill up in the light plane; making one card lead as well would state
+   the hierarchy twice. BitPay drops by ink alone. */
 .fin__rail {
   position: relative;
   z-index: 3;
   margin: 0;
-  padding: 0;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-4), 1.3vw, var(--sp-5));
+  padding: clamp(var(--sp-6), 3vw, var(--sp-7)) var(--gutter)
+           clamp(var(--sp-7), 4vw, var(--sp-8));
   background: var(--bg);
-  border-block-start: 1px solid var(--rule);
 }
-.fin__rail li + li { border-inline-start: 1px solid var(--rule); }
 .fin__rail li { display: flex; }
 
 .fin__op {
@@ -8785,13 +8797,15 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-5);
-  padding: clamp(var(--sp-7), 4vw, var(--sp-8)) clamp(var(--sp-6), 3vw, var(--sp-7));
+  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 14px;
   color: var(--ink);
+  transition: border-color var(--sel-dur) var(--sel-ease),
+              background-color var(--sel-dur) var(--sel-ease);
 }
+.fin__op:hover { border-color: rgba(244, 242, 239, 0.20); }
 .fin__op--t { color: var(--ink-2); }
-@media (hover: hover) {
-  .fin__op:hover { background: rgb(var(--ink-rgb, 244 242 239) / 0.045); }
-}
 
 @media (max-width: 900px) {
   .fin { --fin-slant: clamp(40px, 9vw, 80px); }
@@ -8807,5 +8821,4 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   }
   .fin__title .ttl-line + .ttl-line { margin-inline-start: 0.9em; }
   .fin__rail { grid-template-columns: minmax(0, 1fr); }
-  .fin__rail li + li { border-inline-start: 0; border-block-start: 1px solid var(--rule); }
 }
