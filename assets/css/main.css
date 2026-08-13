@@ -6504,7 +6504,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    between them — the arrow moves on hover and nothing else does. No
    underline: a rule here would be the decorative line this pass rules
    out, and the arrow already says the direction. */
-.story__cta {
+.story__cta,
+.fin__bitpay {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-4);
@@ -6520,12 +6521,18 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   color: var(--ink);
   transition: gap var(--dur-2) var(--ease-out);
 }
-.story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
+.story__cta-arrow,
+.fin__bitpay .story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
 .story__cta:hover,
-.story__cta:focus-visible { background: none; box-shadow: none; }
+.story__cta:focus-visible,
+.fin__bitpay:hover,
+.fin__bitpay:focus-visible { background: none; box-shadow: none; }
 .story__cta:hover .story__cta-arrow,
-.story__cta:focus-visible .story__cta-arrow { translate: 5px 0; }
+.story__cta:focus-visible .story__cta-arrow,
+.fin__bitpay:hover .story__cta-arrow,
+.fin__bitpay:focus-visible .story__cta-arrow { translate: 5px 0; }
 .story__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.fin__bitpay:focus-visible { outline: 2px solid var(--bone-ink); outline-offset: 6px; }
 
 /* ============================================================
    STORY PROOF — the reveal, and nothing else
@@ -7451,7 +7458,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .svc__actions,
 .reveal-armed [data-reveal] .fin__tools,
-.reveal-armed [data-reveal] .fin__tertiary,
+.reveal-armed [data-reveal] .fin__act,
 .reveal-armed [data-reveal] .index__all,
 .reveal-armed [data-reveal] .inv__eyebrow,
 .reveal-armed [data-reveal] .fin__label {
@@ -7493,7 +7500,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .svc__actions,
 .reveal-armed [data-reveal] .fin__tools,
-.reveal-armed [data-reveal] .fin__tertiary,
+.reveal-armed [data-reveal] .fin__act,
 .reveal-armed [data-reveal] .index__all {
   translate: 0 10px;
   transition: opacity var(--rv-cta) var(--ease-out),
@@ -7505,7 +7512,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal].is-revealed .brk__cta,
 .reveal-armed [data-reveal].is-revealed .svc__actions,
 .reveal-armed [data-reveal].is-revealed .fin__tools,
-.reveal-armed [data-reveal].is-revealed .fin__tertiary,
+.reveal-armed [data-reveal].is-revealed .fin__act,
 .reveal-armed [data-reveal].is-revealed .index__all {
   opacity: 1;
   translate: 0 0;
@@ -7557,7 +7564,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .story__lede {
 html.reveal-armed [data-reveal]:not(.is-revealed) .sell__actions,
 html.reveal-armed [data-reveal]:not(.is-revealed) .story__cta,
 html.reveal-armed [data-reveal]:not(.is-revealed) .fin__tools,
-html.reveal-armed [data-reveal]:not(.is-revealed) .fin__tertiary,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__act,
 html.reveal-armed [data-reveal]:not(.is-revealed) .index__all {
   opacity: 0;
   translate: 0 10px;
@@ -8641,206 +8648,137 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* ============================================================
    8 — FINANCING
    ============================================================
-   Bone, because the page alternates and the chapter above it is a dark
-   full-bleed film — two dark bands in sequence would collapse the seam
-   into one mass. It also inherits Warranty's ground at the opposite
-   density: there a raised panel, icons, a display headline and a row of
-   facts; here four lines and a rule. Same ground, developed, not
-   repeated.
+   The chapter is carried by two masses and nothing else. Every control
+   in it is the homepage's own: A1 .btn--fill for the one conversion
+   path, B .btn--line for the two tools, and Story's editorial action for
+   the aside. No size variant, no new radius, no new hover, no underline.
 
-   No image, no film, no panel, no card, no form, no paragraph, no red
-   pill. The chapter is new to this page by SUBTRACTION, which is how it
-   passes the device budget without inventing a seventh mechanism. */
+   What makes it its own chapter is composition: the only section with no
+   image, the shortest on the page, and the only one where a dominant
+   mass and a supporting mass share a bottom line with the interval
+   between them held open by the anchor rather than by padding. */
 .fin {
   position: relative;
   background: var(--bone);
   color: var(--bone-ink);
   border-radius: var(--r-section);
   overflow: hidden;
+  /* Karma and Reviews land here; until they exist this is what closes
+     the bone block instead of the document ending on its last pixel. */
+  margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11));
 }
 
+/* align-items: end is the whole composition. The left mass is taller —
+   label, anchor, action — so the two share a bottom rule and the empty
+   field above the right mass is bounded by the anchor beside it. That is
+   the difference between an interval and a gap. */
 .fin__inner {
-  padding-block: clamp(var(--sp-8), 7vw, var(--sp-10))
-                 clamp(var(--sp-8), 6vw, var(--sp-9));
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+  align-items: end;
+  padding-block: clamp(var(--sp-8), 6vw, var(--sp-9));
 }
 
-/* The chapter's only label, in the register the page already uses for
-   one. --accent-deep measures 4.78:1 on --bone. */
 .fin__label {
-  margin: 0 0 clamp(var(--sp-7), 4vw, var(--sp-8));
+  margin: 0 0 clamp(var(--sp-5), 2.4vw, var(--sp-6));
   font-family: var(--font-label);
-  font-size: 0.875rem;              /* the 14px functional floor */
+  font-size: var(--t-micro);
+  font-weight: 500;
   line-height: 1.2;
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
-  color: var(--accent-deep);
+  color: var(--accent-deep);          /* 4.78:1 on bone */
 }
 
-/* ---- PRIMARY -----------------------------------------------
-   The conversion path, and the only element that reaches the right
-   gutter. Dominance is bought with scale, the red arrow and that reach —
-   not with a filled button, because the chapter is the page's quietest
-   by direction. */
-.fin__primary {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  padding-block-end: clamp(var(--sp-5), 2.2vw, var(--sp-6));
-  border-block-end: 1px solid var(--bone-rule);
-}
-
-.fin__row {
-  display: flex;
-  align-items: center;
-  gap: clamp(var(--sp-4), 1.6vw, var(--sp-6));
-}
-
-.fin__primary-t {
+/* COMPACT, and deliberately below the cinematic chapters' display size —
+   Sell and Warranty set theirs around 56px. This one anchors the mass
+   without claiming their rank, because the chapter is a pause. */
+.fin__title {
+  margin: 0 0 clamp(var(--sp-6), 3vw, var(--sp-7));
   font-family: var(--font-display);
-  font-weight: 600;                 /* Inter Tight ships 500/600/700 */
-  font-size: clamp(2.125rem, 4vw, 3.5rem);
-  line-height: 1.04;
+  font-weight: 600;                   /* Inter Tight ships 500/600/700 */
+  font-size: clamp(1.75rem, 2.6vw, 2.375rem);
+  line-height: 1.06;
   letter-spacing: var(--tr-display);
 }
+.fin__title .ttl-line { display: block; }
 
-/* ---- SECONDARY ---------------------------------------------
-   Paired on one line so they read as a set of tools rather than as two
-   more rows under the primary. Nothing separates them from each other —
-   the one rule on this chapter belongs to the primary. */
+.fin__act { display: flex; }
+
+/* The supporting mass: two drawn pills and the aside beneath them, so
+   BitPay belongs to a group rather than floating in the field. */
 .fin__tools {
   display: flex;
-  flex-wrap: wrap;
-  gap: clamp(var(--sp-6), 3.4vw, var(--sp-9));
-  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
-}
-
-.fin__tool {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-4);
-  text-decoration: none;
-  color: var(--bone-ink);
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.125rem, 1.45vw, 1.375rem);
-  line-height: 1.2;
-  letter-spacing: var(--tr-display);
-}
-
-/* ---- TERTIARY ----------------------------------------------
-   Metadata, at the label's own scale and ink, a full step below the
-   tools. It is a capability the business has, not a fourth action: no
-   icon, no crypto language, no symbol. --bone-ink-2 reads 5.67:1 here. */
-.fin__tertiary {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-3);
-  margin-block-start: clamp(var(--sp-9), 6vw, var(--sp-10));
-  text-decoration: none;
-  font-family: var(--font-label);
-  font-size: 0.875rem;
-  line-height: 1.2;
-  letter-spacing: var(--tr-label);
-  text-transform: uppercase;
-  color: var(--bone-ink-2);
-}
-
-/* ---- The arrows --------------------------------------------
-   One set, the page's existing 13x13 path, sized optically rather than
-   nominally — the stroke thins as the glyph grows so it keeps matching
-   the weight of the type beside it instead of scaling into a bar. Every
-   one points right, into the empty field, which is what makes that field
-   a direction rather than a gap. */
-.fin__arrow { flex: none; }
-.fin__arrow--lg { color: var(--accent); }   /* 4.78:1 on bone */
-
-/* Rest state carries no underline — the page bans them outside hover.
-   The affordance is the arrow; the hover is where the line appears. */
-@media (hover: hover) {
-  .fin__primary:hover .fin__primary-t,
-  .fin__tool:hover span,
-  .fin__tertiary:hover span {
-    text-decoration: underline;
-    text-underline-offset: 0.22em;
-    text-decoration-thickness: 1px;
-  }
-  .fin__primary:hover .fin__arrow,
-  .fin__tool:hover .fin__arrow,
-  .fin__tertiary:hover .fin__arrow {
-    translate: 4px 0;
-  }
-}
-.fin__arrow { transition: translate var(--dur-2) var(--ease-out); }
-.fin__primary:focus-visible,
-.fin__tool:focus-visible,
-.fin__tertiary:focus-visible {
-  outline: 2px solid var(--accent-deep);
-  outline-offset: 6px;
-  border-radius: 4px;
-}
-
-/* One column below the pair's natural break; the governing idea — one
-   dominant verb, two tools, one aside, and air to the right — is
-   identical at every width, which is why nothing here recomposes into
-   cards. */
-@media (max-width: 720px) {
-  .fin__tools { gap: var(--sp-6); }
-  .fin__tool { font-size: 1.125rem; }
-}
-
-/* ---- The lower band, corrected on the render -----------------
-   First pass put the two tools side by side and dropped BitPay far
-   below them on the left. Two things were wrong with it, and neither was
-   the emptiness: the pair huddled in the left third, so the blank row
-   read as a line that failed to fill rather than as a field, and the
-   whole lower half sagged with nothing articulating its far side.
-
-   The tools stack instead — a compact column with a tall silhouette
-   standing in a wide field is a stronger relationship than a squat block
-   with air after it — and BitPay moves to the far right, landing on the
-   exact vertical where the primary's rule terminates.
-
-   That is what makes the negative space active rather than unfinished:
-   the field is now closed on three sides — the rule above it, the column
-   at its left, the smallest mark on the chapter at its right — while
-   remaining completely empty. Nothing was added to fill it. */
-.fin__lower {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(var(--sp-6), 4vw, var(--sp-8));
-  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
-}
-
-.fin__tools,
-.fin__tools:not(#x) {
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--sp-5);          /* internal gap < the band's external gap */
-  margin-block-start: 0;
+  gap: var(--sp-5);
 }
 
-.fin__tertiary,
-.fin__tertiary:not(#x) { margin-block-start: 0; }
+.fin__bitpay {
+  color: var(--bone-ink-2);           /* the rank drop is the token */
+  margin-block-start: var(--sp-3);
+}
 
-/* Below the two-mass width the aside drops under the column rather than
-   squeezing against it — the governing idea is unchanged, one dominant
-   verb over two tools, and nothing turns into a card. */
-@media (max-width: 720px) {
-  .fin__lower {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: clamp(var(--sp-7), 8vw, var(--sp-8));
+/* One column below the two-mass width. The masses stack in reading
+   order and the supporting group keeps its own left edge; nothing
+   becomes a card and no control changes. */
+@media (max-width: 900px) {
+  .fin__inner {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(var(--sp-7), 7vw, var(--sp-8));
+    align-items: start;
   }
 }
 
-/* ---- Where the next dark chapter begins ---------------------
-   Financing is currently the last section, and the document ended on the
-   exact pixel the bone block ended — its lower corners were cut against
-   nothing and the page stopped rather than resolved.
+/* ---- Corrections taken off the first render ------------------
+   1. THE SUPPORTING MASS HAD NO EDGE. .btn carries `align-self: center`
+      for its normal use inside a row of actions; in this column that
+      centred both pills inside their track while BitPay, which is not a
+      .btn, sat at the track's start. Three elements, three different
+      left edges — the reason the group read as a wireframe rather than
+      as a mass. They align to the shell's right gutter now, which gives
+      the group a hard vertical on a line the page already uses. This is
+      placement, not component styling: nothing about how a .btn looks
+      changes.
 
-   This opens the page's own ground below it. It is not a spacer and not
-   decoration: it is the field Karma and Reviews land in, and until they
-   exist it is what closes the bone block and gives the chapter a bottom
-   edge to be read against. Remove it when the next section is built. */
-.fin { margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11)); }
+   2. THE ANCHOR WAS TOO LIGHT to hold its half. It stays well under the
+      cinematic chapters — Sell and Warranty set theirs near 56px — but
+      it has to carry a mass, and at 38px it was carrying a caption. */
+.fin__tools {
+  align-items: flex-end;
+}
+.fin__tools > .btn,
+.fin__tools > .btn:not(#x) {
+  align-self: flex-end;
+}
+
+.fin__title,
+.fin__title:not(#x) {
+  font-size: clamp(2rem, 3.2vw, 2.875rem);
+}
+
+/* ---- The datum, and why it is structural rather than decorative ----
+   Bottom-aligning the two masses gave them a shared line, but nothing
+   DREW it, so the 762px between the primary action and the tools read as
+   distance rather than as an interval. A field is only active when
+   something measures it.
+
+   One hairline, on the line both masses already stand on, spanning the
+   full shell. It is the page's own vocabulary — Sell's steps rule and
+   Warranty's facts rule are the same element doing the same job — and it
+   is load-bearing here: it closes the composition underneath, gives the
+   empty middle a floor, and turns two clusters into one object standing
+   on a ground.
+
+   Offset 14px below the content so the pills stand ON it rather than
+   appear underlined by it. */
+.fin__inner { position: relative; }
+.fin__inner::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--gutter);
+  inset-block-end: calc(clamp(var(--sp-8), 6vw, var(--sp-9)) - 14px);
+  block-size: 1px;
+  background: var(--bone-rule);
+}

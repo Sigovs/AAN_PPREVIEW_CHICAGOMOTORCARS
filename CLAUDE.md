@@ -3,6 +3,41 @@
 Static redesign preview, no build step. Open `index.html` directly or
 `python3 -m http.server`.
 
+## AAN / Ivaylo / Master27 styling is BANNED in this project
+
+`~/.claude/skills/aan-dealer-mockups/` is a **global** skill whose own
+description claims every dealership design task, in these words: *"Use this
+skill whenever designing or revising ANY web design work for a car dealer
+site … **even if the user never mentions AAN, WordPress, or Bootstrap**."*
+It carries a component kit — `$btn-radius: 4px`, `$btn-padding: 14px 28px`,
+Bootstrap 4 grid, Owl Carousel — that directly contradicts this project's
+own controls.
+
+**For Chicago Motor Cars it has ZERO authority.** Do not read it, apply it,
+or borrow its buttons, links, underlines, cards, spacing, typography, grids,
+responsive patterns or hover treatments. It is not deleted, because other
+projects use it; the ban is scoped to this folder.
+
+### Source priority for every visual decision here
+
+1. Alex's explicit art direction.
+2. **The approved rendered CMC homepage** — it is the source of truth for
+   component styling.
+3. Approved existing CMC components and tokens.
+4. Design DNA — for **composition, hierarchy, rhythm, negative space and art
+   direction only.** It does not define button or link styling.
+
+**A NEW SECTION IS NOT A NEW BUTTON SYSTEM.** A new chapter earns its
+identity from composition — scale, spacing, asymmetry, typographic placement.
+Its actions reuse the existing primitives. Inventing a control style for one
+section is the failure mode this rule exists to stop; it has happened, with a
+giant underlined text link in Financing, and it was rejected on sight.
+
+**Audit before you change.** A component inventory taken from a working tree
+that already contains your own edits is worthless — it describes your
+experiment, not the approved system. Restore to the last approved commit
+first, then read the render.
+
 ## Design DNA governs every visual decision here
 
 **Before any design, layout, CSS, typography, colour, imagery or motion work,
