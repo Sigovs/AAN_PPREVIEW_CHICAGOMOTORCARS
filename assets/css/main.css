@@ -8696,20 +8696,35 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .fin__ghost .fin__lede,
 .fin__ghost .fin__act { visibility: hidden; }
 
-/* The plane is sized at its widest — the top — and the clip takes the
-   slant out of its foot. clip-path clips descendants, so the dark copy
-   of the headline is cut on exactly the same diagonal. */
+/* FULL WIDTH, then cut to shape — and that is the fix, not a detail.
+   The plane used to be a narrow box, which is exactly why the copy
+   inside it could not sit on the page's own container: a centred .shell
+   inside a 688px box centres in 688px, not in the section. So Financing
+   was the only chapter whose text stood on the raw window edge while
+   every other one stood on a container.
+
+   The plane spans the section now and the CLIP makes the shape, so the
+   .shell inside resolves against the section and lands on the same
+   vertical as Service directly above it. clip-path clips descendants,
+   so the dark copy of the headline is still cut on the same diagonal.
+
+   The cut ends between the two headline lines by construction: "Make
+   it" runs about 4.9em past the inset and "yours." about 6.2em, so a
+   5.25em edge always crosses the second and never the first. */
 .fin__plane {
-  inline-size: calc(var(--gutter) + 5.2 * var(--fin-display));
-  max-inline-size: 86%;
+  inline-size: 100%;
+  --fin-cut: calc(max(var(--gutter), (100% - var(--container)) / 2 + var(--gutter))
+                  + 5.25 * var(--fin-display));
+  /* No explicit height: inset-block 0 gives it the stage, and the copy
+     inside must never be clipped by its own field. */
   z-index: 2;
   background: var(--bone);
   color: var(--bone-ink);
-  clip-path: polygon(0 0, 100% 0, calc(100% - var(--fin-slant)) 100%, 0 100%);
+  clip-path: polygon(0 0, var(--fin-cut) 0,
+                     calc(var(--fin-cut) - var(--fin-slant)) 100%, 0 100%);
 }
 
 .fin__block {
-  padding-inline-start: var(--gutter);
   padding-block-start: clamp(var(--sp-8), 6vw, var(--sp-9));
   inline-size: max-content;
 }
@@ -8777,17 +8792,15 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    All three sit at equal rank on purpose. The primary is the filled
    pill up in the light plane; making one card lead as well would state
    the hierarchy twice. BitPay drops by ink alone. */
+.fin__railwrap { position: relative; z-index: 3; background: var(--bg); }
 .fin__rail {
-  position: relative;
-  z-index: 3;
   margin: 0;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(var(--sp-4), 1.3vw, var(--sp-5));
-  padding: clamp(var(--sp-6), 3vw, var(--sp-7)) var(--gutter)
-           clamp(var(--sp-7), 4vw, var(--sp-8));
-  background: var(--bg);
+  padding-block: clamp(var(--sp-6), 3vw, var(--sp-7))
+                 clamp(var(--sp-7), 4vw, var(--sp-8));
 }
 .fin__rail li { display: flex; }
 
@@ -8815,7 +8828,6 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   .fin__plane {
     position: relative;
     inline-size: 100%;
-    max-inline-size: none;
     clip-path: none;
     padding-block-end: clamp(var(--sp-7), 8vw, var(--sp-8));
   }
