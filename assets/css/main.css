@@ -7450,8 +7450,11 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .svc__actions,
+.reveal-armed [data-reveal] .fin__tools,
+.reveal-armed [data-reveal] .fin__tertiary,
 .reveal-armed [data-reveal] .index__all,
-.reveal-armed [data-reveal] .inv__eyebrow {
+.reveal-armed [data-reveal] .inv__eyebrow,
+.reveal-armed [data-reveal] .fin__label {
   opacity: 0;
   will-change: opacity, translate;
 }
@@ -7489,6 +7492,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .svc__actions,
+.reveal-armed [data-reveal] .fin__tools,
+.reveal-armed [data-reveal] .fin__tertiary,
 .reveal-armed [data-reveal] .index__all {
   translate: 0 10px;
   transition: opacity var(--rv-cta) var(--ease-out),
@@ -7499,6 +7504,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal].is-revealed .warranty__actions,
 .reveal-armed [data-reveal].is-revealed .brk__cta,
 .reveal-armed [data-reveal].is-revealed .svc__actions,
+.reveal-armed [data-reveal].is-revealed .fin__tools,
+.reveal-armed [data-reveal].is-revealed .fin__tertiary,
 .reveal-armed [data-reveal].is-revealed .index__all {
   opacity: 1;
   translate: 0 0;
@@ -7506,12 +7513,14 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 
 /* eyebrow — present, not competing */
-.reveal-armed [data-reveal] .inv__eyebrow {
+.reveal-armed [data-reveal] .inv__eyebrow,
+.reveal-armed [data-reveal] .fin__label {
   translate: 0 6px;
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
 }
-.reveal-armed [data-reveal].is-revealed .inv__eyebrow { opacity: 1; translate: 0 0; }
+.reveal-armed [data-reveal].is-revealed .inv__eyebrow,
+.reveal-armed [data-reveal].is-revealed .fin__label { opacity: 1; translate: 0 0; }
 
 /* The sell steps are that section's one content gesture, and they come
    after its text — the same restrained rise, stepped. */
@@ -7547,11 +7556,14 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .story__lede {
 }
 html.reveal-armed [data-reveal]:not(.is-revealed) .sell__actions,
 html.reveal-armed [data-reveal]:not(.is-revealed) .story__cta,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__tools,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__tertiary,
 html.reveal-armed [data-reveal]:not(.is-revealed) .index__all {
   opacity: 0;
   translate: 0 10px;
 }
-html.reveal-armed [data-reveal]:not(.is-revealed) .inv__eyebrow {
+html.reveal-armed [data-reveal]:not(.is-revealed) .inv__eyebrow,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__label {
   opacity: 0;
   translate: 0 6px;
 }
@@ -8625,3 +8637,210 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    Warranty and Service's single corner. Shrinking Sell alone would have
    left two corner sizes on one page, which is the drift the ledger
    exists to catch. */
+
+/* ============================================================
+   8 — FINANCING
+   ============================================================
+   Bone, because the page alternates and the chapter above it is a dark
+   full-bleed film — two dark bands in sequence would collapse the seam
+   into one mass. It also inherits Warranty's ground at the opposite
+   density: there a raised panel, icons, a display headline and a row of
+   facts; here four lines and a rule. Same ground, developed, not
+   repeated.
+
+   No image, no film, no panel, no card, no form, no paragraph, no red
+   pill. The chapter is new to this page by SUBTRACTION, which is how it
+   passes the device budget without inventing a seventh mechanism. */
+.fin {
+  position: relative;
+  background: var(--bone);
+  color: var(--bone-ink);
+  border-radius: var(--r-section);
+  overflow: hidden;
+}
+
+.fin__inner {
+  padding-block: clamp(var(--sp-8), 7vw, var(--sp-10))
+                 clamp(var(--sp-8), 6vw, var(--sp-9));
+}
+
+/* The chapter's only label, in the register the page already uses for
+   one. --accent-deep measures 4.78:1 on --bone. */
+.fin__label {
+  margin: 0 0 clamp(var(--sp-7), 4vw, var(--sp-8));
+  font-family: var(--font-label);
+  font-size: 0.875rem;              /* the 14px functional floor */
+  line-height: 1.2;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+/* ---- PRIMARY -----------------------------------------------
+   The conversion path, and the only element that reaches the right
+   gutter. Dominance is bought with scale, the red arrow and that reach —
+   not with a filled button, because the chapter is the page's quietest
+   by direction. */
+.fin__primary {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding-block-end: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  border-block-end: 1px solid var(--bone-rule);
+}
+
+.fin__row {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--sp-4), 1.6vw, var(--sp-6));
+}
+
+.fin__primary-t {
+  font-family: var(--font-display);
+  font-weight: 600;                 /* Inter Tight ships 500/600/700 */
+  font-size: clamp(2.125rem, 4vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: var(--tr-display);
+}
+
+/* ---- SECONDARY ---------------------------------------------
+   Paired on one line so they read as a set of tools rather than as two
+   more rows under the primary. Nothing separates them from each other —
+   the one rule on this chapter belongs to the primary. */
+.fin__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(var(--sp-6), 3.4vw, var(--sp-9));
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+
+.fin__tool {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  text-decoration: none;
+  color: var(--bone-ink);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.125rem, 1.45vw, 1.375rem);
+  line-height: 1.2;
+  letter-spacing: var(--tr-display);
+}
+
+/* ---- TERTIARY ----------------------------------------------
+   Metadata, at the label's own scale and ink, a full step below the
+   tools. It is a capability the business has, not a fourth action: no
+   icon, no crypto language, no symbol. --bone-ink-2 reads 5.67:1 here. */
+.fin__tertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-9), 6vw, var(--sp-10));
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--bone-ink-2);
+}
+
+/* ---- The arrows --------------------------------------------
+   One set, the page's existing 13x13 path, sized optically rather than
+   nominally — the stroke thins as the glyph grows so it keeps matching
+   the weight of the type beside it instead of scaling into a bar. Every
+   one points right, into the empty field, which is what makes that field
+   a direction rather than a gap. */
+.fin__arrow { flex: none; }
+.fin__arrow--lg { color: var(--accent); }   /* 4.78:1 on bone */
+
+/* Rest state carries no underline — the page bans them outside hover.
+   The affordance is the arrow; the hover is where the line appears. */
+@media (hover: hover) {
+  .fin__primary:hover .fin__primary-t,
+  .fin__tool:hover span,
+  .fin__tertiary:hover span {
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+  .fin__primary:hover .fin__arrow,
+  .fin__tool:hover .fin__arrow,
+  .fin__tertiary:hover .fin__arrow {
+    translate: 4px 0;
+  }
+}
+.fin__arrow { transition: translate var(--dur-2) var(--ease-out); }
+.fin__primary:focus-visible,
+.fin__tool:focus-visible,
+.fin__tertiary:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* One column below the pair's natural break; the governing idea — one
+   dominant verb, two tools, one aside, and air to the right — is
+   identical at every width, which is why nothing here recomposes into
+   cards. */
+@media (max-width: 720px) {
+  .fin__tools { gap: var(--sp-6); }
+  .fin__tool { font-size: 1.125rem; }
+}
+
+/* ---- The lower band, corrected on the render -----------------
+   First pass put the two tools side by side and dropped BitPay far
+   below them on the left. Two things were wrong with it, and neither was
+   the emptiness: the pair huddled in the left third, so the blank row
+   read as a line that failed to fill rather than as a field, and the
+   whole lower half sagged with nothing articulating its far side.
+
+   The tools stack instead — a compact column with a tall silhouette
+   standing in a wide field is a stronger relationship than a squat block
+   with air after it — and BitPay moves to the far right, landing on the
+   exact vertical where the primary's rule terminates.
+
+   That is what makes the negative space active rather than unfinished:
+   the field is now closed on three sides — the rule above it, the column
+   at its left, the smallest mark on the chapter at its right — while
+   remaining completely empty. Nothing was added to fill it. */
+.fin__lower {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(var(--sp-6), 4vw, var(--sp-8));
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+
+.fin__tools,
+.fin__tools:not(#x) {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-5);          /* internal gap < the band's external gap */
+  margin-block-start: 0;
+}
+
+.fin__tertiary,
+.fin__tertiary:not(#x) { margin-block-start: 0; }
+
+/* Below the two-mass width the aside drops under the column rather than
+   squeezing against it — the governing idea is unchanged, one dominant
+   verb over two tools, and nothing turns into a card. */
+@media (max-width: 720px) {
+  .fin__lower {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(var(--sp-7), 8vw, var(--sp-8));
+  }
+}
+
+/* ---- Where the next dark chapter begins ---------------------
+   Financing is currently the last section, and the document ended on the
+   exact pixel the bone block ended — its lower corners were cut against
+   nothing and the page stopped rather than resolved.
+
+   This opens the page's own ground below it. It is not a spacer and not
+   decoration: it is the field Karma and Reviews land in, and until they
+   exist it is what closes the bone block and gives the chapter a bottom
+   edge to be read against. Remove it when the next section is built. */
+.fin { margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11)); }
