@@ -8796,3 +8796,18 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 }
 
 /* No mask and no height cap: a cut-out has no frame to dissolve. */
+
+/* ---- BitPay: the client's wordmark, at the tertiary line's rank ----
+   Sized against the label's cap height rather than nominally, so it
+   reads as a word in the sentence and not as a badge dropped beside it.
+   The mark ships white; the line's own opacity carries it down to the
+   tertiary tone with everything else on that row. */
+.fin__tert { align-items: center; gap: var(--sp-3); }
+.fin__bitpay {
+  block-size: 1.15rem;
+  inline-size: auto;
+  display: block;
+  opacity: 0.78;
+  transition: opacity var(--dur-1) var(--ease-out);
+}
+.fin__tert:hover .fin__bitpay { opacity: 1; }
