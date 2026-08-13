@@ -8142,7 +8142,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   z-index: 2;
   min-block-size: clamp(34rem, 62vw, 44rem);
   overflow: hidden;
-  border-start-end-radius: clamp(28px, 3vw, 56px);
+  border-start-end-radius: var(--r-section);
 }
 
 /* ---- The film ----------------------------------------------
@@ -8370,7 +8370,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    full-bleed field, which is why the bottom pair matters as much as the
    top pair. */
 .warranty {
-  border-radius: clamp(40px, 5vw, 72px);
+  border-radius: var(--r-section);
 }
 
 /* 2 — SPACE BETWEEN WARRANTY AND SERVICE.
@@ -8384,7 +8384,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 
 /* 3 — STORY: radius on all four corners. */
 .story {
-  border-radius: clamp(40px, 5vw, 72px);
+  border-radius: var(--r-section);
 }
 
 /* 4 — STORY: move the content in off the edge. */
@@ -8617,3 +8617,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .story__inner:not(#x) {
   padding-block-end: clamp(var(--sp-5), 2.2vw, var(--sp-7));
 }
+
+/* ---- The corner comes down, everywhere at once ----
+   Alex pointed at Sell's bottom right. --r-section was 72px at this
+   width and is 36px now, and the three declarations that had the old
+   clamp typed out rather than referencing the token follow it: Story,
+   Warranty and Service's single corner. Shrinking Sell alone would have
+   left two corner sizes on one page, which is the drift the ledger
+   exists to catch. */

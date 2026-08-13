@@ -98,7 +98,7 @@
   /* The section corner. Warranty, Story, Sell and Service all read as
      blocks laid on the page ground rather than as full-bleed fields, so
      the radius is one value rather than four opinions. */
-  --r-section: clamp(40px, 5vw, 72px);
+  --r-section: clamp(20px, 2.4vw, 36px);
   --bone-rule:   rgba(22, 21, 15, 0.16);
 
   /* ---- Rules -------------------------------------------------
