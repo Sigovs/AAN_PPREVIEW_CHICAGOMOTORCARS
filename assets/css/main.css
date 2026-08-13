@@ -8600,3 +8600,20 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   from { --cut-start: 6%;  --cut-drop: 16px; }
   to   { --cut-start: 66%; --cut-drop: 72px; }
 }
+
+/* ---- STORY: the dead tail under the counters goes ----
+   The counters end and the band keeps running for another 115px before
+   Warranty starts. The two sections are already flush — Story's bottom
+   is 4812 and Warranty's top is 4812, no margin between them — so the
+   gap Alex is pointing at is Story's own padding-block-end, symmetric
+   with a top padding that has real work to do and this one does not.
+
+   Asymmetric on purpose: the top still needs its air because the
+   headline arrives into it, while the foot is closing on a section that
+   opens with its own cut. What stays below the counters is that cut —
+   --cut-drop, up to 72px of Warranty scooped away to show the ground
+   behind it — which is the device, not a gap. */
+.story__inner,
+.story__inner:not(#x) {
+  padding-block-end: clamp(var(--sp-5), 2.2vw, var(--sp-7));
+}
