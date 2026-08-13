@@ -8657,6 +8657,12 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    edge; a rail of editorial actions runs along the black foot. One
    composition, three parts of one idea. */
 .fin {
+  /* The display size is a token here because the PLANE is measured in it.
+     Tying the plane to a percentage instead was a real defect: the font
+     stops growing at the clamp's ceiling while 38% keeps going, so above
+     about 1700px the headline stopped crossing the edge and the chapter
+     lost its entire idea. Both are now expressed in the same unit. */
+  --fin-display: clamp(3.5rem, 8.4vw, 7.5rem);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -8697,8 +8703,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* A hard vertical cut, no fade. The plane touches the section's left and
    top edges — a field, not a card on a photograph. */
 .fin__plane {
-  inline-size: 38%;
-  min-inline-size: 26rem;
+  /* Ends between the two lines by construction: "Make it" runs to about
+     4.9em and "yours." to about 6.2em, so a 5.2em edge always cuts the
+     second line and never the first, at every width. */
+  inline-size: calc(var(--gutter) + 5.2 * var(--fin-display));
+  max-inline-size: 82%;
   block-size: 72%;
   z-index: 2;
   background: var(--bone);
@@ -8728,13 +8737,13 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   margin: 0 0 clamp(var(--sp-7), 4vw, var(--sp-9));
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(3.5rem, 8.4vw, 7.5rem);
+  font-size: var(--fin-display);
   line-height: 0.94;
   letter-spacing: var(--tr-display);
 }
 .fin__title .ttl-line { display: block; white-space: nowrap; }
 /* The second line starts late and runs out of the light. */
-.fin__title .ttl-line + .ttl-line { margin-inline-start: 2.15em; }
+.fin__title .ttl-line + .ttl-line { margin-inline-start: 3.4em; }
 
 .fin__act { display: flex; }
 
