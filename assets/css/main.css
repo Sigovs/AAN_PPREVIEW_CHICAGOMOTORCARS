@@ -8651,68 +8651,61 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 
 /* ============================================================
    8 — FINANCING — THE SURFACE
-   ============================================================
-   The macro is the ground, not an illustration beside the copy. A bone
-   plane is laid into its upper left; the headline crosses the plane's
-   edge; a rail of editorial actions runs along the black foot. One
-   composition, three parts of one idea. */
+   ============================================================ */
 .fin {
-  /* The display size is a token here because the PLANE is measured in it.
-     Tying the plane to a percentage instead was a real defect: the font
-     stops growing at the clamp's ceiling while 38% keeps going, so above
-     about 1700px the headline stopped crossing the edge and the chapter
-     lost its entire idea. Both are now expressed in the same unit. */
-  --fin-display: clamp(3.5rem, 8.4vw, 7.5rem);
+  /* The plane is measured in the display size rather than in a
+     percentage. Tying it to 38% was a real defect: the font stops
+     growing at the clamp ceiling while the percentage does not, so above
+     roughly 1700px the headline stopped crossing the edge and the
+     chapter lost the idea it is built on. */
+  --fin-display: clamp(3rem, 6.6vw, 6rem);
+  /* How far the cut rakes inward between the top of the plane and its
+     foot. The light meets the dark on a slant, not on a builder's
+     vertical. */
+  --fin-slant: clamp(72px, 10.8vw, 216px);
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--r-section);
-  background: var(--bg-sunk);
+  background: var(--bg);
   color: var(--ink);
-  min-block-size: clamp(40rem, 52vw, 48rem);
   margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11));
+}
+
+.fin__stage {
+  position: relative;
+  min-block-size: clamp(32rem, 42vw, 42rem);
 }
 
 .fin__media { position: absolute; inset: 0; z-index: 0; }
 .fin__media img {
   inline-size: 100%; block-size: 100%;
   object-fit: cover;
-  /* Holds the caliper and the spoke diagonal just right of the plane's
-     edge, which is where the headline arrives. */
   object-position: 62% center;
   display: block;
 }
 
-/* ---- The two copies of one block ---------------------------
-   Identical markup so they cannot drift. The ghost lies on the macro in
-   --ink; the plane sits over it and clips it; the plane's own copy is
-   --bone-ink. Only the headline differs between them — the label and
-   the action belong to the light side alone. */
+/* ---- Two copies of one block, so they cannot drift ---------- */
 .fin__ghost,
-.fin__plane { position: absolute; inset-block-start: 0; inset-inline-start: 0; }
+.fin__plane { position: absolute; inset-block: 0; inset-inline-start: 0; }
 
-.fin__ghost {
-  inline-size: 100%;
-  z-index: 1;
-  pointer-events: none;
-  color: var(--ink);
-}
+.fin__ghost { inline-size: 100%; z-index: 1; pointer-events: none; color: var(--ink); }
 .fin__ghost .fin__label,
+.fin__ghost .fin__mark,
+.fin__ghost .fin__lede,
 .fin__ghost .fin__act { visibility: hidden; }
 
-/* A hard vertical cut, no fade. The plane touches the section's left and
-   top edges — a field, not a card on a photograph. */
+/* The plane is sized at its widest — the top — and the clip takes the
+   slant out of its foot. clip-path clips descendants, so the dark copy
+   of the headline is cut on exactly the same diagonal. */
 .fin__plane {
-  /* Ends between the two lines by construction: "Make it" runs to about
-     4.9em and "yours." to about 6.2em, so a 5.2em edge always cuts the
-     second line and never the first, at every width. */
   inline-size: calc(var(--gutter) + 5.2 * var(--fin-display));
-  max-inline-size: 82%;
-  block-size: 72%;
+  max-inline-size: 86%;
   z-index: 2;
   background: var(--bone);
   color: var(--bone-ink);
-  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--fin-slant)) 100%, 0 100%);
 }
 
 .fin__block {
@@ -8732,57 +8725,87 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   color: var(--accent-deep);
 }
 
-/* Big, because it is the bridge and it has to reach across the cut. */
 .fin__title {
-  margin: 0 0 clamp(var(--sp-7), 4vw, var(--sp-9));
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: var(--fin-display);
-  line-height: 0.94;
+  line-height: 0.96;
   letter-spacing: var(--tr-display);
 }
 .fin__title .ttl-line { display: block; white-space: nowrap; }
-/* The second line starts late and runs out of the light. */
-.fin__title .ttl-line + .ttl-line { margin-inline-start: 3.4em; }
+/* The word that lands in the material is the loudest thing here. */
+.fin__title .ttl-line + .ttl-line {
+  font-size: 1.32em;
+  margin-inline-start: 1.9em;
+  line-height: 0.92;
+}
+
+/* The one mark of red in the light half — short, and it belongs to the
+   headline rather than to the paragraph under it. */
+.fin__mark {
+  display: block;
+  inline-size: clamp(48px, 4vw, 72px);
+  block-size: 2px;
+  background: var(--accent);
+  margin-block: clamp(var(--sp-6), 3vw, var(--sp-7)) clamp(var(--sp-5), 2.4vw, var(--sp-6));
+}
+
+.fin__lede {
+  margin: 0 0 clamp(var(--sp-6), 3vw, var(--sp-7));
+  max-inline-size: 26ch;
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  line-height: 1.45;
+  color: var(--bone-ink-2);
+}
 
 .fin__act { display: flex; }
 
-/* ---- The rail ----------------------------------------------
-   One baseline along the frame's black foot. Three editorial actions,
-   not a stack and not a panel. */
+/* ---- The dark register at the foot -------------------------
+   Featured Inventory's language, as Alex asked: the page ground, and
+   the same vertical rule that already separates Sell's steps and
+   Story's figures. A list, not a new component. */
 .fin__rail {
-  position: absolute;
+  position: relative;
   z-index: 3;
-  inset-inline: var(--gutter);
-  inset-block-end: clamp(var(--sp-7), 4vw, var(--sp-8));
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: clamp(var(--sp-6), 4.5vw, var(--sp-9));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: var(--bg);
+  border-block-start: 1px solid var(--rule);
 }
-.fin__op { color: var(--ink); white-space: nowrap; }
-.fin__op--t { color: var(--ink-2); }
+.fin__rail li + li { border-inline-start: 1px solid var(--rule); }
+.fin__rail li { display: flex; }
 
-/* One column below the two-mass width: the plane takes the full width
-   and the macro sits under it, so the headline still crosses a cut —
-   a horizontal one — rather than losing the idea to a stack. */
+.fin__op {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding: clamp(var(--sp-7), 4vw, var(--sp-8)) clamp(var(--sp-6), 3vw, var(--sp-7));
+  color: var(--ink);
+}
+.fin__op--t { color: var(--ink-2); }
+@media (hover: hover) {
+  .fin__op:hover { background: rgb(var(--ink-rgb, 244 242 239) / 0.045); }
+}
+
 @media (max-width: 900px) {
-  .fin { min-block-size: 0; }
+  .fin { --fin-slant: clamp(40px, 9vw, 80px); }
+  .fin__stage { min-block-size: 0; }
   .fin__media { position: relative; aspect-ratio: 16 / 11; }
   .fin__ghost { display: none; }
   .fin__plane {
     position: relative;
     inline-size: 100%;
-    min-inline-size: 0;
-    block-size: auto;
+    max-inline-size: none;
+    clip-path: none;
     padding-block-end: clamp(var(--sp-7), 8vw, var(--sp-8));
   }
-  .fin__title .ttl-line + .ttl-line { margin-inline-start: 1.2em; }
-  .fin__rail {
-    position: static;
-    margin: 0;
-    padding: clamp(var(--sp-7), 8vw, var(--sp-8)) var(--gutter) clamp(var(--sp-8), 9vw, var(--sp-9));
-    gap: var(--sp-5);
-    flex-direction: column;
-  }
+  .fin__title .ttl-line + .ttl-line { margin-inline-start: 0.9em; }
+  .fin__rail { grid-template-columns: minmax(0, 1fr); }
+  .fin__rail li + li { border-inline-start: 0; border-block-start: 1px solid var(--rule); }
 }
