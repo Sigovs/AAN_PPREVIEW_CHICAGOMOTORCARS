@@ -3299,7 +3299,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    three are compressed. Four equal entries would be the card grid again
    in typographic clothing.
    ============================================================ */
-.showcase {
+.showcase,
+.fin__showcase {
   position: relative;
   display: grid;
   /* REBALANCED to roughly 60/40. It was 1fr against a 23-31rem column,
@@ -5467,8 +5468,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   transition: border-color var(--sel-dur) var(--sel-ease),
               background-color var(--sel-dur) var(--sel-ease);
 }
-.rec:hover { border-color: rgba(244, 242, 239, 0.20); }
-.rec.is-active {
+.rec:hover,
+.fin__rec:hover { border-color: rgba(244, 242, 239, 0.20); }
+.rec.is-active,
+.fin__rec.is-lead {
   border-color: rgba(104, 156, 236, 0.55);
   background: rgba(28, 44, 82, 0.22);
 }
@@ -5589,7 +5592,8 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* The index numerals are gone with the column that held them. They were
    ordinal decoration on a list of four: the order is visible, and
    nothing on the page refers to a record by its number. */
-.rec {
+.rec,
+.fin__rec {
   grid-template-columns: minmax(0, 1fr) auto auto;
   padding: var(--sp-6);
   column-gap: var(--sp-6);
@@ -6505,7 +6509,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    underline: a rule here would be the decorative line this pass rules
    out, and the arrow already says the direction. */
 .story__cta,
-.fin__op {
+.fin__tert {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-4);
@@ -6522,17 +6526,17 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   transition: gap var(--dur-2) var(--ease-out);
 }
 .story__cta-arrow,
-.fin__op .story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
+.fin__tert .story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
 .story__cta:hover,
 .story__cta:focus-visible,
-.fin__op:hover,
-.fin__op:focus-visible { background: none; box-shadow: none; }
+.fin__tert:hover,
+.fin__tert:focus-visible { background: none; box-shadow: none; }
 .story__cta:hover .story__cta-arrow,
 .story__cta:focus-visible .story__cta-arrow,
-.fin__op:hover .story__cta-arrow,
-.fin__op:focus-visible .story__cta-arrow { translate: 5px 0; }
+.fin__tert:hover .story__cta-arrow,
+.fin__tert:focus-visible .story__cta-arrow { translate: 5px 0; }
 .story__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
-.fin__op:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.fin__tert:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
 /* ============================================================
    STORY PROOF — the reveal, and nothing else
@@ -8650,87 +8654,27 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    exists to catch. */
 
 /* ============================================================
-   8 — FINANCING — THE SURFACE
-   ============================================================ */
+   8 — FINANCING — a quieter sibling of Featured Inventory
+   ============================================================
+   Nothing here invents a surface. The stage IS .showcase — the same
+   rule, extended by selector, so the modelled light, the radius and the
+   two-column field are one definition. The rows ARE .rec's border,
+   radius and lead state, shared the same way. What is written below is
+   only what this chapter does differently: its own proportion, its own
+   object, and a register with one line instead of a vehicle's four. */
 .fin {
-  /* The plane is measured in the display size rather than in a
-     percentage. Tying it to 38% was a real defect: the font stops
-     growing at the clamp ceiling while the percentage does not, so above
-     roughly 1700px the headline stopped crossing the edge and the
-     chapter lost the idea it is built on. */
-  --fin-display: clamp(3rem, 6.6vw, 6rem);
-  /* How far the cut rakes inward between the top of the plane and its
-     foot. The light meets the dark on a slant, not on a builder's
-     vertical. */
-  --fin-slant: clamp(72px, 10.8vw, 216px);
-
   position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-radius: var(--r-section);
   background: var(--bg);
   color: var(--ink);
-  margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11));
+  padding-block: clamp(var(--sp-9), 7vw, var(--sp-11));
 }
 
-.fin__stage {
-  position: relative;
-  min-block-size: clamp(32rem, 42vw, 42rem);
-}
-
-.fin__media { position: absolute; inset: 0; z-index: 0; }
-.fin__media img {
-  inline-size: 100%; block-size: 100%;
-  object-fit: cover;
-  object-position: 62% center;
-  display: block;
-}
-
-/* ---- Two copies of one block, so they cannot drift ---------- */
-.fin__ghost,
-.fin__plane { position: absolute; inset-block: 0; inset-inline-start: 0; }
-
-.fin__ghost { inline-size: 100%; z-index: 1; pointer-events: none; color: var(--ink); }
-.fin__ghost .fin__label,
-.fin__ghost .fin__mark,
-.fin__ghost .fin__lede,
-.fin__ghost .fin__act { visibility: hidden; }
-
-/* FULL WIDTH, then cut to shape — and that is the fix, not a detail.
-   The plane used to be a narrow box, which is exactly why the copy
-   inside it could not sit on the page's own container: a centred .shell
-   inside a 688px box centres in 688px, not in the section. So Financing
-   was the only chapter whose text stood on the raw window edge while
-   every other one stood on a container.
-
-   The plane spans the section now and the CLIP makes the shape, so the
-   .shell inside resolves against the section and lands on the same
-   vertical as Service directly above it. clip-path clips descendants,
-   so the dark copy of the headline is still cut on the same diagonal.
-
-   The cut ends between the two headline lines by construction: "Make
-   it" runs about 4.9em past the inset and "yours." about 6.2em, so a
-   5.25em edge always crosses the second and never the first. */
-.fin__plane {
-  inline-size: 100%;
-  --fin-cut: calc(max(var(--gutter), (100% - var(--container)) / 2 + var(--gutter))
-                  + 5.25 * var(--fin-display));
-  /* No explicit height: inset-block 0 gives it the stage, and the copy
-     inside must never be clipped by its own field. */
-  z-index: 2;
-  background: var(--bone);
-  color: var(--bone-ink);
-  clip-path: polygon(0 0, var(--fin-cut) 0,
-                     calc(var(--fin-cut) - var(--fin-slant)) 100%, 0 100%);
-}
-
-.fin__block {
-  padding-block-start: clamp(var(--sp-8), 6vw, var(--sp-9));
-  inline-size: max-content;
-}
+/* The editorial intro sits above the stage, exactly as Featured
+   Inventory's title and lede do. */
+.fin__intro { max-inline-size: 44rem; margin-block-end: clamp(var(--sp-7), 4vw, var(--sp-8)); }
 
 .fin__label {
-  margin: 0 0 clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -8739,98 +8683,116 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   text-transform: uppercase;
   color: var(--accent-deep);
 }
-
 .fin__title {
-  margin: 0;
+  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fin-display);
-  line-height: 0.96;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 3.6vw, 3.5rem);
+  line-height: 1.05;
   letter-spacing: var(--tr-display);
 }
-.fin__title .ttl-line { display: block; white-space: nowrap; }
-/* The word that lands in the material is the loudest thing here. */
-.fin__title .ttl-line + .ttl-line {
-  font-size: 1.32em;
-  margin-inline-start: 1.9em;
-  line-height: 0.92;
-}
+.fin__lede { margin: 0; max-inline-size: 42ch; }
 
-/* The one mark of red in the light half — short, and it belongs to the
-   headline rather than to the paragraph under it. */
-.fin__mark {
-  display: block;
-  inline-size: clamp(48px, 4vw, 72px);
-  block-size: 2px;
-  background: var(--accent);
-  margin-block: clamp(var(--sp-6), 3vw, var(--sp-7)) clamp(var(--sp-5), 2.4vw, var(--sp-6));
-}
-
-.fin__lede {
-  margin: 0 0 clamp(var(--sp-6), 3vw, var(--sp-7));
-  max-inline-size: 26ch;
-  font-size: clamp(1rem, 1.1vw, 1.125rem);
-  line-height: 1.45;
-  color: var(--bone-ink-2);
-}
-
-.fin__act { display: flex; }
-
-/* ---- The dark register at the foot -------------------------
-   Featured Inventory's language, as Alex asked: the page ground, and
-   the same vertical rule that already separates Sell's steps and
-   Story's figures. A list, not a new component. */
-/* ---- The foot is Featured Inventory's register --------------
-   Alex asked for that section's language, so these are its CARDS, not
-   cells divided by a rule: the same 14px corner, the same hairline
-   border at 0.10 that firms to 0.20 on approach, the same transition
-   pair on the same duration token. Nothing here is a new surface — the
-   values are `.rec`'s, and if that card moves these follow by hand
-   rather than by accident, which is why they are written next to it in
-   the same terms.
-
-   All three sit at equal rank on purpose. The primary is the filled
-   pill up in the light plane; making one card lead as well would state
-   the hierarchy twice. BitPay drops by ink alone. */
-.fin__railwrap { position: relative; z-index: 3; background: var(--bg); }
-.fin__rail {
-  margin: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(var(--sp-4), 1.3vw, var(--sp-5));
-  padding-block: clamp(var(--sp-6), 3vw, var(--sp-7))
-                 clamp(var(--sp-7), 4vw, var(--sp-8));
-}
-.fin__rail li { display: flex; }
-
-.fin__op {
-  flex: 1;
-  display: flex;
+/* Narrower than the showcase's 59/41 on purpose: this object is a
+   vertical, where Featured Inventory's subject is a wide car, and the
+   register carries one line per row instead of four. */
+.fin__showcase {
+  grid-template-columns: minmax(0, 57fr) minmax(20rem, 43fr);
+  padding: clamp(var(--sp-7), 3vw, var(--sp-8));
   align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-5);
-  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+}
+
+/* The wheel stands in the field the way the vehicle does — given room,
+   never cropped to the edges, never a wallpaper. */
+/* Shaped like its subject, the way Featured Inventory's stage is: a
+   cut-out car is wide and shallow, so a tall field would leave it
+   floating in a box. Width-led, height derived. */
+.fin__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  align-self: center;
+  aspect-ratio: 16 / 10;
+}
+.fin__car {
+  inline-size: 92%;
+  block-size: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+/* The ground the object stands on — elliptical and slightly below the
+   car, the same device that seats the vehicle in Featured Inventory. */
+.fin__stage::after {
+  content: "";
+  position: absolute;
+  inset-inline: 8%;
+  inset-block-end: 16%;
+  block-size: 22%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.28) 52%, transparent 100%);
+  z-index: 0;
+}
+
+.fin__index { display: flex; flex-direction: column; justify-content: center; gap: var(--sp-5); }
+
+.fin__rec {
+  display: grid;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+.fin__rec-t {
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 1.2vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.fin__rec.is-lead .fin__rec-t { color: var(--ink); }
+.fin__rec:hover .fin__rec-t { color: var(--ink); }
+
+.fin__arrow { flex: none; color: var(--ink-3); transition: color var(--sel-dur) var(--sel-ease), translate var(--dur-2) var(--ease-out); }
+.fin__rec.is-lead .fin__arrow { color: var(--ink); }
+.fin__rec:hover .fin__arrow { color: var(--ink); translate: 3px 0; }
+.fin__rec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Tertiary, and outside the register rather than a fourth row in it. */
+.fin__tert { color: var(--ink-3); margin-block-start: var(--sp-4); align-self: start; }
+
+@media (max-width: 900px) {
+  .fin__showcase { grid-template-columns: minmax(0, 1fr); }
+  .fin__stage { aspect-ratio: 3 / 2; }
+}
+
+/* ---- Two corrections off the first render ------------------
+   1. THE ROWS HAD NO EDGE. The selector meant to share .rec's border
+      did not take, so the register was three labels floating in the
+      field. They carry the record's own border, radius and lead state
+      now — the values Featured Inventory uses, in its terms.
+
+   2. THE OBJECT READ AS A RECTANGLE. Its navy matches the ground almost
+      exactly, but "almost" is a visible box on a modelled field. The
+      frame is feathered on every side so the wheel stands in the stage
+      instead of sitting on a tile — which is the whole difference
+      between an object and a wallpaper. */
+.fin__rec {
   border: 1px solid rgba(244, 242, 239, 0.10);
   border-radius: 14px;
-  color: var(--ink);
+  padding: var(--sp-6);
+  column-gap: var(--sp-6);
+  grid-template-columns: minmax(0, 1fr) auto;
   transition: border-color var(--sel-dur) var(--sel-ease),
               background-color var(--sel-dur) var(--sel-ease);
 }
-.fin__op:hover { border-color: rgba(244, 242, 239, 0.20); }
-.fin__op--t { color: var(--ink-2); }
-
-@media (max-width: 900px) {
-  .fin { --fin-slant: clamp(40px, 9vw, 80px); }
-  .fin__stage { min-block-size: 0; }
-  .fin__media { position: relative; aspect-ratio: 16 / 11; }
-  .fin__ghost { display: none; }
-  .fin__plane {
-    position: relative;
-    inline-size: 100%;
-    clip-path: none;
-    padding-block-end: clamp(var(--sp-7), 8vw, var(--sp-8));
-  }
-  .fin__title .ttl-line + .ttl-line { margin-inline-start: 0.9em; }
-  .fin__rail { grid-template-columns: minmax(0, 1fr); }
+.fin__rec:hover { border-color: rgba(244, 242, 239, 0.20); }
+.fin__rec.is-lead {
+  border-color: rgba(104, 156, 236, 0.55);
+  background: rgba(28, 44, 82, 0.22);
 }
+
+/* No mask and no height cap: a cut-out has no frame to dissolve. */

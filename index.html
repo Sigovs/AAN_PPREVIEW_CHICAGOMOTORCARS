@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=42">
-<link rel="stylesheet" href="assets/css/main.css?v=316">
+<link rel="stylesheet" href="assets/css/main.css?v=319">
 </head>
 <body>
 
@@ -1274,88 +1274,64 @@
   </section>
 
   <!-- ============================================================
-       8 — FINANCING — THE SURFACE
+       8 — FINANCING — a quieter sibling of Featured Inventory
        ============================================================
-       Composition by Alex, drawn over the previous pass and rebuilt here.
+       The campaign-banner direction is gone: no bone plane, no diagonal,
+       no clipped headline, no wheel as wallpaper, no black utility rail.
 
-       THREE THINGS CHANGED and each is structural, not decoration.
+       This chapter borrows Featured Inventory's FAMILY, not its layout.
+       Same navy ground, same editorial intro over an inset stage, same
+       modelled light across one field, same record surface on the right.
+       It differs by content and by pace — Service above it is cinematic
+       and moving, this is static, structured and quiet, and that is the
+       contrast the seam needs rather than a colour reset.
 
-       1. THE CUT IS DIAGONAL. The bone plane's right edge rakes inward
-          as it falls, so the light does not meet the dark on a builder's
-          vertical — the edge now moves the same way the splitter and the
-          wheel arch behind it move.
-
-       2. THE SECOND LINE ESCALATES. "yours." is set larger than "Make
-          it" and indented past it, so the word that lands in the
-          material is also the loudest thing in the chapter. Desire is
-          stated at one size; ownership arrives at another.
-
-       3. THE ACTIONS BECOME A DARK REGISTER. Alex asked for Featured
-          Inventory's language — dark ground, divided cells — so the rail
-          is a band across the foot with the page's own vertical rule
-          between items, the same `border-inline-start` that separates
-          Sell's steps and Story's figures. Not a new component: a list
-          on the ground the rest of the page already uses.
+       The wheel is an OBJECT standing in the stage, exactly as the
+       vehicle is in Featured Inventory — generated on the site's own
+       navy so it has no visible frame.
        ============================================================ -->
   <section class="fin" data-reveal aria-labelledby="fin-title">
+    <div class="shell fin__inner">
 
-    <div class="fin__stage">
-
-      <div class="fin__media" aria-hidden="true">
-        <img src="assets/img/financing/gen-wheel-caliper-macro-1800.jpg"
-             srcset="assets/img/financing/gen-wheel-caliper-macro-1800.jpg 1800w,
-                     assets/img/financing/gen-wheel-caliper-macro-3168.jpg 3168w"
-             sizes="100vw"
-             alt="" width="3168" height="1344" loading="lazy" decoding="async">
+      <div class="fin__intro">
+        <p class="fin__label">Financing</p>
+        <h2 class="fin__title" id="fin-title"><span class="ttl-line">Make it yours.</span></h2>
+        <p class="lede fin__lede">Three ways to start, and all of them open online.</p>
       </div>
 
-      <!-- the half of the headline that lands on the material -->
-      <div class="fin__ghost" aria-hidden="true">
-        <div class="shell"><div class="fin__block">
-        <p class="fin__label">Financing</p>
-        <h2 class="fin__title">
-          <span class="ttl-line">Make it</span>
-          <span class="ttl-line">yours.</span>
-        </h2>
-        <span class="fin__mark" aria-hidden="true"></span>
-        <p class="fin__lede">Flexible ways to take<br>the next step.</p>
-        <div class="fin__act">
-          <a class="btn btn--fill" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/" tabindex="-1">
-            Online Credit Approval
-            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+      <div class="fin__showcase">
+
+        <!-- A real CMC inventory car, cut out, treated exactly as the
+             vehicle in Featured Inventory is: an object standing in the
+             stage's modelled light. The 812 is the one car on this page
+             that appears nowhere else — Sell has the blue Aventador,
+             Story the blue Ford GT, Featured Inventory the red GT2 RS. -->
+        <div class="fin__stage" aria-hidden="true">
+          <img class="fin__car" src="assets/img/inventory/cutout-ferrari-812-gts.png"
+               alt="" width="1414" height="581" loading="lazy" decoding="async">
+        </div>
+
+        <div class="fin__index">
+          <a class="fin__rec is-lead" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
+            <span class="fin__rec-t">Online Credit Approval</span>
+            <svg class="fin__arrow" width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+          <a class="fin__rec" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">
+            <span class="fin__rec-t">Calculate Payments</span>
+            <svg class="fin__arrow" width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+          <a class="fin__rec" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">
+            <span class="fin__rec-t">Calculate Your Trade</span>
+            <svg class="fin__arrow" width="15" height="15" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+          <a class="fin__tert" href="https://www.chicagomotorcars.com/bitpay/">
+            BitPay available
+            <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
           </a>
         </div>
-        </div></div>
+
       </div>
-
-      <div class="fin__plane on-bone">
-        <div class="shell"><div class="fin__block">
-        <p class="fin__label">Financing</p>
-        <h2 class="fin__title" id="fin-title">
-          <span class="ttl-line">Make it</span>
-          <span class="ttl-line">yours.</span>
-        </h2>
-        <span class="fin__mark" aria-hidden="true"></span>
-        <p class="fin__lede">Flexible ways to take<br>the next step.</p>
-        <div class="fin__act">
-          <a class="btn btn--fill" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
-            Online Credit Approval
-            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-          </a>
-        </div>
-        </div></div>
-      </div>
-
     </div>
-
-    <div class="shell fin__railwrap">
-    <ul class="fin__rail">
-      <li><a class="fin__op" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate payments <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a></li>
-      <li><a class="fin__op" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate your trade <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a></li>
-      <li><a class="fin__op fin__op--t" href="https://www.chicagomotorcars.com/bitpay/">BitPay available <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a></li>
-    </ul>
-    </div>
-
   </section>
 
 </main>
