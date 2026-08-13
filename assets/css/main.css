@@ -8634,7 +8634,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    behind it — which is the device, not a gap. */
 .story__inner,
 .story__inner:not(#x) {
-  padding-block-end: clamp(var(--sp-5), 2.2vw, var(--sp-7));
+  /* 31px was too tight under a 96px numeral — the counters sat on the
+     section edge. Raised to ~72px at 1440, which is still well short of
+     the 115px this was cut from: that value read as dead space, this one
+     reads as the figures standing clear of the edge. */
+  padding-block-end: clamp(var(--sp-7), 5vw, var(--sp-9));
 }
 
 /* ---- The corner comes down, everywhere at once ----
