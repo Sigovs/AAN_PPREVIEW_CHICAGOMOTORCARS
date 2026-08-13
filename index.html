@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=42">
-<link rel="stylesheet" href="assets/css/main.css?v=310">
+<link rel="stylesheet" href="assets/css/main.css?v=311">
 </head>
 <body>
 
@@ -1274,42 +1274,63 @@
   </section>
 
   <!-- ============================================================
-       8 — FINANCING — THE SURFACE
+       8 — FINANCING — THE SURFACE, second pass
        ============================================================
-       Direction B, chosen by Alex 2026-08-13.
+       The first pass built a promo banner: left content, centre image,
+       right menu, with the wheel acting as a divider between two groups
+       of interface. This is one composition instead.
 
-       Read as one object, this homepage shows a car eight times and
-       always from a distance: whole, in an environment, at arm's length.
-       It never gets close. There is no material anywhere on it — no
-       surface, no carbon, no machined metal. Financing is the ownership
-       transition, so it is the right and only place for the page's one
-       moment of physical contact with a car.
+       THE MACRO IS THE GROUND. It is full bleed across the whole
+       section. A bone PLANE is laid into its upper left — touching the
+       section's own left and top edges, so it reads as a field rather
+       than as a card floating on a photograph. Its right and lower
+       edges are hard cuts. No gradient: the soft grey fade was the
+       generic blend Alex rejected.
 
-       THE IMAGE IS THE MASS. Not a panel, not a card, not a photo in a
-       rectangle: it bleeds off three edges and dissolves into the bone
-       on the fourth, and the financing actions sit IN its own black
-       zones as typography rather than beside it as an interface.
+       THE HEADLINE IS THE BRIDGE, and it is the whole idea of the
+       chapter: "Make it" sits inside the light plane, "yours." is
+       indented and runs straight off its edge into the dark. Desire on
+       the bone, ownership in the material.
 
-       CONTROLS. The primary is A1 .btn--fill, on the bone side where a
-       filled control belongs. The two calculators are family C — Story's
-       editorial action — and NOT B: two outlined pills stacked on a
-       photograph is the dark UI sidebar this composition exists to
-       avoid. Hierarchy between them and BitPay is carried by ink, which
-       is what Alex asked for when he said typography and position may
-       create it. Nothing new was authored.
+       It is built as two copies of the same block, not as a trick. The
+       lower copy is set in --ink and lies on the macro; the plane sits
+       over it and hides everything that falls on the bone; the upper
+       copy is set in --bone-ink inside the plane, which clips it. Both
+       are laid out by identical markup, so they cannot drift apart.
+
+       THE RAIL replaces the vertical menu. Three editorial actions on
+       one baseline along the frame's black foot — a compositional line,
+       not a component family. BitPay stays tertiary by tone.
        ============================================================ -->
-  <section class="fin" id="financing" data-reveal aria-labelledby="fin-title">
+  <section class="fin" data-reveal aria-labelledby="fin-title">
 
     <div class="fin__media" aria-hidden="true">
-      <img src="assets/img/financing/gen-wheel-carbon-macro-1600.jpg"
-           srcset="assets/img/financing/gen-wheel-carbon-macro-1600.jpg 1600w,
-                   assets/img/financing/gen-wheel-carbon-macro-2400.jpg 2400w"
-           sizes="64vw"
-           alt="" width="2400" height="1792" loading="lazy" decoding="async">
+      <img src="assets/img/financing/gen-wheel-caliper-macro-1800.jpg"
+           srcset="assets/img/financing/gen-wheel-caliper-macro-1800.jpg 1800w,
+                   assets/img/financing/gen-wheel-caliper-macro-3168.jpg 3168w"
+           sizes="100vw"
+           alt="" width="3168" height="1344" loading="lazy" decoding="async">
     </div>
 
-    <div class="shell fin__inner">
-      <div class="fin__lead on-bone">
+    <!-- the half of the headline that lands on the material -->
+    <div class="fin__ghost" aria-hidden="true">
+      <div class="fin__block">
+        <p class="fin__label">Financing</p>
+        <h2 class="fin__title">
+          <span class="ttl-line">Make it</span>
+          <span class="ttl-line">yours.</span>
+        </h2>
+        <div class="fin__act">
+          <a class="btn btn--fill" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/" tabindex="-1">
+            Online Credit Approval
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="fin__plane on-bone">
+      <div class="fin__block">
         <p class="fin__label">Financing</p>
         <h2 class="fin__title" id="fin-title">
           <span class="ttl-line">Make it</span>
@@ -1324,21 +1345,10 @@
       </div>
     </div>
 
-    <!-- Set into the frame's own black, staggered along the fall of the
-         wheel rather than stacked on one vertical. -->
-    <div class="fin__ops">
-      <a class="fin__op fin__op--a" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">
-        Calculate payments
-        <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-      </a>
-      <a class="fin__op fin__op--b" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">
-        Calculate your trade
-        <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-      </a>
-      <a class="fin__op fin__op--c" href="https://www.chicagomotorcars.com/bitpay/">
-        BitPay available
-        <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
-      </a>
+    <div class="fin__rail">
+      <a class="fin__op" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate payments <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      <a class="fin__op" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate your trade <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      <a class="fin__op fin__op--t" href="https://www.chicagomotorcars.com/bitpay/">BitPay available <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
     </div>
 
   </section>

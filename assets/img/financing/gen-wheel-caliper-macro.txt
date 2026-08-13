@@ -1,0 +1,40 @@
+gen-wheel-caliper-macro.jpg — generated-imagery sidecar
+=======================================================
+
+ORIGIN — SYNTHETIC. Declared, not inferred.
+  model     fal-ai/nano-banana-pro (Google)
+  date      2026-08-13
+  request   019ffd10-ea46-7693-b9fa-52b57deceb06
+  settings  aspect 21:9 · 2K · jpeg · 2 candidates, first chosen
+  master    3168 x 1344 · ladder -1800, -3168
+
+SUBJECT
+  Extreme macro fragment: enormous forged spokes on a steep diagonal, a
+  deep-red brake caliper and drilled carbon-ceramic disc burning between
+  them, a carbon-fibre splitter blade cutting across, black tyre
+  shoulder. The wheel runs off the top and the right — no complete
+  circle is in frame and the image does not read as "a photograph of a
+  wheel". Sculpture and material, which is what the brief asked for.
+
+  COMPOSED FOR THE LAYOUT, not cropped into it afterwards: the left
+  third is clean unbroken near-black and the bottom band is black across
+  the full width, because the bone plane covers the first and the
+  utility rail sits on the second.
+
+GI3 AUDIT
+  · No CMC inventory vehicle. Not identifiable as any model — the crop
+    is too tight to carry proportions, and nothing names a marque.
+  · No premises, no floor, no architecture, no people.
+  · No badge, no centre-cap emblem, no wordmark, no plate, no tyre
+    branding, no lettering or numerals. Excluded in the prompt and
+    checked on the render.
+  VERDICT: passes.
+
+  The red caliper is a real object in the photograph, not the interface
+  accent. It rhymes with #CB141D without spending it.
+
+SUPERSEDES
+  gen-wheel-carbon-macro.jpg (2026-08-13, same day). That frame showed a
+  whole wheel and a large amount of bodywork; Alex read it as "a
+  photograph of a wheel" and asked for a far harder crop. Removed rather
+  than kept, so no undeclared frame sits in the tree.

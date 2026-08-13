@@ -8652,49 +8652,68 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* ============================================================
    8 — FINANCING — THE SURFACE
    ============================================================
-   The image is the chapter. Everything below places type against a
-   photograph's own black; nothing here draws a surface of its own. */
+   The macro is the ground, not an illustration beside the copy. A bone
+   plane is laid into its upper left; the headline crosses the plane's
+   edge; a rail of editorial actions runs along the black foot. One
+   composition, three parts of one idea. */
 .fin {
   position: relative;
   isolation: isolate;
-  background: var(--bone);
-  color: var(--bone-ink);
-  border-radius: var(--r-section);
   overflow: hidden;
-  min-block-size: clamp(32rem, 44vw, 40rem);
-  display: grid;
-  align-items: center;
+  border-radius: var(--r-section);
+  background: var(--bg-sunk);
+  color: var(--ink);
+  min-block-size: clamp(40rem, 52vw, 48rem);
   margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11));
 }
 
-/* Bleeds off top, right and bottom; only the left edge is treated, and
-   it is dissolved rather than cut — a hard vertical would make this a
-   panel, which is the thing it must not be. The dissolve rides the
-   frame's own falloff, so it reads as the shadow ending rather than as
-   an image ending. */
-.fin__media {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-end: 0;
-  inline-size: 64%;
-  z-index: 0;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 30%);
-          mask-image: linear-gradient(to right, transparent 0%, #000 30%);
-}
+.fin__media { position: absolute; inset: 0; z-index: 0; }
 .fin__media img {
-  inline-size: 100%;
-  block-size: 100%;
+  inline-size: 100%; block-size: 100%;
   object-fit: cover;
-  /* Holds the wheel just right of the composition's centre and keeps the
-     frame's black right-hand fall, which is where the actions live. */
-  object-position: 38% center;
+  /* Holds the caliper and the spoke diagonal just right of the plane's
+     edge, which is where the headline arrives. */
+  object-position: 62% center;
   display: block;
 }
 
-.fin__inner { position: relative; z-index: 2; }
+/* ---- The two copies of one block ---------------------------
+   Identical markup so they cannot drift. The ghost lies on the macro in
+   --ink; the plane sits over it and clips it; the plane's own copy is
+   --bone-ink. Only the headline differs between them — the label and
+   the action belong to the light side alone. */
+.fin__ghost,
+.fin__plane { position: absolute; inset-block-start: 0; inset-inline-start: 0; }
+
+.fin__ghost {
+  inline-size: 100%;
+  z-index: 1;
+  pointer-events: none;
+  color: var(--ink);
+}
+.fin__ghost .fin__label,
+.fin__ghost .fin__act { visibility: hidden; }
+
+/* A hard vertical cut, no fade. The plane touches the section's left and
+   top edges — a field, not a card on a photograph. */
+.fin__plane {
+  inline-size: 38%;
+  min-inline-size: 26rem;
+  block-size: 72%;
+  z-index: 2;
+  background: var(--bone);
+  color: var(--bone-ink);
+  overflow: hidden;
+}
+
+.fin__block {
+  padding-inline-start: var(--gutter);
+  padding-block-start: clamp(var(--sp-8), 6vw, var(--sp-9));
+  inline-size: max-content;
+}
 
 .fin__label {
-  margin: 0 0 clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  margin: 0 0 clamp(var(--sp-6), 2.6vw, var(--sp-7));
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -8704,74 +8723,57 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   color: var(--accent-deep);
 }
 
-/* The headline can carry real weight now that the chapter has a subject
-   to answer. It sits under Sell and Warranty, not beside them. */
+/* Big, because it is the bridge and it has to reach across the cut. */
 .fin__title {
-  margin: 0 0 clamp(var(--sp-7), 3.6vw, var(--sp-8));
+  margin: 0 0 clamp(var(--sp-7), 4vw, var(--sp-9));
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(2.5rem, 5vw, 4.25rem);
-  line-height: 0.98;
+  font-size: clamp(3.5rem, 8.4vw, 7.5rem);
+  line-height: 0.94;
   letter-spacing: var(--tr-display);
-  text-transform: none;
 }
-.fin__title .ttl-line { display: block; }
+.fin__title .ttl-line { display: block; white-space: nowrap; }
+/* The second line starts late and runs out of the light. */
+.fin__title .ttl-line + .ttl-line { margin-inline-start: 2.15em; }
 
 .fin__act { display: flex; }
-.fin__lead { max-inline-size: 30rem; }
 
-/* ---- The actions, set into the frame's black ----------------
-   Measured, not guessed: a 16x12 pass over the master puts the right
-   band from 41% height down at p95 0.011-0.027 luminance — deep enough
-   that --ink clears body text with an order of magnitude to spare. The
-   top-right corner carries a light streak and is avoided.
-
-   Staggered on three different verticals, following the fall of the
-   wheel. A single left edge would have rebuilt the sidebar. */
-.fin__ops {
+/* ---- The rail ----------------------------------------------
+   One baseline along the frame's black foot. Three editorial actions,
+   not a stack and not a panel. */
+.fin__rail {
   position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
+  z-index: 3;
+  inset-inline: var(--gutter);
+  inset-block-end: clamp(var(--sp-7), 4vw, var(--sp-8));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(var(--sp-6), 4.5vw, var(--sp-9));
 }
-.fin__op {
-  position: absolute;
-  pointer-events: auto;
-  color: var(--ink);
-  white-space: nowrap;
-}
-/* Placed off the COMPOSITE, not off the master — after object-fit the
-   two are different coordinate spaces, and the first pass put two lines
-   across the rim's bright spokes because it trusted the file. A 19x13
-   pass over the render puts the bright rim above y45% and left of
-   x1080; everything right and below that is the tyre's shoulder and the
-   shadow behind it, p95 well under 0.154. The three run down that
-   shadow, on a diagonal answering the headline. */
-.fin__op--a { inset-inline-end: 8%;  inset-block-start: 48%; }
-.fin__op--b { inset-inline-end: 4%;  inset-block-start: 62%; }
-/* The aside drops a full step of ink rather than a step of size — the
-   14px floor holds for every one of the three. */
-.fin__op--c { inset-inline-end: 10%; inset-block-start: 76%; color: var(--ink-2); }
+.fin__op { color: var(--ink); white-space: nowrap; }
+.fin__op--t { color: var(--ink-2); }
 
-/* Below the two-mass width the frame goes to the foot of the section and
-   the actions come off it onto the page's own ground, because a phone
-   cannot hold a macro and three lines of type in the same field. */
+/* One column below the two-mass width: the plane takes the full width
+   and the macro sits under it, so the headline still crosses a cut —
+   a horizontal one — rather than losing the idea to a stack. */
 @media (max-width: 900px) {
-  .fin {
-    display: block;
-    min-block-size: 0;
-    padding-block-end: clamp(var(--sp-8), 9vw, var(--sp-9));
-  }
-  .fin__media {
+  .fin { min-block-size: 0; }
+  .fin__media { position: relative; aspect-ratio: 16 / 11; }
+  .fin__ghost { display: none; }
+  .fin__plane {
     position: relative;
     inline-size: 100%;
-    aspect-ratio: 4 / 3;
-    -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 26%);
-            mask-image: linear-gradient(to top, transparent 0%, #000 26%);
+    min-inline-size: 0;
+    block-size: auto;
+    padding-block-end: clamp(var(--sp-7), 8vw, var(--sp-8));
   }
-  .fin__inner { margin-block-start: calc(-1 * clamp(var(--sp-8), 12vw, var(--sp-10))); }
-  .fin__ops { position: static; display: flex; flex-direction: column; gap: var(--sp-5);
-              margin-block-start: clamp(var(--sp-7), 7vw, var(--sp-8)); padding-inline: var(--gutter); }
-  .fin__op { position: static; color: var(--bone-ink); }
-  .fin__op--c { color: var(--bone-ink-2); }
+  .fin__title .ttl-line + .ttl-line { margin-inline-start: 1.2em; }
+  .fin__rail {
+    position: static;
+    margin: 0;
+    padding: clamp(var(--sp-7), 8vw, var(--sp-8)) var(--gutter) clamp(var(--sp-8), 9vw, var(--sp-9));
+    gap: var(--sp-5);
+    flex-direction: column;
+  }
 }
