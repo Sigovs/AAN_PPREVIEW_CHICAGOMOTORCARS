@@ -7031,36 +7031,12 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   }
 }
 
-.warranty__inner {
-  padding-block: clamp(var(--sp-8), 7vw, var(--sp-10)) clamp(var(--sp-8), 7vw, var(--sp-9));
-}
+/* .warranty__inner carries no vertical padding: the band sets its own
+   height and its own air, and the two were stacking — that, not the
+   min-height, was most of the empty concrete under the actions. */
 
-.warranty__grid {
-  display: grid;
-  /* 50/50, and the rebalance is what the two deletions actually asked
-     for. 40/60 was correct when the panel held three diagrams in a
-     third column and the copy column had a schematic to fill it. With
-     both gone the panel needs less width and the copy needs more —
-     enough more that the two actions finally fit on one row, which is
-     the composition the mock had and the old split could not reach.
-     The measured need was 600px against a 490px column; at 50 it is
-     587 and they sit side by side with room to spare. */
-  /* Columns and gap are NOT set here — the .warranty__grid:not(#x) rule
-     further down carries ID specificity and wins both. They live there.
-     margin-inline-end survives because that rule does not declare it. */
-  align-items: start;
-  /* THE PICTURE LEAVES ON THE RIGHT. calc(50% - 50vw) is exactly the
-     distance from the shell's right content edge to the viewport's, so
-     the grid grows to the window and the frame runs off it. The section
-     already has overflow: hidden for its wave cut, which is also what
-     stops 100vw's scrollbar overshoot from becoming a scrollbar.
-
-     The reason is compositional, not decorative: the copy is anchored to
-     the container's left vertical, and a picture that stops at the
-     container on the other side turns the two masses into a boxed
-     left/right pair. Letting it leave is what keeps them a composition. */
-  margin-inline-end: calc(50% - 50vw);
-}
+/* .warranty__grid retired: the photograph became the ground, so there is
+   no two-column split left to size or to bleed. */
 
 /* ---- Left: the claim ---------------------------------------- */
 .warranty__copy {
@@ -7296,7 +7272,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    themselves; below that they stop being diagrams and become
    texture, and texture beside a warranty provision is noise. */
 @media (max-width: 1080px) {
-  .warranty__grid { grid-template-columns: minmax(0, 1fr); }
+  /* .warranty__grid is gone — the band is a single overlaid column. */
 }
 
 @media (max-width: 760px) {
@@ -9168,22 +9144,89 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
    already carried, and every gap off the --sp-* scale. The mock's teal
    and its near-white are not carried across; a borrowed layout is not a
    licence to borrow a palette. */
-.warranty__grid,
-.warranty__grid:not(#x) {
+/* ---- THE BAND ------------------------------------------------------
+   Full-bleed frame, copy standing on its empty left. The band is sized
+   by the picture's own 16:9 with a floor and a ceiling, so the copy
+   never runs out of wall on a short viewport and the frame never
+   swallows the page on a wide one. */
+.warranty__band {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  /* THE COPY COLUMN IS SIZED TO THE COPY. It was 47fr — about 616px at
-     1440 — while the widest thing in it, the two-action row, is 544 and
-     .warranty__copy caps at 34rem anyway. That left 72px of dead column
-     ON TOP OF the 72px gap, and the picture looked pushed away. The
-     column is now a real width just clear of the copy, and the gap comes
-     down with it: the frame walks 67px left and the actions keep their
-     row. */
-  grid-template-columns: minmax(0, clamp(32rem, 40vw, 35.5rem)) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(var(--sp-5), 3.4vw, var(--sp-8));
+  /* The band was 777px against 400px of copy, which left 187px of empty
+     concrete between the actions and the cards — the picture had stopped
+     saying anything long before the section ended. Shorter, and the crop
+     it costs is floor, not car. */
+  min-block-size: clamp(30rem, 44vw, 46rem);
+  /* ASYMMETRIC, AND THE HEADER IS WHY. Scrolled so the band's top meets
+     the masthead, the header's own dark wash falls across the first
+     ~110px of the section: measured under the eyebrow it took the ground
+     to (170,169,169) and --accent-deep to 2.92:1, under the 4.5 a 15px
+     label needs. The copy starts below that falloff now. The total is
+     within 8px of the symmetric version, so the cards do not move. */
+  padding-block: clamp(var(--sp-9), 9vw, var(--sp-11)) clamp(var(--sp-6), 2.6vw, var(--sp-7));
+}
+.warranty__bg { position: absolute; inset: 0; z-index: -1; }
+.warranty__bg img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* Held right-of-centre: the cars are there and the empty concrete the
+     copy needs is on the left, so as the band narrows it is the empty
+     ground that gets eaten rather than the subjects. */
+  object-position: 72% center;
+  display: block;
 }
 
+/* ---- The two edges close into the bone -----------------------------
+   The frame's concrete sits within a few values of --bone, so these
+   ramps are not hiding a seam — they are letting the picture and the
+   band's own ground read as one surface. Top and bottom both, because
+   the section arrives on a wave cut and leaves into the three cards. */
+.warranty__bg::before,
+.warranty__bg::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  pointer-events: none;
+}
+/* THE LEFT FIELD IS RAMPED, AND CONTRAST IS WHY. The frame's upper left
+   is a wall in shadow at (145,143,144) — measured, --accent-deep on it
+   is 2.44:1, and the eyebrow is 15px of text that needs 4.5. The ramp
+   lifts that field to within reach of --bone, where this red is already
+   known to sit at 4.78.
+
+   It stops at 54%, short of the Porsche's nose, so it lightens the wall
+   the copy stands on and never touches the cars. The top ramp rides in
+   the same layer because both are doing the same job: closing the
+   picture into the band's own ground. */
+.warranty__bg::before {
+  inset: 0;
+  background:
+    linear-gradient(to right,
+      var(--bone) 0%,
+      rgba(237, 234, 228, 0.88) 20%,
+      rgba(237, 234, 228, 0.55) 36%,
+      rgba(237, 234, 228, 0) 54%),
+    linear-gradient(to bottom,
+      var(--bone) 0%,
+      rgba(237, 234, 228, 0.66) 9%,
+      rgba(237, 234, 228, 0) 20%);
+}
+.warranty__bg::after {
+  inset-block: auto 0;
+  block-size: clamp(150px, 26%, 320px);
+  background: linear-gradient(to top,
+    var(--bone) 0%,
+    rgba(237, 234, 228, 0.9) 30%,
+    rgba(237, 234, 228, 0.55) 58%,
+    rgba(237, 234, 228, 0) 100%);
+}
+
+.warranty__inner { position: relative; z-index: 1; }
 .warranty__copy { max-inline-size: 34rem; }
+.warranty__foot { position: relative; z-index: 1; }
 
 /* The eyebrow's separator is a mark, not a word — the middle dot takes
    the accent and the two halves stay in the label's own ink. */
@@ -9219,33 +9262,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
   gap: var(--sp-4);
 }
 
-/* The image takes the section's own corner, not a new one. */
-.warranty__shot {
-  margin: 0;
-  /* Rounded on the left only. The right side has no corner to round —
-     it is off the page. */
-  border-start-start-radius: var(--r-section);
-  border-end-start-radius: var(--r-section);
-  overflow: hidden;
-  background: var(--bg-sunk);
-}
-.warranty__shot img {
-  display: block;
-  inline-size: 100%;
-  block-size: auto;
-  /* The frame's own 955x442. No crop: it was composed as this shape and
-     the three cars sit across the full width, so any aspect of ours
-     would take one of them out at an edge. */
-  aspect-ratio: 955 / 442;
-  object-fit: cover;
-  object-position: center;
-}
-
 @media (max-width: 900px) {
-  /* Stacked, the bleed has nothing to lean against — the picture goes
-     back inside the container and takes both left corners. */
-  .warranty__grid { margin-inline-end: 0; }
-  .warranty__shot { border-radius: var(--r-section); }
+  /* Narrow, the empty concrete is the first thing the crop eats, so the
+     band gets taller and the frame slides toward its left edge to keep
+     wall under the copy. */
+  .warranty__band { min-block-size: clamp(30rem, 82vw, 40rem); }
+  .warranty__bg img { object-position: 62% center; }
 }
 
 /* ---- The three provisions, as cards ------------------------
@@ -9254,7 +9276,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
    reads as a surface. */
 .wcards {
   list-style: none;
-  margin: clamp(var(--sp-8), 5vw, var(--sp-9)) 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -9316,8 +9338,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
 }
 
 @media (max-width: 900px) {
-  .warranty__grid,
-  .warranty__grid:not(#x) { grid-template-columns: minmax(0, 1fr); }
+  /* .warranty__grid is gone — the band is a single overlaid column. */
   .warranty__copy { max-inline-size: none; }
   .wcards { grid-template-columns: minmax(0, 1fr); }
 }
@@ -9327,28 +9348,32 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
    same rise the other chapters use. Plain selectors for the transition
    and a separate property for the delays, for the reasons already
    recorded in Financing. */
-.reveal-armed [data-reveal] .warranty__shot,
 .reveal-armed [data-reveal] .wcard {
   opacity: 0;
   translate: 0 18px;
   will-change: opacity, translate;
 }
-.warranty__shot,
+/* THE GROUND FADES, IT DOES NOT RISE. The picture is now the band's
+   background at inset: 0 — 18px of travel would open a strip of bare
+   bone along its top edge for the length of the entrance. It was a
+   figure in a column when that rise was written; it is the room now. */
+.reveal-armed [data-reveal] .warranty__bg { opacity: 0; }
+.warranty__bg,
 .wcard {
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out),
               background-color var(--dur-3) var(--ease-out),
               box-shadow var(--dur-3) var(--ease-out);
 }
-.reveal-armed [data-reveal].is-revealed .warranty__shot,
+.reveal-armed [data-reveal].is-revealed .warranty__bg { opacity: 1; }
 .reveal-armed [data-reveal].is-revealed .wcard { opacity: 1; translate: 0 0; }
 
-.reveal-armed [data-reveal].is-revealed .warranty__shot { transition-delay: calc(var(--rv-step) * 1.6); }
+.reveal-armed [data-reveal].is-revealed .warranty__bg { transition-delay: calc(var(--rv-step) * 1.6); }
 .reveal-armed [data-reveal].is-revealed .wcard:nth-child(1) { transition-delay: calc(var(--rv-step) * 2.6); }
 .reveal-armed [data-reveal].is-revealed .wcard:nth-child(2) { transition-delay: calc(var(--rv-step) * 3.3); }
 .reveal-armed [data-reveal].is-revealed .wcard:nth-child(3) { transition-delay: calc(var(--rv-step) * 4); }
 
-html.reveal-armed [data-reveal]:not(.is-revealed) .warranty__shot,
+html.reveal-armed [data-reveal]:not(.is-revealed) .warranty__bg { opacity: 0; }
 html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   opacity: 0;
   translate: 0 18px;
@@ -9483,6 +9508,45 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .karma__act { display: flex; }
 
 /* ============================================================
+   THE EYEBROW, EVERYWHERE
+   ============================================================
+   Every chapter's opening label resolves here and nowhere else — the
+   same argument as --gap-eyebrow, which fixed the space between the
+   eyebrow and the title while leaving the eyebrow itself in eight
+   different states. Size, weight, tracking and ink are the token's; only
+   the colour splits, and only because red on the dark ground measures
+   3.41:1 and cannot carry 15px of text.
+
+   Escalated with :not(#x) because several of these already carried it
+   and would otherwise win against a plain selector. */
+.brk__eyebrow:not(#x),
+.warranty__eyebrow:not(#x),
+.fin__label:not(#x),
+.karma__label:not(#x),
+.about__eyebrow:not(#x),
+.ig__eyebrow:not(#x),
+.revs__eyebrow:not(#x),
+.locs__eyebrow:not(#x) {
+  font-family: var(--font-label);
+  font-size: var(--t-eyebrow);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  line-height: var(--lh-label);
+}
+/* Dark grounds: --ink-2 was 0.62 and read as small print. */
+.brk__eyebrow:not(#x),
+.karma__label:not(#x),
+.about__eyebrow:not(#x),
+.ig__eyebrow:not(#x),
+.revs__eyebrow:not(#x),
+.locs__eyebrow:not(#x) { color: var(--ink-eyebrow); }
+/* Bone grounds keep the red — it is the page's convention there, and at
+   600 it is the weight that makes it solid rather than the value. */
+.warranty__eyebrow:not(#x),
+.fin__label:not(#x) { color: var(--accent-deep); }
+
+/* ============================================================
    THE DIRTY-BLUE BLOOM
    ============================================================
    A lighting event, not a panel. Three overlapping ellipses at different
@@ -9577,7 +9641,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    against --bg, under AA for a 14px label — so the dark-ground eyebrows
    are --ink-2, as on Instagram, Reviews and Locations. */
 .about__eyebrow,
-.about__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
+.about__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); }
 .about__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9677,7 +9741,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
 }
 .ig__eyebrow,
-.ig__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
+.ig__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); }
 .ig__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9797,7 +9861,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
 }
 .revs__eyebrow,
-.revs__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
+.revs__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); }
 .revs__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9954,7 +10018,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 .locs__head { margin-block-end: clamp(var(--sp-8), 4vw, var(--sp-9)); }
 .locs__eyebrow,
-.locs__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
+.locs__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); }
 .locs__title {
   margin: 0;
   font-family: var(--font-display);

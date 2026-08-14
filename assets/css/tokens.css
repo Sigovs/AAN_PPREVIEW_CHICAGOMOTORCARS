@@ -359,6 +359,21 @@
      decided. Reviews was the one that read right, so its value is the
      value. Do not set this relationship anywhere else; change it here. */
   --gap-eyebrow: var(--sp-3);   /* 12px, ~15.7px optical */
+
+  /* ---- AND THE EYEBROW ITSELF ---------------------------------------
+     One face, one size, one weight, one ink, everywhere. They were all
+     .micro at 14px/500 in --ink-2, which is the same treatment as a stat
+     caption and a menu label — correct as a floor, too quiet for the
+     line that names a chapter. 15px and 600 give an uppercase label real
+     colour on the page without letting it approach the headline, and
+     0.86 alpha on the dark grounds stops it reading as a disclaimer.
+
+     The tracking is the part that does the "solid" work: at 600, caps
+     want a little air or they set into a block. */
+  --t-eyebrow:  0.9375rem;      /* 15px */
+  --fw-eyebrow: 600;
+  --tr-eyebrow: 0.045em;
+  --ink-eyebrow: rgba(244, 242, 239, 0.86);
   --sp-5: 24px;
   --sp-6: 32px;
   --sp-7: 48px;

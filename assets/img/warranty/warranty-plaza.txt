@@ -1,0 +1,65 @@
+warranty-plaza.jpg — provenance sidecar
+=======================================
+
+FILE
+  warranty_upd.png            1920 x 1080   2.26 MB   (master, as supplied)
+  warranty-plaza-1920.jpg     1920 x 1080    371 KB   sips, q86
+  warranty-plaza-1600.jpg     1600 x  900    207 KB   sips, q86
+
+  The PNG stays the master and is not what the page serves. The ladder
+  stops at 1920 because the master is 1920 — a 2560 step would be an
+  upscale, costing bytes and returning nothing.
+
+SUPPLIED BY
+  Alex, 2026-08-14, named "warranty_upd.png". It replaces warranty_new.png
+  (955 x 442), which was the same scene cropped: same three cars, same
+  courtyard, but with the empty left field cut away. That crop is why the
+  earlier composition had to put the picture in a column. This one was
+  composed for copy to stand on and the section follows it.
+
+SUBJECT
+  Three cars in a daylight concrete courtyard, held right of centre: a
+  yellow Lamborghini Revuelto, a white-and-black Porsche 911 GT3 RS, a
+  white Ferrari 488 Spider. Overcast sky, poured-concrete walls, no
+  people, no signage, no plates.
+
+  The left 45% is empty lit concrete — a wall in shadow at the top, floor
+  below it — and that is where the chapter's copy sits.
+
+OPEN QUESTIONS — resolve before this goes to the client
+  1. ORIGIN NOT DECLARED, unchanged from warranty_new. The frame reads as
+     a 3D render: the paint reflections, the shadow falloff and the wall
+     geometry are cleaner than a shot exterior, and the three cars are
+     lit as one scene with no ambient inconsistency between them.
+
+     It has NOT been confirmed as photographic and it has NOT been
+     confirmed as CMC's own cars. No gen- prefix, because asserting
+     synthesis is as wrong as asserting photography — the same call as
+     assets/img/sell/.
+
+       · Synthetic -> GI3 applies. No CMC showroom is depicted, so the
+         worst reading is avoided, but three specific cars are, and on a
+         dealership page a generated car can be read as inventory. Needs
+         the gen- prefix and a full generated-imagery audit.
+       · A real photograph of somewhere that is not CMC -> the art
+         direction's "real inventory cars, not stock supercars" applies.
+
+CONTRAST, measured on the composited render, glyph-located
+  1440 viewport, darkest ground under each run:
+    eyebrow  6.12  (needs 4.5)   --accent-deep, 15px
+    headline 12.41 (needs 3.0)
+    lede      5.81 (needs 4.5)
+    outline button label 9.98 (needs 4.5)
+
+  Two things had to move to get there. The frame's upper-left wall sits
+  at (145,143,144) and red measured 2.44 on it, so the picture carries a
+  left ramp to --bone that stops at 54%, short of the Porsche's nose. And
+  the header's own dark wash falls across the first ~110px of any section
+  it meets, which took the eyebrow to 2.92; the band's top padding now
+  starts the copy below that falloff.
+
+  Remaining, and it is the header's not the picture's: while the eyebrow
+  is physically PASSING UNDER the masthead it measures 1.88. That is the
+  translucent sticky header over moving text and it is true of every
+  section on the page, approved ones included. Fixing it is a header
+  decision, not a Warranty one.
