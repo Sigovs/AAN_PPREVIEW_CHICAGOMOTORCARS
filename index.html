@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=43">
-<link rel="stylesheet" href="assets/css/main.css?v=339">
+<link rel="stylesheet" href="assets/css/main.css?v=340">
 </head>
 <body>
 
@@ -1242,17 +1242,22 @@
       <div class="svc__register">
       <h2 class="svc__title">Our Services</h2>
 
-      <!-- Eight of the thirteen the live site lists. The rest are not
-           dropped, they are behind VIEW OUR SERVICES — a register that
-           runs past the frame stops being a register and becomes a
-           wall. Numbering and rules carry the structure; no cards. -->
+      <!-- Six of the thirteen the live site lists — a register that runs
+           past the frame stops being a register and becomes a wall.
+           Numbering and rules carry the structure; no cards.
+
+           EACH ROW IS A LINK, and that is what earns the hover. A hover
+           state is a promise of interactivity, so putting one on inert
+           text would be a lie told to the cursor. They open the services
+           page, which is also how that route returns to the homepage —
+           it left when the button was renamed to Ask about service. -->
       <ol class="svc__list">
-        <li><span class="svc__n">01</span><span class="svc__item">Lube, oil &amp; filter</span></li>
-        <li><span class="svc__n">02</span><span class="svc__item">Brakes</span></li>
-        <li><span class="svc__n">03</span><span class="svc__item">Front end alignment</span></li>
-        <li><span class="svc__n">04</span><span class="svc__item">Vehicle inspection</span></li>
-        <li><span class="svc__n">05</span><span class="svc__item">Electrical service</span></li>
-        <li><span class="svc__n">06</span><span class="svc__item">Transmission</span></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">01</span><span class="svc__item">Lube, oil &amp; filter</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">02</span><span class="svc__item">Brakes</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">03</span><span class="svc__item">Front end alignment</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">04</span><span class="svc__item">Vehicle inspection</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">05</span><span class="svc__item">Electrical service</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">06</span><span class="svc__item">Transmission</span></a></li>
       </ol>
 
       <div class="svc__actions">

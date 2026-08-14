@@ -8242,12 +8242,18 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   padding: 0;
   align-self: stretch;
 }
-.svc__list li {
+/* The row's geometry moves onto the anchor so the whole line is the
+   target, not just the words in it. */
+.svc__list li { display: block; }
+.svc__row {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: clamp(var(--sp-4), 2vw, var(--sp-5));
   align-items: baseline;
   padding-block: clamp(var(--sp-2), 1vw, var(--sp-3));
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--sel-dur) var(--sel-ease);
 }
 /* Rules BETWEEN, not around — the grammar the sell steps and the
    warranty provisions already use, which is what makes this a register
@@ -8973,3 +8979,24 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   padding-block: clamp(var(--sp-5), 1.6vw, var(--sp-6));
   gap: var(--sp-3);
 }
+
+/* ---- The register's hover ----------------------------------
+   Restrained on purpose: this is a list of six, and a loud state on each
+   would turn a quiet register into a menu. The numeral comes up to full
+   ink, the item shifts by the width of a hairline's worth of air, and
+   nothing else moves. The colour change is the signal; the shift only
+   confirms which row the cursor is on. */
+.svc__n,
+.svc__item { transition: color var(--sel-dur) var(--sel-ease),
+                         translate var(--dur-2) var(--ease-out); }
+
+@media (hover: hover) {
+  .svc__row:hover .svc__n { color: var(--ink); }
+  .svc__row:hover .svc__item { translate: 4px 0; }
+}
+.svc__row:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.svc__row:focus-visible .svc__n { color: var(--ink); }
