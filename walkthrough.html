@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Chicago Motor Cars homepage redesign — walkthrough of the preview, the calls we made, and the assets we need.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 32 32&quot;%3E%3Ctext y=&quot;26&quot; font-size=&quot;26&quot;%3E%F0%9F%8F%81%3C/text%3E%3C/svg%3E">
+<title>Chicago Motor Cars — homepage redesign, walkthrough</title>
+<style>
+/* ------------------------------------------------------------------
+   Palette and register are the redesign's own, so this note reads as
+   part of the work rather than as a document about it. Dark-first,
+   because the page is; the light theme is the page's own inverted bone
+   band, so both themes come out of one system.
+
+   Red follows the page's rule and not decoration: #CB141D measures
+   3.41:1 on the navy ground, which is fine for a fill or a rule and
+   under AA for text — so the eyebrows take red only where the ground
+   is bone, and ink everywhere else. --eyebrow-ink carries that, per
+   theme, for the page and for the inverted panel independently.
+   ------------------------------------------------------------------ */
+:root {
+  --ground:      #0B101C;
+  --ground-deep: #070B13;
+  --surface:     #131A2A;
+  --ink:         #F4F2EF;
+  --ink-2:       rgba(244, 242, 239, 0.68);
+  --ink-3:       rgba(244, 242, 239, 0.56);
+  --rule:        rgba(244, 242, 239, 0.14);
+  --rule-soft:   rgba(244, 242, 239, 0.08);
+  --accent:      #CB141D;
+  --accent-ink:  #F4F2EF;
+  --eyebrow-ink: rgba(244, 242, 239, 0.86);
+  --link-ink:    #F4F2EF;
+
+  --flip-ground:      #EDEAE4;
+  --flip-ink:         #16150F;
+  --flip-ink-2:       rgba(22, 21, 15, 0.76);
+  --flip-rule:        rgba(22, 21, 15, 0.16);
+  --flip-accent:      #A50F17;
+  --flip-eyebrow-ink: #A50F17;
+
+  --shell: 62rem;
+  --measure: 64ch;
+
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+          "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ground:      #EDEAE4;
+    --ground-deep: #E5E1D9;
+    --surface:     #F6F4F0;
+    --ink:         #16150F;
+    --ink-2:       rgba(22, 21, 15, 0.78);
+    --ink-3:       rgba(22, 21, 15, 0.66);
+    --rule:        rgba(22, 21, 15, 0.18);
+    --rule-soft:   rgba(22, 21, 15, 0.10);
+    --accent:      #A50F17;
+    --accent-ink:  #F4F2EF;
+    --eyebrow-ink: #A50F17;
+    --link-ink:    #A50F17;
+
+    --flip-ground:      #0B101C;
+    --flip-ink:         #F4F2EF;
+    --flip-ink-2:       rgba(244, 242, 239, 0.68);
+    --flip-rule:        rgba(244, 242, 239, 0.14);
+    --flip-accent:      #CB141D;
+    --flip-eyebrow-ink: rgba(244, 242, 239, 0.86);
+  }
+}
+:root[data-theme="light"] {
+  --ground:      #EDEAE4;
+  --ground-deep: #E5E1D9;
+  --surface:     #F6F4F0;
+  --ink:         #16150F;
+  --ink-2:       rgba(22, 21, 15, 0.78);
+  --ink-3:       rgba(22, 21, 15, 0.66);
+  --rule:        rgba(22, 21, 15, 0.18);
+  --rule-soft:   rgba(22, 21, 15, 0.10);
+  --accent:      #A50F17;
+  --accent-ink:  #F4F2EF;
+  --eyebrow-ink: #A50F17;
+  --link-ink:    #A50F17;
+
+  --flip-ground:      #0B101C;
+  --flip-ink:         #F4F2EF;
+  --flip-ink-2:       rgba(244, 242, 239, 0.68);
+  --flip-rule:        rgba(244, 242, 239, 0.14);
+  --flip-accent:      #CB141D;
+  --flip-eyebrow-ink: rgba(244, 242, 239, 0.86);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+.shell {
+  width: min(100% - 2 * clamp(20px, 5vw, 56px), var(--shell));
+  margin-inline: auto;
+}
+
+/* ---- masthead ---------------------------------------------------- */
+.top {
+  border-bottom: 1px solid var(--rule);
+  background: var(--ground-deep);
+  padding-block: clamp(40px, 7vw, 76px) clamp(32px, 5vw, 52px);
+}
+.kicker {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 20px;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5.2vw, 3.25rem);
+  line-height: 1.03;
+  font-weight: 700;
+  letter-spacing: -0.026em;
+  text-wrap: balance;
+  max-width: 18ch;
+}
+.standfirst {
+  margin: 22px 0 0;
+  max-width: var(--measure);
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+}
+
+.linkbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-top: 30px;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--ground-deep);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color .22s ease, color .22s ease;
+}
+.cta:hover { background: var(--accent); color: var(--accent-ink); }
+.cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.linkbar small {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+/* ---- sections ---------------------------------------------------- */
+section { padding-block: clamp(44px, 7vw, 78px); }
+section + section { border-top: 1px solid var(--rule-soft); }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eyebrow-ink);
+  margin: 0 0 14px;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 2.9vw, 1.9rem);
+  line-height: 1.14;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+h3 {
+  margin: 0 0 6px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+}
+p { margin: 0 0 1em; max-width: var(--measure); }
+p:last-child { margin-bottom: 0; }
+.lede { color: var(--ink-2); margin-bottom: 34px; }
+strong { font-weight: 600; color: var(--ink); }
+em { font-style: normal; color: var(--ink); font-weight: 600; }
+
+/* ---- the scroll register ----------------------------------------
+   Numbered because the numbers are true: this is the order a visitor
+   meets the chapters in, top to bottom. -------------------------- */
+.register { border-top: 1px solid var(--rule); }
+.chapter {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 0 20px;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.chapter__n {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  padding-top: 4px;
+}
+.chapter p { margin: 0; color: var(--ink-2); font-size: 1rem; }
+/* The red is a 2px rule, not a word — a fill and a rule are the two
+   things this value is cleared for on this ground. */
+.chapter--flag { border-left: 2px solid var(--accent); margin-left: -2px; padding-left: 18px; }
+.chapter--flag .chapter__n { color: var(--eyebrow-ink); }
+
+/* ---- the inverted panel: the ask --------------------------------- */
+.flip {
+  background: var(--flip-ground);
+  color: var(--flip-ink);
+  border-radius: 18px;
+  padding: clamp(28px, 5vw, 52px);
+}
+.flip .eyebrow { color: var(--flip-eyebrow-ink); }
+.flip p { color: var(--flip-ink-2); }
+.flip h2, .flip h3, .flip strong { color: var(--flip-ink); }
+.asks { margin: 30px 0 0; padding: 0; list-style: none; }
+.ask {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: 0 16px;
+  padding-block: 18px;
+  border-top: 1px solid var(--flip-rule);
+}
+.ask__n {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--flip-eyebrow-ink);
+  padding-top: 3px;
+}
+.ask p { margin: 0; font-size: 1rem; }
+.ask .spec {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--flip-ink-2);
+}
+
+/* ---- suggestion cards -------------------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+.card {
+  padding: 22px 22px 24px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.card p { margin: 0; font-size: 0.9375rem; color: var(--ink-2); }
+.card .why {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.52;
+  color: var(--ink-3);
+}
+
+/* ---- the two open calls ------------------------------------------ */
+.calls { display: grid; gap: 16px; margin-top: 30px; }
+.call {
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 24px clamp(20px, 3vw, 28px);
+}
+.call h3 { margin-bottom: 8px; }
+.call p { color: var(--ink-2); font-size: 0.9688rem; }
+.call .verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--eyebrow-ink);
+}
+.call .verdict::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ---- footer ------------------------------------------------------- */
+.foot {
+  border-top: 1px solid var(--rule);
+  background: var(--ground-deep);
+  padding-block: 40px 52px;
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+}
+.foot p { max-width: var(--measure); }
+
+a { color: var(--link-ink); text-underline-offset: 3px; }
+/* The preview URL is one unbroken 46-character token; on a 390px screen
+   it was pushing the whole document sideways. */
+a { overflow-wrap: anywhere; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+@media (max-width: 560px) {
+  .chapter { grid-template-columns: 2.5rem minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="shell">
+    <p class="kicker">Chicago Motor Cars · Homepage redesign · Preview 1</p>
+    <h1>What we built, and what we still need from you.</h1>
+    <p class="standfirst">The homepage is complete end to end and live on the preview link
+      below. This is a short walkthrough of the calls we made, the two we'd like your
+      opinion on, and the material we need from you to finish it properly.</p>
+    <div class="linkbar">
+      <a class="cta" href="https://sigovs.github.io/AAN_PPREVIEW_CHICAGOMOTORCARS/">Open the preview</a>
+      <small>Best on desktop · scroll the whole page</small>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="shell">
+      <p class="eyebrow">The page, top to bottom</p>
+      <h2>Fourteen chapters, one scroll</h2>
+      <p class="lede">Everything on the page is real: your inventory, your addresses and
+        phone numbers, your Instagram feed, your reviews. Nothing is placeholder copy.
+        The three chapters marked with a red rule are where we'd like a decision from
+        you.</p>
+
+      <div class="register">
+        <div class="chapter chapter--flag">
+          <div class="chapter__n">01</div>
+          <div>
+            <h3>Hero</h3>
+            <p>Two slides. The <strong>01 / 02</strong> control at the left switches
+              between them — a second car and a second claim, without pushing the
+              visitor anywhere. The search panel sits on the right and stays put while
+              the picture changes.</p>
+          </div>
+        </div>
+
+        <div class="chapter chapter--flag">
+          <div class="chapter__n">02</div>
+          <div>
+            <h3>Featured Inventory</h3>
+            <p>We cut the cars out of their backgrounds instead of showing them parked
+              on the showroom floor. It takes more work per vehicle and it reads
+              considerably more expensive — the car becomes the object, not the room it
+              happens to be standing in. We can show you the version with the
+              backgrounds left in if you'd like to compare.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">03</div>
+          <div>
+            <h3>"Some cars only make sense in person"</h3>
+            <p>A full-width film band that names the four showrooms and sends the
+              visitor to plan a visit.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">04</div>
+          <div>
+            <h3>Sell your car</h3>
+            <p>Get an offer, with the three-step sequence beneath it — tell us about the
+              car, receive an offer, payment and pickup.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">05</div>
+          <div>
+            <h3>Built on more than exceptional cars</h3>
+            <p>Your three figures at scale: 30,000+ vehicles sold, since 2003, $2B+ in
+              worldwide sales. 30,000+ leads and the other two support it, because one
+              number people remember beats three they don't.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">06</div>
+          <div>
+            <h3>Warranty &amp; Protection</h3>
+            <p>The claim over a full-width frame, then the three provisions — every part
+              covered, multiple plans, aftermarket protection.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">07</div>
+          <div>
+            <h3>Financing</h3>
+            <p>Three ways to start — online credit approval, payment calculator, trade
+              valuation. BitPay is present and deliberately quiet: it's a real
+              capability, but on the homepage it shouldn't stand level with getting
+              approved.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">08</div>
+          <div>
+            <h3>Our Services</h3>
+            <p>The six-item service register over your workshop footage.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">09</div>
+          <div>
+            <h3>About us</h3>
+            <p>Your own words, taken from your About page. See the note at the end —
+              one sentence in that copy needs updating on your side.</p>
+          </div>
+        </div>
+
+        <div class="chapter chapter--flag">
+          <div class="chapter__n">10</div>
+          <div>
+            <h3>Karma — authorized dealer</h3>
+            <p>A brand inside the brand: the Karma mark, one line, one route. It runs
+              over Karma's own headlight footage, dimmed hard so the chapter stays
+              yours. <strong>Please confirm you're cleared to use that footage</strong> —
+              we took it from Karma's public website, which is not the same as being
+              granted it. The chapter works without it.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">11</div>
+          <div>
+            <h3>Instagram</h3>
+            <p>Your twelve most recent posts, pulled from the feed your current site
+              already serves. The strip scrolls and can be dragged.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">12</div>
+          <div>
+            <h3>Reviews</h3>
+            <p>Nine real reviews across Google, Cars.com and DealerRater, taken from
+              your own testimonials page. Names, dates and wording exactly as published,
+              three per page, each card linking back to its source. <strong>No overall
+              rating and no review count anywhere</strong> — you don't publish those
+              figures, so we won't invent them.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">13</div>
+          <div>
+            <h3>Come see what's on the floor</h3>
+            <p>All four showrooms — West Chicago, Naperville, Rock Hill and Tonganoxie —
+              with addresses and tap-to-call numbers.</p>
+          </div>
+        </div>
+
+        <div class="chapter">
+          <div class="chapter__n">14</div>
+          <div>
+            <h3>Footer</h3>
+            <p>Wordmark, three columns of links, your four social accounts, legal line.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell">
+      <p class="eyebrow">Two calls we'd like your opinion on</p>
+      <h2>Both are reversible — say the word</h2>
+
+      <div class="calls">
+        <div class="call">
+          <h3>Cut-out cars in Featured Inventory</h3>
+          <p>Removing the dealership background puts the car on the page's own ground
+            with nothing competing for attention. It is the single biggest reason that
+            section reads premium rather than like a listing site. The trade is that it
+            takes preparation on every new vehicle, and it hides the showroom.</p>
+          <p>If you'd like to see it the other way, we'll build the same section with
+            the photographs untouched and put the two side by side.</p>
+          <span class="verdict">Currently: cut out</span>
+        </div>
+
+        <div class="call">
+          <h3>Photography, and what we did to get here</h3>
+          <p>There isn't a usable image library yet, so several frames have been
+            stretched, re-cropped and repositioned to fit their sections, and in a few
+            places cars have been composited together to make a frame that works.</p>
+          <p>It holds up at preview size. It will not hold up on a large screen, and it
+            is the one thing standing between this page and finished. Everything in the
+            list below is about fixing it.</p>
+          <span class="verdict">Needs your material</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell">
+      <div class="flip">
+        <p class="eyebrow">What we need from you</p>
+        <h2>Five things, in order of how much they'd change the page</h2>
+        <p>If you can only send one, send the first.</p>
+
+        <ol class="asks">
+          <li class="ask">
+            <div class="ask__n">01</div>
+            <div>
+              <p><strong>Original-resolution photography of your own cars, on your own
+                floor.</strong> Straight off the camera, uncropped and unedited — we'll
+                do the cropping. This is what replaces every composited and stretched
+                frame on the page.</p>
+              <span class="spec">2400px wide minimum · JPEG or RAW · one car per frame,
+                side-on and three-quarter</span>
+            </div>
+          </li>
+
+          <li class="ask">
+            <div class="ask__n">02</div>
+            <div>
+              <p><strong>Where four of the current frames came from.</strong> The
+                showroom interiors and the outdoor courtyard are not confirmed as your
+                premises or your cars. If they aren't, we should replace them rather
+                than let the page imply otherwise.</p>
+              <span class="spec">Sell band · Story band · Warranty band · Hero slide 2</span>
+            </div>
+          </li>
+
+          <li class="ask">
+            <div class="ask__n">03</div>
+            <div>
+              <p><strong>Your showroom interiors.</strong> Wide, fairly empty, well lit —
+                the rooms themselves rather than cars in them. These carry the film
+                bands and the "come see it in person" argument, and a real room does
+                that far better than a rendered one.</p>
+              <span class="spec">West Chicago and Naperville at minimum</span>
+            </div>
+          </li>
+
+          <li class="ask">
+            <div class="ask__n">04</div>
+            <div>
+              <p><strong>Written confirmation on the Karma footage</strong>, or the
+                approved asset from Karma's dealer portal. Public on their website is
+                not the same as licensed to you.</p>
+              <span class="spec">Otherwise we drop the film and the chapter runs on type alone</span>
+            </div>
+          </li>
+
+          <li class="ask">
+            <div class="ask__n">05</div>
+            <div>
+              <p><strong>The Instagram frames at full size.</strong> We're currently
+                serving the 640px versions your own site serves, which are sharp on a
+                laptop and soft on a retina screen. The originals fix that in one step.</p>
+              <span class="spec">Straight from the Instagram exports · anything above 1080px</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell">
+      <p class="eyebrow">What we'd add next</p>
+      <h2>Four suggestions, each earned by something you already have</h2>
+      <p class="lede">None of these are inventions. Each one comes out of your own
+        reviews, your own copy or your own navigation.</p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>The people</h3>
+          <p>A short chapter naming the team. Your customers already do it for you.</p>
+          <span class="why">Eric, Jackson, Doug, Sekou, Mike S., Raj, Sébastien, Parin
+            and Mahmood are all named in your reviews — repeatedly, and specifically.
+            That is unusual, and the page doesn't use it yet.</span>
+        </div>
+
+        <div class="card">
+          <h3>Nationwide delivery</h3>
+          <p>A moment for the thing out-of-state buyers keep describing.</p>
+          <span class="why">Your About copy says you deliver to the door, and a
+            noticeable share of your five-star reviews are people who bought from
+            another state and never saw the car first. Nothing on the homepage says so.</span>
+        </div>
+
+        <div class="card">
+          <h3>Consignment</h3>
+          <p>Sell-your-car covers buying the car outright. Consignment is a different
+            offer, and it isn't mentioned.</p>
+          <span class="why">Repeat customers describe consigning vehicles with you in
+            their reviews.</span>
+        </div>
+
+        <div class="card">
+          <h3>Events</h3>
+          <p>It's in your main navigation and there is nothing about it on the homepage.</p>
+          <span class="why">Even a single band with the next date would justify the
+            navigation item.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell">
+      <p class="eyebrow">One correction, on your side</p>
+      <h2>Your About copy says three locations</h2>
+      <p>The sentence reads <em>"Chicago Motor Cars has three locations conveniently
+        located in the Chicago suburbs."</em> You have four, and two of them are in South
+        Carolina and Kansas. We've left that sentence out of the page rather than print
+        a contradiction against the Locations section — but it is still live on your
+        current site and worth updating.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <p>Preview: <a href="https://sigovs.github.io/AAN_PPREVIEW_CHICAGOMOTORCARS/">sigovs.github.io/AAN_PPREVIEW_CHICAGOMOTORCARS</a></p>
+    <p>Design only — a static preview of the homepage, not a build. Desktop is the
+      intended view; the layout is responsive and works on a phone, but the page was
+      composed for a wide screen.</p>
+  </div>
+</footer>
+</body>
+</html>
