@@ -99,6 +99,13 @@
      blocks laid on the page ground rather than as full-bleed fields, so
      the radius is one value rather than four opinions. */
   --r-section: clamp(14px, 1.6vw, 24px);
+  /* THE CUT'S OWN CORNERS, separate from the section's.
+     They were sharing --r-section, which is why asking for a smaller
+     corner "on the bend" kept moving every rounded block on the page
+     instead of the thing being pointed at. The shelf and the fall are a
+     drawn edge, not a panel, and they want a tighter turn than a card
+     does. */
+  --r-cut: clamp(4px, 0.5vw, 8px);
   --bone-rule:   rgba(22, 21, 15, 0.16);
 
   /* ---- Rules -------------------------------------------------

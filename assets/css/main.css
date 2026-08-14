@@ -8554,19 +8554,19 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 @supports (clip-path: shape(from 0 0, arc to 1px 1px of 1px, close)) {
   .warranty {
     clip-path: shape(
-      from var(--r-section) var(--cut-drop),
+      from var(--r-cut) var(--cut-drop),
       line to var(--cut-start) var(--cut-drop),
       curve to calc(var(--cut-start) + var(--cut-run)) 0
         with calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop)
            / calc(var(--cut-start) + var(--cut-run) * 0.5) 0,
-      line to calc(100% - var(--r-section)) 0,
-      arc to 100% var(--r-section) of var(--r-section) cw,
-      line to 100% calc(100% - var(--r-section)),
-      arc to calc(100% - var(--r-section)) 100% of var(--r-section) cw,
-      line to var(--r-section) 100%,
-      arc to 0 calc(100% - var(--r-section)) of var(--r-section) cw,
-      line to 0 calc(var(--cut-drop) + var(--r-section)),
-      arc to var(--r-section) var(--cut-drop) of var(--r-section) cw,
+      line to calc(100% - var(--r-cut)) 0,
+      arc to 100% var(--r-cut) of var(--r-cut) cw,
+      line to 100% calc(100% - var(--r-cut)),
+      arc to calc(100% - var(--r-cut)) 100% of var(--r-cut) cw,
+      line to var(--r-cut) 100%,
+      arc to 0 calc(100% - var(--r-cut)) of var(--r-cut) cw,
+      line to 0 calc(var(--cut-drop) + var(--r-cut)),
+      arc to var(--r-cut) var(--cut-drop) of var(--r-cut) cw,
       close
     );
   }
@@ -8575,23 +8575,23 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
      as well as the two outer ones — four arcs, same radius. */
   .sell {
     clip-path: shape(
-      from var(--r-section) var(--cut-drop),
+      from var(--r-cut) var(--cut-drop),
       line to var(--bcut-a) var(--cut-drop),
       curve to var(--bcut-b) 0
         with calc(var(--bcut-a) + var(--cut-run) * 0.5) var(--cut-drop)
            / calc(var(--bcut-a) + var(--cut-run) * 0.5) 0,
-      line to calc(100% - var(--r-section)) 0,
-      arc to 100% var(--r-section) of var(--r-section) cw,
-      line to 100% calc(100% - var(--r-section)),
-      arc to calc(100% - var(--r-section)) 100% of var(--r-section) cw,
+      line to calc(100% - var(--r-cut)) 0,
+      arc to 100% var(--r-cut) of var(--r-cut) cw,
+      line to 100% calc(100% - var(--r-cut)),
+      arc to calc(100% - var(--r-cut)) 100% of var(--r-cut) cw,
       line to calc(var(--cut-start) + var(--cut-run)) 100%,
       curve to var(--cut-start) calc(100% - var(--cut-drop-b))
         with calc(var(--cut-start) + var(--cut-run) * 0.5) 100%
            / calc(var(--cut-start) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop-b)),
-      line to var(--r-section) calc(100% - var(--cut-drop-b)),
-      arc to 0 calc(100% - var(--cut-drop-b) - var(--r-section)) of var(--r-section) cw,
-      line to 0 calc(var(--cut-drop) + var(--r-section)),
-      arc to var(--r-section) var(--cut-drop) of var(--r-section) cw,
+      line to var(--r-cut) calc(100% - var(--cut-drop-b)),
+      arc to 0 calc(100% - var(--cut-drop-b) - var(--r-cut)) of var(--r-cut) cw,
+      line to 0 calc(var(--cut-drop) + var(--r-cut)),
+      arc to var(--r-cut) var(--cut-drop) of var(--r-cut) cw,
       close
     );
   }
