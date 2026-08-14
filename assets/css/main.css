@@ -9381,10 +9381,14 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  inline-size: clamp(420px, 46vw, 780px);
-  block-size: clamp(360px, 38vw, 640px);
+  inline-size: var(--bloom-w, clamp(420px, 46vw, 780px));
+  block-size:  var(--bloom-h, clamp(360px, 38vw, 640px));
   inset-block-start: var(--bloom-y, 46%);
   translate: 0 -50%;
+  /* Size and strength are the two things a chapter is allowed to tune;
+     the lobes, the blue and the blur stay shared, or it stops being one
+     light and becomes two effects. */
+  opacity: var(--bloom-opacity, 1);
   background:
     radial-gradient(52% 58% at 34% 38%, rgba(63, 94, 142, 0.56), transparent 66%),
     radial-gradient(40% 34% at 72% 24%, rgba(48, 72, 116, 0.48), transparent 70%),
@@ -9393,8 +9397,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
     radial-gradient(22% 30% at 84% 58%, rgba(44, 66, 106, 0.30), transparent 74%);
   filter: blur(44px);
 }
-[data-bloom="left"]::before  { inset-inline-start: clamp(-340px, -19vw, -150px); }
-[data-bloom="right"]::before { inset-inline-end:   clamp(-340px, -19vw, -150px); }
+[data-bloom="left"]::before   { inset-inline-start: clamp(-340px, -19vw, -150px); }
+[data-bloom="right"]::before  { inset-inline-end:   clamp(-340px, -19vw, -150px); }
+/* Centred, the bloom stops being a light coming from off-page and becomes
+   the ground the chapter sits on. It has to grow and dim to do that job:
+   at the side's strength it would read as a spotlight behind the cards. */
+[data-bloom="center"]::before { inset-inline-start: 50%; translate: -50% -50%; }
 
 /* ============================================================
    10 — ABOUT US
@@ -9534,7 +9542,10 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    sits below Locations' scale on purpose — the last big statement on the
    page belongs to the four floors, not to this. */
 .revs {
-  --bloom-y: 32%;
+  --bloom-y: 50%;
+  --bloom-w: clamp(640px, 84vw, 1420px);
+  --bloom-h: clamp(420px, 48vw, 820px);
+  --bloom-opacity: 0.52;
   background: var(--bg);
   color: var(--ink);
   padding-block: clamp(var(--sp-8), 5.5vw, var(--sp-10));
