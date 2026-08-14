@@ -8557,8 +8557,8 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
       from var(--r-cut) var(--cut-drop),
       line to var(--cut-start) var(--cut-drop),
       curve to calc(var(--cut-start) + var(--cut-run)) 0
-        with calc(var(--cut-start) + var(--cut-run) * 0.5) var(--cut-drop)
-           / calc(var(--cut-start) + var(--cut-run) * 0.5) 0,
+        with calc(var(--cut-start) + var(--cut-run) * 0.26) var(--cut-drop)
+           / calc(var(--cut-start) + var(--cut-run) * 0.74) 0,
       line to calc(100% - var(--r-cut)) 0,
       arc to 100% var(--r-cut) of var(--r-cut) cw,
       line to 100% calc(100% - var(--r-cut)),
@@ -8578,16 +8578,16 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
       from var(--r-cut) var(--cut-drop),
       line to var(--bcut-a) var(--cut-drop),
       curve to var(--bcut-b) 0
-        with calc(var(--bcut-a) + var(--cut-run) * 0.5) var(--cut-drop)
-           / calc(var(--bcut-a) + var(--cut-run) * 0.5) 0,
+        with calc(var(--bcut-a) + var(--cut-run) * 0.26) var(--cut-drop)
+           / calc(var(--bcut-a) + var(--cut-run) * 0.74) 0,
       line to calc(100% - var(--r-cut)) 0,
       arc to 100% var(--r-cut) of var(--r-cut) cw,
       line to 100% calc(100% - var(--r-cut)),
       arc to calc(100% - var(--r-cut)) 100% of var(--r-cut) cw,
       line to calc(var(--cut-start) + var(--cut-run)) 100%,
       curve to var(--cut-start) calc(100% - var(--cut-drop-b))
-        with calc(var(--cut-start) + var(--cut-run) * 0.5) 100%
-           / calc(var(--cut-start) + var(--cut-run) * 0.5) calc(100% - var(--cut-drop-b)),
+        with calc(var(--cut-start) + var(--cut-run) * 0.74) 100%
+           / calc(var(--cut-start) + var(--cut-run) * 0.26) calc(100% - var(--cut-drop-b)),
       line to var(--r-cut) calc(100% - var(--cut-drop-b)),
       arc to 0 calc(100% - var(--cut-drop-b) - var(--r-cut)) of var(--r-cut) cw,
       line to 0 calc(var(--cut-drop) + var(--r-cut)),
