@@ -6509,7 +6509,6 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    underline: a rule here would be the decorative line this pass rules
    out, and the arrow already says the direction. */
 .story__cta,
-.fin__route,
 .fin__tert {
   display: inline-flex;
   align-items: center;
@@ -6527,22 +6526,16 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   transition: gap var(--dur-2) var(--ease-out);
 }
 .story__cta-arrow,
-.fin__route .story__cta-arrow,
 .fin__tert .story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
 .story__cta:hover,
 .story__cta:focus-visible,
-.fin__route:hover,
-.fin__route:focus-visible,
 .fin__tert:hover,
 .fin__tert:focus-visible { background: none; box-shadow: none; }
 .story__cta:hover .story__cta-arrow,
 .story__cta:focus-visible .story__cta-arrow,
-.fin__route:hover .story__cta-arrow,
-.fin__route:focus-visible .story__cta-arrow,
 .fin__tert:hover .story__cta-arrow,
 .fin__tert:focus-visible .story__cta-arrow { translate: 5px 0; }
 .story__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
-.fin__route:focus-visible,
 .fin__tert:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
 /* ============================================================
@@ -8661,62 +8654,70 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    exists to catch. */
 
 /* ============================================================
-   8 — FINANCING — the page's own device, continued
+   8 — FINANCING
    ============================================================
-   A full-bleed photographic band with the type laid into the frame's
-   quiet side. That is brk, Sell, Story and Service; this is the same
-   grammar, not a new one. The corners are the section radius its
-   neighbours carry. */
+   Featured Inventory's language: one big inset card on the navy ground,
+   the same radius and the same hairline, standing on the page's OWN
+   container so its edges land on the vertical every other chapter uses.
+   That alignment is the point — the card is not floated at an arbitrary
+   inset, it is the shell. */
 .fin {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  padding-block: clamp(var(--sp-8), 6vw, var(--sp-10));
+}
+
+.fin__card {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border-radius: var(--r-section);
+  border-radius: 26px;
+  border: 1px solid rgba(244, 242, 239, 0.08);
   background: var(--bg-sunk);
-  color: var(--ink);
-  min-block-size: clamp(34rem, 50vw, 50rem);
+  min-block-size: clamp(28rem, 46vw, 42rem);
   display: grid;
   align-items: center;
-  margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11));
 }
 
-/* NO SCRIM. Measured on the master: from 62% of the frame rightward
-   every cell already clears body text at --ink, so darkening the picture
-   would only flatten a photograph that was composed to be dark exactly
-   there. object-position holds that field against the right edge as the
-   band changes shape. */
+/* THE PHOTOGRAPH IS THE CARD — edge to edge, no panel, no seam. The
+   frame was composed for this: the group holds the left and the dark it
+   leaves on the right is where the type goes. */
 .fin__bg { position: absolute; inset: 0; z-index: 0; }
 .fin__bg img {
-  inline-size: 100%;
-  block-size: 100%;
+  inline-size: 100%; block-size: 100%;
   object-fit: cover;
-  object-position: 34% center;
+  object-position: 32% center;
   display: block;
 }
 
-.fin__inner { position: relative; z-index: 1; }
-
-/* The copy takes the field the photographer left, and only that. It is
-   pinned to the shell's right edge rather than centred, because the
-   picture's asymmetry is the composition and symmetry would fight it. */
-/* NOT A COLUMN OF UI. The copy is two masses set into the photograph's
-   own dark at opposite ends of the band — the name and the claim high,
-   the actions low — with the frame's light between them. A single block
-   centred beside the picture is what made it read as a widget parked
-   next to a photo. */
-.fin__copy {
-  margin-inline-start: auto;
-  inline-size: min(21rem, 23%);
-  min-block-size: clamp(30rem, 44vw, 42rem);
-  padding-block: clamp(var(--sp-8), 5vw, var(--sp-9));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(var(--sp-8), 6vw, var(--sp-10));
+/* Directional and local: fully transparent across the whole group, and
+   it only gains density where the column begins. Nothing is darkened to
+   make room for text. */
+.fin__wash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to right,
+    rgb(var(--bg-rgb) / 0) 0%,
+    rgb(var(--bg-rgb) / 0) 50%,
+    rgb(var(--bg-rgb) / 0.58) 68%,
+    rgb(var(--bg-rgb) / 0.88) 84%,
+    rgb(var(--bg-rgb) / 0.94) 100%);
 }
 
-/* On a dark ground this page uses dim ink for an eyebrow, not red —
-   red eyebrows belong to the bone chapters. Continuity, not a new mark. */
+/* The column sits on the card's own right inset, which is the same
+   measure as its radius family — 56 at the top of the clamp. */
+.fin__copy {
+  position: relative;
+  z-index: 2;
+  margin-inline-start: auto;
+  inline-size: min(21rem, 27%);
+  margin-inline-end: clamp(var(--sp-6), 3.8vw, var(--sp-8));
+  padding-block: clamp(var(--sp-7), 4vw, var(--sp-8));
+}
+
 .fin__label {
   margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
   font-family: var(--font-label);
@@ -8725,176 +8726,91 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   line-height: 1.2;
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--accent);
 }
 
 .fin__title {
-  margin: 0 0 clamp(var(--sp-7), 3.4vw, var(--sp-8));
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.75rem, 3.9vw, 3.75rem);
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 3.6vw, 3.75rem);
+  line-height: 0.97;
   letter-spacing: var(--tr-display);
 }
 .fin__title .ttl-line { display: block; }
 
-/* NO SUPPORTING LINE. It was the one element that fell on a vehicle —
-   the Shelby's flank at every width — and the brief makes it optional.
-   Dimming the photograph to rescue a sentence the chapter does not need
-   would have been the wrong trade. The headline and three named routes
-   say it. */
-
-.fin__act { display: flex; margin-block-end: clamp(var(--sp-7), 3vw, var(--sp-8)); }
-
-/* Editorial actions, and no rule under them. Hierarchy is carried by
-   the intervals: a large gap after the primary, a tight one between the
-   two utilities, a large one again before the payment method. Boxes,
-   pills and a divider would each have made this a menu. */
-.fin__routes {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--sp-4);
+/* The page's own mark, short and once. */
+.fin__mark {
+  display: block;
+  inline-size: 56px;
+  block-size: 2px;
+  background: var(--accent);
+  margin-block: clamp(var(--sp-6), 2.6vw, var(--sp-7));
 }
-.fin__route { color: var(--ink); }
+
+/* ---- The routes ---------------------------------------------
+   Rows on a hairline, not cards. Featured Inventory puts vehicle
+   records on cards; these are routes, and a card inside a card would be
+   the container chrome that was rejected. */
+.fin__rows { display: flex; flex-direction: column; }
+
+.fin__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding-block: clamp(var(--sp-5), 2vw, var(--sp-6));
+  border-block-end: 1px solid var(--rule);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.2vw, 1.1875rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  transition: color var(--sel-dur) var(--sel-ease);
+}
+.fin__row.is-lead { color: var(--ink); }
+.fin__row:hover { color: var(--ink); }
+
+.fin__arrow {
+  flex: none;
+  color: var(--ink-3);
+  transition: color var(--sel-dur) var(--sel-ease), translate var(--dur-2) var(--ease-out);
+}
+.fin__row.is-lead .fin__arrow { color: var(--accent); }
+.fin__row:hover .fin__arrow { translate: 3px 0; color: var(--ink); }
+.fin__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 .fin__tert {
   align-items: center;
   gap: var(--sp-3);
-  margin-block-start: clamp(var(--sp-7), 3.4vw, var(--sp-8));
+  margin-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7));
   color: var(--ink-3);
 }
 .fin__bitpay {
   block-size: 1.15rem;
   inline-size: auto;
   display: block;
-  opacity: 0.72;
+  opacity: 0.62;
   transition: opacity var(--dur-1) var(--ease-out);
 }
 .fin__tert:hover .fin__bitpay { opacity: 1; }
 
-/* Below the two-mass width the frame can no longer hold a group of four
-   vehicles and a column of type side by side. The picture keeps the top
-   of the band and the copy takes the page ground beneath it, which is
-   what Sell does at the same width. */
+/* Below the two-mass width the card cannot hold a group of four
+   vehicles and a column of type side by side. The photograph keeps the
+   top of the card and the copy takes the field beneath it. */
 @media (max-width: 900px) {
-  .fin { display: block; min-block-size: 0; background: var(--bg); }
+  .fin__card { display: block; min-block-size: 0; }
   .fin__bg { position: relative; aspect-ratio: 16 / 11; }
-  .fin__copy {
-    inline-size: 100%;
-    margin-inline-start: 0;
-    padding-block: clamp(var(--sp-7), 8vw, var(--sp-8));
+  .fin__wash {
+    inset-block-start: auto;
+    block-size: 40%;
+    background: linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.92) 0%, rgb(var(--bg-rgb) / 0) 100%);
   }
-}
-
-/* ---- Corrections off the render ----------------------------
-   At 1920 the band is wider than the photograph's own ratio, so cover
-   crops it vertically and the group sits further right than the master
-   suggests — the Shelby's nose reached under the copy and the lede was
-   sitting on yellow bodywork. Three moves, none of which flatten the
-   picture:
-
-   the column narrows and the display steps down one rung so the copy
-   fits the field the photograph actually leaves at this ratio; and a
-   directional wash from the reading edge holds the worst pixels. The
-   wash starts at 48% and is transparent across the whole vehicle group
-   — it is a local tonal control, not a scrim over the photograph. */
-.fin__edge {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(to right,
-    rgb(var(--bg-rgb) / 0) 50%,
-    rgb(var(--bg-rgb) / 0.58) 64%,
-    rgb(var(--bg-rgb) / 0.84) 78%,
-    rgb(var(--bg-rgb) / 0.90) 100%);
-}
-
-.fin__copy,
-.fin__copy:not(#x) { inline-size: min(26rem, 34%); }
-
-/* The second mass on the page after the vehicles, and sized to be that
-   rather than to be polite. */
-.fin__title,
-.fin__title:not(#x) {
-  font-size: clamp(2.75rem, 4.2vw, 4.5rem);
-  line-height: 0.98;
-  margin-block-end: 0;
-}
-
-@media (max-width: 900px) {
-  .fin__edge { display: none; }
-}
-
-/* ---- The right field, art-directed ------------------------
-   The stack was the problem: headline, button, link, link, footer, all
-   on one invisible left edge. Three things break it.
-
-   ONE — the masses no longer share a width. The head is narrow and sits
-   high in the frame's dark; the rail is wider and sits low, where the
-   floor is dark across a much greater span. Both are anchored to the
-   same right edge, so they read as one composition rather than as a
-   column, and the rail reaches left into space the head cannot use.
-
-   TWO — the headline is staggered. "yours." steps right rather than
-   sitting under "Make it" on the same left edge, which is what turned a
-   claim into a form label.
-
-   THREE — the utilities run horizontally. Two links stacked read as
-   navigation; two on one line with the payment method beside them read
-   as a caption to the picture. No divider isolates BitPay — it is
-   metadata on the same rail, dimmer, and that is the whole distinction. */
-.fin__copy,
-.fin__copy:not(#x) {
-  inline-size: min(34rem, 38%);
-  align-items: flex-end;
-  gap: clamp(var(--sp-8), 7vw, var(--sp-10));
-}
-
-.fin__head {
-  inline-size: max-content;
-  max-inline-size: 100%;
-}
-
-.fin__title,
-.fin__title:not(#x) {
-  font-size: clamp(3.25rem, 5.9vw, 5.75rem);
-  line-height: 0.92;
-}
-/* The step. Small enough to read as tension, not as an indent. */
-.fin__title .ttl-line + .ttl-line { margin-inline-start: 0.42em; }
-
-.fin__foot {
-  inline-size: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: clamp(var(--sp-7), 3.4vw, var(--sp-8));
-}
-.fin__act { align-self: flex-start; margin-block-end: 0; }
-
-/* One quiet horizontal rail. It is the widest thing in the field and the
-   lowest, which is what stops the right side reading as a menu column. */
-.fin__rail {
-  inline-size: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: clamp(var(--sp-6), 2.6vw, var(--sp-8));
-}
-.fin__route { color: var(--ink); }
-.fin__tert,
-.fin__tert:not(#x) {
-  margin-block-start: 0;
-  align-items: center;
-  gap: var(--sp-3);
-  color: var(--ink-3);
-}
-
-@media (max-width: 900px) {
-  .fin__copy,
-  .fin__copy:not(#x) { inline-size: 100%; align-items: flex-start; }
-  .fin__foot { align-items: flex-start; }
-  .fin__title .ttl-line + .ttl-line { margin-inline-start: 0; }
+  .fin__copy {
+    inline-size: auto;
+    margin-inline: clamp(var(--sp-6), 6vw, var(--sp-7));
+    padding-block: clamp(var(--sp-7), 7vw, var(--sp-8));
+  }
 }
