@@ -5769,10 +5769,40 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
    Built from --bone so the band's foot cannot drift away from the
    section's own colour the way a hard-coded value would. */
+/* ---- THE LEFT EDGE CLOSES ------------------------------------------
+   A white car is cut in half by the frame's left edge. At the band's own
+   width there is nothing behind it, so it reads as a photograph that ran
+   out rather than as a room that continues — and it sits directly under
+   the headline, which is the worst place on the band for a distraction.
+
+   A bone ramp from the left closes it. It is the same device as the foot
+   ramp below, turned ninety degrees, and it uses the same colour, so the
+   picture dissolves into the band's own ground instead of being masked
+   by a panel. It runs deep enough to swallow the fragment and stops well
+   short of the blue car, which is the subject.
+
+   It also does the copy a favour: the headline and lede sit on the part
+   of the wall this ramp lightens. */
+.sell__bg::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  inline-size: clamp(200px, 26%, 460px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to right,
+    var(--bone) 0%,
+    rgba(237, 234, 228, 0.92) 22%,
+    rgba(237, 234, 228, 0.68) 46%,
+    rgba(237, 234, 228, 0.32) 72%,
+    rgba(237, 234, 228, 0) 100%);
+}
+
 .sell__bg::after {
   content: "";
   position: absolute;
   inset: auto 0 0 0;
+  z-index: 2;
   height: clamp(170px, 24%, 300px);
   pointer-events: none;
   background: linear-gradient(to top,
@@ -7015,9 +7045,20 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      the composition the mock had and the old split could not reach.
      The measured need was 600px against a 490px column; at 50 it is
      587 and they sit side by side with room to spare. */
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1fr);
   gap: clamp(var(--sp-6), 5vw, var(--sp-9));
   align-items: start;
+  /* THE PICTURE LEAVES ON THE RIGHT. calc(50% - 50vw) is exactly the
+     distance from the shell's right content edge to the viewport's, so
+     the grid grows to the window and the frame runs off it. The section
+     already has overflow: hidden for its wave cut, which is also what
+     stops 100vw's scrollbar overshoot from becoming a scrollbar.
+
+     The reason is compositional, not decorative: the copy is anchored to
+     the container's left vertical, and a picture that stops at the
+     container on the other side turns the two masses into a boxed
+     left/right pair. Letting it leave is what keeps them a composition. */
+  margin-inline-end: calc(50% - 50vw);
 }
 
 /* ---- Left: the claim ---------------------------------------- */
@@ -9173,17 +9214,30 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
 /* The image takes the section's own corner, not a new one. */
 .warranty__shot {
   margin: 0;
-  border-radius: var(--r-section);
+  /* Rounded on the left only. The right side has no corner to round —
+     it is off the page. */
+  border-start-start-radius: var(--r-section);
+  border-end-start-radius: var(--r-section);
   overflow: hidden;
   background: var(--bg-sunk);
 }
 .warranty__shot img {
   display: block;
   inline-size: 100%;
-  block-size: 100%;
-  aspect-ratio: 16 / 10;
+  block-size: auto;
+  /* The frame's own 955x442. No crop: it was composed as this shape and
+     the three cars sit across the full width, so any aspect of ours
+     would take one of them out at an edge. */
+  aspect-ratio: 955 / 442;
   object-fit: cover;
-  object-position: 42% center;
+  object-position: center;
+}
+
+@media (max-width: 900px) {
+  /* Stacked, the bleed has nothing to lean against — the picture goes
+     back inside the container and takes both left corners. */
+  .warranty__grid { margin-inline-end: 0; }
+  .warranty__shot { border-radius: var(--r-section); }
 }
 
 /* ---- The three provisions, as cards ------------------------
@@ -9584,7 +9638,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    runs off the edge, so it reads as a feed passing through rather than
    as a tile set that happens to be square. */
 .ig {
-  background: var(--bg);
+  background: var(--bg-black);
   color: var(--ink);
   padding-block: clamp(var(--sp-9), 7vw, var(--sp-10));
   overflow: hidden;
@@ -9650,7 +9704,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   border-radius: var(--r-panel);
   overflow: hidden;
   scroll-snap-align: start;
-  background: var(--bg-raised);
+  background: var(--bg-raised-black);
 }
 .ig__cell img {
   block-size: 100%;
@@ -9705,7 +9759,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   --bloom-y: 50%;
   --bloom-w: clamp(640px, 84vw, 1420px);
   --bloom-opacity: 0.52;
-  background: var(--bg);
+  background: var(--bg-black);
   color: var(--ink);
   padding-block: clamp(var(--sp-8), 5.5vw, var(--sp-10));
 }
@@ -9793,7 +9847,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   padding: clamp(var(--sp-6), 2.4vw, var(--sp-7));
   border: 1px solid var(--rule);
   border-radius: var(--r-panel);
-  background: var(--bg-raised);
+  background: var(--bg-raised-black);
   color: inherit;
   text-decoration: none;
   transition: border-color var(--dur-3) var(--ease-out),
@@ -9869,7 +9923,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    uses for a list — and no bottom rule on the last one, so the chapter
    runs out into the footer instead of closing against it. */
 .locs {
-  background: var(--bg);
+  background: var(--bg-black);
   color: var(--ink);
   padding-block: clamp(var(--sp-9), 7vw, var(--sp-10)) clamp(var(--sp-8), 5vw, var(--sp-9));
 }
@@ -9935,7 +9989,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    14 — FOOTER
    ============================================================ */
 .foot {
-  background: var(--bg);
+  background: var(--bg-black);
   color: var(--ink);
   padding-block: clamp(var(--sp-8), 5vw, var(--sp-9)) clamp(var(--sp-7), 4vw, var(--sp-8));
   border-block-start: 1px solid var(--rule);

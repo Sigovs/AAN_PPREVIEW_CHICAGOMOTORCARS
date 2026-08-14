@@ -1,0 +1,51 @@
+warranty-lineup.jpg — provenance sidecar
+========================================
+
+FILE
+  warranty_new.png            955 x 442   563 KB   (master, as supplied)
+  warranty-lineup.jpg         955 x 442   104 KB   sips, q88
+  warranty-lineup-1400.jpg   1400 x 648   130 KB   sips, q88
+
+  The PNG is kept as the master and is not what the page serves — a
+  photographic frame in PNG is 5x the bytes for no visible gain.
+
+SUPPLIED BY
+  Alex, 2026-08-14, named "warranty_new.png", with the composition to
+  match: copy left, frame right, running off the right edge.
+
+SUBJECT
+  Three cars in a daylight concrete courtyard: a yellow Lamborghini
+  Revuelto centre, a white-and-black Porsche 911 GT3 RS left, a white
+  Ferrari 488 Spider right. Overcast sky, poured-concrete walls, no
+  people, no signage, no plates.
+
+OPEN QUESTIONS — resolve before this goes to the client
+  1. ORIGIN NOT DECLARED. The frame reads as a 3D render: the paint
+     reflections, the shadow falloff and the wall geometry are all
+     cleaner than a shot exterior, and the three cars are lit as one
+     scene with no ambient inconsistency between them.
+
+     It has NOT been confirmed as photographic and it has NOT been
+     confirmed as CMC's own cars or premises. The file therefore carries
+     NO gen- prefix, because asserting synthesis is as wrong as
+     asserting photography — the same call as assets/img/sell/.
+
+     What follows from each answer:
+       · Synthetic -> GI3 applies. It does not depict a CMC showroom, so
+         the worst reading is avoided, but it does depict three specific
+         cars, and on a dealership page a generated car can be read as
+         inventory. Needs the gen- prefix and a full generated-imagery
+         audit.
+       · A real photograph of somewhere that is not CMC -> the art
+         direction's "real inventory cars, not stock supercars" term
+         applies instead.
+
+  2. RESOLUTION. The master is 955px wide and the frame renders about
+     830 CSS px at a 1440 viewport, so it is sharp at 1x and soft on a
+     retina screen — the 1400 step is an upscale of the same master, not
+     more detail. If a larger original exists, it is worth having.
+
+CONTRAST
+  Nothing is set over this frame. The band's copy sits on the bone
+  ground to its left, so the picture carries no text and no measurement
+  applies to it.

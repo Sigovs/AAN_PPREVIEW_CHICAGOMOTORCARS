@@ -26,6 +26,25 @@
   --bg-raised:   #131A2A;
   --bg-sunk:     #070B13;
 
+  /* ---- THE TAIL'S GROUND --------------------------------------------
+     Everything below Karma is black rather than navy, on Alex's call
+     2026-08-14. Not #000: pure black on a screen is a hole, it crushes
+     the shadow detail out of the photography sitting on it, and it makes
+     the warm off-white ink look blue by comparison. #0A0A0C keeps two
+     points of the navy in the blue channel — enough that the transition
+     out of Karma's --bg-sunk is a settle rather than a switch, and far
+     too little to read as anything but black.
+
+     This does not replace --bg. The page above Karma keeps the deep navy
+     the art direction named; the tail going black is the close getting
+     darker, which is the one place it should. */
+  --bg-black:    #0A0A0C;
+  /* The raised surface for that ground. --bg-raised is #131A2A, which is
+     a navy lift and reads plainly blue once the ground under it is black
+     — the review cards looked like they had been left behind by the old
+     palette. Same lightness step, neutral hue. */
+  --bg-raised-black: #131316;
+
   /* ---- Ink ---------------------------------------------------
      Warm off-white. Pure #FFF on near-black glares at display
      sizes and reads colder than the brand.                      */
