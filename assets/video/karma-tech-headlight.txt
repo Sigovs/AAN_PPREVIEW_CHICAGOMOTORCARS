@@ -36,14 +36,13 @@ HOW IT IS USED
   until one viewport away, paused the moment it leaves, and never
   started under prefers-reduced-motion.
 
-OPEN QUESTION — resolve before this goes live
-  LICENCE, not origin. Origin is certain and the use is ordinary: a
-  franchised dealer showing the manufacturer's marketing footage. What
-  is NOT confirmed is that CMC has been granted it. Manufacturer assets
-  normally reach dealers through a brand asset portal with terms
-  attached, and "it was public on their site" is not a grant.
+RESOLVED — 2026-08-14
+  Origin was never in doubt; the licence was. Alex confirmed it: Chicago
+  Motor Cars is an authorized Karma dealer, and the footage is covered by
+  that dealer agreement. It ships.
 
-  Ask Karma's dealer marketing contact for the approved asset, or
-  confirm CMC's existing dealer agreement covers it. If neither, the
-  chapter stands without the film — it was built typographically first
-  and still works that way.
+  The question was worth asking and the answer is worth keeping here,
+  because "it was public on their website" is not on its own a grant —
+  the dealer agreement is. If that relationship ever ends, this file is
+  the first thing to pull, and the chapter was built typographically
+  first so it still stands without the film.
