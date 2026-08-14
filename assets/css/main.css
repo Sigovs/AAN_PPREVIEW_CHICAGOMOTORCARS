@@ -6822,7 +6822,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .brk__eyebrow {
   color: var(--ink-2);
   letter-spacing: var(--tr-label);
-  margin-block-end: var(--sp-5);
+  margin-block-end: var(--gap-eyebrow);
 }
 
 .brk__title {
@@ -8749,11 +8749,15 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    failure the rule names: uniform intervals flatten a group into a
    stack. One step in, one step out. */
 .fin__label {
-  margin: 0 0 var(--sp-2);
+  margin: 0 0 var(--gap-eyebrow);
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
-  line-height: 1.2;
+  /* --lh-label, not 1.2: the token is what .micro uses, and an eyebrow
+     with its own leading lands its ink on a different line than every
+     other eyebrow even when the margin below is identical. That was 4px
+     of the drift. */
+  line-height: var(--lh-label);
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
   color: var(--accent);
@@ -9139,7 +9143,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
   display: flex;
   align-items: center;
   gap: 0.6em;
-  margin: 0 0 var(--sp-4);
+  margin: 0 0 var(--gap-eyebrow);
   /* Red, because that is this page's convention for an eyebrow on the
      bone ground — Warranty's was red before the rebuild and Sell's still
      is. The reference tints it with its own accent; ours is --accent-deep,
@@ -9332,7 +9336,11 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 .karma__label,
 .karma__label:not(#x) {
-  margin: clamp(var(--sp-5), 2.2vw, var(--sp-6)) 0 clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  /* The space ABOVE stays generous: it separates the caption from the
+     Karma mark, and an external gap must beat the internal one. Below is
+     the page's single eyebrow gap, so "Authorized dealer" reads as the
+     eyebrow to the claim rather than as a free-floating line. */
+  margin: clamp(var(--sp-5), 2.2vw, var(--sp-6)) 0 var(--gap-eyebrow);
   color: var(--ink-2);
 }
 .karma__title {
@@ -9346,6 +9354,49 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .karma__act { display: flex; }
 
 /* ============================================================
+   THE DIRTY-BLUE BLOOM
+   ============================================================
+   A lighting event, not a panel. Three overlapping ellipses at different
+   radii and offsets, so the outline never resolves into a circle, then
+   blurred — the blur is what makes it read as light in the room rather
+   than as a shape someone drew.
+
+   The blue is dirty on purpose: a steel blue pulled toward grey, so it
+   sits under the deep navy ground as a bloom instead of arriving as a
+   second brand colour. It is under everything (z-index -1, inside the
+   section's own stacking context) and lights nothing that carries text
+   at speed.
+
+   The section clips it HORIZONTALLY only — overflow-x: clip leaves
+   overflow-y visible — so it can run off the page edge without creating
+   a scrollbar, and can still bleed across the seam into the chapter
+   above and below. The whole tail is one ground; a hard cut at the seam
+   would be the only straight edge light never has.
+
+   One rule, two consumers: [data-bloom="left"] and ="right". Do not
+   author a second one per section. */
+[data-bloom] { position: relative; isolation: isolate; overflow-x: clip; }
+[data-bloom]::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inline-size: clamp(420px, 46vw, 780px);
+  block-size: clamp(360px, 38vw, 640px);
+  inset-block-start: var(--bloom-y, 46%);
+  translate: 0 -50%;
+  background:
+    radial-gradient(52% 58% at 34% 38%, rgba(63, 94, 142, 0.56), transparent 66%),
+    radial-gradient(40% 34% at 72% 24%, rgba(48, 72, 116, 0.48), transparent 70%),
+    radial-gradient(32% 46% at 58% 80%, rgba(40, 60, 100, 0.44), transparent 68%),
+    radial-gradient(26% 22% at 18% 70%, rgba(70, 100, 148, 0.34), transparent 72%),
+    radial-gradient(22% 30% at 84% 58%, rgba(44, 66, 106, 0.30), transparent 74%);
+  filter: blur(44px);
+}
+[data-bloom="left"]::before  { inset-inline-start: clamp(-340px, -19vw, -150px); }
+[data-bloom="right"]::before { inset-inline-end:   clamp(-340px, -19vw, -150px); }
+
+/* ============================================================
    10 — ABOUT US
    ============================================================
    CMC's own words, and the only long-form prose on the page. Two masses:
@@ -9353,6 +9404,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    The chapter has no action — it states who they are and hands the reader
    on. That also keeps the tail's control count at one per chapter. */
 .about {
+  --bloom-y: 44%;
   background: var(--bg);
   color: var(--ink);
   padding-block: clamp(var(--sp-9), 7.5vw, var(--sp-11)) clamp(var(--sp-9), 7vw, var(--sp-10));
@@ -9367,7 +9419,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    against --bg, under AA for a 14px label — so the dark-ground eyebrows
    are --ink-2, as on Instagram, Reviews and Locations. */
 .about__eyebrow,
-.about__eyebrow:not(#x) { margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6)); color: var(--ink-2); }
+.about__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
 .about__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9415,7 +9467,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
 }
 .ig__eyebrow,
-.ig__eyebrow:not(#x) { margin: 0 0 var(--sp-3); color: var(--ink-2); }
+.ig__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
 .ig__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9482,6 +9534,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    sits below Locations' scale on purpose — the last big statement on the
    page belongs to the four floors, not to this. */
 .revs {
+  --bloom-y: 32%;
   background: var(--bg);
   color: var(--ink);
   padding-block: clamp(var(--sp-8), 5.5vw, var(--sp-10));
@@ -9495,7 +9548,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
 }
 .revs__eyebrow,
-.revs__eyebrow:not(#x) { margin: 0 0 var(--sp-3); color: var(--ink-2); }
+.revs__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
 .revs__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9505,15 +9558,63 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   letter-spacing: var(--tr-display);
 }
 
+/* A rail, not a grid. Same mechanism as the Instagram sheet — scroll-snap
+   on a horizontal track — so the page gains a page-turn without gaining a
+   second carousel language. Three cards per view; the snap points sit on
+   every third card so a swipe turns a PAGE, not a card.
+
+   --revs-per is the one number the script reads to build the dots, and
+   the breakpoints below are the only places it changes. */
 .revs__list {
+  --revs-per: 3;
+  --revs-gap: clamp(var(--sp-5), 1.8vw, var(--sp-6));
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(var(--sp-5), 1.8vw, var(--sp-6));
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - (var(--revs-per) - 1) * var(--revs-gap)) / var(--revs-per));
+  gap: var(--revs-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  /* the cards lift on hover; the track must not clip the lift */
+  padding-block: 2px;
 }
+.revs__list::-webkit-scrollbar { display: none; }
 .rv { display: flex; }
+.rv:nth-child(3n + 1) { scroll-snap-align: start; }
+
+@media (prefers-reduced-motion: reduce) { .revs__list { scroll-behavior: auto; } }
+
+/* ---- the dots ------------------------------------------------------
+   Built by script from --revs-per, so they cannot disagree with the
+   layout. Nothing is hidden without them: no script means no dots and a
+   rail you can still push. */
+.revs__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+}
+.revs__dots:empty { display: none; }
+.revs__dot {
+  inline-size: 7px;
+  block-size: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(244, 242, 239, 0.26);
+  cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease-out),
+              scale var(--dur-2) var(--ease-out);
+}
+.revs__dot:hover { background: rgba(244, 242, 239, 0.5); }
+.revs__dot[aria-selected="true"] { background: var(--ink); scale: 1.15; }
+/* The tap target is 44px even though the dot is 7px. */
+.revs__dot::before { content: ""; position: absolute; inset: -18px; }
+.revs__dot { position: relative; }
 .rv__card {
   display: flex;
   flex-direction: column;
@@ -9581,8 +9682,15 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 .rv__card:focus-visible { border-color: rgba(244, 242, 239, 0.26); }
 
-@media (max-width: 1000px) { .revs__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 680px)  { .revs__list { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 1000px) {
+  .revs__list { --revs-per: 2; }
+  .rv:nth-child(3n + 1) { scroll-snap-align: none; }
+  .rv:nth-child(2n + 1) { scroll-snap-align: start; }
+}
+@media (max-width: 680px) {
+  .revs__list { --revs-per: 1; }
+  .rv { scroll-snap-align: start; }
+}
 
 /* ============================================================
    13 — LOCATIONS · FINAL CTA
@@ -9597,7 +9705,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 .locs__head { margin-block-end: clamp(var(--sp-8), 4vw, var(--sp-9)); }
 .locs__eyebrow,
-.locs__eyebrow:not(#x) { margin: 0 0 var(--sp-4); color: var(--ink-2); }
+.locs__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-2); }
 .locs__title {
   margin: 0;
   font-family: var(--font-display);
@@ -9623,12 +9731,20 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .loc:first-child { padding-inline-start: 0; }
 .loc + .loc { border-inline-start: 1px solid var(--rule); }
 .loc__city {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
   margin: 0 0 var(--sp-4);
   font-family: var(--font-body);
   font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
+/* The pin is a mark, not a bullet: it takes the accent, which is one of
+   this palette's stated jobs for red — a small locating mark on a dark
+   ground, never a run of text. */
+.loc__pin { flex: none; color: var(--accent); }
+
 .loc__addr {
   margin: 0 0 var(--sp-5);
   font-size: 0.9375rem;
@@ -9682,6 +9798,31 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 .foot__col a:hover { color: var(--ink); }
 
+/* ---- the social row ------------------------------------------------
+   Four marks, no labels. It sits ABOVE the legal rule rather than in the
+   base line, so the last thing on the page is the copyright and not a
+   row of buttons. The word "Instagram" is gone from here: the feed
+   chapter already says it at 43px, and a text link repeating a link the
+   page has just made is the footer padding itself out. */
+.foot__socials {
+  display: flex;
+  gap: var(--sp-3);
+  margin-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+}
+.foot__soc {
+  display: grid;
+  place-items: center;
+  inline-size: 38px;
+  block-size: 38px;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  color: var(--ink-2);
+  transition: color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out);
+}
+.foot__soc svg { display: block; }
+.foot__soc:hover { color: var(--ink); border-color: rgba(244, 242, 239, 0.3); }
+
 .foot__base {
   display: flex;
   flex-wrap: wrap;
@@ -9691,14 +9832,8 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   padding-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7));
   border-block-start: 1px solid var(--rule);
 }
-.foot__legal { margin: 0; font-size: 0.875rem; color: var(--ink-3); }
-.foot__social {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  white-space: nowrap;
-  color: var(--ink-2);
-}
+.foot__legal,
+.foot__by { margin: 0; font-size: 0.875rem; color: var(--ink-3); }
 
 @media (max-width: 900px) {
   .locs__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }

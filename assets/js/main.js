@@ -870,3 +870,89 @@
   if (calm.addEventListener) calm.addEventListener('change', onCalm);
   else if (calm.addListener) calm.addListener(onCalm);
 })();
+
+
+/* ============================================================
+   REVIEWS — the page-turn dots
+   ============================================================
+   The rail already works without this: it is a scroll-snap track, so a
+   trackpad swipe turns a page whether or not any of this runs. What the
+   script adds is the dots, and it BUILDS them rather than reading them
+   from markup — dots authored by hand would be free to disagree with the
+   layout the moment a breakpoint changed how many cards fit.
+
+   The count comes from the same custom property the CSS lays out with
+   (--revs-per), so there is exactly one source of truth for "how many
+   cards is a page". Re-read on resize, because that number changes.
+   ============================================================ */
+(function () {
+  var track = document.getElementById('revs-track');
+  var dots  = document.querySelector('[data-dots-for="revs-track"]');
+  if (!track || !dots) return;
+
+  var cards = [].slice.call(track.children);
+  if (!cards.length) return;
+
+  var pages = 0;
+
+  function perView() {
+    var n = parseInt(getComputedStyle(track).getPropertyValue('--revs-per'), 10);
+    return n > 0 ? n : 1;
+  }
+
+  function build() {
+    var per = perView();
+    var next = Math.ceil(cards.length / per);
+    if (next === pages) return;
+    pages = next;
+    dots.innerHTML = '';
+    for (var i = 0; i < pages; i++) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'revs__dot';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-label', 'Page ' + (i + 1) + ' of ' + pages);
+      b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      b.dataset.page = String(i);
+      dots.appendChild(b);
+    }
+    sync();
+  }
+
+  /* Which page is showing is asked of the SCROLL POSITION, not remembered
+     from the last click — a swipe and a click have to give the same
+     answer, and only the scroll position knows about both. */
+  function current() {
+    var per = perView();
+    var step = track.scrollWidth / Math.max(cards.length, 1) * per;
+    if (!step) return 0;
+    var i = Math.round(track.scrollLeft / step);
+    return Math.max(0, Math.min(pages - 1, i));
+  }
+
+  function sync() {
+    var at = current();
+    for (var i = 0; i < dots.children.length; i++) {
+      dots.children[i].setAttribute('aria-selected', i === at ? 'true' : 'false');
+    }
+  }
+
+  dots.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.revs__dot') : null;
+    if (!b) return;
+    var per = perView();
+    var target = cards[Math.min(cards.length - 1, +b.dataset.page * per)];
+    track.scrollTo({ left: target.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+  });
+
+  var raf = 0;
+  track.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; sync(); });
+  }, { passive: true });
+
+  if ('ResizeObserver' in window) new ResizeObserver(build).observe(track);
+  else window.addEventListener('resize', build);
+
+  build();
+})();

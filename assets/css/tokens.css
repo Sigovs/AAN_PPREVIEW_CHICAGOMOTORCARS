@@ -329,6 +329,16 @@
   --sp-2: 8px;
   --sp-3: 12px;
   --sp-4: 16px;
+
+  /* ---- ONE GAP FOR EVERY EYEBROW ------------------------------------
+     Every "eyebrow -> title" pair on this page uses this and nothing
+     else. It was drifting badly before it was named: measured on the
+     composite at 1440, the optical gap ran 7.8px at Financing, 15.7 at
+     Reviews, 19.4 at Locations, 24 at the film band, 35 at About and
+     41.5 at Karma — six different answers to one question, none of them
+     decided. Reviews was the one that read right, so its value is the
+     value. Do not set this relationship anywhere else; change it here. */
+  --gap-eyebrow: var(--sp-3);   /* 12px, ~15.7px optical */
   --sp-5: 24px;
   --sp-6: 32px;
   --sp-7: 48px;

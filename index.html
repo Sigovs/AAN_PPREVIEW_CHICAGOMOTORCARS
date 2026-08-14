@@ -24,8 +24,8 @@
 <link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=44">
-<link rel="stylesheet" href="assets/css/main.css?v=356">
+<link rel="stylesheet" href="assets/css/tokens.css?v=45">
+<link rel="stylesheet" href="assets/css/main.css?v=358">
 </head>
 <body>
 
@@ -1334,7 +1334,7 @@
 
        Nothing here is written for them. The rest is verbatim.
        ============================================================ -->
-  <section class="about" id="about" data-reveal aria-labelledby="about-title">
+  <section class="about" id="about" data-reveal data-bloom="left" aria-labelledby="about-title">
     <div class="shell about__inner">
 
       <div class="about__claim">
@@ -1418,23 +1418,24 @@
   <!-- ============================================================
        12 — REVIEWS
        ============================================================
-       Three real reviews, one from each platform CMC's own testimonials
+       Nine real reviews across the three platforms CMC's own testimonials
        page aggregates, read from the DealerRater widget that page embeds
        (dealerrater.com/os/remote.aspx?dId=31085) on 2026-08-14. Names,
-       dates, wording and the five-star marks are all as published; each
-       card links to its own source so the claim is checkable.
+       dates, wording and the five-star marks are as published; each card
+       links to its own source so the claim is checkable. Four of the
+       longer ones are shortened by CUTTING sentences from the end — no
+       sentence is rewritten and no word is added.
 
-       NO AGGREGATE. There is no "4.9 from 300 reviews" line anywhere in
-       here, because CMC publishes no such figure and a number invented
-       on this page would be a claim the business never made. Every
-       review shown is a five-star review, and that is all the star rows
-       assert — one per review, not an average.
+       NO AGGREGATE. No "4.9 from 300 reviews" anywhere in here, because
+       CMC publishes no such figure and a number invented on this page
+       would be a claim the business never made. Every review shown is a
+       five-star review, and that is all the star rows assert.
 
-       The stars are --ink, not gold. Amber stars are the one detail that
-       makes a review block read as a template dealership page, and the
-       shape alone carries the meaning. Say the word and they turn.
+       The rail is the Instagram sheet's mechanism — scroll-snap, one
+       page at a time — with dots built by script. No script, no dots,
+       and it degrades to a rail you can still push.
        ============================================================ -->
-  <section class="revs" id="reviews" data-reveal aria-labelledby="revs-title">
+  <section class="revs" id="reviews" data-reveal data-bloom="right" aria-labelledby="revs-title">
     <div class="shell revs__head">
       <div>
         <p class="micro revs__eyebrow">Reviews</p>
@@ -1443,48 +1444,127 @@
       <a class="btn btn--line revs__cta" href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Read all reviews <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
     </div>
 
-    <div class="shell">
-      <ul class="revs__list">
-        <li class="rv">
-          <a class="rv__card" href="https://search.google.com/local/reviews?placeid=ChIJ32Vdc8qqD4gRx6CryD4eNDk" rel="noopener">
-            <div class="rv__head">
-              <span class="rv__avatar" aria-hidden="true">F</span>
-              <div class="rv__who">
-                <p class="rv__name">Fascinatepictures</p>
-                <p class="rv__meta"><time datetime="2026-07-06">July 6, 2026</time> · Google</p>
+    <div class="shell revs__body">
+      <ul class="revs__list" id="revs-track">
+          <li class="rv">
+            <a class="rv__card" href="https://search.google.com/local/reviews?placeid=ChIJ32Vdc8qqD4gRx6CryD4eNDk" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">P</span>
+                <div class="rv__who">
+                  <p class="rv__name">paul Silver</p>
+                  <p class="rv__meta"><time datetime="2026-08-03">August 3, 2026</time> · Google</p>
+                </div>
               </div>
-            </div>
-            <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
-            <p class="rv__text">Mike S. &amp; team go the extra miles to make sure diligence, communication, paperwork, delivery and everything in between in buying exotic cars go smooth and customer friendly. Car was as described if not even better. Highly recommend working with these guys for sourcing / buying.</p>
-          </a>
-        </li>
-        <li class="rv">
-          <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
-            <div class="rv__head">
-              <span class="rv__avatar" aria-hidden="true">K</span>
-              <div class="rv__who">
-                <p class="rv__name">Karl T.</p>
-                <p class="rv__meta"><time datetime="2025-11-13">November 13, 2025</time> · Cars.com</p>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Sekou is one of the best sales people that I ever dealt with. I have bought and sold over 90 cars, I'm a car guy, and this gentleman is very polite, understanding, gets the job done and follows up to make sure his customer is happy.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://search.google.com/local/reviews?placeid=ChIJ32Vdc8qqD4gRx6CryD4eNDk" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">F</span>
+                <div class="rv__who">
+                  <p class="rv__name">Fascinatepictures</p>
+                  <p class="rv__meta"><time datetime="2026-07-06">July 6, 2026</time> · Google</p>
+                </div>
               </div>
-            </div>
-            <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
-            <p class="rv__text">Was a pleasure doing business with these guys. Gorgeous showroom with an amazing selection of cars. True enthusiasts here. Got a great price on my car, they offered a fair price on my trade. Were super up front on all details of the car and the deal. Fast and efficient. I look forward to buying again — these guys are more like a fine automotive concierge service than a dealership!</p>
-          </a>
-        </li>
-        <li class="rv">
-          <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12510859" rel="noopener">
-            <div class="rv__head">
-              <span class="rv__avatar" aria-hidden="true">H</span>
-              <div class="rv__who">
-                <p class="rv__name">hazer396</p>
-                <p class="rv__meta"><time datetime="2024-08-22">August 22, 2024</time> · DealerRater</p>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Mike S. &amp; team go the extra miles to make sure diligence, communication, paperwork, delivery and everything in between in buying exotic cars go smooth and customer friendly. Car was as described if not even better.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">K</span>
+                <div class="rv__who">
+                  <p class="rv__name">Karl T.</p>
+                  <p class="rv__meta"><time datetime="2025-11-13">November 13, 2025</time> · Cars.com</p>
+                </div>
               </div>
-            </div>
-            <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
-            <p class="rv__text">Eric and the guys are just great to deal with. I have done plenty of business with them since 2014. Always taking care of any of my needs.</p>
-          </a>
-        </li>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Gorgeous showroom with an amazing selection of cars. True enthusiasts here. Were super up front on all details of the car and the deal. These guys are more like a fine automotive concierge service than a dealership!</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">M</span>
+                <div class="rv__who">
+                  <p class="rv__name">Mr.P</p>
+                  <p class="rv__meta"><time datetime="2025-09-25">September 25, 2025</time> · Cars.com</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Really outstanding service. Made transactions very easy and fast. People working there super friendly and courteous.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">S</span>
+                <div class="rv__who">
+                  <p class="rv__name">SKilander</p>
+                  <p class="rv__meta"><time datetime="2025-04-02">April 2, 2025</time> · Cars.com</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">A remarkable buying experience! Jackson was responsive, informative, personal and NOT pushy. I am enjoying my new ride and have already recommended Chicago Motor Cars to my friends.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">E</span>
+                <div class="rv__who">
+                  <p class="rv__name">Ernesto</p>
+                  <p class="rv__meta"><time datetime="2025-01-24">January 24, 2025</time> · Cars.com</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">I highly recommend Chicago Motor Cars. I have purchased a few vehicles from them. They get it done fast and right. No fluff.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12510859" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">H</span>
+                <div class="rv__who">
+                  <p class="rv__name">hazer396</p>
+                  <p class="rv__meta"><time datetime="2024-08-22">August 22, 2024</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Eric and the guys are just great to deal with. I have done plenty of business with them since 2014. Always taking care of any of my needs.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12505104" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">A</span>
+                <div class="rv__who">
+                  <p class="rv__name">Arne.toman</p>
+                  <p class="rv__meta"><time datetime="2024-08-19">August 19, 2024</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">I have bought 10+ cars from Chicago Motor Cars over the course of past 10 years. I've also used them to consign vehicles. Always a great experience with Eric and their team!</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12505029" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">M</span>
+                <div class="rv__who">
+                  <p class="rv__name">Mitch</p>
+                  <p class="rv__meta"><time datetime="2024-08-19">August 19, 2024</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">I cannot say enough good things about CMC and especially Eric. He has been the easiest person to work with and have done multiple deals. I can't imagine a better company and better human to work with.</p>
+            </a>
+          </li>
       </ul>
+      <div class="revs__dots" data-dots-for="revs-track" aria-label="Reviews, page" role="tablist"></div>
     </div>
   </section>
 
@@ -1506,22 +1586,22 @@
       </div>
       <ul class="locs__list">
           <li class="loc">
-            <h3 class="loc__city">West Chicago</h3>
+            <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>West Chicago</span></h3>
             <p class="loc__addr">27W110 North Avenue<br>West Chicago, IL 60185</p>
             <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
           </li>
           <li class="loc">
-            <h3 class="loc__city">Naperville</h3>
+            <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Naperville</span></h3>
             <p class="loc__addr">2104 Ferry Road<br>Naperville, IL 60563</p>
             <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
           </li>
           <li class="loc">
-            <h3 class="loc__city">Rock Hill</h3>
+            <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Rock Hill</span></h3>
             <p class="loc__addr">727 Marine Drive<br>Rock Hill, SC 29730</p>
             <a class="loc__tel" href="tel:+18038917788">803-891-7788</a>
           </li>
           <li class="loc">
-            <h3 class="loc__city">Tonganoxie</h3>
+            <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Tonganoxie</span></h3>
             <p class="loc__addr">1650 Commerce Ave<br>Tonganoxie, KS 66086</p>
             <a class="loc__tel" href="tel:+19138459633">913-845-9633</a>
           </li>
@@ -1565,14 +1645,21 @@
         </div>
       </nav>
 
+      <div class="foot__socials">
+          <a class="foot__soc" href="https://www.instagram.com/chicagomotorcars/" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 1.5h7.6a4.7 4.7 0 0 1 4.7 4.7v7.6a4.7 4.7 0 0 1-4.7 4.7H6.2a4.7 4.7 0 0 1-4.7-4.7V6.2a4.7 4.7 0 0 1 4.7-4.7Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.7" cy="5.3" r="1.05" fill="currentColor"/></svg></a>
+          <a class="foot__soc" href="https://www.facebook.com/chicagomotorcars" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 19v-7.6h2.5l.4-3h-2.9V6.5c0-.85.24-1.43 1.46-1.43H15.6V2.4A19.6 19.6 0 0 0 13.34 2.3c-2.23 0-3.76 1.36-3.76 3.87v2.16H7.1v3h2.48V19Z" fill="currentColor"/></svg></a>
+          <a class="foot__soc" href="https://twitter.com/chgomotorcars" rel="noopener" aria-label="X"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h3.6l4.03 5.4L15.1 3H18l-5.9 6.85L18.4 18h-3.6l-4.3-5.76L5.5 18H2.6l6.2-7.2Zm2.06 1.55 8.3 11.9h1.6l-8.3-11.9Z" fill="currentColor"/></svg></a>
+          <a class="foot__soc" href="https://www.youtube.com/user/ChicagoMotorCars" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M18.6 6.6a2.3 2.3 0 0 0-1.6-1.63C15.55 4.6 10 4.6 10 4.6s-5.55 0-7 .37A2.3 2.3 0 0 0 1.4 6.6C1 8.05 1 10 1 10s0 1.95.4 3.4a2.3 2.3 0 0 0 1.6 1.63c1.45.37 7 .37 7 .37s5.55 0 7-.37a2.3 2.3 0 0 0 1.6-1.63C19 11.95 19 10 19 10s0-1.95-.4-3.4Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.3 12.6 12.9 10 8.3 7.4Z" fill="currentColor"/></svg></a>
+      </div>
+
       <div class="foot__base">
         <p class="foot__legal">© 2026 Chicago Motor Cars. All rights reserved.</p>
-        <a class="foot__social" href="https://www.instagram.com/chicagomotorcars/">Instagram <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+        <p class="foot__by">Powered by All Auto Network</p>
       </div>
     </div>
   </footer>
 
 
-<script src="assets/js/main.js?v=43" defer></script>
+<script src="assets/js/main.js?v=44" defer></script>
 </body>
 </html>
