@@ -9015,6 +9015,12 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .fin__row,
 .fin__row:not(#x) {
   padding-block: clamp(var(--sp-4), 1.3vw, var(--sp-5));
+}
+/* The transition is declared WITHOUT the :not(#x) escalation on purpose.
+   That trick carries an id's specificity, so writing the shorthand there
+   outranked the reveal rules and their stagger — the cards all arrived
+   together. Plain selector, so the staircase below can still win. */
+.fin__row {
   transition: border-color var(--dur-3) var(--ease-out),
               background-color var(--dur-3) var(--ease-out),
               translate var(--dur-3) var(--ease-out),
@@ -9039,3 +9045,17 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 }
 .fin__ico,
 .fin__ico:not(#x) { transition: color var(--dur-3) var(--ease-out); }
+
+/* ---- The staircase, restored -------------------------------
+   The three cards were arriving together. The cause was mine and it is
+   worth naming: the block that softened the hover set `transition` as a
+   SHORTHAND, and the shorthand resets transition-delay to 0. It sits
+   below the reveal rules, so it silently wiped the stagger they had
+   set — the rise still played, all three at once.
+
+   The delays are declared on their own property here, after everything,
+   so no later shorthand can take them again. They follow the copy: the
+   label, the claim and the line land first, then the cards step in. */
+.reveal-armed [data-reveal].is-revealed .fin__row:nth-child(1) { transition-delay: calc(var(--rv-step) * 2.2); }
+.reveal-armed [data-reveal].is-revealed .fin__row:nth-child(2) { transition-delay: calc(var(--rv-step) * 2.9); }
+.reveal-armed [data-reveal].is-revealed .fin__row:nth-child(3) { transition-delay: calc(var(--rv-step) * 3.6); }
