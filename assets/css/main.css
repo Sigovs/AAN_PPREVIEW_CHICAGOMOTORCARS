@@ -6193,31 +6193,35 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   .stat--lead { margin-inline-end: 0; flex-basis: 100%; }
 }
 
-/* ---- Tuned to the frame that actually arrived ----
+/* ---- Tuned to the McLaren frame ----
 
-   The photograph is 2.26:1 against a band nearer 1.84, so cover crops the
-   sides and shows the full height — which is what the composition needs:
-   the lower third is empty floor and that is where the figures stand.
+   This picture needs almost no help, and that is the whole reason it is
+   the right one. Its left third is already near-black and its lower
+   third is empty reflected floor, which is exactly where the copy and
+   the figures stand — the scrims that carried them over the Ford GT
+   frame were fighting a picture that was lit where the text goes.
 
-   The left scrim comes DOWN from 0.94. In the placeholder the left of the
-   frame was dark and could take it; here the first-generation GT sits
-   left of centre in white, and a wash that heavy turned the best-lit car
-   in the picture grey. 0.78 falling to nothing by 60% carries the copy
-   and leaves the car. The bottom ramp does the rest of the work, and it
-   has an easy job — the floor under the figures is already near-black. */
-.story__bg img { object-position: 50% 46%; }
+   So they come down hard: 0.78 -> 0.46 on the left and 0.9 -> 0.62 at
+   the foot. Enough to hold the ink steady against the lamp reflections
+   on the floor, not enough to grey the cars or flatten the mural, which
+   is the part of this frame worth keeping.
+
+   1.85:1 against a band nearer 1.84 — it very nearly fits, so cover
+   takes almost nothing off either axis and the composition arrives as
+   shot. */
+.story__bg img { object-position: 56% 50%; }
 .story__bg::after {
   background:
     linear-gradient(to right,
-      rgb(var(--bg-rgb) / 0.78) 0%,
-      rgb(var(--bg-rgb) / 0.66) 22%,
-      rgb(var(--bg-rgb) / 0.34) 44%,
-      rgb(var(--bg-rgb) / 0.08) 62%,
+      rgb(var(--bg-rgb) / 0.46) 0%,
+      rgb(var(--bg-rgb) / 0.38) 24%,
+      rgb(var(--bg-rgb) / 0.18) 46%,
+      rgb(var(--bg-rgb) / 0.04) 64%,
       transparent 80%),
     linear-gradient(to top,
-      rgb(var(--bg-rgb) / 0.9) 0%,
-      rgb(var(--bg-rgb) / 0.55) 16%,
-      rgb(var(--bg-rgb) / 0.14) 34%,
+      rgb(var(--bg-rgb) / 0.62) 0%,
+      rgb(var(--bg-rgb) / 0.36) 16%,
+      rgb(var(--bg-rgb) / 0.08) 34%,
       transparent 52%);
 }
 
