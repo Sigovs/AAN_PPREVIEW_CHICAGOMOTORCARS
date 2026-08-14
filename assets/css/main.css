@@ -8656,11 +8656,14 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* ============================================================
    8 — FINANCING
    ============================================================
-   Featured Inventory's language: one big inset card on the navy ground,
-   the same radius and the same hairline, standing on the page's OWN
-   container so its edges land on the vertical every other chapter uses.
-   That alignment is the point — the card is not floated at an arbitrary
-   inset, it is the shell. */
+   Alex's composition. One card carrying the photograph, the statement
+   centred over it, the three routes as a row on the floor, and the
+   payment method closing the card beneath them.
+
+   Symmetrical on purpose: every other chapter on this page reads left,
+   so the closing one is the single centred composition. It is also the
+   only arrangement that leaves the vehicles the middle of the field
+   without anything sitting on top of them. */
 .fin {
   position: relative;
   background: var(--bg);
@@ -8668,58 +8671,59 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   padding-block: clamp(var(--sp-8), 6vw, var(--sp-10));
 }
 
+/* On the shell, so the card's edges land on the vertical Service uses
+   directly above it. Its proportion is close to the photograph's own,
+   which is what keeps the line-up uncropped. */
 .fin__card {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border-radius: 26px;
-  border: 1px solid rgba(244, 242, 239, 0.08);
   background: var(--bg-sunk);
-  min-block-size: clamp(28rem, 46vw, 42rem);
+  min-block-size: clamp(32rem, 55vw, 50rem);
   display: grid;
-  align-items: center;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(var(--sp-7), 4vw, var(--sp-9)) clamp(var(--sp-6), 4vw, var(--sp-9));
 }
 
-/* THE PHOTOGRAPH IS THE CARD — edge to edge, no panel, no seam. The
-   frame was composed for this: the group holds the left and the dark it
-   leaves on the right is where the type goes. */
 .fin__bg { position: absolute; inset: 0; z-index: 0; }
 .fin__bg img {
   inline-size: 100%; block-size: 100%;
   object-fit: cover;
-  object-position: 32% center;
+  object-position: center;
   display: block;
 }
 
-/* Directional and local: fully transparent across the whole group, and
-   it only gains density where the column begins. Nothing is darkened to
-   make room for text. */
+/* Two soft ends, not a flat scrim: the statement sits on the ceiling's
+   smoke and the row sits on the floor, so each gets just enough ground
+   while the middle of the frame — the vehicles — stays untouched. */
 .fin__wash {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(to right,
-    rgb(var(--bg-rgb) / 0) 0%,
-    rgb(var(--bg-rgb) / 0) 50%,
-    rgb(var(--bg-rgb) / 0.58) 68%,
-    rgb(var(--bg-rgb) / 0.88) 84%,
-    rgb(var(--bg-rgb) / 0.94) 100%);
+  background:
+    linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0.72) 0%,
+      rgb(var(--bg-rgb) / 0.30) 22%,
+      rgb(var(--bg-rgb) / 0) 40%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.80) 0%,
+      rgb(var(--bg-rgb) / 0.42) 18%,
+      rgb(var(--bg-rgb) / 0) 40%);
 }
 
-/* The column sits on the card's own right inset, which is the same
-   measure as its radius family — 56 at the top of the clamp. */
 .fin__copy {
   position: relative;
   z-index: 2;
-  margin-inline-start: auto;
-  inline-size: min(21rem, 27%);
-  margin-inline-end: clamp(var(--sp-6), 3.8vw, var(--sp-8));
-  padding-block: clamp(var(--sp-7), 4vw, var(--sp-8));
+  grid-row: 1;
+  justify-self: center;
+  text-align: center;
+  max-inline-size: 44rem;
 }
 
 .fin__label {
-  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  margin: 0 0 clamp(var(--sp-5), 2vw, var(--sp-6));
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -8730,47 +8734,68 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 }
 
 .fin__title {
-  margin: 0;
+  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.25rem, 3.6vw, 3.75rem);
-  line-height: 0.97;
+  font-size: clamp(2.5rem, 4.4vw, 4.25rem);
+  line-height: 1;
   letter-spacing: var(--tr-display);
 }
-.fin__title .ttl-line { display: block; }
 
-/* The page's own mark, short and once. */
-.fin__mark {
-  display: block;
-  inline-size: 56px;
-  block-size: 2px;
-  background: var(--accent);
-  margin-block: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+.fin__lede {
+  margin: 0 auto;
+  max-inline-size: 46ch;
+  font-size: clamp(1rem, 1.15vw, 1.0625rem);
+  line-height: 1.6;
+  color: var(--ink-2);
 }
 
-/* ---- The routes ---------------------------------------------
-   Rows on a hairline, not cards. Featured Inventory puts vehicle
-   records on cards; these are routes, and a card inside a card would be
-   the container chrome that was rejected. */
-.fin__rows { display: flex; flex-direction: column; }
+/* ---- The foot: three routes and the payment method --------- */
+.fin__foot {
+  position: relative;
+  z-index: 2;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+}
 
+.fin__rows {
+  inline-size: 100%;
+  max-inline-size: 62rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-4), 1.4vw, var(--sp-5));
+}
+
+/* The page's own card surface — the same corner and hairline Featured
+   Inventory's records carry, on the ground beneath the vehicles. */
 .fin__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-5);
-  padding-block: clamp(var(--sp-5), 2vw, var(--sp-6));
-  border-block-end: 1px solid var(--rule);
+  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 14px;
+  background: rgb(var(--bg-rgb) / 0.42);
   text-decoration: none;
   font-family: var(--font-body);
-  font-size: clamp(1rem, 1.2vw, 1.1875rem);
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--ink-2);
-  transition: color var(--sel-dur) var(--sel-ease);
+  transition: border-color var(--sel-dur) var(--sel-ease),
+              background-color var(--sel-dur) var(--sel-ease),
+              color var(--sel-dur) var(--sel-ease);
 }
-.fin__row.is-lead { color: var(--ink); }
-.fin__row:hover { color: var(--ink); }
+.fin__row:hover { border-color: rgba(244, 242, 239, 0.20); color: var(--ink); }
+.fin__row.is-lead {
+  border-color: rgba(104, 156, 236, 0.55);
+  background: rgba(28, 44, 82, 0.42);
+  color: var(--ink);
+}
 
 .fin__arrow {
   flex: none;
@@ -8781,36 +8806,31 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .fin__row:hover .fin__arrow { translate: 3px 0; color: var(--ink); }
 .fin__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
+/* Centred under the row, the wordmark over its label. */
 .fin__tert {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--sp-3);
-  margin-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  gap: 6px;
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
   color: var(--ink-3);
 }
 .fin__bitpay {
-  block-size: 1.15rem;
+  block-size: 1.4rem;
   inline-size: auto;
   display: block;
   opacity: 0.62;
   transition: opacity var(--dur-1) var(--ease-out);
 }
 .fin__tert:hover .fin__bitpay { opacity: 1; }
+.fin__tert:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 4px; }
 
-/* Below the two-mass width the card cannot hold a group of four
-   vehicles and a column of type side by side. The photograph keeps the
-   top of the card and the copy takes the field beneath it. */
 @media (max-width: 900px) {
-  .fin__card { display: block; min-block-size: 0; }
-  .fin__bg { position: relative; aspect-ratio: 16 / 11; }
-  .fin__wash {
-    inset-block-start: auto;
-    block-size: 40%;
-    background: linear-gradient(to top,
-      rgb(var(--bg-rgb) / 0.92) 0%, rgb(var(--bg-rgb) / 0) 100%);
-  }
-  .fin__copy {
-    inline-size: auto;
-    margin-inline: clamp(var(--sp-6), 6vw, var(--sp-7));
-    padding-block: clamp(var(--sp-7), 7vw, var(--sp-8));
-  }
+  .fin__card { min-block-size: 0; grid-template-rows: auto auto auto; row-gap: clamp(var(--sp-7), 8vw, var(--sp-8)); }
+  .fin__bg { position: relative; grid-row: 2; aspect-ratio: 16 / 11; border-radius: 14px; overflow: hidden; }
+  .fin__wash { display: none; }
+  .fin__rows { grid-template-columns: minmax(0, 1fr); }
 }
