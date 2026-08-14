@@ -9282,3 +9282,28 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   opacity: 0;
   translate: 0 18px;
 }
+
+/* ---- The warranty card's hover, completed -------------------
+   The ground and the shadow were already responding; the LIFT was not.
+   `.wcard:hover` sets translate at two class-weights, and the revealed
+   state pins it to 0 at four — the reveal was quietly cancelling the
+   only part of the state that moves. Declared inside the same revealed
+   context here so it can win, rather than by escalating the plain hover
+   and starting a specificity war with the entrance.
+
+   The glyph answers too: its tile warms and the mark goes to the accent,
+   which is the one place red is spent inside these cards. */
+@media (hover: hover) {
+  .reveal-armed [data-reveal].is-revealed .wcard:hover,
+  .wcard:hover { translate: 0 -3px; }
+
+  .wcard:hover .wcard__ico {
+    background: rgba(203, 20, 29, 0.10);
+    color: var(--accent-deep);
+  }
+}
+.wcard__ico {
+  transition: background-color var(--dur-3) var(--ease-out),
+              color var(--dur-3) var(--ease-out);
+}
+.wcard:focus-within { translate: 0 -3px; }
