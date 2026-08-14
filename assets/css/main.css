@@ -9167,14 +9167,31 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
      within 8px of the symmetric version, so the cards do not move. */
   padding-block: clamp(var(--sp-9), 9vw, var(--sp-11)) clamp(var(--sp-6), 2.6vw, var(--sp-7));
 }
-.warranty__bg { position: absolute; inset: 0; z-index: -1; }
+/* THE FRAME HANGS BELOW ITS FRAME. The picture's box is 166% of the
+   band and anchored to its top, so the band shows the upper 60% of it
+   and the cars fall to the middle of the composition instead of riding
+   the headline. object-position alone could only move them 88px — the
+   whole vertical crop a 16:9 master has against this box — and that was
+   not enough.
+
+   The overflow lives HERE rather than on .warranty__band, and the ramps
+   with it: they have to measure against the band's own edges. Hung off
+   the picture's box they would have sat 400px below the section. */
+.warranty__bg { position: absolute; inset: 0; z-index: -1; overflow: clip; }
 .warranty__bg img {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
   inline-size: 100%;
-  block-size: 100%;
+  block-size: 166%;
   object-fit: cover;
   /* Held right-of-centre: the cars are there and the empty concrete the
      copy needs is on the left, so as the band narrows it is the empty
      ground that gets eaten rather than the subjects. */
+  /* Right-of-centre horizontally so the empty concrete the copy needs is
+     what the crop eats. Vertically it is centred, because the hang above
+     is what places the cars — object-position has no slack left to give
+     once the box is taller than the picture. */
   object-position: 72% center;
   display: block;
 }
@@ -9226,7 +9243,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
 
 .warranty__inner { position: relative; z-index: 1; }
 .warranty__copy { max-inline-size: 34rem; }
-.warranty__foot { position: relative; z-index: 1; }
+
+
+/* The chapter has to END. With .warranty__inner's padding gone the cards
+   were sitting on the section's own edge; this is the bone band's
+   closing air, bottom-heavy the way every other section here is. */
+.warranty__foot {
+  position: relative;
+  z-index: 1;
+  padding-block-end: clamp(var(--sp-8), 6.5vw, var(--sp-10));
+}
 
 /* The eyebrow's separator is a mark, not a word — the middle dot takes
    the accent and the two halves stay in the label's own ink. */
@@ -9248,10 +9274,17 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
 .warranty__title:not(#x) { margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6)); }
 .warranty__title .ttl-line { display: block; }
 
+/* THE MEASURE RESPECTS THE PICTURE. With the frame lowered, the Porsche's
+   nose arrives at x=430 across exactly the rows this lede occupies, and
+   at 46ch its first two lines ran onto it — measured 1.13:1, which is
+   text on a black car. 33ch keeps every line inside the lit concrete.
+   The alternative was pushing the left ramp out to cover the lede's full
+   width, which would have washed the Porsche's front off the picture to
+   protect a line that can simply be shorter. */
 .warranty__lede,
 .warranty__lede:not(#x) {
   margin: 0 0 clamp(var(--sp-7), 3.4vw, var(--sp-8));
-  max-inline-size: 46ch;
+  max-inline-size: 33ch;
 }
 
 .warranty__actions,
@@ -9631,11 +9664,28 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   color: var(--ink);
   padding-block: clamp(var(--sp-9), 7.5vw, var(--sp-11)) clamp(var(--sp-9), 7vw, var(--sp-10));
 }
+/* TWO COLUMNS, TWO ROWS. The claim and the prose share the top row; the
+   contact block and the action share the bottom one, which is the whole
+   reason the action can sit level with the social marks instead of
+   floating under the prose on its own. Row 2's column gap is the same as
+   row 1's, so the button's left edge lands on the prose's. */
 .about__inner {
   display: grid;
   grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
-  gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+  column-gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+  row-gap: clamp(var(--sp-7), 4vw, var(--sp-9));
   align-items: start;
+}
+/* The action drops to the FOOT of its row so it lines up with the last
+   thing in the contact block — the icons — rather than with the first,
+   which is the address. And it sits at the RIGHT of its column, on the
+   prose's right edge: the chapter reads left-to-right across two masses,
+   so the one control belongs at the far end of the second, not tucked
+   back under the start of it. */
+.about__act {
+  align-self: end;
+  display: flex;
+  justify-content: flex-end;
 }
 /* Red is a fill-and-rule colour on this ground — --accent measures 3.41:1
    against --bg, under AA for a 14px label — so the dark-ground eyebrows
@@ -9656,7 +9706,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    a step off it, the marks a step further, and the whole group sits a
    long way under the claim. Internal gaps rise; the external gap beats
    all of them. */
-.about__contact { margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-9)); }
+/* The grid's row-gap carries this now; a margin here would double it. */
 /* ONE ICON COLUMN, ONE TEXT COLUMN. The address and the phone share a
    fixed 15px gutter so their glyphs sit on one vertical and their words
    sit on another — without it the phone started 21px left of the street
