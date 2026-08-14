@@ -9113,3 +9113,172 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
   opacity: 0;
   translate: 0 18px;
 }
+
+/* ============================================================
+   6 — WARRANTY / PROTECTION, rebuilt
+   ============================================================
+   The reference's structure in the page's own materials: bone ground,
+   the project red, the two faces, the Material Symbols the section
+   already carried, and every gap off the --sp-* scale. The mock's teal
+   and its near-white are not carried across; a borrowed layout is not a
+   licence to borrow a palette. */
+.warranty__grid,
+.warranty__grid:not(#x) {
+  display: grid;
+  grid-template-columns: minmax(0, 47fr) minmax(0, 53fr);
+  align-items: center;
+  gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+}
+
+.warranty__copy { max-inline-size: 34rem; }
+
+/* The eyebrow's separator is a mark, not a word — the middle dot takes
+   the accent and the two halves stay in the label's own ink. */
+.warranty__eyebrow,
+.warranty__eyebrow:not(#x) {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0 0 var(--sp-4);
+  /* Red, because that is this page's convention for an eyebrow on the
+     bone ground — Warranty's was red before the rebuild and Sell's still
+     is. The reference tints it with its own accent; ours is --accent-deep,
+     which is the value already measured at 4.78:1 here. */
+  color: var(--accent-deep);
+}
+.warranty__eyebrow span[aria-hidden] { opacity: 0.55; }
+
+.warranty__title,
+.warranty__title:not(#x) { margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6)); }
+.warranty__title .ttl-line { display: block; }
+
+.warranty__lede,
+.warranty__lede:not(#x) {
+  margin: 0 0 clamp(var(--sp-7), 3.4vw, var(--sp-8));
+  max-inline-size: 46ch;
+}
+
+.warranty__actions,
+.warranty__actions:not(#x) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+/* The image takes the section's own corner, not a new one. */
+.warranty__shot {
+  margin: 0;
+  border-radius: var(--r-section);
+  overflow: hidden;
+  background: var(--bg-sunk);
+}
+.warranty__shot img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: 42% center;
+}
+
+/* ---- The three provisions, as cards ------------------------
+   Raised rather than outlined, which is what the old panel already
+   established on this ground: a border on bone draws a box, a lift
+   reads as a surface. */
+.wcards {
+  list-style: none;
+  margin: clamp(var(--sp-8), 5vw, var(--sp-9)) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-5), 2vw, var(--sp-6));
+}
+
+.wcard {
+  padding: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  border-radius: var(--r-panel);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset,
+              0 12px 28px -18px rgba(22, 21, 15, 0.35);
+  transition: background-color var(--dur-3) var(--ease-out),
+              box-shadow var(--dur-3) var(--ease-out),
+              translate var(--dur-3) var(--ease-out);
+}
+@media (hover: hover) {
+  .wcard:hover {
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset,
+                0 18px 36px -20px rgba(22, 21, 15, 0.42);
+    translate: 0 -2px;
+  }
+}
+
+/* The glyph sits on a quiet tile. The reference tints it with its accent;
+   red is rationed on this page — it belongs to the eyebrow's mark and the
+   primary action — so the tile is ink at low alpha and the glyph is ink. */
+.wcard__ico {
+  display: grid;
+  place-items: center;
+  inline-size: 42px;
+  block-size: 42px;
+  margin-block-end: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  border-radius: 12px;
+  background: rgba(22, 21, 15, 0.06);
+  color: var(--bone-ink);
+}
+.wcard__ico svg { display: block; }
+
+.wcard__h {
+  margin: 0 0 var(--sp-3);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.15vw, 1.0625rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--bone-ink);
+}
+.wcard__p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--bone-ink-2);
+}
+
+@media (max-width: 900px) {
+  .warranty__grid,
+  .warranty__grid:not(#x) { grid-template-columns: minmax(0, 1fr); }
+  .warranty__copy { max-inline-size: none; }
+  .wcards { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- Entrance: the page's own staircase --------------------
+   Copy first, then the image, then the three cards — one climb, the
+   same rise the other chapters use. Plain selectors for the transition
+   and a separate property for the delays, for the reasons already
+   recorded in Financing. */
+.reveal-armed [data-reveal] .warranty__shot,
+.reveal-armed [data-reveal] .wcard {
+  opacity: 0;
+  translate: 0 18px;
+  will-change: opacity, translate;
+}
+.warranty__shot,
+.wcard {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out),
+              background-color var(--dur-3) var(--ease-out),
+              box-shadow var(--dur-3) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .warranty__shot,
+.reveal-armed [data-reveal].is-revealed .wcard { opacity: 1; translate: 0 0; }
+
+.reveal-armed [data-reveal].is-revealed .warranty__shot { transition-delay: calc(var(--rv-step) * 1.6); }
+.reveal-armed [data-reveal].is-revealed .wcard:nth-child(1) { transition-delay: calc(var(--rv-step) * 2.6); }
+.reveal-armed [data-reveal].is-revealed .wcard:nth-child(2) { transition-delay: calc(var(--rv-step) * 3.3); }
+.reveal-armed [data-reveal].is-revealed .wcard:nth-child(3) { transition-delay: calc(var(--rv-step) * 4); }
+
+html.reveal-armed [data-reveal]:not(.is-revealed) .warranty__shot,
+html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
+  opacity: 0;
+  translate: 0 18px;
+}

@@ -1,0 +1,32 @@
+gen-brake-wheel.jpg — generated-imagery sidecar
+===============================================
+
+ORIGIN — SYNTHETIC. Declared, not inferred.
+  model    fal-ai/nano-banana-pro (Google)
+  date     2026-08-14
+  request  01a001f3-4f4f-78c1-b109-58e1ff9a34ba
+  master   2752 x 1536 · ladder -1400, -2752
+
+SUBJECT
+  Three-quarter detail: one forged wheel, a drilled carbon-ceramic disc
+  and a deep-red caliper behind the spokes, black bodywork above the
+  arch, dark studio, polished floor. The subject is the PART, which is
+  what a warranty covers — not a whole car, which would be a claim about
+  a vehicle.
+
+GI3 AUDIT
+  · No CMC inventory vehicle. A wheel arch and a brake with no model
+    line, no proportions that identify a car, no context.
+  · No premises, no people.
+  · No badge, no centre-cap emblem, no wordmark, no plate, no tyre
+    branding, no lettering. Excluded in the prompt, checked on the render.
+  VERDICT: passes.
+
+  The red caliper is a real object in the photograph and rhymes with
+  #CB141D without spending the accent.
+
+WHY IT EXISTS
+  Warranty carried no photograph, and the reason recorded at the time was
+  that the repo had no suitable asset — not that the chapter wanted none.
+  Alex asked for the section rebuilt in a reference layout that puts an
+  image beside the copy, so the asset was made rather than borrowed.
