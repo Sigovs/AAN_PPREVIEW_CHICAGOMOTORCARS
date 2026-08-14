@@ -8729,7 +8729,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    failure the rule names: uniform intervals flatten a group into a
    stack. One step in, one step out. */
 .fin__label {
-  margin: 0 0 var(--sp-4);
+  margin: 0 0 var(--sp-2);
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -8743,11 +8743,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    twice the eyebrow's interval — the group now has an inside and an
    outside. */
 .fin__title {
-  margin: 0 0 clamp(var(--sp-5), 1.9vw, var(--sp-6));
+  margin: 0 0 clamp(var(--sp-4), 1.3vw, var(--sp-5));
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.5rem, 4.4vw, 4.25rem);
-  line-height: 1;
+  line-height: 0.95;
   letter-spacing: var(--tr-display);
 }
 
@@ -8882,12 +8882,15 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* The two actions sit side by side rather than stacked. They were
    stretching to fill the register's width and wrapping; sized to their
    own content, they fit the column as a pair. */
+/* One at each end of the register, not a huddled pair — the column's
+   own width becomes the interval between them. */
 .svc__actions,
 .svc__actions:not(#x) {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: var(--sp-4);
 }
 .svc__actions .btn,
