@@ -9346,70 +9346,52 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .karma__act { display: flex; }
 
 /* ============================================================
-   10 — REVIEWS
+   10 — ABOUT US
    ============================================================
-   Built bone first, and moved to the dark ground after the C21 read.
-
-   On bone it was a locally handsome chapter that damaged the page: the
-   distant read showed Service bone → a 200px dark Karma → Reviews bone,
-   and at that scale Karma stopped being a chapter and read as a divider
-   between two light fields. The section this page most needs to land was
-   the one the rhythm was eating.
-
-   Dark, the whole tail is one continuous final act — Karma, Reviews,
-   Instagram, Locations, the footer — which is also what the brief asks of
-   Locations ("dissolving into the footer"). Service keeps the page's last
-   light beat, and the close fades out the way the page opened. Density
-   carries the variety instead of tone: Karma is centred and near-empty,
-   Reviews is pure type at scale, Instagram is photographic, Locations is
-   a hairline register.
-
-   Karma sits a step deeper (--bg-sunk) so it still ends; Reviews comes
-   back up to --bg and the rest of the tail holds there. */
-.rev {
+   CMC's own words, and the only long-form prose on the page. Two masses:
+   the claim on the left, the paragraphs on the right at a read measure.
+   The chapter has no action — it states who they are and hands the reader
+   on. That also keeps the tail's control count at one per chapter. */
+.about {
   background: var(--bg);
   color: var(--ink);
   padding-block: clamp(var(--sp-9), 7.5vw, var(--sp-11)) clamp(var(--sp-9), 7vw, var(--sp-10));
 }
-.rev__inner { display: grid; justify-items: start; }
-.rev__quote { max-inline-size: 62rem; }
+.about__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
+  gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+  align-items: start;
+}
 /* Red is a fill-and-rule colour on this ground — --accent measures 3.41:1
    against --bg, under AA for a 14px label — so the dark-ground eyebrows
-   are --ink-2, as on Instagram and Locations. */
-.rev__eyebrow,
-.rev__eyebrow:not(#x) { margin: 0 0 clamp(var(--sp-6), 2.6vw, var(--sp-7)); color: var(--ink-2); }
-
-.rev__quote,
-.rev__quote:not(#x) { margin: 0; }
-.rev__q {
-  margin: 0 0 clamp(var(--sp-6), 2.6vw, var(--sp-7));
+   are --ink-2, as on Instagram, Reviews and Locations. */
+.about__eyebrow,
+.about__eyebrow:not(#x) { margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6)); color: var(--ink-2); }
+.about__title {
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 3.9vw, 3.5rem);
-  line-height: 1.08;
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  line-height: 1.02;
   letter-spacing: var(--tr-display);
 }
-.rev__q .ttl-line { display: block; }
-.rev__by {
-  font-family: var(--font-label);
-  font-size: var(--t-micro);
-  letter-spacing: var(--tr-label);
-  text-transform: uppercase;
+.about__title .ttl-line { display: block; }
+
+.about__body { max-inline-size: 62ch; }
+/* I1: the gap between paragraphs is smaller than the gap to anything
+   outside the block, so the two read as one voice rather than two items. */
+.about__p {
+  margin: 0;
+  font-size: var(--t-lede);
+  line-height: var(--lh-body);
   color: var(--ink-2);
+  text-wrap: pretty;
 }
-.rev__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: clamp(var(--sp-6), 3vw, var(--sp-7));
-  margin-block-start: clamp(var(--sp-8), 4vw, var(--sp-9));
-}
-.rev__link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  white-space: nowrap;
-  color: var(--ink);
+.about__p + .about__p { margin-block-start: clamp(var(--sp-5), 2vw, var(--sp-6)); }
+
+@media (max-width: 900px) {
+  .about__inner { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ============================================================
@@ -9454,29 +9436,27 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
   align-items: start;
+  --ig-h: clamp(190px, 16.7vw, 280px);
 }
 .ig__sheet::-webkit-scrollbar { display: none; }
 
+/* ONE HEIGHT, NATIVE WIDTHS. The cell takes its height from the sheet and
+   its width from the picture, so the row has one clean top edge and one
+   clean bottom edge and the widths carry the variation. Every master is
+   640px and renders at 280px tall at 1440 — the whole sheet downscales. */
 .ig__cell {
   flex: none;
-  inline-size: clamp(180px, 16.1vw, 268px);
-  block-size: clamp(180px, 16.1vw, 268px);
+  block-size: var(--ig-h);
+  inline-size: auto;
   border-radius: var(--r-panel);
   overflow: hidden;
   scroll-snap-align: start;
   background: var(--bg-raised);
 }
-.ig__cell--tall {
-  inline-size: clamp(150px, 13.2vw, 220px);
-  block-size: clamp(220px, 19.3vw, 322px);
-}
-.ig__cell--wide {
-  inline-size: clamp(260px, 23.6vw, 392px);
-  block-size: clamp(163px, 14.8vw, 246px);
-}
 .ig__cell img {
-  inline-size: 100%; block-size: 100%;
-  object-fit: cover; display: block;
+  block-size: 100%;
+  inline-size: auto;
+  display: block;
   transition: scale var(--dur-4) var(--ease-out), opacity var(--dur-3) var(--ease-out);
   opacity: 0.86;
 }
@@ -9485,7 +9465,127 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 
 /* ============================================================
-   12 — LOCATIONS · FINAL CTA
+   12 — REVIEWS
+   ============================================================
+   Google-style cards, one per platform CMC's own testimonials page
+   aggregates. The card is the page's existing raised panel — the same
+   object the inventory rail and the warranty cards are made of — so the
+   only new thing here is the star row and the avatar disc.
+
+   The stars are --ink. Amber is the detail that makes a review block read
+   as a stock dealership template, and at 14px the five-pointed shape
+   already says "rating" without help from colour.
+
+   The header repeats the Instagram header exactly: eyebrow, title, one
+   outline action on the right. Repetition across a page is rhythm; this
+   is the tail's second use of a grammar the page already owns. The title
+   sits below Locations' scale on purpose — the last big statement on the
+   page belongs to the four floors, not to this. */
+.revs {
+  background: var(--bg);
+  color: var(--ink);
+  padding-block: clamp(var(--sp-8), 5.5vw, var(--sp-10));
+}
+.revs__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8));
+}
+.revs__eyebrow,
+.revs__eyebrow:not(#x) { margin: 0 0 var(--sp-3); color: var(--ink-2); }
+.revs__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.625rem, 2.6vw, 2.375rem);
+  line-height: 1.05;
+  letter-spacing: var(--tr-display);
+}
+
+.revs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-5), 1.8vw, var(--sp-6));
+}
+.rv { display: flex; }
+.rv__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  inline-size: 100%;
+  padding: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+  border: 1px solid var(--rule);
+  border-radius: var(--r-panel);
+  background: var(--bg-raised);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur-3) var(--ease-out),
+              background-color var(--dur-3) var(--ease-out);
+}
+
+.rv__head { display: flex; align-items: center; gap: var(--sp-4); }
+/* A disc with an initial, not a photograph. The reviewers are real people
+   and none of them gave this page a face to use. */
+.rv__avatar {
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(244, 242, 239, 0.10);
+  font-family: var(--font-label);
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+.rv__who { min-inline-size: 0; }
+.rv__name,
+.rv__name:not(#x) {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.rv__meta,
+.rv__meta:not(#x) {
+  margin: var(--sp-1) 0 0;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-3);
+}
+
+.rv__stars { display: flex; gap: 3px; color: var(--ink); }
+.rv__stars svg { fill: currentColor; display: block; }
+
+.rv__text,
+.rv__text:not(#x) {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+@media (hover: hover) {
+  .rv__card:hover {
+    border-color: rgba(244, 242, 239, 0.26);
+    background: rgba(244, 242, 239, 0.055);
+  }
+}
+.rv__card:focus-visible { border-color: rgba(244, 242, 239, 0.26); }
+
+@media (max-width: 1000px) { .revs__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px)  { .revs__list { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   13 — LOCATIONS · FINAL CTA
    ============================================================
    A register of four peers on hairlines — the grammar the page already
    uses for a list — and no bottom rule on the last one, so the chapter
@@ -9546,7 +9646,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .loc__tel:hover { color: var(--accent); }
 
 /* ============================================================
-   13 — FOOTER
+   14 — FOOTER
    ============================================================ */
 .foot {
   background: var(--bg);
@@ -9611,20 +9711,28 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 
 /* ---- The tail joins the page's staircase -------------------- */
 .reveal-armed [data-reveal] .karma__logo,
-.reveal-armed [data-reveal] .rev__by,
+.reveal-armed [data-reveal] .about__p,
 .reveal-armed [data-reveal] .ig__cell,
+.reveal-armed [data-reveal] .rv,
 .reveal-armed [data-reveal] .loc {
   opacity: 0;
   translate: 0 18px;
 }
-.karma__logo, .rev__by, .ig__cell, .loc {
+.karma__logo, .about__p, .ig__cell, .rv, .loc {
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
 }
 .reveal-armed [data-reveal].is-revealed .karma__logo,
-.reveal-armed [data-reveal].is-revealed .rev__by,
+.reveal-armed [data-reveal].is-revealed .about__p,
 .reveal-armed [data-reveal].is-revealed .ig__cell,
+.reveal-armed [data-reveal].is-revealed .rv,
 .reveal-armed [data-reveal].is-revealed .loc { opacity: 1; translate: 0 0; }
+
+.reveal-armed [data-reveal].is-revealed .about__p:nth-of-type(1) { transition-delay: calc(var(--rv-step) * 1.4); }
+.reveal-armed [data-reveal].is-revealed .about__p:nth-of-type(2) { transition-delay: calc(var(--rv-step) * 2.0); }
+.reveal-armed [data-reveal].is-revealed .rv:nth-child(1) { transition-delay: calc(var(--rv-step) * 1.4); }
+.reveal-armed [data-reveal].is-revealed .rv:nth-child(2) { transition-delay: calc(var(--rv-step) * 1.9); }
+.reveal-armed [data-reveal].is-revealed .rv:nth-child(3) { transition-delay: calc(var(--rv-step) * 2.4); }
 
 .reveal-armed [data-reveal].is-revealed .ig__cell:nth-child(1) { transition-delay: calc(var(--rv-step) * 1.4); }
 .reveal-armed [data-reveal].is-revealed .ig__cell:nth-child(2) { transition-delay: calc(var(--rv-step) * 1.8); }
@@ -9636,8 +9744,9 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .reveal-armed [data-reveal].is-revealed .loc:nth-child(4) { transition-delay: calc(var(--rv-step) * 3.1); }
 
 html.reveal-armed [data-reveal]:not(.is-revealed) .karma__logo,
-html.reveal-armed [data-reveal]:not(.is-revealed) .rev__by,
+html.reveal-armed [data-reveal]:not(.is-revealed) .about__p,
 html.reveal-armed [data-reveal]:not(.is-revealed) .ig__cell,
+html.reveal-armed [data-reveal]:not(.is-revealed) .rv,
 html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   opacity: 0;
   translate: 0 18px;

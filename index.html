@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=44">
-<link rel="stylesheet" href="assets/css/main.css?v=354">
+<link rel="stylesheet" href="assets/css/main.css?v=356">
 </head>
 <body>
 
@@ -993,18 +993,9 @@
 
       <div class="story__copy">
         <h2 class="story__title"><span class="story__line ttl-line">Built on more</span><span class="story__line ttl-line">than exceptional cars.</span></h2>
-        <!-- CMC's own About copy, supplied 2026-08-14. Their first sentence,
-             verbatim. Their second — "over 30,000 vehicles sold and more than
-             $2 billion in worldwide sale" — is not repeated here because the
-             figures stand beside it as the <dl>; saying them twice in one
-             chapter spends the claim on itself. Their second paragraph
-             (browse the inventory · financing · delivery) is the Inventory,
-             Financing and Locations chapters, and it also says "three
-             locations… in the Chicago suburbs", which this page contradicts
-             with four. That sentence needs CMC to update it. -->
-        <p class="story__lede">Since 2003, Chicago Motor Cars has grown from our humble
-          beginnings to a respected leader in the luxury and exotic automotive
-          marketplace.</p>
+        <p class="story__lede">For over two decades, Chicago Motor Cars has connected
+          enthusiasts and collectors with exceptional vehicles across the country
+          and around the world.</p>
         <a class="story__cta" href="https://www.chicagomotorcars.com/about-chicago-motor-cars/">
           Our story
           <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
@@ -1324,30 +1315,46 @@
   </section>
 
   <!-- ============================================================
-       10 — REVIEWS
+       10 — ABOUT US
        ============================================================
-       THE QUOTE IS A PLACEHOLDER AND MUST BE REPLACED. Chicago Motor
-       Cars' own testimonials page carries no testimonials — only an
-       invitation to leave one and an empty DealerRater block. There is
-       nothing real to quote, and writing a customer's words for them
-       would be inventing a record about a person. The composition holds
-       the slot; the words come from CMC.
+       CMC's own About copy, supplied by Alex 2026-08-14, in the slot the
+       placeholder testimonial held. Four departures from their text, all
+       of them deletions or a typo, none of them new sentences:
 
-       No rating, no review count, no star row: none of those are
-       published either, and a number invented here would be a claim the
-       business never made. The two routes below are their own real ones.
+         · "That's who we are at Chicago Motor Cars." is lifted out of the
+           end of their second paragraph and set as the claim. It is the
+           line the copy was already building to.
+         · "worldwide sale" -> "worldwide sales".
+         · "Chicago Motor Cars has three locations conveniently located in
+           the Chicago suburbs." is dropped. The Locations chapter 600px
+           below lists FOUR, two of them in South Carolina and Kansas. The
+           page cannot say both. CMC needs to update that sentence.
+         · "at ChicagoMotorCars.com" is dropped from the browse line —
+           this page is ChicagoMotorCars.com.
+
+       Nothing here is written for them. The rest is verbatim.
        ============================================================ -->
-  <section class="rev" id="reviews" data-reveal aria-labelledby="rev-title">
-    <div class="shell rev__inner">
-      <p class="micro rev__eyebrow">What owners say</p>
-      <blockquote class="rev__quote" id="rev-title" data-placeholder="true">
-        <p class="rev__q"><span class="ttl-line">Placeholder — the client's own</span><span class="ttl-line">words go here.</span></p>
-        <footer class="rev__by">Chicago Motor Cars owner</footer>
-      </blockquote>
-      <div class="rev__foot">
-        <a class="btn btn--line" href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Read testimonials <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
-        <a class="rev__link" href="https://www.chicagomotorcars.com/review-us/">Leave a review <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+  <section class="about" id="about" data-reveal aria-labelledby="about-title">
+    <div class="shell about__inner">
+
+      <div class="about__claim">
+        <p class="micro about__eyebrow">About us</p>
+        <h2 class="about__title" id="about-title"><span class="ttl-line">That's who</span><span class="ttl-line">we are.</span></h2>
       </div>
+
+      <div class="about__body">
+        <p class="about__p">Since 2003, Chicago Motor Cars has grown from our humble
+          beginnings to a respected leader in the luxury and exotic automotive
+          marketplace. With over 30,000 vehicles sold and more than $2 billion in
+          worldwide sales, you can count on Chicago Motor Cars to exceed your
+          expectations.</p>
+        <p class="about__p">Browse among hundreds of high-quality pre-owned vehicles
+          and let our professional staff help you secure the vehicle of your dreams.
+          We offer competitive financing terms tailored to fit your budget, and we
+          can deliver directly to your door. Work with a leader when purchasing your
+          next sports or exotic automobile.</p>
+      </div>
+
     </div>
   </section>
 
@@ -1368,20 +1375,121 @@
       </div>
       <a class="btn btn--line ig__cta" href="https://www.instagram.com/chicagomotorcars/">Follow on Instagram <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
     </div>
+
+    <!-- ONE HEIGHT, NATIVE WIDTHS. Every frame is set to the same block
+         size and keeps its own aspect, so the row has one clean top and
+         one clean bottom and the widths do the varying. Eleven of the
+         twelve are 3:2; the Countach reel is 9:16 and lands as the narrow
+         frame, which is what a real feed looks like — cropping it to
+         match would have thrown most of the picture away.
+
+         These are CMC's own twelve, read out of the live Smash Balloon
+         feed on chicagomotorcars.com and fetched from their wp-content.
+         640px masters rendered at 280px tall: everything downscales,
+         nothing upscales. See README.txt beside the files. -->
     <ul class="ig__sheet">
-          <li class="ig__cell ig__cell--tall"><img src="assets/img/stock/cmc-aventador-blue.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell ig__cell--wide"><img src="assets/img/stock/cmc-senna-blue.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell"><img src="assets/img/stock/cmc-458-spider.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell ig__cell--tall"><img src="assets/img/stock/cmc-gt2-rs.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell ig__cell--wide"><img src="assets/img/stock/cmc-diablo-gt.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell"><img src="assets/img/stock/cmc-911-gt3-yellow.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell"><img src="assets/img/stock/cmc-huracan-11.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
-          <li class="ig__cell ig__cell--tall"><img src="assets/img/stock/cmc-aventador-red.jpg" alt="" loading="lazy" decoding="async" width="326" height="210"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-jeep-gladiator.jpg" alt="2023 Jeep Gladiator High Altitude 4x4"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3.jpg" alt="2022 Porsche 911 GT3 in Racing Yellow"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-huracan-evo-gt.jpg" alt="2020 Lamborghini Huracan LP640-4 EVO GT"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-gt2-rs.jpg" alt="2018 Porsche 911 GT2 RS Weissach Package"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-urus-s.jpg" alt="2024 Lamborghini Urus S"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-huracan-sto.jpg" alt="2022 Lamborghini Huracan STO"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-audi-r8-v10.jpg" alt="2020 Audi R8 V10 Performance in Ascari Blue"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-countach-showroom.jpg" alt="1989 Lamborghini Countach 25th Anniversary on the showroom floor"
+           width="640" height="1138" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-dodge-viper-acr.jpg" alt="2016 Dodge Viper ACR Extreme"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-carrera-s.jpg" alt="2006 Porsche 911 Carrera S 6-speed"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="2023 Porsche 911 GT3 Touring"
+           width="640" height="427" loading="lazy" decoding="async"></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-mercedes-s65-amg.jpg" alt="2019 Mercedes-Benz S65 V12 AMG"
+           width="640" height="427" loading="lazy" decoding="async"></li>
     </ul>
   </section>
 
   <!-- ============================================================
-       12 — LOCATIONS · FINAL CTA
+       12 — REVIEWS
+       ============================================================
+       Three real reviews, one from each platform CMC's own testimonials
+       page aggregates, read from the DealerRater widget that page embeds
+       (dealerrater.com/os/remote.aspx?dId=31085) on 2026-08-14. Names,
+       dates, wording and the five-star marks are all as published; each
+       card links to its own source so the claim is checkable.
+
+       NO AGGREGATE. There is no "4.9 from 300 reviews" line anywhere in
+       here, because CMC publishes no such figure and a number invented
+       on this page would be a claim the business never made. Every
+       review shown is a five-star review, and that is all the star rows
+       assert — one per review, not an average.
+
+       The stars are --ink, not gold. Amber stars are the one detail that
+       makes a review block read as a template dealership page, and the
+       shape alone carries the meaning. Say the word and they turn.
+       ============================================================ -->
+  <section class="revs" id="reviews" data-reveal aria-labelledby="revs-title">
+    <div class="shell revs__head">
+      <div>
+        <p class="micro revs__eyebrow">Reviews</p>
+        <h2 class="revs__title" id="revs-title"><span class="ttl-line">What owners say.</span></h2>
+      </div>
+      <a class="btn btn--line revs__cta" href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Read all reviews <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+
+    <div class="shell">
+      <ul class="revs__list">
+        <li class="rv">
+          <a class="rv__card" href="https://search.google.com/local/reviews?placeid=ChIJ32Vdc8qqD4gRx6CryD4eNDk" rel="noopener">
+            <div class="rv__head">
+              <span class="rv__avatar" aria-hidden="true">F</span>
+              <div class="rv__who">
+                <p class="rv__name">Fascinatepictures</p>
+                <p class="rv__meta"><time datetime="2026-07-06">July 6, 2026</time> · Google</p>
+              </div>
+            </div>
+            <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+            <p class="rv__text">Mike S. &amp; team go the extra miles to make sure diligence, communication, paperwork, delivery and everything in between in buying exotic cars go smooth and customer friendly. Car was as described if not even better. Highly recommend working with these guys for sourcing / buying.</p>
+          </a>
+        </li>
+        <li class="rv">
+          <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+            <div class="rv__head">
+              <span class="rv__avatar" aria-hidden="true">K</span>
+              <div class="rv__who">
+                <p class="rv__name">Karl T.</p>
+                <p class="rv__meta"><time datetime="2025-11-13">November 13, 2025</time> · Cars.com</p>
+              </div>
+            </div>
+            <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+            <p class="rv__text">Was a pleasure doing business with these guys. Gorgeous showroom with an amazing selection of cars. True enthusiasts here. Got a great price on my car, they offered a fair price on my trade. Were super up front on all details of the car and the deal. Fast and efficient. I look forward to buying again — these guys are more like a fine automotive concierge service than a dealership!</p>
+          </a>
+        </li>
+        <li class="rv">
+          <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12510859" rel="noopener">
+            <div class="rv__head">
+              <span class="rv__avatar" aria-hidden="true">H</span>
+              <div class="rv__who">
+                <p class="rv__name">hazer396</p>
+                <p class="rv__meta"><time datetime="2024-08-22">August 22, 2024</time> · DealerRater</p>
+              </div>
+            </div>
+            <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+            <p class="rv__text">Eric and the guys are just great to deal with. I have done plenty of business with them since 2014. Always taking care of any of my needs.</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       13 — LOCATIONS · FINAL CTA
        ============================================================
        An editorial register, not four cards — the same grammar the page
        already uses for a list of peers, and the last chapter dissolves
