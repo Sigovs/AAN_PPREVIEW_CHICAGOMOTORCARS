@@ -8213,8 +8213,22 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
       rgb(var(--bg-rgb) / 0.62) 24%,
       rgb(var(--bg-rgb) / 0.22) 46%,
       rgb(var(--bg-rgb) / 0) 62%),
+    /* THE SEAM CLOSES AT BOTH ENDS. This layer used to start at 0.55,
+       which is a wash rather than a merge — the film was still visible
+       on the very edge, so a hard horizontal line sat where the section
+       met the ground above it. Full --bg at 0% and a long fall means the
+       frame has no edge at all: it emerges from the page and returns to
+       it. The foot gets the same treatment, because Service closes the
+       page and its lower edge met the ground the same way. */
     linear-gradient(to bottom,
-      rgb(var(--bg-rgb) / 0.55) 0%,
+      rgb(var(--bg-rgb) / 1) 0%,
+      rgb(var(--bg-rgb) / 0.92) 5%,
+      rgb(var(--bg-rgb) / 0.45) 16%,
+      rgb(var(--bg-rgb) / 0) 30%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 1) 0%,
+      rgb(var(--bg-rgb) / 0.90) 4%,
+      rgb(var(--bg-rgb) / 0.40) 13%,
       rgb(var(--bg-rgb) / 0) 26%);
 }
 
@@ -9059,3 +9073,43 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .reveal-armed [data-reveal].is-revealed .fin__row:nth-child(1) { transition-delay: calc(var(--rv-step) * 2.2); }
 .reveal-armed [data-reveal].is-revealed .fin__row:nth-child(2) { transition-delay: calc(var(--rv-step) * 2.9); }
 .reveal-armed [data-reveal].is-revealed .fin__row:nth-child(3) { transition-delay: calc(var(--rv-step) * 3.6); }
+
+/* ---- Financing's copy rises with its cards ------------------
+   One staircase for the chapter: the label, the claim and the line step
+   in from below, then the three cards continue the same climb. The rise
+   is the page's existing role — the one Sell's steps and these cards
+   already use — chosen over the headline's usual entrance from the left
+   because this chapter is centred, and a line arriving sideways into a
+   symmetrical composition fights it.
+
+   Transitions are declared on plain selectors and the delays on their
+   own property: the shorthand resets delay, and the file's :not(#x)
+   escalation outranks the reveal rules. Both of those have already cost
+   this section its stagger once. */
+.reveal-armed [data-reveal] .fin__label,
+.reveal-armed [data-reveal] .fin__title,
+.reveal-armed [data-reveal] .fin__lede {
+  opacity: 0;
+  translate: 0 18px;
+  will-change: opacity, translate;
+}
+.fin__label,
+.fin__title,
+.fin__lede {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .fin__label,
+.reveal-armed [data-reveal].is-revealed .fin__title,
+.reveal-armed [data-reveal].is-revealed .fin__lede { opacity: 1; translate: 0 0; }
+
+.reveal-armed [data-reveal].is-revealed .fin__label { transition-delay: 0ms; }
+.reveal-armed [data-reveal].is-revealed .fin__title { transition-delay: calc(var(--rv-step) * 0.7); }
+.reveal-armed [data-reveal].is-revealed .fin__lede  { transition-delay: calc(var(--rv-step) * 1.4); }
+
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__label,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__title,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
+  opacity: 0;
+  translate: 0 18px;
+}
