@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=42">
-<link rel="stylesheet" href="assets/css/main.css?v=321">
+<link rel="stylesheet" href="assets/css/main.css?v=325">
 </head>
 <body>
 
@@ -1274,77 +1274,75 @@
   </section>
 
   <!-- ============================================================
-       8 — FINANCING — a quieter sibling of Featured Inventory
+       8 — FINANCING
        ============================================================
-       ONE STAGE HOLDS THE WHOLE CHAPTER. The previous pass put the
-       editorial intro above the panel and the panel under it, which read
-       as a title with a widget beneath. Alex drew it the other way and
-       he is right: the label, the headline, the supporting line, the car
-       and the register all stand inside one framed field, so the chapter
-       is a single object rather than two stacked ones.
+       Read at page scale first, as C21 requires. The distant read says
+       the homepage's dominant device is a FULL-BLEED PHOTOGRAPHIC BAND
+       with type laid into the frame's own quiet side — brk, Sell, Story
+       and Service are all that, and the only inset panel on the page
+       belonged to my previous Financing, which is exactly why it stood
+       out as a foreign object.
 
-       Inside it the reading order is a diagonal — headline top left,
-       car filling the floor beneath it, register holding the right edge
-       top to bottom, and the payment method resolved on a rule at the
-       foot. The vertical hairline beside the headline is what lets the
-       supporting line sit next to it instead of under it.
+       So this chapter continues Sell's STRUCTURE in Featured Inventory's
+       TONE. No panel, no widget, no card inside a card.
 
-       Everything is the site's own: the field and the record surfaces
-       are Featured Inventory's, shared by selector; the car is a real
-       inventory cutout; the numerals are the register language Service
-       already uses.
+       WHAT THE PAGE HAS ALREADY SPENT, and is therefore not spent again:
+       numbered registers (Sell 01-03, Service 01-06), the .rec card
+       (Featured Inventory), the wave cut (Sell, Warranty). None recur.
+
+       THE PHOTOGRAPH IS THE COMPOSITION. Alex supplied it composed: the
+       group — van, AMG GT, Ducati, Shelby — holds the left and centre,
+       and a 38% field of deep dark runs down the right. Measured, not
+       assumed: from 62% of the frame rightward every cell clears body
+       text on its own, so no scrim flattens the picture. The type sits
+       in the dark the photographer left for it.
+
+       The four vehicles are the argument the copy does not have to make:
+       financing here is not for one kind of car.
        ============================================================ -->
   <section class="fin" data-reveal aria-labelledby="fin-title">
+
+    <div class="fin__bg" aria-hidden="true">
+      <img src="assets/img/financing/fin-lineup-1600.jpg"
+           srcset="assets/img/financing/fin-lineup-1600.jpg 1600w,
+                   assets/img/financing/fin-lineup-2473.jpg 2473w"
+           sizes="100vw"
+           alt="" width="2473" height="1545" loading="lazy" decoding="async">
+    </div>
+
+    <!-- A directional wash from the reading edge only — the same device
+         Service already uses, cut from the page's own ground. It holds
+         the worst pixels under the copy without touching the group. -->
+    <span class="fin__edge" aria-hidden="true"></span>
+
     <div class="shell fin__inner">
-      <div class="fin__showcase">
-
-        <div class="fin__head">
-          <div class="fin__headline">
-            <p class="fin__label">Financing</p>
-            <h2 class="fin__title" id="fin-title">
-              <span class="ttl-line">Make it</span>
-              <span class="ttl-line">yours.</span>
-            </h2>
-          </div>
-          <p class="fin__lede">Three ways to start,<br>and all of them<br>open online.</p>
-        </div>
-
-        <!-- A real CMC inventory car, treated as the object in the field
-             exactly as the vehicle is in Featured Inventory. The 812 is
-             the one car on this page that appears nowhere else. -->
-        <div class="fin__stage" aria-hidden="true">
-          <img class="fin__car" src="assets/img/inventory/cutout-ferrari-812-gts.png"
-               alt="" width="1414" height="581" loading="lazy" decoding="async">
-        </div>
-
-        <div class="fin__index">
-          <div class="fin__rows">
-            <a class="fin__rec is-lead" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
-              <span class="fin__rec-n">01</span>
-              <span class="fin__rec-t">Online Credit Approval</span>
-              <svg class="fin__arrow" width="17" height="17" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.2"/></svg>
-            </a>
-            <a class="fin__rec" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">
-              <span class="fin__rec-n">02</span>
-              <span class="fin__rec-t">Calculate Payments</span>
-              <svg class="fin__arrow" width="17" height="17" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.2"/></svg>
-            </a>
-            <a class="fin__rec" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">
-              <span class="fin__rec-n">03</span>
-              <span class="fin__rec-t">Calculate Your Trade</span>
-              <svg class="fin__arrow" width="17" height="17" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.2"/></svg>
-            </a>
-          </div>
-          <a class="fin__tert" href="https://www.chicagomotorcars.com/bitpay/">
-            <img class="fin__bitpay" src="assets/img/logos/bitpay.com-10.svg"
-                 alt="BitPay" width="133" height="46" loading="lazy" decoding="async">
-            <span>accepted</span>
-            <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+      <div class="fin__copy">
+        <p class="fin__label">Financing</p>
+        <h2 class="fin__title" id="fin-title">
+          <span class="ttl-line">Make it</span>
+          <span class="ttl-line">yours.</span>
+        </h2>
+        <div class="fin__act">
+          <a class="btn btn--fill" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
+            Online Credit Approval
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
           </a>
         </div>
 
+        <div class="fin__routes">
+          <a class="fin__route" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate payments <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+          <a class="fin__route" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate your trade <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+        </div>
+
+        <a class="fin__tert" href="https://www.chicagomotorcars.com/bitpay/">
+          <img class="fin__bitpay" src="assets/img/logos/bitpay.com-10.svg"
+               alt="BitPay" width="133" height="46" loading="lazy" decoding="async">
+          <span>accepted</span>
+          <svg class="story__cta-arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </a>
       </div>
     </div>
+
   </section>
 
 </main>

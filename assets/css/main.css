@@ -6509,6 +6509,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
    underline: a rule here would be the decorative line this pass rules
    out, and the arrow already says the direction. */
 .story__cta,
+.fin__route,
 .fin__tert {
   display: inline-flex;
   align-items: center;
@@ -6526,16 +6527,22 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   transition: gap var(--dur-2) var(--ease-out);
 }
 .story__cta-arrow,
+.fin__route .story__cta-arrow,
 .fin__tert .story__cta-arrow { flex: none; transition: translate var(--dur-2) var(--ease-out); }
 .story__cta:hover,
 .story__cta:focus-visible,
+.fin__route:hover,
+.fin__route:focus-visible,
 .fin__tert:hover,
 .fin__tert:focus-visible { background: none; box-shadow: none; }
 .story__cta:hover .story__cta-arrow,
 .story__cta:focus-visible .story__cta-arrow,
+.fin__route:hover .story__cta-arrow,
+.fin__route:focus-visible .story__cta-arrow,
 .fin__tert:hover .story__cta-arrow,
 .fin__tert:focus-visible .story__cta-arrow { translate: 5px 0; }
 .story__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.fin__route:focus-visible,
 .fin__tert:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
 /* ============================================================
@@ -8654,189 +8661,152 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    exists to catch. */
 
 /* ============================================================
-   8 — FINANCING — a quieter sibling of Featured Inventory
+   8 — FINANCING — the page's own device, continued
    ============================================================
-   The field and the record surfaces are Featured Inventory's own rules,
-   shared by selector rather than copied. Everything below is only what
-   this chapter does differently: one stage holding the whole thing, a
-   diagonal reading order inside it, and a register of three. */
+   A full-bleed photographic band with the type laid into the frame's
+   quiet side. That is brk, Sell, Story and Service; this is the same
+   grammar, not a new one. The corners are the section radius its
+   neighbours carry. */
 .fin {
   position: relative;
-  background: var(--bg);
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-section);
+  background: var(--bg-sunk);
   color: var(--ink);
-  padding-block: clamp(var(--sp-9), 7vw, var(--sp-11));
-}
-
-/* ONE FIELD. Headline, supporting line, car and register all stand
-   inside it — the chapter is a single object, not a title with a panel
-   under it. The hairline is what makes it a field rather than a wash. */
-.fin__showcase {
-  grid-template-columns: minmax(0, 57fr) minmax(20rem, 43fr);
-  grid-template-rows: auto minmax(0, 1fr);
-  column-gap: clamp(var(--sp-7), 4vw, var(--sp-9));
-  row-gap: clamp(var(--sp-6), 2.4vw, var(--sp-7));
-  padding: clamp(var(--sp-7), 3.4vw, var(--sp-9));
-  border: 1px solid rgba(244, 242, 239, 0.08);
-  align-items: stretch;
-}
-
-/* ---- The head: headline, a rule, and the line beside it ---- */
-.fin__head {
-  grid-column: 1;
-  grid-row: 1;
+  min-block-size: clamp(34rem, 50vw, 50rem);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: clamp(var(--sp-6), 2.6vw, var(--sp-7));
-  align-items: start;
+  align-items: center;
+  margin-block-end: clamp(var(--sp-9), 8vw, var(--sp-11));
 }
 
+/* NO SCRIM. Measured on the master: from 62% of the frame rightward
+   every cell already clears body text at --ink, so darkening the picture
+   would only flatten a photograph that was composed to be dark exactly
+   there. object-position holds that field against the right edge as the
+   band changes shape. */
+.fin__bg { position: absolute; inset: 0; z-index: 0; }
+.fin__bg img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 34% center;
+  display: block;
+}
+
+.fin__inner { position: relative; z-index: 1; }
+
+/* The copy takes the field the photographer left, and only that. It is
+   pinned to the shell's right edge rather than centred, because the
+   picture's asymmetry is the composition and symmetry would fight it. */
+.fin__copy {
+  margin-inline-start: auto;
+  inline-size: min(30rem, 42%);
+  padding-block: clamp(var(--sp-8), 6vw, var(--sp-9));
+}
+
+/* On a dark ground this page uses dim ink for an eyebrow, not red —
+   red eyebrows belong to the bone chapters. Continuity, not a new mark. */
 .fin__label {
-  margin: 0 0 clamp(var(--sp-5), 2vw, var(--sp-6));
+  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
-  color: var(--accent-deep);
+  color: var(--ink-2);
 }
 
 .fin__title {
-  margin: 0;
+  margin: 0 0 clamp(var(--sp-7), 3.4vw, var(--sp-8));
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.75rem, 4.4vw, 4.25rem);
-  line-height: 0.98;
+  font-size: clamp(2.75rem, 3.9vw, 3.75rem);
+  line-height: 1.02;
   letter-spacing: var(--tr-display);
 }
 .fin__title .ttl-line { display: block; }
 
-/* The supporting line sits BESIDE the headline, on the other side of a
-   hairline — which is what keeps the head one mass instead of a stack. */
-.fin__lede {
-  margin: 0;
-  align-self: center;
-  max-inline-size: 22ch;
-  padding-inline-start: clamp(var(--sp-6), 2.6vw, var(--sp-7));
-  border-inline-start: 1px solid var(--rule);
-  font-size: clamp(1rem, 1.05vw, 1.0625rem);
-  line-height: 1.55;
-  color: var(--ink-2);
-}
+/* NO SUPPORTING LINE. It was the one element that fell on a vehicle —
+   the Shelby's flank at every width — and the brief makes it optional.
+   Dimming the photograph to rescue a sentence the chapter does not need
+   would have been the wrong trade. The headline and three named routes
+   say it. */
 
-/* ---- The car fills the floor under the head ---------------- */
-.fin__stage {
-  grid-column: 1;
-  grid-row: 2;
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-block-size: clamp(16rem, 22vw, 24rem);
-}
-.fin__car {
-  inline-size: 100%;
-  block-size: auto;
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-/* The ground it stands on — the same seating device the vehicle has
-   above, elliptical and slightly under the body. */
-.fin__stage::after {
-  content: "";
-  position: absolute;
-  inset-inline: 10%;
-  inset-block-end: 8%;
-  block-size: 18%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side,
-    rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.26) 54%, transparent 100%);
-  z-index: 0;
-}
+.fin__act { display: flex; margin-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
 
-/* ---- The register holds the right edge, top to bottom ------ */
-.fin__index {
-  grid-column: 2;
-  grid-row: 1 / -1;
+/* The two calculators are the page's editorial action, not a third and
+   fourth pill — three pills in one field would read as a form. */
+.fin__routes {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+  align-items: flex-start;
+  gap: var(--sp-5);
+  padding-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  border-block-end: 1px solid var(--rule);
 }
-.fin__rows { display: flex; flex-direction: column; gap: var(--sp-5); }
+.fin__route { color: var(--ink); }
 
-.fin__rec {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: clamp(var(--sp-5), 2vw, var(--sp-6));
-  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
-  border: 1px solid rgba(244, 242, 239, 0.10);
-  border-radius: 14px;
-  text-decoration: none;
-  color: var(--ink);
-  cursor: pointer;
-  transition: border-color var(--sel-dur) var(--sel-ease),
-              background-color var(--sel-dur) var(--sel-ease);
-}
-.fin__rec:hover { border-color: rgba(244, 242, 239, 0.20); }
-.fin__rec.is-lead {
-  border-color: rgba(104, 156, 236, 0.55);
-  background: rgba(28, 44, 82, 0.22);
-}
-
-/* The numeral is the register language Service already uses. On the lead
-   route it carries the page's blue rather than a second red. */
-.fin__rec-n {
-  font-family: var(--font-display);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--ink-3);
-  transition: color var(--sel-dur) var(--sel-ease);
-}
-.fin__rec.is-lead .fin__rec-n { color: rgb(126, 168, 240); }
-
-.fin__rec-t {
-  font-family: var(--font-body);
-  font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--ink-2);
-  transition: color var(--sel-dur) var(--sel-ease);
-}
-.fin__rec.is-lead .fin__rec-t,
-.fin__rec:hover .fin__rec-t { color: var(--ink); }
-
-.fin__arrow {
-  flex: none;
-  color: var(--ink-3);
-  transition: color var(--sel-dur) var(--sel-ease), translate var(--dur-2) var(--ease-out);
-}
-.fin__rec.is-lead .fin__arrow { color: var(--ink); }
-.fin__rec:hover .fin__arrow { color: var(--ink); translate: 3px 0; }
-.fin__rec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-
-/* Resolved on a rule at the foot of the register, not as a fourth row. */
 .fin__tert {
   align-items: center;
   gap: var(--sp-3);
-  padding-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
-  border-block-start: 1px solid var(--rule);
+  margin-block-start: clamp(var(--sp-5), 2.2vw, var(--sp-6));
   color: var(--ink-3);
 }
 .fin__bitpay {
   block-size: 1.15rem;
   inline-size: auto;
   display: block;
-  opacity: 0.78;
+  opacity: 0.72;
   transition: opacity var(--dur-1) var(--ease-out);
 }
 .fin__tert:hover .fin__bitpay { opacity: 1; }
 
+/* Below the two-mass width the frame can no longer hold a group of four
+   vehicles and a column of type side by side. The picture keeps the top
+   of the band and the copy takes the page ground beneath it, which is
+   what Sell does at the same width. */
 @media (max-width: 900px) {
-  .fin__showcase { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; }
-  .fin__head { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-6); }
-  .fin__lede { padding-inline-start: 0; border-inline-start: 0; max-inline-size: 34ch; }
-  .fin__stage { grid-column: 1; grid-row: 2; }
-  .fin__index { grid-column: 1; grid-row: 3; }
+  .fin { display: block; min-block-size: 0; background: var(--bg); }
+  .fin__bg { position: relative; aspect-ratio: 16 / 11; }
+  .fin__copy {
+    inline-size: 100%;
+    margin-inline-start: 0;
+    padding-block: clamp(var(--sp-7), 8vw, var(--sp-8));
+  }
+}
+
+/* ---- Corrections off the render ----------------------------
+   At 1920 the band is wider than the photograph's own ratio, so cover
+   crops it vertically and the group sits further right than the master
+   suggests — the Shelby's nose reached under the copy and the lede was
+   sitting on yellow bodywork. Three moves, none of which flatten the
+   picture:
+
+   the column narrows and the display steps down one rung so the copy
+   fits the field the photograph actually leaves at this ratio; and a
+   directional wash from the reading edge holds the worst pixels. The
+   wash starts at 48% and is transparent across the whole vehicle group
+   — it is a local tonal control, not a scrim over the photograph. */
+.fin__edge {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to right,
+    rgb(var(--bg-rgb) / 0) 50%,
+    rgb(var(--bg-rgb) / 0.58) 64%,
+    rgb(var(--bg-rgb) / 0.84) 78%,
+    rgb(var(--bg-rgb) / 0.90) 100%);
+}
+
+.fin__copy,
+.fin__copy:not(#x) { inline-size: min(26rem, 34%); }
+
+.fin__title,
+.fin__title:not(#x) { font-size: clamp(2.25rem, 2.9vw, 3.25rem); }
+
+@media (max-width: 900px) {
+  .fin__edge { display: none; }
 }
