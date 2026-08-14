@@ -9209,11 +9209,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
               box-shadow var(--dur-3) var(--ease-out),
               translate var(--dur-3) var(--ease-out);
 }
+/* On hover the card BRIGHTENS and lifts; the cast shadow does not grow
+   with it. A drop shadow that deepens on hover is the decorative reading
+   of a lift — it says "this is floating" when the only thing that needs
+   saying is "this is the one you are on". The resting shadow stays, so
+   the card is still seated on the bone; only the ground under the text
+   and the 2px of travel answer the pointer. */
 @media (hover: hover) {
   .wcard:hover {
     background: rgba(255, 255, 255, 0.82);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset,
-                0 18px 36px -20px rgba(22, 21, 15, 0.42);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
     translate: 0 -2px;
   }
 }
@@ -9320,6 +9325,8 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    air, not a feature grid. */
 .karma {
   position: relative;
+  isolation: isolate;
+  overflow: clip;
   background: var(--bg-sunk);
   color: var(--ink);
   text-align: center;
@@ -9327,7 +9334,48 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   border-start-start-radius: var(--r-section);
   border-start-end-radius: var(--r-section);
 }
-.karma__inner { display: grid; justify-items: center; }
+/* ---- the film ------------------------------------------------------
+   Karma's headlight footage, dimmed hard. Two layers do the dimming and
+   they do different jobs: the video's own opacity takes the whole frame
+   down so the brightest specular on the lens stops competing with the
+   wordmark, and the wash above it is a vertical ramp that closes the
+   chapter's top and bottom edges into the ground — the same device the
+   Service band uses horizontally, turned ninety degrees because this
+   chapter is centred and its seams are above and below.
+
+   The section clips it, so the film respects the rounded top corners the
+   chapter already had; without that the video would square them off. */
+.karma__film {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.karma__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  opacity: 0.30;
+}
+.karma__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgb(7 11 19 / 0.96) 0%,
+      rgb(7 11 19 / 0.55) 26%,
+      rgb(7 11 19 / 0.42) 55%,
+      rgb(7 11 19 / 0.92) 92%,
+      rgb(7 11 19 / 1) 100%),
+    /* a little extra under the centred lockup, where every glyph lands */
+    radial-gradient(58% 62% at 50% 52%, rgb(7 11 19 / 0.52), transparent 72%);
+}
+
+.karma__inner { display: grid; justify-items: center; position: relative; }
 .karma__logo { display: block; }
 .karma__mark {
   display: block;
@@ -9367,28 +9415,42 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    section's own stacking context) and lights nothing that carries text
    at speed.
 
-   The section clips it HORIZONTALLY only — overflow-x: clip leaves
-   overflow-y visible — so it can run off the page edge without creating
-   a scrollbar, and can still bleed across the seam into the chapter
-   above and below. The whole tail is one ground; a hard cut at the seam
-   would be the only straight edge light never has.
+   The section clips it on BOTH axes, so a bloom belongs to its chapter
+   and stops at the seam. Bleeding across the join sounded right and read
+   wrong: About's light was climbing into Karma and putting a second,
+   unexplained glow on a section that had none.
+
+   The clip alone was not enough. Measured at the About/Instagram seam —
+   same ground on both sides — the cut stepped 8 levels in one pixel row,
+   because blur() spreads ink 44px past the bloom's own box and the
+   section was slicing straight through that ramp. So the bloom carries
+   its own vertical mask.
+
+   The mask is a percentage of the BLOOM, so the bloom's height has to be
+   a percentage of the SECTION for the two to line up — at 132% the fade
+   was still 60% opaque where the section ended and the step came back.
+   Vertical size is therefore fixed at 100%: taller buys nothing, since
+   anything past the section edge is cropped anyway. A chapter grows its
+   bloom on the WIDTH, which runs off the page and costs no seam.
 
    One rule, two consumers: [data-bloom="left"] and ="right". Do not
    author a second one per section. */
-[data-bloom] { position: relative; isolation: isolate; overflow-x: clip; }
+[data-bloom] { position: relative; isolation: isolate; overflow: clip; }
 [data-bloom]::before {
   content: "";
   position: absolute;
   z-index: -1;
   pointer-events: none;
   inline-size: var(--bloom-w, clamp(420px, 46vw, 780px));
-  block-size:  var(--bloom-h, clamp(360px, 38vw, 640px));
+  block-size:  100%;
   inset-block-start: var(--bloom-y, 46%);
   translate: 0 -50%;
   /* Size and strength are the two things a chapter is allowed to tune;
      the lobes, the blue and the blur stay shared, or it stops being one
      light and becomes two effects. */
   opacity: var(--bloom-opacity, 1);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 15%, #000 85%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 15%, #000 85%, transparent 100%);
   background:
     radial-gradient(52% 58% at 34% 38%, rgba(63, 94, 142, 0.56), transparent 66%),
     radial-gradient(40% 34% at 72% 24%, rgba(48, 72, 116, 0.48), transparent 70%),
@@ -9412,7 +9474,9 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    The chapter has no action — it states who they are and hands the reader
    on. That also keeps the tail's control count at one per chapter. */
 .about {
-  --bloom-y: 44%;
+  --bloom-y: 50%;
+  --bloom-w: clamp(700px, 80vw, 1340px);
+  --bloom-opacity: 0.46;
   background: var(--bg);
   color: var(--ink);
   padding-block: clamp(var(--sp-9), 7.5vw, var(--sp-11)) clamp(var(--sp-9), 7vw, var(--sp-10));
@@ -9498,16 +9562,32 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   align-items: start;
   --ig-h: clamp(190px, 16.7vw, 280px);
 }
+/* Draggable: the cursor says so, and the images stop being drag targets
+   of their own — a native image drag would otherwise start a file drag
+   two pixels into the gesture. */
+[data-drag-scroll] { cursor: grab; }
+[data-drag-scroll] img { -webkit-user-drag: none; user-select: none; }
+[data-drag-scroll].is-dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+[data-drag-scroll].is-dragging * { pointer-events: none; }
 .ig__sheet::-webkit-scrollbar { display: none; }
 
-/* ONE HEIGHT, NATIVE WIDTHS. The cell takes its height from the sheet and
-   its width from the picture, so the row has one clean top edge and one
-   clean bottom edge and the widths carry the variation. Every master is
-   640px and renders at 280px tall at 1440 — the whole sheet downscales. */
+/* ONE HEIGHT, ONE WIDTH, AND THE WIDTH IS THE NARROW ONE. The frames are
+   3:2 masters cropped to 5:4 in the cell — narrower than the picture, so
+   the row reads as a column of portraits passing by rather than as a
+   filmstrip of landscapes. object-position is centred: these are
+   turntable shots with the car dead centre, so a centre crop takes the
+   background off both ends and leaves the subject whole.
+
+   The reel comes along: at 9:16 it fills the 5:4 cell on width and the
+   crop takes the top and bottom, which is the frame it was shot for.
+
+   Masters are 640px and the cell is 300px wide at 1440 — everything
+   downscales. */
 .ig__cell {
+  position: relative;
   flex: none;
   block-size: var(--ig-h);
-  inline-size: auto;
+  inline-size: calc(var(--ig-h) * 0.8);
   border-radius: var(--r-panel);
   overflow: hidden;
   scroll-snap-align: start;
@@ -9515,11 +9595,32 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 }
 .ig__cell img {
   block-size: 100%;
-  inline-size: auto;
+  inline-size: 100%;
+  object-fit: cover;
+  object-position: center;
   display: block;
   transition: scale var(--dur-4) var(--ease-out), opacity var(--dur-3) var(--ease-out);
   opacity: 0.86;
 }
+
+/* ---- the mark on each frame ----------------------------------------
+   Small, top right, and carrying its own shadow rather than a scrim:
+   these frames run from a bright showroom wall to a black curtain, and a
+   plate dark enough for the wall would sit on the curtain like a sticker.
+   A drop-shadow on the glyph reads on both. */
+.ig__tag {
+  position: absolute;
+  inset-block-start: var(--sp-3);
+  inset-inline-end: var(--sp-3);
+  display: block;
+  color: #fff;
+  opacity: 0.9;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+.ig__tag svg { display: block; }
+.ig__cell:hover .ig__tag { opacity: 1; }
 @media (hover: hover) {
   .ig__cell:hover img { scale: 1.04; opacity: 1; }
 }
@@ -9544,7 +9645,6 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .revs {
   --bloom-y: 50%;
   --bloom-w: clamp(640px, 84vw, 1420px);
-  --bloom-h: clamp(420px, 48vw, 820px);
   --bloom-opacity: 0.52;
   background: var(--bg);
   color: var(--ink);

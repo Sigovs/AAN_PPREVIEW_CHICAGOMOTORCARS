@@ -871,6 +871,56 @@
   else if (calm.addListener) calm.addListener(onCalm);
 })();
 
+/* The Karma film runs on the same lazy-attach + pause-offscreen module
+   as the Service band: preload="none" until it is one viewport away,
+   and it stops the moment it leaves. Same rules, different band. */
+(function () {
+  'use strict';
+
+  var band = document.querySelector('.karma');
+  if (!band) return;
+
+  var video = band.querySelector('.karma__video');
+  var source = band.querySelector('.karma__video source');
+  if (!video || !source) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var attached = false;
+
+  function attach() {
+    if (attached || calm.matches) return;
+    attached = true;
+    source.src = source.getAttribute('data-src');
+    video.load();
+  }
+
+  function play() {
+    if (calm.matches) return;
+    attach();
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      e.forEach(function (x) { if (x.isIntersecting) attach(); });
+    }, { rootMargin: '100% 0px' }).observe(band);
+
+    new IntersectionObserver(function (e) {
+      e.forEach(function (x) {
+        if (x.isIntersecting) play();
+        else if (!video.paused) video.pause();
+      });
+    }, { threshold: 0.2 }).observe(band);
+  } else {
+    attach();
+  }
+
+  var onCalm = function () { if (calm.matches) video.pause(); };
+  if (calm.addEventListener) calm.addEventListener('change', onCalm);
+  else if (calm.addListener) calm.addListener(onCalm);
+})();
+
 
 /* ============================================================
    REVIEWS — the page-turn dots
@@ -955,4 +1005,69 @@
   else window.addEventListener('resize', build);
 
   build();
+})();
+
+
+/* ============================================================
+   DRAG TO SCROLL — [data-drag-scroll]
+   ============================================================
+   Pointer Events, so one path covers mouse, trackpad and pen; touch is
+   left alone because the browser's own inertia is better than anything
+   written here and setPointerCapture would take it away.
+
+   Two details are the whole thing. Scroll snapping is turned OFF for the
+   duration of a drag — with `scroll-snap-type: x mandatory` still live,
+   every scrollLeft write is fought by the snap engine and the rail
+   judders. And the gesture only becomes a drag after ~4px of travel, so
+   a click on a frame is still a click; below that threshold nothing is
+   suppressed and the link fires normally.
+   ============================================================ */
+(function () {
+  var rails = document.querySelectorAll('[data-drag-scroll]');
+  if (!rails.length || !window.PointerEvent) return;
+
+  Array.prototype.forEach.call(rails, function (rail) {
+    var down = false, moved = false, startX = 0, startLeft = 0, id = null;
+
+    rail.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      down = true; moved = false; id = e.pointerId;
+      startX = e.clientX;
+      startLeft = rail.scrollLeft;
+    });
+
+    rail.addEventListener('pointermove', function (e) {
+      if (!down || e.pointerId !== id) return;
+      var dx = e.clientX - startX;
+      if (!moved) {
+        if (Math.abs(dx) < 4) return;      /* still a click, not a drag */
+        moved = true;
+        rail.classList.add('is-dragging');
+        rail.setPointerCapture(id);
+      }
+      e.preventDefault();
+      rail.scrollLeft = startLeft - dx;
+    });
+
+    function end(e) {
+      if (!down || (e && e.pointerId !== id)) return;
+      down = false;
+      if (moved) {
+        if (rail.hasPointerCapture && rail.hasPointerCapture(id)) rail.releasePointerCapture(id);
+        rail.classList.remove('is-dragging');
+        /* Swallow exactly one click — the one this drag is about to
+           synthesise on whatever frame the pointer came to rest over. */
+        rail.addEventListener('click', function swallow(ev) {
+          ev.preventDefault(); ev.stopPropagation();
+          rail.removeEventListener('click', swallow, true);
+        }, true);
+      }
+      moved = false; id = null;
+    }
+
+    rail.addEventListener('pointerup', end);
+    rail.addEventListener('pointercancel', end);
+    rail.addEventListener('lostpointercapture', end);
+    rail.addEventListener('dragstart', function (e) { e.preventDefault(); });
+  });
 })();

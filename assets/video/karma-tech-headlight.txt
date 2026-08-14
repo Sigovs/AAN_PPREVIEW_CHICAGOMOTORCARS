@@ -1,0 +1,49 @@
+karma-tech-headlight.mp4 — provenance sidecar
+=============================================
+
+FILE
+  karma-tech-headlight.mp4    1280 x 710    8.24s    3.2 MB
+  H.264 / MP4. Muted, looped, playsinline; no audio track is used.
+
+SOURCE
+  Karma Automotive's own product footage, named by Alex 2026-08-14:
+  https://karmaautomotive.com/wp-content/uploads/2024/07/
+    TECH_HEADLIGHT_9x5-1.mp4
+  Downloaded 2026-08-14 and self-hosted. It is NOT hot-linked: pointing
+  at karmaautomotive.com would spend their bandwidth on our page and
+  would break silently the day they reorganise their uploads folder.
+
+NOT SYNTHETIC
+  This is Karma's own photography of Karma's own car. Nothing here is
+  generated, so no gen- prefix and no generated-imagery audit applies.
+  GI3 is satisfied directly: the manufacturer shot the manufacturer's
+  product, and CMC is an authorised dealer for it.
+
+WHAT IT SHOWS
+  A headlight detail, lit hard against black — no full car, no
+  showroom, no people. That is why it works here: the chapter's claim is
+  "authorized dealer", not "this exact car is on our floor", and a
+  detail shot makes no statement about specific inventory.
+
+HOW IT IS USED
+  Background of the Karma chapter, knocked back to 0.30 opacity under a
+  vertical wash that closes both seams into --bg-sunk, plus a radial
+  under the centred lockup. At full strength it reads as a Karma
+  advertisement with a CMC button on it; the chapter is a mark, a line
+  and a route, and the film is only the room they stand in.
+
+  It runs on the page's existing lazy-video module — preload="none"
+  until one viewport away, paused the moment it leaves, and never
+  started under prefers-reduced-motion.
+
+OPEN QUESTION — resolve before this goes live
+  LICENCE, not origin. Origin is certain and the use is ordinary: a
+  franchised dealer showing the manufacturer's marketing footage. What
+  is NOT confirmed is that CMC has been granted it. Manufacturer assets
+  normally reach dealers through a brand asset portal with terms
+  attached, and "it was public on their site" is not a grant.
+
+  Ask Karma's dealer marketing contact for the approved asset, or
+  confirm CMC's existing dealer agreement covers it. If neither, the
+  chapter stands without the film — it was built typographically first
+  and still works that way.
