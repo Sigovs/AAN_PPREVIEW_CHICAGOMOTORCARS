@@ -8263,13 +8263,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   color: var(--ink);
 }
 
-.svc__proof {
-  margin-block-start: clamp(var(--sp-4), 2vw, var(--sp-5));
-  max-inline-size: 30ch;
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--ink-2);
-}
+/* .svc__proof — the line it styled was removed; the rule goes with it. */
 
 .svc__actions {
   display: flex;
@@ -8909,3 +8903,22 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    different pill. */
 .svc__register,
 .svc__register:not(#x) { max-inline-size: min(600px, 50%); }
+
+/* ---- The navigation reads at full ink ----------------------
+   It sat at --ink-2, which is the page's SECONDARY text colour — right
+   for a caption under a heading, dim for the only way around the site.
+   The hover state does not lose its signal by this: it was never
+   carrying the change on colour alone, it lights a background pill, and
+   that still reads. */
+.navbar__link,
+.navmenu__trigger {
+  color: var(--ink);
+}
+
+/* The proof line under the register is gone, so the actions take their
+   distance from the list itself rather than inheriting the gap that was
+   sized for a sentence in between. */
+.svc__actions,
+.svc__actions:not(#x) {
+  margin-block-start: clamp(var(--sp-7), 3.4vw, var(--sp-8));
+}
