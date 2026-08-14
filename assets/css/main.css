@@ -9000,3 +9000,42 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   border-radius: 4px;
 }
 .svc__row:focus-visible .svc__n { color: var(--ink); }
+
+/* ---- The cards come down again, and the hover softens -------
+   TWO THINGS, and the second was a defect rather than taste. The
+   transitions on these cards were written against --sel-dur, which is
+   defined only inside .recs — Featured Inventory's list. Unresolved
+   there, the whole shorthand entry was dropped, so the border and the
+   ground were snapping instantly while only the lift animated. That is
+   why it read hard. They use the page's own duration tokens now.
+
+   With the timing real, the amplitude comes down: the hairline firms
+   less, the ground lifts less, and the card rises 1px instead of 2, over
+   the slow step rather than the quick one. */
+.fin__row,
+.fin__row:not(#x) {
+  padding-block: clamp(var(--sp-4), 1.3vw, var(--sp-5));
+  transition: border-color var(--dur-3) var(--ease-out),
+              background-color var(--dur-3) var(--ease-out),
+              translate var(--dur-3) var(--ease-out),
+              opacity var(--rv-cta) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .fin__row:hover,
+  .fin__row:hover:not(#x) {
+    border-color: rgba(244, 242, 239, 0.22);
+    background: rgb(var(--bg-rgb) / 0.52);
+    translate: 0 -1px;
+  }
+}
+
+/* The register's hover was written the same way and was equally dead. */
+.svc__row,
+.svc__n,
+.svc__item {
+  transition: color var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out);
+}
+.fin__ico,
+.fin__ico:not(#x) { transition: color var(--dur-3) var(--ease-out); }
