@@ -7045,8 +7045,9 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
      the composition the mock had and the old split could not reach.
      The measured need was 600px against a 490px column; at 50 it is
      587 and they sit side by side with room to spare. */
-  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1fr);
-  gap: clamp(var(--sp-6), 5vw, var(--sp-9));
+  /* Columns and gap are NOT set here — the .warranty__grid:not(#x) rule
+     further down carries ID specificity and wins both. They live there.
+     margin-inline-end survives because that rule does not declare it. */
   align-items: start;
   /* THE PICTURE LEAVES ON THE RIGHT. calc(50% - 50vw) is exactly the
      distance from the shell's right content edge to the viewport's, so
@@ -9170,9 +9171,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__lede {
 .warranty__grid,
 .warranty__grid:not(#x) {
   display: grid;
-  grid-template-columns: minmax(0, 47fr) minmax(0, 53fr);
+  /* THE COPY COLUMN IS SIZED TO THE COPY. It was 47fr — about 616px at
+     1440 — while the widest thing in it, the two-action row, is 544 and
+     .warranty__copy caps at 34rem anyway. That left 72px of dead column
+     ON TOP OF the 72px gap, and the picture looked pushed away. The
+     column is now a real width just clear of the copy, and the gap comes
+     down with it: the frame walks 67px left and the actions keep their
+     row. */
+  grid-template-columns: minmax(0, clamp(32rem, 40vw, 35.5rem)) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(var(--sp-7), 5vw, var(--sp-9));
+  gap: clamp(var(--sp-5), 3.4vw, var(--sp-8));
 }
 
 .warranty__copy { max-inline-size: 34rem; }
@@ -9381,7 +9389,15 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  background: var(--bg-sunk);
+  /* THE GROUND CHANGES COLOUR ON THE WAY DOWN. This chapter is the last
+     navy on the page and everything under it is black, so its own ground
+     ramps from --bg-sunk into --bg-black over the lower half. Without it
+     the film's wash resolved to navy at the bottom edge and the black
+     section below started with a visible line. */
+  background: linear-gradient(to bottom,
+    var(--bg-sunk) 0%,
+    var(--bg-sunk) 48%,
+    var(--bg-black) 100%);
   color: var(--ink);
   text-align: center;
   /* Tall on purpose. This chapter's content is a mark, two short lines
@@ -9420,13 +9436,17 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .karma__wash {
   position: absolute;
   inset: 0;
+  /* The wash follows the ground: navy at the top where the chapter still
+     is navy, black at the foot where the page already is. The last stop
+     is opaque --bg-black, so the film has finished before the seam and
+     Instagram starts on the same colour the band ended on. */
   background:
     linear-gradient(to bottom,
       rgb(7 11 19 / 0.96) 0%,
       rgb(7 11 19 / 0.55) 26%,
-      rgb(7 11 19 / 0.42) 55%,
-      rgb(7 11 19 / 0.92) 92%,
-      rgb(7 11 19 / 1) 100%),
+      rgb(var(--bg-black-rgb) / 0.42) 55%,
+      rgb(var(--bg-black-rgb) / 0.88) 84%,
+      rgb(var(--bg-black-rgb) / 1) 97%),
     /* a little extra under the centred lockup, where every glyph lands */
     radial-gradient(58% 62% at 50% 52%, rgb(7 11 19 / 0.52), transparent 72%);
 }

@@ -44,6 +44,7 @@
      — the review cards looked like they had been left behind by the old
      palette. Same lightness step, neutral hue. */
   --bg-raised-black: #131316;
+  --bg-black-rgb: 10 10 12;
 
   /* ---- Ink ---------------------------------------------------
      Warm off-white. Pure #FFF on near-black glares at display
