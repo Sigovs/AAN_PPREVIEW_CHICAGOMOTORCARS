@@ -8963,3 +8963,13 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
               opacity var(--rv-cta) var(--ease-out);
 }
 .fin__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* The cards come down in height: the vertical padding steps back and the
+   glyph sits closer to its label, so the pair reads as one unit instead
+   of two things stacked in a tall box. Nothing about the width or the
+   surface changes. */
+.fin__row,
+.fin__row:not(#x) {
+  padding-block: clamp(var(--sp-5), 1.6vw, var(--sp-6));
+  gap: var(--sp-3);
+}
