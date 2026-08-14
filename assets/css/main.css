@@ -8369,6 +8369,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    that flatters a grotesque closes this face's counters. */
 .claim__line,
 .inv__title,
+.svc__title,
 .brk__title,
 .warranty__title,
 .story__line,
@@ -8742,7 +8743,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    twice the eyebrow's interval — the group now has an inside and an
    outside. */
 .fin__title {
-  margin: 0 0 clamp(var(--sp-6), 2.8vw, var(--sp-7));
+  margin: 0 0 clamp(var(--sp-5), 1.9vw, var(--sp-6));
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.5rem, 4.4vw, 4.25rem);
@@ -8859,3 +8860,49 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   .fin__wash { display: none; }
   .fin__rows { grid-template-columns: minmax(0, 1fr); }
 }
+
+
+/* ---- SERVICE: the chapter gets a heading ---------------------
+   It was the only chapter on the page carrying a 14px label where every
+   other one carries a title, which is why it read as a list floating in
+   a film rather than as a chapter. Promoted to the rung that already
+   exists for exactly this kind of name — Featured Inventory's, which is
+   also a section name rather than a claim — so nothing new is invented
+   and the two sit on the same step. */
+.svc__title {
+  margin: 0 0 clamp(var(--sp-6), 3vw, var(--sp-7));
+  font-size: clamp(2rem, 3.4vw, 3.0625rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: var(--tr-display);
+  color: var(--ink);
+  text-transform: none;
+}
+
+/* The two actions sit side by side rather than stacked. They were
+   stretching to fill the register's width and wrapping; sized to their
+   own content, they fit the column as a pair. */
+.svc__actions,
+.svc__actions:not(#x) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.svc__actions .btn,
+.svc__actions .btn:not(#x) { flex: 0 0 auto; }
+
+@media (max-width: 700px) {
+  .svc__actions .btn,
+  .svc__actions .btn:not(#x) { flex: 1 1 100%; justify-content: center; }
+}
+
+/* The register opens just enough for the pair. 544 held two shorter
+   labels; "Speak with our specialist" is wider than what it replaced, so
+   the two needed 589 and were wrapping into a stack. Widened to the
+   nearest value that fits them rather than shrinking the page's own
+   control padding, which would have made this section's pill a
+   different pill. */
+.svc__register,
+.svc__register:not(#x) { max-inline-size: min(600px, 50%); }
