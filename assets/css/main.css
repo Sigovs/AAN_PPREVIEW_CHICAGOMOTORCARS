@@ -7535,16 +7535,21 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 /* The sell steps are that section's one content gesture, and they come
    after its text — the same restrained rise, stepped. */
-.reveal-armed [data-reveal] .sell__steps li {
+.reveal-armed [data-reveal] .sell__steps li,
+.reveal-armed [data-reveal] .fin__row {
   opacity: 0;
   translate: 0 18px;
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
 }
-.reveal-armed [data-reveal].is-revealed .sell__steps li { opacity: 1; translate: 0 0; }
-.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(1) { transition-delay: calc(var(--rv-step) * 4); }
-.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(2) { transition-delay: calc(var(--rv-step) * 4.7); }
-.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(3) { transition-delay: calc(var(--rv-step) * 5.4); }
+.reveal-armed [data-reveal].is-revealed .sell__steps li,
+.reveal-armed [data-reveal].is-revealed .fin__row { opacity: 1; translate: 0 0; }
+.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(1),
+.reveal-armed [data-reveal].is-revealed .fin__row:nth-child(1) { transition-delay: calc(var(--rv-step) * 4); }
+.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(2),
+.reveal-armed [data-reveal].is-revealed .fin__row:nth-child(2) { transition-delay: calc(var(--rv-step) * 4.7); }
+.reveal-armed [data-reveal].is-revealed .sell__steps li:nth-child(3),
+.reveal-armed [data-reveal].is-revealed .fin__row:nth-child(3) { transition-delay: calc(var(--rv-step) * 5.4); }
 
 /* ---- The hidden state, stated once per role ----
    The previous pair — a hidden rule plus a shown rule — was losing the
@@ -7578,7 +7583,8 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .fin__label {
   opacity: 0;
   translate: 0 6px;
 }
-html.reveal-armed [data-reveal]:not(.is-revealed) .sell__steps li {
+html.reveal-armed [data-reveal]:not(.is-revealed) .sell__steps li,
+html.reveal-armed [data-reveal]:not(.is-revealed) .fin__row {
   opacity: 0;
   translate: 0 18px;
 }
@@ -8922,3 +8928,38 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .svc__actions:not(#x) {
   margin-block-start: clamp(var(--sp-7), 3.4vw, var(--sp-8));
 }
+
+/* ---- The three cards: no default emphasis, hover carries it ----
+   The lead card was highlighted at rest, which made the other two read
+   as disabled rather than as alternatives. All three now sit at the same
+   weight with the label at full ink; the card that is different is the
+   one under the pointer.
+
+   The reveal is the page's own stepped rise — the same rule and the same
+   staircase that lifts Sell's steps, extended by selector. A new chapter
+   does not get a new entrance. */
+.fin__row,
+.fin__row:not(#x) {
+  color: var(--ink);
+  border-color: rgba(244, 242, 239, 0.12);
+  background: rgb(var(--bg-rgb) / 0.38);
+}
+.fin__ico,
+.fin__ico:not(#x) { color: var(--ink-2); }
+
+@media (hover: hover) {
+  .fin__row:hover,
+  .fin__row:hover:not(#x) {
+    border-color: rgba(244, 242, 239, 0.28);
+    background: rgb(var(--bg-rgb) / 0.62);
+    translate: 0 -2px;
+  }
+  .fin__row:hover .fin__ico { color: var(--ink); }
+}
+.fin__row {
+  transition: border-color var(--sel-dur) var(--sel-ease),
+              background-color var(--sel-dur) var(--sel-ease),
+              translate var(--dur-2) var(--ease-out),
+              opacity var(--rv-cta) var(--ease-out);
+}
+.fin__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
