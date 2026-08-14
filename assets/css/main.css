@@ -9318,7 +9318,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .wcard:focus-within { translate: 0 -3px; }
 
 /* ============================================================
-   9 — KARMA · AUTHORIZED DEALER
+   10 — KARMA · AUTHORIZED DEALER
    ============================================================
    The shortest chapter on the page and the quietest of the tail. One
    mark, one line, one route — a brand inside the brand needs scale and
@@ -9330,9 +9330,11 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   background: var(--bg-sunk);
   color: var(--ink);
   text-align: center;
-  padding-block: clamp(var(--sp-9), 8vw, var(--sp-11));
-  border-start-start-radius: var(--r-section);
-  border-start-end-radius: var(--r-section);
+  /* Tall on purpose. This chapter's content is a mark, two short lines
+     and one button, and the film behind them is the rest of it — at the
+     page's ordinary section height the video read as a texture on a
+     strip rather than as a room. --sp-12 exists for this. */
+  padding-block: clamp(var(--sp-10), 16vw, var(--sp-12));
 }
 /* ---- the film ------------------------------------------------------
    Karma's headlight footage, dimmed hard. Two layers do the dimming and
@@ -9467,13 +9469,18 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 [data-bloom="center"]::before { inset-inline-start: 50%; translate: -50% -50%; }
 
 /* ============================================================
-   10 — ABOUT US
+   9 — ABOUT US
    ============================================================
    CMC's own words, and the only long-form prose on the page. Two masses:
    the claim on the left, the paragraphs on the right at a read measure.
    The chapter has no action — it states who they are and hands the reader
    on. That also keeps the tail's control count at one per chapter. */
 .about {
+  /* The corner belongs to whichever dark chapter meets the bone Service
+     band, and after the reorder that is this one. Karma sits between two
+     dark chapters now and needs no edge. */
+  border-start-start-radius: var(--r-section);
+  border-start-end-radius: var(--r-section);
   --bloom-y: 50%;
   --bloom-w: clamp(700px, 80vw, 1340px);
   --bloom-opacity: 0.46;
@@ -9501,6 +9508,58 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   letter-spacing: var(--tr-display);
 }
 .about__title .ttl-line { display: block; }
+
+/* I1 in one block: the address's two lines are tightest, the phone sits
+   a step off it, the marks a step further, and the whole group sits a
+   long way under the claim. Internal gaps rise; the external gap beats
+   all of them. */
+.about__contact { margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-9)); }
+/* ONE ICON COLUMN, ONE TEXT COLUMN. The address and the phone share a
+   fixed 15px gutter so their glyphs sit on one vertical and their words
+   sit on another — without it the phone started 21px left of the street
+   and the block read as two unrelated lines. The pin and the handset are
+   different widths, so the width is the COLUMN's, not the glyph's, and
+   each mark centres inside it. */
+.about__ico {
+  flex: none;
+  inline-size: 15px;
+  display: grid;
+  place-items: center;
+  /* aligned to the first LINE, not to the block's centre — a two-line
+     address would otherwise float the mark into the gap between them */
+  block-size: 1.55em;
+  color: var(--accent);
+}
+.about__ico svg { display: block; }
+
+.about__addr,
+.about__addr:not(#x) {
+  display: flex;
+  gap: var(--sp-3);
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.about__tel {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-4);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color var(--dur-2) var(--ease-out);
+}
+.about__tel:hover { color: var(--accent); }
+.about__tel .about__ico { block-size: 1.4em; }
+.about__socials {
+  display: flex;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
 
 .about__body { max-inline-size: 62ch; }
 /* I1: the gap between paragraphs is smaller than the gap to anything
@@ -9920,7 +9979,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   gap: var(--sp-3);
   margin-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7));
 }
-.foot__soc {
+/* .soc is the mark itself and is shared — the footer and About use the
+   same object, because two rows of social icons on one page that do not
+   match is exactly the kind of drift the eyebrow gap just got fixed for.
+   The wrappers (.foot__socials, .about__socials) do the layout; the mark
+   is defined once. */
+.soc {
   display: grid;
   place-items: center;
   inline-size: 38px;
@@ -9931,8 +9995,8 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   transition: color var(--dur-2) var(--ease-out),
               border-color var(--dur-2) var(--ease-out);
 }
-.foot__soc svg { display: block; }
-.foot__soc:hover { color: var(--ink); border-color: rgba(244, 242, 239, 0.3); }
+.soc svg { display: block; }
+.soc:hover { color: var(--ink); border-color: rgba(244, 242, 239, 0.3); }
 
 .foot__base {
   display: flex;
@@ -9957,6 +10021,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 
 /* ---- The tail joins the page's staircase -------------------- */
 .reveal-armed [data-reveal] .karma__logo,
+.reveal-armed [data-reveal] .about__contact,
 .reveal-armed [data-reveal] .about__p,
 .reveal-armed [data-reveal] .ig__cell,
 .reveal-armed [data-reveal] .rv,
@@ -9964,11 +10029,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   opacity: 0;
   translate: 0 18px;
 }
-.karma__logo, .about__p, .ig__cell, .rv, .loc {
+.karma__logo, .about__contact, .about__p, .ig__cell, .rv, .loc {
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
 }
 .reveal-armed [data-reveal].is-revealed .karma__logo,
+.reveal-armed [data-reveal].is-revealed .about__contact,
 .reveal-armed [data-reveal].is-revealed .about__p,
 .reveal-armed [data-reveal].is-revealed .ig__cell,
 .reveal-armed [data-reveal].is-revealed .rv,
@@ -9976,6 +10042,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 
 .reveal-armed [data-reveal].is-revealed .about__p:nth-of-type(1) { transition-delay: calc(var(--rv-step) * 1.4); }
 .reveal-armed [data-reveal].is-revealed .about__p:nth-of-type(2) { transition-delay: calc(var(--rv-step) * 2.0); }
+.reveal-armed [data-reveal].is-revealed .about__contact { transition-delay: calc(var(--rv-step) * 2.6); }
 .reveal-armed [data-reveal].is-revealed .rv:nth-child(1) { transition-delay: calc(var(--rv-step) * 1.4); }
 .reveal-armed [data-reveal].is-revealed .rv:nth-child(2) { transition-delay: calc(var(--rv-step) * 1.9); }
 .reveal-armed [data-reveal].is-revealed .rv:nth-child(3) { transition-delay: calc(var(--rv-step) * 2.4); }
@@ -9990,6 +10057,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .reveal-armed [data-reveal].is-revealed .loc:nth-child(4) { transition-delay: calc(var(--rv-step) * 3.1); }
 
 html.reveal-armed [data-reveal]:not(.is-revealed) .karma__logo,
+html.reveal-armed [data-reveal]:not(.is-revealed) .about__contact,
 html.reveal-armed [data-reveal]:not(.is-revealed) .about__p,
 html.reveal-armed [data-reveal]:not(.is-revealed) .ig__cell,
 html.reveal-armed [data-reveal]:not(.is-revealed) .rv,

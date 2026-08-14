@@ -346,6 +346,12 @@
   --sp-9: 96px;
   --sp-10: 128px;
   --sp-11: 192px;
+  /* A documented addition to the scale, not a magic number. --sp-11 is
+     the chapter break; --sp-12 is the one step past it, and it exists
+     for a single job: a section whose FILM is the content, where the
+     copy is small and the height is the point. Karma is the only
+     consumer. Same 4px base, 1.33x on the step above it. */
+  --sp-12: 256px;
 
   /* ---- Layout ------------------------------------------------ */
   --container:   1440px;
