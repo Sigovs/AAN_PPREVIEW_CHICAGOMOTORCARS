@@ -8826,3 +8826,75 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 @media (max-width: 900px) {
   .fin__edge { display: none; }
 }
+
+/* ---- The right field, art-directed ------------------------
+   The stack was the problem: headline, button, link, link, footer, all
+   on one invisible left edge. Three things break it.
+
+   ONE — the masses no longer share a width. The head is narrow and sits
+   high in the frame's dark; the rail is wider and sits low, where the
+   floor is dark across a much greater span. Both are anchored to the
+   same right edge, so they read as one composition rather than as a
+   column, and the rail reaches left into space the head cannot use.
+
+   TWO — the headline is staggered. "yours." steps right rather than
+   sitting under "Make it" on the same left edge, which is what turned a
+   claim into a form label.
+
+   THREE — the utilities run horizontally. Two links stacked read as
+   navigation; two on one line with the payment method beside them read
+   as a caption to the picture. No divider isolates BitPay — it is
+   metadata on the same rail, dimmer, and that is the whole distinction. */
+.fin__copy,
+.fin__copy:not(#x) {
+  inline-size: min(34rem, 38%);
+  align-items: flex-end;
+  gap: clamp(var(--sp-8), 7vw, var(--sp-10));
+}
+
+.fin__head {
+  inline-size: max-content;
+  max-inline-size: 100%;
+}
+
+.fin__title,
+.fin__title:not(#x) {
+  font-size: clamp(3.25rem, 5.9vw, 5.75rem);
+  line-height: 0.92;
+}
+/* The step. Small enough to read as tension, not as an indent. */
+.fin__title .ttl-line + .ttl-line { margin-inline-start: 0.42em; }
+
+.fin__foot {
+  inline-size: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: clamp(var(--sp-7), 3.4vw, var(--sp-8));
+}
+.fin__act { align-self: flex-start; margin-block-end: 0; }
+
+/* One quiet horizontal rail. It is the widest thing in the field and the
+   lowest, which is what stops the right side reading as a menu column. */
+.fin__rail {
+  inline-size: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(var(--sp-6), 2.6vw, var(--sp-8));
+}
+.fin__route { color: var(--ink); }
+.fin__tert,
+.fin__tert:not(#x) {
+  margin-block-start: 0;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--ink-3);
+}
+
+@media (max-width: 900px) {
+  .fin__copy,
+  .fin__copy:not(#x) { inline-size: 100%; align-items: flex-start; }
+  .fin__foot { align-items: flex-start; }
+  .fin__title .ttl-line + .ttl-line { margin-inline-start: 0; }
+}
