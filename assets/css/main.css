@@ -3339,12 +3339,31 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   overflow: hidden;
   isolation: isolate;
   background:
+    /* THE CORNER FALLOFF, unchanged — it is the only layer here that
+       SHOULD be even, because it is the box darkening at its edges. */
     radial-gradient(125% 118% at 34% 44%,
       transparent 34%, rgba(4, 7, 14, 0.5) 82%, rgba(3, 5, 11, 0.72) 100%),
-    radial-gradient(26% 30% at 34% 55%,
-      rgba(206, 222, 248, 0.11) 0%, rgba(150, 175, 214, 0.05) 55%, transparent 78%),
-    radial-gradient(64% 74% at 34% 40%,
-      rgba(138, 162, 200, 0.10) 0%, rgba(96, 118, 156, 0.045) 46%, transparent 80%),
+
+    /* AND THE LIGHT, WHICH SHOULD NOT BE. Two concentric ellipses on one
+       centre resolve into a circle no matter how soft they are, and a
+       circle behind a car reads as a vignette filter rather than as a
+       lamp in a room. Four lobes at four centres, none of them
+       matching, so the outline never closes on itself: a core just
+       behind the car's mass, a broad field carrying up and left, a
+       shallow spill low and right where the floor catches it, and one
+       small high-left flare that keeps the top edge from being a clean
+       arc. Same total light as before, redistributed. */
+    radial-gradient(24% 27% at 31% 56%,
+      rgba(206, 222, 248, 0.115) 0%, rgba(150, 175, 214, 0.05) 54%, transparent 76%),
+    radial-gradient(58% 62% at 38% 37%,
+      rgba(138, 162, 200, 0.10) 0%, rgba(96, 118, 156, 0.045) 44%, transparent 78%),
+    radial-gradient(46% 34% at 21% 62%,
+      rgba(120, 146, 190, 0.07) 0%, rgba(88, 110, 148, 0.03) 50%, transparent 80%),
+    radial-gradient(30% 44% at 52% 46%,
+      rgba(150, 176, 216, 0.055) 0%, transparent 74%),
+    radial-gradient(18% 16% at 24% 28%,
+      rgba(178, 200, 236, 0.05) 0%, transparent 72%),
+
     linear-gradient(180deg, #121A2C 0%, #0C1220 48%, #070A12 100%);
 }
 
@@ -6137,6 +6156,13 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   display: inline-flex;
   margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
 }
+/* The wrapper that replaced it. It holds the same position and the same
+   air; the editorial-action styling stayed behind with the class, which
+   is why this is a sibling rule and not an override war. */
+.story__act {
+  display: inline-flex;
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
 
 /* ---- The figures along the foot ----
    One leads, two answer. The interval after the lead is deliberately much
@@ -7480,6 +7506,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .story__lede,
 .reveal-armed [data-reveal] .sell__actions,
 .reveal-armed [data-reveal] .story__cta,
+.reveal-armed [data-reveal] .story__act,
 .reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .svc__actions,
@@ -7522,6 +7549,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 /* action — quiet, last */
 .reveal-armed [data-reveal] .sell__actions,
 .reveal-armed [data-reveal] .story__cta,
+.reveal-armed [data-reveal] .story__act,
 .reveal-armed [data-reveal] .warranty__actions,
 .reveal-armed [data-reveal] .brk__cta,
 .reveal-armed [data-reveal] .svc__actions,
@@ -7534,6 +7562,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 }
 .reveal-armed [data-reveal].is-revealed .sell__actions,
 .reveal-armed [data-reveal].is-revealed .story__cta,
+.reveal-armed [data-reveal].is-revealed .story__act,
 .reveal-armed [data-reveal].is-revealed .warranty__actions,
 .reveal-armed [data-reveal].is-revealed .brk__cta,
 .reveal-armed [data-reveal].is-revealed .svc__actions,
@@ -7594,6 +7623,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .story__lede {
 }
 html.reveal-armed [data-reveal]:not(.is-revealed) .sell__actions,
 html.reveal-armed [data-reveal]:not(.is-revealed) .story__cta,
+html.reveal-armed [data-reveal]:not(.is-revealed) .story__act,
 html.reveal-armed [data-reveal]:not(.is-revealed) .fin__tools,
 html.reveal-armed [data-reveal]:not(.is-revealed) .fin__act,
 html.reveal-armed [data-reveal]:not(.is-revealed) .index__all {
@@ -7629,6 +7659,7 @@ html.reveal-armed [data-reveal] .story__lede {
 }
 html.reveal-armed [data-reveal] .sell__actions,
 html.reveal-armed [data-reveal] .story__cta,
+html.reveal-armed [data-reveal] .story__act,
 html.reveal-armed [data-reveal] .index__all,
 html.reveal-armed [data-reveal] .inv__eyebrow {
   transition: opacity var(--rv-cta) var(--ease-out),
