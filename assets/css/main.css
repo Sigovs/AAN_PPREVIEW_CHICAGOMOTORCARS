@@ -8699,10 +8699,20 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 /* The copy takes the field the photographer left, and only that. It is
    pinned to the shell's right edge rather than centred, because the
    picture's asymmetry is the composition and symmetry would fight it. */
+/* NOT A COLUMN OF UI. The copy is two masses set into the photograph's
+   own dark at opposite ends of the band — the name and the claim high,
+   the actions low — with the frame's light between them. A single block
+   centred beside the picture is what made it read as a widget parked
+   next to a photo. */
 .fin__copy {
   margin-inline-start: auto;
-  inline-size: min(30rem, 42%);
-  padding-block: clamp(var(--sp-8), 6vw, var(--sp-9));
+  inline-size: min(21rem, 23%);
+  min-block-size: clamp(30rem, 44vw, 42rem);
+  padding-block: clamp(var(--sp-8), 5vw, var(--sp-9));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(var(--sp-8), 6vw, var(--sp-10));
 }
 
 /* On a dark ground this page uses dim ink for an eyebrow, not red —
@@ -8734,24 +8744,24 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    would have been the wrong trade. The headline and three named routes
    say it. */
 
-.fin__act { display: flex; margin-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
+.fin__act { display: flex; margin-block-end: clamp(var(--sp-7), 3vw, var(--sp-8)); }
 
-/* The two calculators are the page's editorial action, not a third and
-   fourth pill — three pills in one field would read as a form. */
+/* Editorial actions, and no rule under them. Hierarchy is carried by
+   the intervals: a large gap after the primary, a tight one between the
+   two utilities, a large one again before the payment method. Boxes,
+   pills and a divider would each have made this a menu. */
 .fin__routes {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--sp-5);
-  padding-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7));
-  border-block-end: 1px solid var(--rule);
+  gap: var(--sp-4);
 }
 .fin__route { color: var(--ink); }
 
 .fin__tert {
   align-items: center;
   gap: var(--sp-3);
-  margin-block-start: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  margin-block-start: clamp(var(--sp-7), 3.4vw, var(--sp-8));
   color: var(--ink-3);
 }
 .fin__bitpay {
@@ -8804,8 +8814,14 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 .fin__copy,
 .fin__copy:not(#x) { inline-size: min(26rem, 34%); }
 
+/* The second mass on the page after the vehicles, and sized to be that
+   rather than to be polite. */
 .fin__title,
-.fin__title:not(#x) { font-size: clamp(2.25rem, 2.9vw, 3.25rem); }
+.fin__title:not(#x) {
+  font-size: clamp(2.75rem, 4.2vw, 4.5rem);
+  line-height: 0.98;
+  margin-block-end: 0;
+}
 
 @media (max-width: 900px) {
   .fin__edge { display: none; }
