@@ -9389,14 +9389,17 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  /* THE GROUND CHANGES COLOUR ON THE WAY DOWN. This chapter is the last
-     navy on the page and everything under it is black, so its own ground
-     ramps from --bg-sunk into --bg-black over the lower half. Without it
-     the film's wash resolved to navy at the bottom edge and the black
-     section below started with a visible line. */
+  /* THE GROUND CHANGES COLOUR TWICE ON THE WAY DOWN, because this
+     chapter has a different neighbour at each end. About above it is
+     --bg; the tail below it is --bg-black; the chapter itself is the
+     page's last --bg-sunk. So the ground starts on About's colour, sinks
+     to its own through the upper quarter, and ramps out to the tail's
+     over the lower half. Neither seam is a line because at each one the
+     two sides are the same value. */
   background: linear-gradient(to bottom,
-    var(--bg-sunk) 0%,
-    var(--bg-sunk) 48%,
+    var(--bg) 0%,
+    var(--bg-sunk) 24%,
+    var(--bg-sunk) 50%,
     var(--bg-black) 100%);
   color: var(--ink);
   text-align: center;
@@ -9436,13 +9439,15 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 .karma__wash {
   position: absolute;
   inset: 0;
-  /* The wash follows the ground: navy at the top where the chapter still
-     is navy, black at the foot where the page already is. The last stop
-     is opaque --bg-black, so the film has finished before the seam and
-     Instagram starts on the same colour the band ended on. */
+  /* The wash follows the ground, and it is OPAQUE at both ends. At 0% it
+     is solid --bg and at 97% solid --bg-black, so the film has not begun
+     at the top edge and has already finished at the bottom one — the
+     video never reaches either seam, which is what makes both joins
+     invisible rather than merely close. */
   background:
     linear-gradient(to bottom,
-      rgb(7 11 19 / 0.96) 0%,
+      rgb(var(--bg-rgb) / 1) 0%,
+      rgb(var(--bg-rgb) / 0.86) 7%,
       rgb(7 11 19 / 0.55) 26%,
       rgb(var(--bg-black-rgb) / 0.42) 55%,
       rgb(var(--bg-black-rgb) / 0.88) 84%,
