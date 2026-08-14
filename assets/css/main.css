@@ -8722,8 +8722,13 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   max-inline-size: 44rem;
 }
 
+/* GROUPING, per spacing I1 — the eyebrow belongs TO the headline, so it
+   sits close enough to be read as its mark rather than as a third item
+   in a list. Both gaps used to resolve to about 30px, which is the exact
+   failure the rule names: uniform intervals flatten a group into a
+   stack. One step in, one step out. */
 .fin__label {
-  margin: 0 0 clamp(var(--sp-5), 2vw, var(--sp-6));
+  margin: 0 0 var(--sp-4);
   font-family: var(--font-label);
   font-size: var(--t-micro);
   font-weight: 500;
@@ -8733,8 +8738,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   color: var(--accent);
 }
 
+/* And the supporting line is a separate utterance, so it takes roughly
+   twice the eyebrow's interval — the group now has an inside and an
+   outside. */
 .fin__title {
-  margin: 0 0 clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  margin: 0 0 clamp(var(--sp-6), 2.8vw, var(--sp-7));
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.5rem, 4.4vw, 4.25rem);
@@ -8771,12 +8779,19 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
 
 /* The page's own card surface — the same corner and hairline Featured
    Inventory's records carry, on the ground beneath the vehicles. */
+/* Centred, icon over label, no arrow. The glyphs are the page's own set
+   — Material Symbols, the same family and the same filled weight the
+   Warranty provisions carry — sized down to sit under a 15px label
+   rather than beside a 17px one. A second icon family would be a second
+   voice for the same job. */
 .fin__row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-5);
-  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  justify-content: center;
+  text-align: center;
+  gap: var(--sp-4);
+  padding: clamp(var(--sp-6), 2.6vw, var(--sp-7)) clamp(var(--sp-5), 2.2vw, var(--sp-6));
   border: 1px solid rgba(244, 242, 239, 0.10);
   border-radius: 14px;
   background: rgb(var(--bg-rgb) / 0.42);
@@ -8797,29 +8812,39 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   color: var(--ink);
 }
 
-.fin__arrow {
-  flex: none;
+.fin__ico {
+  display: grid;
+  place-items: center;
   color: var(--ink-3);
-  transition: color var(--sel-dur) var(--sel-ease), translate var(--dur-2) var(--ease-out);
+  transition: color var(--sel-dur) var(--sel-ease);
 }
-.fin__row.is-lead .fin__arrow { color: var(--accent); }
-.fin__row:hover .fin__arrow { translate: 3px 0; color: var(--ink); }
+.fin__ico svg { display: block; }
+.fin__row.is-lead .fin__ico { color: var(--accent); }
+.fin__row:hover .fin__ico { color: var(--ink); }
 .fin__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 /* Centred under the row, the wordmark over its label. */
+/* The lockup shrinks as a PAIR — the wordmark comes down and the label
+   loses weight and gains air. "Accepted" itself stays at 14px: it is the
+   half of this line that carries the meaning, and typography's floor
+   under functional text does not yield to a size request. */
 .fin__tert {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: var(--sp-2, 8px);
   text-decoration: none;
   font-family: var(--font-label);
   font-size: var(--t-micro);
-  letter-spacing: var(--tr-label);
+  font-weight: 400;
+  letter-spacing: 0.06em;
   color: var(--ink-3);
+  opacity: 0.82;
+  transition: opacity var(--dur-1) var(--ease-out);
 }
+.fin__tert:hover { opacity: 1; }
 .fin__bitpay {
-  block-size: 1.4rem;
+  block-size: 1.05rem;
   inline-size: auto;
   display: block;
   opacity: 0.62;
