@@ -11054,7 +11054,13 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
 
 @media (max-width: 760px) {
   .story__bg { display: none; }
-  .story { background: var(--bg); }
+  /* THE SEAM. --bg is rgb(11, 16, 28) and the bottom of the frame is
+     rgb(6, 8, 7) — near-black with no blue in it — so the join between
+     the picture and the section read as a hard line. The ground takes
+     the photograph own last rows instead, sampled rather than guessed,
+     and the two meet invisibly. The page ground below is unaffected;
+     this is the section own fill. */
+  .story { background: rgb(6, 8, 7); }
 
   .story__mobile {
     display: block;
