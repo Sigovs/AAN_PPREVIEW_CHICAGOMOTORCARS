@@ -10819,3 +10819,11 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
      to grow to meet them. */
   .sell__steps { margin-block-start: clamp(var(--sp-7), 12vw, var(--sp-9)); }
 }
+
+/* The tall master is back, so the frame carries its own ceiling again and
+   the copy has clean wall to stand on. object-position moves down: with
+   1602px of picture at a 0.45 ratio the crop can afford to sit low, which
+   puts the cars in the middle of the band instead of under the lede. */
+@media (max-width: 760px) {
+  .sell__mobile { object-position: 50% 30%; }
+}
