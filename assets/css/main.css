@@ -10695,3 +10695,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
     min-height: 0;
   }
 }
+
+/* The card's field carried a radial on the phone too. It was lit for a
+   1580px stage with a car standing in the middle of it; at 390 the same
+   gradient is a bright smear behind four small boxes, doing no modelling
+   because there is no longer a mass for it to model. Flat ground here —
+   the cards carry their own edges and the open one carries the light. */
+@media (max-width: 760px) {
+  .showcase { background: var(--bg-sunk); }
+}
