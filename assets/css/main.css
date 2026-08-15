@@ -10758,3 +10758,64 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
     margin-inline: calc(-1 * var(--pad));
   }
 }
+
+/* ---- The phone frame is the GROUND, not a block in the flow ----
+   It was stacked between the copy and the steps, which is what pushed
+   the section to 1525px — copy, then a picture, then the steps, three
+   masses in a row. In the concept there is one photograph and everything
+   stands on it: the claim at the top of the showroom, the three steps
+   along the floor.
+
+   So the image goes behind, cover-cropped, and the content sits over it.
+   The section takes its height from the content again rather than from
+   the sum of three blocks. The desktop background stays where it was —
+   this only replaces it below the breakpoint. */
+@media (max-width: 760px) {
+  .sell { position: relative; isolation: isolate; }
+
+  .sell__mobile {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+    object-position: 50% 42%;
+  }
+
+  .sell__grid { position: relative; z-index: 1; }
+  .sell__copy { order: 0; }
+  .sell__steps { order: 0; }
+
+  /* The band is no longer three stacked masses, so the air that
+     separated them goes with them. */
+  .sell__inner, .sell__grid { padding-block: var(--sp-7) 0; }
+  .sell__copy { padding-block: 0; }
+  .sell__steps { margin-block-start: clamp(var(--sp-8), 22vw, var(--sp-10)); }
+}
+
+/* ---- Where the photograph runs out, the CSS floor continues ----
+   Stretched to cover the whole section the frame had to crop hard, and
+   the steps ended up over the cars. It sits at its own aspect ratio now,
+   anchored to the top, and the section carries a ground colour underneath
+   it for whatever height the content needs beyond the picture.
+
+   The colour is sampled off the image rather than chosen: the bottom four
+   rows of the file average rgb(235, 235, 227) and the bottom tenth
+   rgb(233, 233, 225). Taking the mean of the two makes the join
+   invisible — the concrete simply keeps going. */
+@media (max-width: 760px) {
+  .sell { background: rgb(234, 234, 226); }
+  .sell__mobile {
+    inset: 0 0 auto 0;
+    height: auto;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+  /* The steps stand on the CSS floor under the photograph, not on the
+     cars — so they get whatever room they need without the frame having
+     to grow to meet them. */
+  .sell__steps { margin-block-start: clamp(var(--sp-7), 12vw, var(--sp-9)); }
+}
