@@ -10723,12 +10723,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
     display: block;
     width: 100%;
     height: auto;
-    margin-block: var(--sp-7) 0;
+    margin-block: 0 var(--sp-5);
     grid-column: 1 / -1;
     order: 2;
   }
   .sell__copy { order: 1; }
-  .sell__steps { order: 3; margin-block-start: var(--sp-7); }
+  .sell__steps { order: 3; margin-block-start: var(--sp-4); }
 
   /* The actions stack and go full width — at this measure a pair side by
      side leaves neither of them room to be read. */
@@ -10826,4 +10826,147 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
    puts the cars in the middle of the band instead of under the lede. */
 @media (max-width: 760px) {
   .sell__mobile { object-position: 50% 30%; }
+}
+
+/* The negative inline margins were left over from when the picture was a
+   block in the flow escaping the column's padding. It is absolutely
+   positioned against the section now, so those margins only push it off
+   its own containing block. Cleared — the frame spans the section
+   exactly, edge to edge. */
+@media (max-width: 760px) {
+  .sell__mobile {
+    /* The containing block is .sell__grid, not .sell — the grid is
+       positioned so the copy can sit above the picture, and an absolute
+       child resolves against that element PADDING box. inset-inline: 0
+       therefore landed the frame inside the gutter at 327 wide. Pulling
+       both edges out by the gutter puts it on the grid border box,
+       which is the full width of the section. */
+    inset-inline: calc(-1 * var(--pad));
+    inset-block-start: 0;
+    /* Stated, not auto: on a REPLACED element auto resolves to the
+       intrinsic 716px and the insets do not stretch it. */
+    width: calc(100% + 2 * var(--pad));
+    height: auto;
+    max-width: none;
+    margin: 0;
+  }
+}
+
+/* Room under the third step. It fitted the section — 773 against 805 —
+   but with nothing beneath it, so on any screen where the band does not
+   start at the very top it was the thing that got cut. The floor keeps
+   going under it now. */
+@media (max-width: 760px) {
+  /* The claim was starting almost on the cut. The band opens on a
+     shaped edge here, so the first line needs to clear the deepest part
+     of that curve, not just the box — otherwise it reads as stuck to it. */
+  .sell__inner, .sell__grid { padding-block: clamp(var(--sp-9), 26vw, var(--sp-10)) var(--sp-8); }
+}
+
+/* ============================================================
+   SELL / TRADE ON A PHONE — THREE PARTS, STACKED
+   ============================================================
+   The photograph-as-ground is abandoned. Every attempt to place the copy
+   ON the picture put something over a car: with a fixed aspect frame the
+   text moves and the vehicles do not, so the secondary action kept
+   landing on the Aventador however the crop was aimed.
+
+   Three separate parts instead, none overlapping:
+     1  the claim, the lede and the two actions, on the plain band
+     2  the photograph, full width, in the flow
+     3  the three steps, under it
+
+   Nothing is positioned over anything, so nothing can collide — and the
+   frame no longer has to be tall enough to host type, which is why the
+   mid-section master is 716x699 rather than 1602.
+   ============================================================ */
+@media (max-width: 760px) {
+  .sell { background: var(--bone); }
+  .sell__bg { display: none; }
+
+  .sell__grid { position: static; display: flex; flex-direction: column; }
+  /* The claim sat 64px under a shaped top edge and read as hung from
+     it. The first block drops clear of the cut before it starts. */
+  /* The head starts under the top cut and the foot clears the bottom
+     one — the band opens and closes on shaped edges, and 03 was
+     landing inside the lower curve. --cut-drop-b is what has to be
+     cleared, so the padding is derived from it rather than guessed. */
+  /* On the GRID only. Applied to both, .sell__inner and .sell__grid are
+     nested, so every value was being paid twice — which is why pulling
+     the stack up made the band taller. */
+  .sell__inner { padding-block: 0; }
+  .sell__grid {
+    padding-block: var(--sp-4) calc(var(--cut-drop-b) + var(--sp-4));
+  }
+
+  /* Photograph first, then the claim, then the steps. */
+  .sell__copy { order: 2; padding-block: 0; }
+
+  .sell__mobile {
+    order: 1;
+    position: static;
+    display: block;
+    width: calc(100% + 2 * var(--pad));
+    max-width: none;
+    height: auto;
+    margin-inline: calc(-1 * var(--pad));
+    margin-block: var(--sp-7) 0;
+  }
+
+  .sell__steps { order: 3; margin-block-start: var(--sp-7); }
+}
+
+/* Compacted. The three parts were sitting on desktop intervals — the
+   actions had 48px under them before the rule, and each step row carried
+   32px top and bottom. On a 375 column that spacing is not rhythm, it is
+   distance, and it was pushing the third step onto the lower cut. */
+@media (max-width: 760px) {
+  .sell__lede { margin-block-start: var(--sp-4); }
+  .sell__actions { margin-block-start: var(--sp-5); gap: var(--sp-3); }
+  .sell__steps li { padding-block: var(--sp-4); }
+}
+
+/* The lower cut was falling too steeply on a phone: 76px of drop over a
+   short run puts the edge at a sharp diagonal, which reads as a corner
+   torn off rather than as a panel edge. Shallower — less drop across a
+   longer run, so the slope flattens on both counts. The top cut is left
+   alone; only the foot is being corrected. */
+@media (max-width: 760px) {
+  .sell {
+    --cut-drop-b: 34px;
+    --cut-run: 30%;
+  }
+}
+
+/* THE STEEP FOOT WAS THE ANIMATION, NOT A VALUE.
+   sell-edges drives --cut-drop-b from 30px to 142px on scroll, and an
+   animated custom property outranks any declaration — which is why the
+   mobile override above measured 76 rather than the 34 it asked for.
+
+   The scroll morph is a desktop gesture: it reads against a 1580px band
+   where the edge has room to travel. On a 375 column the same travel is
+   a corner being torn off. The animation stands down here and the foot
+   takes a fixed, shallow angle instead. */
+@media (max-width: 760px) {
+  .sell { animation: none; }
+  .sell {
+    --cut-drop: 20px;
+    --cut-drop-b: 34px;
+    --cut-run: 30%;
+  }
+}
+
+/* Tighter again. Everything that separates the three parts comes down one
+   step on the scale — the joins, the ends, and the intervals inside the
+   copy. Nothing changes rank, only distance. */
+@media (max-width: 760px) {
+  .sell__grid {
+    padding-block: var(--sp-3) calc(var(--cut-drop-b) + var(--sp-4));
+  }
+  .sell__mobile { margin-block: 0 var(--sp-4); }
+  .sell__steps { margin-block-start: var(--sp-3); }
+
+  .sell__lede { margin-block-start: var(--sp-3); }
+  .sell__actions { margin-block-start: var(--sp-4); gap: var(--sp-3); }
+  .sell__steps li { padding-block: var(--sp-3); }
 }
