@@ -1,0 +1,15 @@
+sell_mobile.png / sell-mobile-716.jpg
+
+Supplied by Alex on 2026-08-15 for the Sell / Trade section's phone
+composition. 716x1602 — portrait, which is why it exists: the desktop
+frame is landscape and croppping it to a phone threw away either the car
+or the wall the copy stands on.
+
+Subject: a CMC showroom floor — blue Aventador SVJ Roadster foreground,
+G-Wagen and an orange AMG GT behind, under the ceiling baffles.
+
+NOT SYNTHETIC. No gen- prefix, and none is owed. Origin is the client,
+same as the landscape frame in this folder.
+
+sell-mobile-716.jpg is the served derivative at the master's own width;
+nothing is upscaled. The PNG is the source and nothing links to it.

@@ -10704,3 +10704,34 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
 @media (max-width: 760px) {
   .showcase { background: var(--bg-sunk); }
 }
+
+/* ---- Sell / Trade, composed for one column ----
+   The band's landscape photograph carries the car on one side and the
+   wall the copy stands on at the other. At 390 it can hold one or the
+   other and not both, so the phone gets a portrait frame of the same
+   showroom, in the flow: copy, then the picture, then the three steps.
+   The background photograph and its scrim stand down here — with the
+   image in the flow, keeping a second one behind the type would be two
+   photographs fighting over the same 390 pixels. */
+.sell__mobile { display: none; }
+
+@media (max-width: 760px) {
+  .sell__bg { display: none; }
+  .sell { background: var(--bone); }
+
+  .sell__mobile {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-block: var(--sp-7) 0;
+    grid-column: 1 / -1;
+    order: 2;
+  }
+  .sell__copy { order: 1; }
+  .sell__steps { order: 3; margin-block-start: var(--sp-7); }
+
+  /* The actions stack and go full width — at this measure a pair side by
+     side leaves neither of them room to be read. */
+  .sell__actions { flex-direction: column; align-items: stretch; gap: var(--sp-4); }
+  .sell__actions .btn { width: 100%; justify-content: center; }
+}
