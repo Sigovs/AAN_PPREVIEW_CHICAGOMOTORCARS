@@ -1,0 +1,12 @@
+warranty_mobile_top.png / warranty-mobile-716.jpg
+
+Supplied by Alex on 2026-08-15 for the Warranty section's phone
+composition, on the pattern already set by Sell / Trade: the photograph
+is its own part in the stack rather than a ground with type over it.
+
+716x466. NOT SYNTHETIC — the client's own frame, so no gen- prefix is
+owed and none is used. Compare gen-brake-wheel.* in this folder, which IS
+generated and carries the prefix and its own audit.
+
+warranty-mobile-716.jpg is the served derivative at the master's own
+width; nothing is upscaled. The PNG is the source and nothing links to it.

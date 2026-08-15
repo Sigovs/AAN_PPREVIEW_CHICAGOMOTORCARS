@@ -10970,3 +10970,116 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   .sell__actions { margin-block-start: var(--sp-4); gap: var(--sp-3); }
   .sell__steps li { padding-block: var(--sp-3); }
 }
+
+/* ============================================================
+   WARRANTY ON A PHONE — the Sell / Trade pattern
+   ============================================================
+   Photograph, then the claim and its actions, then the three cards.
+   Nothing over anything, for the reason that took four attempts to
+   establish on Sell: with a fixed-aspect frame the type moves and the
+   subject does not, so type placed over a photograph collides with it at
+   some width no matter how the crop is aimed.
+   ============================================================ */
+.warranty__mobile { display: none; }
+
+@media (max-width: 760px) {
+  .warranty__bg { display: none; }
+  .warranty__band { background: var(--bone); }
+
+  .warranty__mobile {
+    display: block;
+    /* Sibling of .shell, not a child of it — the band itself carries
+       no inline padding, so there is nothing to escape and a negative
+       margin only pushes it off the screen. */
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin-inline: 0;
+    margin-block: 0 var(--sp-4);
+  }
+
+  /* The band opens and closes on shaped edges here too, so the copy
+     starts under the upper one and the foot clears the lower. */
+  .warranty__inner { padding-block: var(--sp-3) var(--sp-4); }
+  .warranty__lede { margin-block-start: var(--sp-3); }
+  .warranty__actions {
+    margin-block-start: var(--sp-4);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-3);
+  }
+  .warranty__actions .btn { width: 100%; justify-content: center; }
+
+  .warranty__foot { padding-block-start: var(--sp-4); }
+  .wcards { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); }
+}
+
+/* The actions row is a flex COLUMN here, and the buttons were stretching
+   to fill its height rather than taking their own — one of them came out
+   as a 200px red lozenge. align-self:start on the items gives them back
+   their intrinsic height while the row keeps them full width. */
+@media (max-width: 760px) {
+  .warranty__actions .btn {
+    align-self: stretch;
+    flex: 0 0 auto;
+    min-block-size: 0;
+    block-size: auto;
+    padding-block: var(--sp-4);
+  }
+}
+
+/* Financing takes its own frame on a phone. The desktop lineup is a wide
+   landscape crop built for a 1580px card; at 375 it holds three vehicles
+   at a size where none of them reads. This one is framed for the column. */
+@media (max-width: 760px) {
+  .fin__bg img {
+    content: url("../img/financing/fin-mobile-900.jpg");
+    object-position: 50% 50%;
+  }
+}
+
+/* ============================================================
+   STORY ON A PHONE — the same three parts
+   ============================================================
+   Photograph, then the claim and its action, then the proof. The
+   background frame and its scrim stand down: with a picture in the flow
+   a second one behind the type is two photographs over 375 pixels.
+
+   The three figures become a stacked light card under the photograph
+   rather than a row — 30,000+ beside 2003 beside $2B+ in one column
+   leaves each of them about a hundred pixels, which is not a dominant
+   fact, it is a caption.
+   ============================================================ */
+.story__mobile { display: none; }
+
+@media (max-width: 760px) {
+  .story__bg { display: none; }
+  .story { background: var(--bg); }
+
+  .story__mobile {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0 0 var(--sp-5);
+  }
+
+  .story__inner { padding-block: 0 var(--sp-6); }
+  .story__lede { margin-block-start: var(--sp-3); }
+  .story__act { margin-block-start: var(--sp-5); }
+
+  /* The proof, as a card on the section's own raised ground. */
+  .story__stats {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-5);
+    margin-block-start: var(--sp-6);
+    padding: var(--sp-5);
+    border: 1px solid rgba(244, 242, 239, 0.10);
+    border-radius: 14px;
+    background: var(--bg-sunk);
+  }
+  .stat { display: flex; flex-direction: column; gap: var(--sp-2); }
+  .stat--lead .stat__n { font-size: clamp(2.75rem, 15vw, 3.75rem); }
+  .stat--proof .stat__n { font-size: clamp(1.75rem, 9vw, 2.25rem); }
+}

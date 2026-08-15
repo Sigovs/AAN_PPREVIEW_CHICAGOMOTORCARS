@@ -1,0 +1,10 @@
+mobile_financing.jpg / fin-mobile-900.jpg
+
+Supplied by Alex on 2026-08-15 for the Financing card's phone frame.
+1320x813, landscape. Resized to 900 wide for serving — the card is at
+most 375 CSS px here, so 900 covers a 2x screen with margin and the full
+1320 was 768KB for no gain.
+
+NOT SYNTHETIC — the client's own frame. No gen- prefix owed, none used.
+
+The source stays in this folder; nothing links to it.
