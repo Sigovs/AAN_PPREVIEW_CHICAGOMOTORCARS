@@ -10735,3 +10735,26 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   .sell__actions { flex-direction: column; align-items: stretch; gap: var(--sp-4); }
   .sell__actions .btn { width: 100%; justify-content: center; }
 }
+
+/* ---- The phone frame runs edge to edge ----
+   It was sitting inside the copy column and wearing that column's
+   padding, so a 390 screen showed it at 327 with the showroom clipped
+   down both sides. It is a photograph, not a paragraph: it takes the
+   full width of the screen and escapes the container that was holding
+   it in.
+
+   100vw with a negative inline margin of half the difference, so it is
+   centred on the viewport rather than on the column — and vw rather than
+   percentages because the column is not the thing it should be measured
+   against. */
+@media (max-width: 760px) {
+  .sell__mobile {
+    /* Measured against the CONTAINER, not the viewport. 100vw counts the
+       scrollbar, so the frame ran 15px wide and hung 8px off each edge.
+       Cancelling the grid own inline padding lands it exactly edge to
+       edge whether a scrollbar is present or not. */
+    width: calc(100% + 2 * var(--pad));
+    max-width: none;
+    margin-inline: calc(-1 * var(--pad));
+  }
+}
