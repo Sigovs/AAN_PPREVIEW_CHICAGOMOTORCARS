@@ -8738,6 +8738,36 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    so the closing one is the single centred composition. It is also the
    only arrangement that leaves the vehicles the middle of the field
    without anything sitting on top of them. */
+/* Financing takes Featured Inventory's measure.
+
+   The shared .shell resolves to --container / --gutter, which is 1440
+   and 57.6 here; .inv__inner runs on --maxw / --pad, which is 1700 and
+   49. The two systems put the financing card at 58 from each edge while
+   the inventory card sat at 49 — eighteen pixels narrower, on the same
+   screen, for no reason a reader could see.
+
+   Scoped to this section only. Eleven other sections still use .shell
+   at its own measure, and quietly moving all of them is a page-wide
+   decision, not a fix to one section. */
+.fin__inner {
+  max-width: var(--maxw);
+  padding-inline: var(--pad);
+}
+
+/* The financing copy gets air between its three voices.
+
+   Measured: 12px under the eyebrow and 19px under a 63px headline. At
+   that headline size 19px is less than a third of a line, so the lede
+   read as a second deck of the title rather than as the sentence
+   answering it, and the whole block sat as one dense lump at the top of
+   a very tall card.
+
+   The intervals now scale with the type they separate rather than being
+   fixed: the eyebrow keeps the tightest bond to the headline it labels,
+   and the lede stands off far enough to be its own voice. The card
+   itself takes a little more head room so the group is not pinned to
+   its top edge. */
+
 .fin {
   position: relative;
   background: var(--bg);
@@ -8754,7 +8784,7 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
   overflow: hidden;
   border-radius: 26px;
   background: var(--bg-sunk);
-  min-block-size: clamp(32rem, 55vw, 50rem);
+  min-block-size: clamp(34rem, 58vw, 53rem);
   display: grid;
   grid-template-rows: auto 1fr auto;
   padding: clamp(var(--sp-7), 4vw, var(--sp-9)) clamp(var(--sp-6), 4vw, var(--sp-9));
@@ -8820,7 +8850,11 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    twice the eyebrow's interval — the group now has an inside and an
    outside. */
 .fin__title {
-  margin: 0 0 clamp(var(--sp-4), 1.3vw, var(--sp-5));
+  /* Was clamp(sp-4, 1.3vw, sp-5) — 19px under a 63px headline, less
+     than a third of its own line, so the lede read as a second deck of
+     the title instead of the sentence answering it. 37px then went too
+     far the other way and the lede came adrift; this sits between. */
+  margin: 0 0 clamp(var(--sp-5), 1.9vw, var(--sp-6));
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.5rem, 4.4vw, 4.25rem);
@@ -9091,19 +9125,28 @@ html.reveal-armed .sell[data-reveal]:not(.is-revealed) .ttl-line {
    That trick carries an id's specificity, so writing the shorthand there
    outranked the reveal rules and their stagger — the cards all arrived
    together. Plain selector, so the staircase below can still win. */
+/* Softer. --dur-3 is 520ms on the way in AND on the way out, which on a
+   hover reads as the card lagging behind the pointer. The arrival is
+   quicker than that and the departure slower, which is how a hover is
+   supposed to feel: it answers immediately and lets go unhurriedly. */
 .fin__row {
-  transition: border-color var(--dur-3) var(--ease-out),
-              background-color var(--dur-3) var(--ease-out),
-              translate var(--dur-3) var(--ease-out),
+  transition: border-color 260ms var(--ease-out),
+              background-color 260ms var(--ease-out),
+              translate 260ms var(--ease-out),
               opacity var(--rv-cta) var(--ease-out);
+}
+.fin__row:hover {
+  transition-duration: 170ms, 170ms, 170ms, var(--rv-cta);
 }
 
 @media (hover: hover) {
+  /* Gentler at rest too: the edge lifts a little less far and the fill
+     a little less, so the card brightens rather than switching on. */
   .fin__row:hover,
   .fin__row:hover:not(#x) {
-    border-color: rgba(244, 242, 239, 0.22);
-    background: rgb(var(--bg-rgb) / 0.52);
-    translate: 0 -1px;
+    border-color: rgba(244, 242, 239, 0.17);
+    background: rgb(var(--bg-rgb) / 0.48);
+    translate: 0 -2px;
   }
 }
 
