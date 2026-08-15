@@ -10446,3 +10446,25 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
    and the next was tuned when the heading was a 14px caption; against a
    28px heading it read as the same interval as the rows inside. */
 .menu-collapsible .menu__nav { row-gap: var(--sp-3); }
+
+/* ---- The disclosure was running at cinematic speed ----
+   --dur-3 is 520ms. That is right for a section arriving on scroll and
+   much too slow for a control someone has just tapped: the panel was
+   still opening well after the finger left the glass, which reads as the
+   menu thinking about it. 260ms in, and the visibility swap rides the
+   same clock so a closing panel leaves the focus order exactly when it
+   stops being visible.
+
+   The spacing comes in with it. At 25px headings the old intervals were
+   tuned for 14px captions, and the tail of the menu — the showrooms and
+   their numbers — sat below the fold with nothing to suggest it existed. */
+.menu-collapsible .menu__panel { transition: grid-template-rows 260ms var(--ease-out); }
+.menu-collapsible .menu__panel-in { transition: visibility 260ms step-end; }
+.menu-collapsible .menu__group.is-open .menu__panel-in { transition: visibility 260ms step-start; }
+.menu-collapsible .menu__chev { transition: rotate 260ms var(--ease-out); }
+
+.menu-collapsible .menu__trigger { padding-block: var(--sp-5); }
+.menu-collapsible .menu__nav { row-gap: var(--sp-2); }
+.menu-collapsible .menu__panel-in { padding-block: var(--sp-2) var(--sp-4); }
+.menu-collapsible .menu__panel-in a { padding-block: var(--sp-3); }
+.menu-collapsible .menu__panel-in a:first-child { padding-block-start: var(--sp-2); }
