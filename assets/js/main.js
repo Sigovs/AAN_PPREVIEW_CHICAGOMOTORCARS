@@ -1071,3 +1071,83 @@
     rail.addEventListener('dragstart', function (e) { e.preventDefault(); });
   });
 })();
+
+/* ============================================================
+   THE MOBILE MENU'S GROUPS COLLAPSE
+   ============================================================
+   Inventory alone is eighteen rows; open, the four groups run 2415px on a
+   844px screen, so the menu opened onto a wall of links and the reader
+   had to scroll to find out what the sections even were. Closed by
+   default, the four headings fit one screen and the choice is made
+   before the scrolling starts.
+
+   PROGRESSIVE, in the same shape as the rest of this file: the markup
+   ships every link in the document, and the collapsing only exists once
+   this runs. Script blocked, script broken — the menu is the full list it
+   always was, which is the behaviour the nav panels already rely on.
+
+   The heading becomes a real <button> with aria-expanded and
+   aria-controls rather than a <p> with a click handler, because a control
+   that a screen reader cannot announce as a control is not one. Groups
+   with no heading — Warranty / Events / My Garage, and the showrooms —
+   are left alone: there is nothing to label them with.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var menu = document.getElementById('site-menu');
+  if (!menu) return;
+
+  var groups = [].slice.call(menu.querySelectorAll('.menu__group'));
+  var built = 0;
+
+  groups.forEach(function (g, i) {
+    var label = g.querySelector('.menu__label');
+    var links = [].slice.call(g.querySelectorAll('a'));
+    if (!label || !links.length) return;
+
+    var panel = document.createElement('div');
+    panel.className = 'menu__panel';
+    panel.id = 'menu-panel-' + i;
+
+    var inner = document.createElement('div');
+    inner.className = 'menu__panel-in';
+    links.forEach(function (a) { inner.appendChild(a); });
+    panel.appendChild(inner);
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = label.className + ' menu__trigger';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', panel.id);
+    btn.textContent = label.textContent;
+    btn.insertAdjacentHTML('beforeend',
+      '<svg class="menu__chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">' +
+      '<path d="M1 1.5 6 6.5l5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>');
+
+    label.parentNode.replaceChild(btn, label);
+    g.appendChild(panel);
+    built++;
+
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      g.classList.toggle('is-open', !open);
+    });
+  });
+
+  if (!built) return;
+  document.documentElement.classList.add('menu-collapsible');
+
+  /* The opener focuses the menu's first link. With every group shut that
+     link is inside a closed panel, so focus would land somewhere nobody
+     can see. The first heading is the right entry point now. */
+  var toggle = document.querySelector('.menu-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      if (toggle.getAttribute('aria-expanded') !== 'true') return;
+      var first = menu.querySelector('.menu__trigger');
+      if (first) setTimeout(function () { first.focus(); }, 0);
+    });
+  }
+})();

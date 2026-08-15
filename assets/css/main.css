@@ -2780,7 +2780,20 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
     background: none;
     border-bottom: 0;
   }
+  /* THE LOGO WAS BEING CUT OFF BY THE TOP OF THE SCREEN.
+
+     .masthead__inner was already nowrap here, but the wordmark lives
+     inside .navbar, and .navbar carries its own flex-wrap: wrap at this
+     breakpoint. So the bar held one line while the rail inside it broke
+     into two: measured at 375, the mark sat at -13 (half of it above the
+     viewport) and MENU hung at 81, below the 68px bar it belongs to.
+
+     The rail stops wrapping with the bar, and the mark comes down to fit
+     the row it now has to share: 375 less two 24px gutters is 327, of
+     which MENU takes 119, the call 46 and the gaps about 24. 138 is what
+     is left, so the wordmark is capped under it. */
   .has-js .masthead__inner { flex-wrap: nowrap; padding-block: 0; }
+  .has-js .navbar { flex-wrap: nowrap; }
 
   .has-js .navbar__groups,
   .has-js .navbar__garage { display: none; }
@@ -2811,7 +2824,7 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   /* Groups and My Garage are hidden below this breakpoint, so the rail
      is not being shared here either — the mark takes its natural size,
      same as the condensed state, for the same reason. */
-  .has-js .navbar .masthead__wm { width: clamp(160px, 15vw, 240px); }
+  .has-js .navbar .masthead__wm { width: clamp(124px, 33vw, 240px); }
 
   /* THE MARK KEEPS THE CORNER AT EVERY WIDTH.
 
@@ -10335,4 +10348,63 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .rv,
 html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   opacity: 0;
   translate: 0 18px;
+}
+
+/* ---- The mobile menu's groups, collapsed ----
+   Everything here hangs off .menu-collapsible, which only the script
+   adds — so with no script the panels do not exist and the menu is the
+   full list it has always been. */
+.menu-collapsible .menu__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+  padding-block: var(--sp-4);
+  appearance: none;
+  background: none;
+  border: 0;
+  border-block-end: 1px solid var(--rule);
+  text-align: start;
+  cursor: pointer;
+  color: var(--ink-2);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.menu-collapsible .menu__trigger:hover,
+.menu-collapsible .menu__group.is-open .menu__trigger { color: var(--ink); }
+.menu-collapsible .menu__trigger:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.menu-collapsible .menu__chev {
+  flex: none;
+  transition: rotate var(--dur-2) var(--ease-out);
+}
+.menu-collapsible .menu__group.is-open .menu__chev { rotate: 180deg; }
+
+/* 0fr -> 1fr is the one disclosure that interpolates; height:auto does
+   not, and this file has paid for that lesson once already. */
+.menu-collapsible .menu__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-3) var(--ease-out);
+}
+.menu-collapsible .menu__group.is-open .menu__panel { grid-template-rows: 1fr; }
+
+/* visibility, not just overflow: a closed panel must leave the focus
+   order, or tabbing walks through eighteen links nobody can see. */
+.menu-collapsible .menu__panel-in {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  visibility: hidden;
+  transition: visibility var(--dur-3) step-end;
+}
+.menu-collapsible .menu__group.is-open .menu__panel-in {
+  visibility: visible;
+  transition: visibility var(--dur-3) step-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-collapsible .menu__panel,
+  .menu-collapsible .menu__chev { transition: none; }
 }
