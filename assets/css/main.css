@@ -10468,3 +10468,66 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
 .menu-collapsible .menu__panel-in { padding-block: var(--sp-2) var(--sp-4); }
 .menu-collapsible .menu__panel-in a { padding-block: var(--sp-3); }
 .menu-collapsible .menu__panel-in a:first-child { padding-block-start: var(--sp-2); }
+
+/* ---- Closing was a shear, not a fade ----
+   The panel only animated its HEIGHT. The links inside kept full opacity
+   the whole way down and were simply cut off by the shrinking row, so
+   the last line vanished mid-glyph — and visibility flipped on step-end,
+   which snapped whatever was left. That combination is the jerk.
+
+   The content now fades as the row collapses, and it leads: 150ms of
+   opacity against 300ms of height, so the links are gone before the box
+   has finished closing and nothing is ever caught being clipped. Opening
+   reverses it — the box makes room first, the content arrives into space
+   that already exists.
+
+   Height is the only property here that lays out, and it is a grid track
+   rather than a height, so it interpolates instead of jumping. */
+.menu-collapsible .menu__panel {
+  transition: grid-template-rows 300ms var(--ease-out);
+}
+.menu-collapsible .menu__panel-in {
+  opacity: 0;
+  transition: opacity 150ms var(--ease-out),
+              visibility 0s linear 300ms;
+}
+.menu-collapsible .menu__group.is-open .menu__panel-in {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 220ms var(--ease-out) 90ms,
+              visibility 0s linear 0s;
+}
+.menu-collapsible .menu__chev { transition: rotate 300ms var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-collapsible .menu__panel,
+  .menu-collapsible .menu__panel-in,
+  .menu-collapsible .menu__chev { transition: none; }
+}
+
+/* ---- The easing was the jerk, not the duration ----
+   --ease-out is cubic-bezier(0.22, 1, 0.36, 1) — an expo-out. It is the
+   right curve for something arriving from off-screen, because it lands
+   softly, but it spends about ninety percent of its travel in the first
+   third of its time. Traced on the close, the panel fell from 914px to
+   122px in 88ms and then crawled the rest: almost the whole movement
+   happened at once, which is exactly what reads as a snap however long
+   the declared duration is.
+
+   A symmetric curve instead. The travel is spread evenly across the
+   300ms, so the panel moves at one speed from start to finish and there
+   is no moment where it lurches. */
+.menu-collapsible .menu__panel {
+  transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.menu-collapsible .menu__chev {
+  transition: rotate 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.menu-collapsible .menu__panel-in {
+  transition: opacity 160ms cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s linear 300ms;
+}
+.menu-collapsible .menu__group.is-open .menu__panel-in {
+  transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1) 60ms,
+              visibility 0s linear 0s;
+}
