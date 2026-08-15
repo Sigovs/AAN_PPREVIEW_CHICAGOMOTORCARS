@@ -10408,3 +10408,41 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   .menu-collapsible .menu__panel,
   .menu-collapsible .menu__chev { transition: none; }
 }
+
+/* ---- The mobile menu reads at its real scale ----
+   The headings were 14px uppercase — a caption doing a navigation
+   heading's job, and on a phone the four things the whole menu is FOR
+   were the smallest type on the screen. They take display scale now,
+   sentence case, because at 26px uppercase stops helping and starts
+   costing width.
+
+   The rows under them come up with the headings so the ranking holds,
+   and both get more room to be tapped: 56px of trigger and 48px of row
+   clear the 44px target with margin. */
+.menu-collapsible .menu__trigger {
+  font-size: clamp(1.5rem, 6.4vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-transform: none;
+  padding-block: var(--sp-6);
+  color: var(--ink);
+}
+.menu-collapsible .menu__trigger:hover,
+.menu-collapsible .menu__group.is-open .menu__trigger { color: var(--ink); }
+.menu-collapsible .menu__chev { width: 16px; height: 11px; }
+
+.menu-collapsible .menu__panel-in a {
+  font-size: 1.1875rem;
+  line-height: 1.35;
+  padding-block: var(--sp-4);
+}
+/* The first row stands clear of the heading it belongs to instead of
+   butting against its rule. */
+.menu-collapsible .menu__panel-in { padding-block: var(--sp-3) var(--sp-5); }
+.menu-collapsible .menu__panel-in a:first-child { padding-block-start: var(--sp-3); }
+
+/* And the groups stand apart from each other. 48px between a shut group
+   and the next was tuned when the heading was a 14px caption; against a
+   28px heading it read as the same interval as the rows inside. */
+.menu-collapsible .menu__nav { row-gap: var(--sp-3); }
