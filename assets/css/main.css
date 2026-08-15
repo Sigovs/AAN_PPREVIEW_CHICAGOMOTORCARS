@@ -10605,3 +10605,93 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   }
   .rec.is-active .rec__thumb { max-height: 58vw; }
 }
+
+/* ---- The shut cards recede, and the open one arrives slowly ----
+
+   Two corrections, both from the render.
+
+   SIZE. The four cards were the same box with different contents, which
+   reads as a list rather than as one card being open. A shut card now
+   sits smaller on every axis that carries weight — padding, the model's
+   size, the plates — so the open one is the largest thing in the column
+   and the state is legible before a word is read.
+
+   MOTION. 320ms was still arriving as an event. The box now takes 520ms
+   and the vehicle 420ms behind it, and the type resizes on the same
+   clock so the whole card breathes as one object instead of a box
+   growing while its contents pop. The curve stays symmetric — the
+   project's --ease-out is an expo and spends most of its travel in the
+   first third, which is what made every earlier attempt feel snapped
+   however long the duration said it was. */
+@media (max-width: 760px) {
+  .rec {
+    padding: var(--sp-4);
+    transition: padding 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                border-color 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                background-color 520ms cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  .rec.is-active { padding: var(--sp-6) var(--sp-5); }
+
+  .rec__model,
+  .rec.is-active .rec__model {
+    transition: font-size 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                color 520ms cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  .rec__model { font-size: 1.0625rem; color: var(--ink-2); }
+  .rec.is-active .rec__model { font-size: 1.375rem; color: var(--ink); }
+
+  .rec__make { opacity: 0.62; transition: opacity 520ms cubic-bezier(0.33, 0, 0.2, 1); }
+  .rec.is-active .rec__make { opacity: 1; }
+
+  .rec__pill { padding: 4px 10px; font-size: 0.8125rem;
+               transition: padding 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                           font-size 520ms cubic-bezier(0.33, 0, 0.2, 1); }
+  .rec.is-active .rec__pill { padding: 6px 13px; font-size: 0.875rem; }
+
+  /* the car, unhurried and a beat behind the box */
+  .rec__thumb {
+    transition: max-height 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                margin-block-start 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                opacity 300ms cubic-bezier(0.33, 0, 0.2, 1),
+                scale 520ms cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  .rec.is-active .rec__thumb {
+    transition: max-height 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                margin-block-start 520ms cubic-bezier(0.33, 0, 0.2, 1),
+                opacity 420ms cubic-bezier(0.33, 0, 0.2, 1) 120ms,
+                scale 520ms cubic-bezier(0.33, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rec, .rec__model, .rec__make, .rec__pill, .rec__thumb { transition: none; }
+  }
+}
+
+/* The shut cards measured the same HEIGHT as the open one despite every
+   other dimension being smaller: their model wrapped to two lines and
+   their two plates wrapped to two rows, and the wrapping put back
+   exactly what the smaller padding had taken away. Both rows hold one
+   line now, so a shut card is shorter as well as quieter. */
+@media (max-width: 760px) {
+  .rec__facts { flex-wrap: nowrap; }
+  .rec__pill { white-space: nowrap; }
+  .rec:not(.is-active) .rec__model {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* And this is what actually held them equal: .recs still hands out four
+   tracks of 1fr, the reservation built for the desktop index where every
+   row had to own the tallest active state so the column could not resize
+   under the reader. On a phone there is no column to protect and the
+   cards ARE the disclosure — equal tracks made a shut card exactly as
+   tall as the open one no matter how much smaller its contents were. */
+@media (max-width: 760px) {
+  .recs {
+    grid-template-rows: none;
+    grid-auto-rows: min-content;
+    min-height: 0;
+  }
+}
