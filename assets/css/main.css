@@ -10531,3 +10531,77 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
   transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1) 60ms,
               visibility 0s linear 0s;
 }
+
+/* ============================================================
+   FEATURED INVENTORY ON A PHONE — the card holds its own car
+   ============================================================
+   The desktop composition is one dominant field with an index beside it.
+   That has no meaning in one column: the field is already hidden here, so
+   the index was left carrying four rows of type and a 160px thumbnail
+   that showed the car at a size where it read as a sticker.
+
+   The thumbnail becomes the car. Same asset, different job at this
+   width — no new markup, and nothing on the desktop changes. The open
+   card shows its vehicle full width under the figures; the shut ones are
+   name and numbers only. First card open on load, which is the state the
+   markup already ships.
+
+   Tapping a shut card opens it and closes the others — the existing
+   select() already does exactly that, so this is presentation only.
+   ============================================================ */
+@media (max-width: 760px) {
+  /* one column: make, model, figures, then the car */
+  .rec {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    row-gap: 0;
+    padding: var(--sp-5);
+  }
+
+  /* The arrow belonged to a row that pointed somewhere. A card that
+     opens in place is not going anywhere, so it goes. */
+  .rec__chev { display: none; }
+
+  /* THE THUMBNAIL BECOMES THE VEHICLE.
+     Full width, its own row under the pills, and it only exists on the
+     open card. Height animates from 0 so the card grows into it rather
+     than jumping — the image itself only fades and scales, so nothing
+     below it is dragged around by a half-loaded picture. */
+  .rec__thumb {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    justify-self: center;
+    align-self: center;
+    margin-block-start: 0;
+    scale: 0.94;
+    opacity: 0;
+    max-height: 0;
+    transition: max-height 320ms cubic-bezier(0.4, 0, 0.2, 1),
+                margin-block-start 320ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                scale 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .rec.is-active .rec__thumb {
+    max-height: 62vw;
+    margin-block-start: var(--sp-5);
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* The open card is the one being read, so it carries the edge and the
+     light; the shut ones stay quiet and equal. */
+  .rec.is-active { border-color: rgba(104, 156, 236, 0.55); }
+}
+
+/* The vehicle was still sitting in the thumbnail's old column and taking
+   its 160px width with it. It spans the card now, at the card's width. */
+@media (max-width: 760px) {
+  .rec > .rec__thumb,
+  .rec .rec__thumb {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+  }
+  .rec.is-active .rec__thumb { max-height: 58vw; }
+}
