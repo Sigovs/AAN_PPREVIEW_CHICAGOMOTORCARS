@@ -191,15 +191,30 @@
 }
 
 /* The light under it, and the same light under the big figures. */
-/* Dimmed too. The geometry and the travel are unchanged; only the
-   intensity comes down, so it still reads as the record's edge being lit
-   rather than as a light of its own sitting behind the row. */
+/* A WEDGE, NOT A LOZENGE. Alex's shape: the light stands highest at the
+   bottom-left corner and narrows away to the right, rather than sitting
+   as a symmetrical pool under the middle of the record.
+
+   Two things make that, because one gradient cannot vary its height
+   along its own width. The radial is anchored at 6% of the strip and
+   given more vertical reach than horizontal, so its brightest part is
+   the left corner and it climbs there. A horizontal mask then takes the
+   whole thing away toward the right, which is what turns a rounded
+   falloff into a taper.
+
+   The strip is taller than it was — 74px against 40 — because a wedge
+   needs somewhere to be tall, and it starts further left: 4% rather than
+   8%, with the shift Alex asked for on top. */
 .v2 .rec::before {
-  background: radial-gradient(52% 100% at 50% 100%,
-    rgba(244, 242, 239, 0.26) 0%,
-    rgba(196, 192, 185, 0.11) 34%,
-    rgba(150, 146, 140, 0.04) 58%,
-    transparent 78%);
+  inset: auto 8% -1px 4%;
+  height: 74px;
+  background: radial-gradient(72% 132% at 6% 100%,
+    rgba(244, 242, 239, 0.30) 0%,
+    rgba(196, 192, 185, 0.13) 36%,
+    rgba(150, 146, 140, 0.05) 62%,
+    transparent 82%);
+  -webkit-mask-image: linear-gradient(to right, #000 0%, rgba(0,0,0,0.58) 40%, transparent 80%);
+          mask-image: linear-gradient(to right, #000 0%, rgba(0,0,0,0.58) 40%, transparent 80%);
 }
 .v2 .stat__fig::after {
   background: radial-gradient(50% 100% at 50% 100%,
@@ -337,7 +352,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    record lights and the light arrives as one gesture. */
 .v2 .rec::before {
   transform-origin: left center;
-  translate: -8% 0;
+  translate: -4% 0;
   scale: 0.42 1;
   transition: opacity var(--dur-3) var(--ease-out),
               scale var(--dur-4) var(--ease-out);
@@ -383,3 +398,277 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 }
 .v2 .on-bone .btn--line:hover,
 .v2 .on-bone .btn--line.is-hover { box-shadow: inset 0 0 0 1.5px var(--bone-ink); }
+
+
+/* ---- 8. THE FINANCING FRAME GOES DARKER AND LOSES ITS BLUE ----------
+   The garage photograph carries a cool cast in its shadows and across
+   the right-hand wall, and against a warm black ground that cast is the
+   most blue thing left on the page.
+
+   Graded, not replaced. saturate() takes 30% of the chroma out, and
+   because the cast is LOW-chroma to begin with it loses far more of its
+   presence than the Mustang's yellow or the Ducati's red do — those are
+   saturated enough to survive the same cut and stay the subject.
+   brightness and contrast then put the frame into the darker phase Alex
+   asked for: the blacks close up, the lit surfaces hold.
+
+   A filter rather than a re-export, because the master is Alex's supplied
+   file and the grade is a page decision — it should be visible and
+   reversible in the stylesheet rather than baked into an asset nobody
+   can un-bake. */
+.v2 .fin__bg img {
+  filter: saturate(0.7) brightness(0.88) contrast(1.08);
+}
+
+
+/* ---- 9. THE FILM BAND HAS NO SEAM AT EITHER END ---------------------
+   The band's own scrim started at 0.92, so 8% of the film was still
+   showing at the very top and bottom edges — and against a near-black
+   ground that is a visible line, which is what Alex is pointing at.
+
+   Both ends are opaque now and hold briefly before they let go. Same fix
+   as Karma's, and the same reasoning: the picture has to have ENDED
+   before the seam, not merely faded a long way toward it. The middle of
+   the band is untouched. */
+.v2 .brk__scrim {
+  background:
+    linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 1) 0%,
+      rgb(var(--bg-rgb) / 1) 2%,
+      rgb(var(--bg-rgb) / 0.72) 8%,
+      rgb(var(--bg-rgb) / 0.24) 20%,
+      rgb(var(--bg-rgb) / 0) 34%),
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 1) 0%,
+      rgb(var(--bg-rgb) / 1) 2%,
+      rgb(var(--bg-rgb) / 0.72) 8%,
+      rgb(var(--bg-rgb) / 0.24) 20%,
+      rgb(var(--bg-rgb) / 0) 34%),
+    rgb(var(--bg-rgb) / 0.46);
+}
+
+
+/* ---- 10. THE LOCATIONS ACCORDION ------------------------------------
+   Hover a showroom and its column widens and brings up its photograph;
+   its neighbours give up the width. Alex's call — of the ways to attach
+   an image to a register, the accordion is the one that does not cover
+   anything up or push the page around.
+
+   THE LIST DOES NOT MOVE. That is the condition this pattern has to meet
+   to be allowed at all: expansions that shift the list they live in are
+   a named failure. Here the row's outer box is fixed and only the
+   PROPORTIONS inside it change, so nothing below the section moves by a
+   pixel and nothing above it does either.
+
+   RECORDED YIELD — motion-taste, transform and opacity only. This
+   animates flex-grow, which is layout. There is no transform that widens
+   one column by taking width from four others; a scaled column would
+   stretch its own type. Five items, one row, 520ms: the cost is a
+   layout pass on five boxes, and it buys the only version of this
+   gesture that keeps the text sharp.
+
+   Everything a visitor NEEDS stays visible the whole time — address,
+   phone, the pin. The photograph is the only thing behind the hover, so
+   nothing task-relevant is hidden from a pointerless device. */
+/* LEFT-ALIGNED AND CONTENT-SIZED, not five equal shares of the full
+   width. Alex's call, and it is what makes the accordion legible: closed
+   columns are compact and sit against the left vertical, so the one that
+   opens is visibly taking room rather than everything quietly
+   redistributing. The row ends where its content ends. */
+.v2 .locs__list {
+  display: flex;
+  justify-content: flex-start;
+  /* THE ROW HAS A HEIGHT AND KEEPS IT. Not a minimum — a fixed one.
+     With min-block-size the tallest column still set the height, so a
+     column whose address wrapped to a third line while it was narrow
+     pushed the whole section down and let it snap back on the way out.
+     Nothing below the register moves now, whatever is open. */
+  block-size: 14rem;
+}
+
+.v2 .loc {
+  /* --acc-ease is the project's own settle curve — a long tail, no
+     overshoot — and 760ms is its slowest interval. Alex asked for softer
+     and this is what softer is: the same distance, more time, and almost
+     all of the motion spent decelerating. */
+  --acc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --acc-dur: var(--dur-4);
+  /* Sized so the closed column FITS ITS ADDRESS. The previous basis was
+     narrower than "West Chicago, IL 60185" and overflow: hidden was
+     quietly cutting it off — the text has a fixed measure precisely so
+     it never reflows, and that only works if the closed column can hold
+     it. */
+  flex: 0 0 clamp(12rem, 15.3vw, 13.75rem);
+  padding-inline: var(--sp-5);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-inline-size: 0;
+  transition: flex-basis var(--acc-dur) var(--acc-ease);
+}
+
+/* THE FIRST ONE IS OPEN ON ARRIVAL, so the mechanic is visible without
+   anyone having to discover it — a hover-only affordance that shows
+   nothing at rest is a gesture most visitors never learn exists. It
+   closes the moment the pointer enters the row, because from then on the
+   pointer is the thing saying which one is open. */
+.v2 .loc:first-child { flex-basis: clamp(20rem, 28.5vw, 25.6rem); }
+
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc:first-child { flex-basis: clamp(12rem, 15.3vw, 13.75rem); }
+  .v2 .locs__list .loc:hover,
+  .v2 .locs__list:hover .loc:first-child:hover { flex-basis: clamp(20rem, 28.5vw, 25.6rem); }
+}
+.v2 .loc:focus-within { flex-basis: clamp(20rem, 28.5vw, 25.6rem); }
+
+/* ---- the photograph SLIDES OUT BESIDE THE TEXT ---------------------
+   Alex's revision, and it is the better version: the picture is not a
+   background the address sits on, it is its own panel arriving from the
+   side. The text never has anything over it and never needs a scrim to
+   survive, which is one whole class of contrast problem removed rather
+   than managed.
+
+   IT RIDES ON A TRANSLATE, NOT A WIDTH. The panel is always its full
+   size and always parked one width to the right, clipped by the column;
+   hover slides it home. So the only thing the layout animates is the
+   column's flex-grow, and the picture itself is pure transform — it
+   arrives INTO the space the widening has just made, which is what makes
+   the two read as one gesture instead of two.
+
+   Inset from the column's edges so it reads as a plate laid in the
+   register rather than as the column being filled. */
+/* The text keeps a fixed measure whatever the column is doing, so it
+   never reflows as the accordion moves — the only thing that changes
+   width is the empty space the picture arrives into. 11.5rem clears
+   "Newport Beach", which is the longest heading in the register and was
+   landing within 3px of the plate before this. */
+.v2 .loc__body {
+  position: relative;
+  z-index: 1;
+  inline-size: 10.75rem;
+  max-inline-size: 100%;
+}
+
+/* THE PLATE CANNOT TOUCH THE TEXT, BY CONSTRUCTION.
+
+   .loc__shot is not the picture any more — it is a SLOT, clipped, whose
+   left edge is pinned one gap to the right of the text's fixed measure.
+   The picture lives inside it and slides. So during the whole gesture
+   there is no state, and no frame, in which the image can be over the
+   address: the region it is allowed to paint in begins after the words
+   end.
+
+   It also means the slot is narrow while the column is narrow and opens
+   as the column opens, which is what makes the picture look like it is
+   emerging from behind the register rather than flying in over it. */
+.v2 .loc__shot {
+  position: absolute;
+  inset-block: var(--sp-5);
+  inset-inline: calc(var(--sp-5) + 10.75rem + var(--sp-6)) var(--sp-5);
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  pointer-events: none;
+}
+.v2 .loc__shot img {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: clamp(110px, 10.4vw, 150px);
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* Graded to the page: the register is a quiet closing chapter and a
+     full-strength photograph in one of five columns would be the loudest
+     thing on the screen. */
+  filter: saturate(0.68) brightness(0.74) contrast(1.04);
+  translate: calc(100% + var(--sp-6)) 0;
+  opacity: 0;
+  transition: translate var(--acc-dur) var(--acc-ease),
+              opacity var(--dur-3) var(--acc-ease);
+}
+
+/* The first one's picture is in place on arrival, and leaves when the
+   pointer takes over. */
+.v2 .loc:first-child .loc__shot img { translate: 0 0; opacity: 1; }
+
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc:first-child .loc__shot img {
+    translate: calc(100% + var(--sp-6)) 0;
+    opacity: 0;
+  }
+  .v2 .locs__list .loc:hover .loc__shot img,
+  .v2 .locs__list:hover .loc:first-child:hover .loc__shot img { translate: 0 0; opacity: 1; }
+}
+.v2 .loc:focus-within .loc__shot img { translate: 0 0; opacity: 1; }
+
+/* No pointer: the plates are simply in place rather than unreachable. */
+@media (hover: none) {
+  .v2 .loc__shot img { translate: 0 0; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .loc { transition: none; }
+  .v2 .loc__shot img { transition: none; }
+}
+
+/* Stacked, an accordion has nothing to trade width with, so the columns
+   go back to being rows and every photograph is simply present. */
+@media (max-width: 900px) {
+  .v2 .locs__list { display: grid; }
+  .v2 .loc,
+  .v2 .loc:first-child,
+  .v2 .locs__list .loc:hover { flex: 1 1 auto; }
+  /* Stacked there is width to spare, so the plate simply sits at the
+     right of its row with nothing to slide out of. */
+  .v2 .loc__shot { inset-inline-start: auto; inline-size: clamp(110px, 26vw, 170px); }
+  .v2 .loc__shot img { translate: 0 0; opacity: 1; }
+}
+
+
+/* ---- 11. THE FINDER IS ONE LINE PER FIELD ---------------------------
+   Every row was saying its name twice: "MAKE" above and "Any Make"
+   below. The second line was carrying no information at rest and the
+   field was two lines tall to hold it.
+
+   The uppercase label goes — visually, not from the accessible tree,
+   where the <label> still names the control — and the row's single line
+   becomes the value: "Make" until something is chosen, then the choice.
+   That is what a select does, and it is what the row was pretending to
+   do with twice the height.
+
+   The two-row grid that held space for the value is no longer needed
+   either: with one line there is nothing to grow into, so nothing can
+   move when a value arrives. */
+.v2 .hunt__label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.v2 .hunt__field {
+  grid-template-rows: auto;
+  padding-block: var(--sp-4);
+}
+.v2 .hunt__value {
+  font-size: var(--t-lede);
+  line-height: 1.3;
+}
+
+
+/* ---- 12. THE RECORD'S CORNER STAYS ROUND ----------------------------
+   The wedge is taller than the strip it replaced, so at the bottom-left
+   it now reaches into the card's rounded corner — and because the glow's
+   own box is square, it painted straight through it and squared the
+   corner off.
+
+   overflow: hidden on the record clips everything inside to its own
+   radius, which is where the fix belongs: the corner is the card's
+   property, not something each layer inside it should have to know
+   about. */
+.v2 .rec { overflow: hidden; }
