@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=20">
+<link rel="stylesheet" href="assets/css/v2.css?v=28">
 </head>
 <body class="v2">
 
@@ -1820,6 +1820,13 @@
            right — and they are replaced by each showroom's own interior
            before this is shown outside the studio.
            ============================================================ -->
+      <!-- ONE FRAME, FIVE PICTURES. The plates are siblings of the list
+           rather than children of the columns, because a picture that
+           lives inside a 200px column can only ever be positioned
+           against that column — and this one has to sit at the right of
+           the whole register, in the width the five columns leave. Which
+           one is showing is decided by :has() on the stage. -->
+      <div class="locs__stage">
       <ul class="locs__list">
           <li class="loc">
             <div class="loc__body">
@@ -1827,7 +1834,6 @@
               <p class="loc__addr">27W110 North Avenue<br>West Chicago, IL 60185</p>
               <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
             </div>
-            <span class="loc__shot" aria-hidden="true"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
           </li>
           <li class="loc">
             <div class="loc__body">
@@ -1835,7 +1841,6 @@
               <p class="loc__addr">2104 Ferry Road<br>Naperville, IL 60563</p>
               <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
             </div>
-            <span class="loc__shot" aria-hidden="true"><img src="assets/img/instagram/cmc-ig-lamborghini-countach-showroom.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
           </li>
           <li class="loc">
             <div class="loc__body">
@@ -1843,7 +1848,6 @@
               <p class="loc__addr">727 Marine Drive<br>Rock Hill, SC 29730</p>
               <a class="loc__tel" href="tel:+18038917788">803-891-7788</a>
             </div>
-            <span class="loc__shot" aria-hidden="true"><img src="assets/img/instagram/cmc-ig-audi-r8-v10.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
           </li>
           <li class="loc">
             <div class="loc__body">
@@ -1851,7 +1855,6 @@
               <p class="loc__addr">1650 Commerce Ave<br>Tonganoxie, KS 66086</p>
               <a class="loc__tel" href="tel:+19138459633">913-845-9633</a>
             </div>
-            <span class="loc__shot" aria-hidden="true"><img src="assets/img/instagram/cmc-ig-mercedes-s65-amg.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
           </li>
           <!-- SIMULATED, 2026-08-17. Newport Beach is a real fifth
                showroom on the way — Alex's information — and everything
@@ -1882,9 +1885,16 @@
               <p class="loc__addr">California<br><span class="loc__soon">Opening soon</span></p>
               <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
             </div>
-            <span class="loc__shot" aria-hidden="true"><img src="assets/img/instagram/cmc-ig-porsche-911-gt2-rs.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
           </li>
       </ul>
+        <div class="locs__frame" aria-hidden="true">
+          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
+          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-lamborghini-countach-showroom.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
+          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-audi-r8-v10.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
+          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-mercedes-s65-amg.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
+          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-porsche-911-gt2-rs.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
+        </div>
+      </div>
     </div>
   </section>
 
