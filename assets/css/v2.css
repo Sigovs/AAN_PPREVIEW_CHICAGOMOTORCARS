@@ -725,6 +725,52 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
               margin-block-start var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
               opacity var(--dur-3) var(--ease-out);
 }
+/* ---- the action row -------------------------------------------------
+   Two pills, and the collapse belongs to the ROW now rather than to the
+   phone: with each pill hiding itself the pair could fall out of step,
+   and half an action row appearing is worse than none. */
+.v2 .loc__acts {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  overflow: hidden;
+  max-block-size: 0;
+  margin-block-start: 0;
+  opacity: 0;
+  transition: max-block-size var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              margin-block-start var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              opacity var(--dur-3) var(--ease-out);
+}
+
+/* THE SECOND PILL IS QUIET, and that is the whole point of a pair: the
+   red one is the thing to do, this is the thing to do instead. Hairline
+   ring and ink on the photograph, no fill — a second solid pill beside
+   the first would give the panel two primaries and neither would read as
+   one.
+
+   Its destination is real: Google's directions endpoint with the
+   showroom's own address. Newport Beach has no pill at all, because it
+   has no address yet and a directions link to a place that does not open
+   until later is the same lie as printing the street. */
+.v2 .loc__map {
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  line-height: 1.4;
+  letter-spacing: var(--tr-label);
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px rgba(244, 242, 239, 0.42);
+  white-space: nowrap;
+  transition: box-shadow var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out);
+}
+.v2 .loc__map:hover {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  background: rgba(244, 242, 239, 0.08);
+}
+
 .v2 .loc__tel {
   align-self: flex-start;
   font-family: var(--font-label);
@@ -744,27 +790,21 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   padding: 6px 14px;
   border-radius: 999px;
   text-decoration: none;
-  overflow: hidden;
-  max-block-size: 0;
-  margin-block-start: 0;
-  opacity: 0;
-  transition: max-block-size var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
-              margin-block-start var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
-              opacity var(--dur-3) var(--ease-out),
-              color var(--dur-2) var(--ease-out);
+  white-space: nowrap;
+  transition: background-color var(--dur-2) var(--ease-out);
 }
 .v2 .loc__tel:hover { background: #E11B24; }
 
 .v2 .loc.is-open .loc__addr,
-.v2 .loc.is-open .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
+.v2 .loc.is-open .loc__acts { opacity: 1; max-block-size: 3em; margin-block-start: var(--sp-4); }
 @media (hover: hover) {
   .v2 .locs__list:hover .loc .loc__addr,
-  .v2 .locs__list:hover .loc .loc__tel { opacity: 0; max-block-size: 0; margin-block-start: 0; }
+  .v2 .locs__list:hover .loc .loc__acts { opacity: 0; max-block-size: 0; margin-block-start: 0; }
   .v2 .locs__list:hover .loc:hover .loc__addr,
-  .v2 .locs__list:hover .loc:hover .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
+  .v2 .locs__list:hover .loc:hover .loc__acts { opacity: 1; max-block-size: 3em; margin-block-start: var(--sp-4); }
 }
 .v2 .loc:focus-within .loc__addr,
-.v2 .loc:focus-within .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
+.v2 .loc:focus-within .loc__acts { opacity: 1; max-block-size: 3em; margin-block-start: var(--sp-4); }
 
 @media (prefers-reduced-motion: reduce) {
   .v2 .loc, .v2 .loc__media img, .v2 .loc__addr, .v2 .loc__tel { transition: none; }
@@ -778,5 +818,5 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .loc.is-open,
   .v2 .locs__list:hover .loc { flex-grow: 1; block-size: clamp(13rem, 42vw, 18rem); }
   .v2 .loc .loc__addr,
-  .v2 .loc .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
+  .v2 .loc .loc__acts { opacity: 1; max-block-size: 3em; margin-block-start: var(--sp-4); }
 }
