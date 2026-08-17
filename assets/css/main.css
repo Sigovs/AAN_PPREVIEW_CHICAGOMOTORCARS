@@ -10175,7 +10175,11 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Five, since Newport Beach joined. At 1440 that is 265px a column
+     and the longest address line — "West Chicago, IL 60185" — sets at
+     165px, so the register still reads as five peers rather than five
+     squeezed ones. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
 }
 .loc {
@@ -10214,6 +10218,35 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
   transition: color var(--dur-2) var(--ease-out);
 }
 .loc__tel:hover { color: var(--accent); }
+
+/* ---- THE ONE THAT IS NOT OPEN YET ---------------------------------
+   A showroom you cannot drive to should not look like four you can, and
+   it should not carry an address to prove it. So this row says where and
+   says when, and nothing else — the difference is carried by the pin
+   dropping out of the accent and by a status line standing where the
+   phone number stands on its neighbours.
+
+   Same type as .loc__tel, deliberately: it occupies that slot in the
+   register, so it should sit on that line. It is not a link because
+   there is nowhere yet to send anyone. */
+.loc--soon .loc__pin { color: var(--ink-3); }
+.loc__soon,
+.loc__soon:not(#x) {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-3);
+}
+
+/* The nav's version of the same fact, at label scale. */
+.navmenu__soon {
+  margin-inline-start: 0.5em;
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
 
 /* ============================================================
    14 — FOOTER
@@ -10296,6 +10329,8 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
 
 @media (max-width: 900px) {
   .locs__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Five into two leaves a widow; the fifth takes the full row. */
+  .loc:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .foot__nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px) {

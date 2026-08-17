@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=50">
-<link rel="stylesheet" href="assets/css/main.css?v=437">
+<link rel="stylesheet" href="assets/css/main.css?v=438">
 </head>
 <body>
 
@@ -191,6 +191,10 @@
                 <li><a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a></li>
                 <li><a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a></li>
                 <li><a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a></li>
+                <!-- SIMULATED — see the Locations register. It points at
+                     Contact Us because that is where a question about a
+                     showroom that has not opened has to go. -->
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Newport Beach, CA <span class="navmenu__soon">Soon</span></a></li>
                 <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a></li>
               </ul>
             </div>
@@ -355,6 +359,7 @@
         <a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a>
         <a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a>
         <a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Newport Beach, CA <span class="navmenu__soon">Soon</span></a>
         <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a>
       </section>
 
@@ -411,6 +416,7 @@
         <li>Naperville, IL <span>630 221 1800</span></li>
         <li>Rock Hill, SC <span>803 891 7788</span></li>
         <li>Kansas City <span>913 845 9633</span></li>
+        <li>Newport Beach, CA <span>Opening soon</span></li>
       </ul>
     </div>
   </div>
@@ -888,7 +894,8 @@
           <span class="ttl-line">Some cars only make</span><span class="ttl-line">sense in person.</span>
         </h2>
         <p class="lede brk__lede">Four showrooms &mdash; West Chicago and Naperville
-          in Illinois, Rock Hill in South Carolina, Tonganoxie in Kansas.</p>
+          in Illinois, Rock Hill in South Carolina, Tonganoxie in Kansas. Newport
+          Beach, California, opening soon.</p>
         <div class="brk__cta">
           <a class="btn btn--fill" href="https://www.chicagomotorcars.com/dealership/directions.htm">
             Plan a visit
@@ -1737,7 +1744,7 @@
   <section class="locs" id="locations" data-reveal aria-labelledby="locs-title">
     <div class="shell locs__inner">
       <div class="locs__head">
-        <p class="micro locs__eyebrow">Four showrooms</p>
+        <p class="micro locs__eyebrow">Four showrooms, one opening</p>
         <h2 class="locs__title" id="locs-title">
           <span class="ttl-line">Come see what's</span>
           <span class="ttl-line">on the floor.</span>
@@ -1763,6 +1770,26 @@
             <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Tonganoxie</span></h3>
             <p class="loc__addr">1650 Commerce Ave<br>Tonganoxie, KS 66086</p>
             <a class="loc__tel" href="tel:+19138459633">913-845-9633</a>
+          </li>
+          <!-- SIMULATED, 2026-08-17. Newport Beach is a real fifth
+               showroom on the way — Alex's information — and everything
+               about it here that is NOT the city and the state is
+               deliberately absent rather than invented. A street address
+               and a phone number for a dealership that has not opened is
+               a false statement about a real business, and it is the
+               kind that sends someone to a door that is not there.
+
+               "Opening soon" is also the honest design answer: a
+               location you cannot drive to yet should not show an
+               address as though you can. The pin drops to --ink-3 so
+               the row reads as pending against four live ones.
+
+               REPLACE with the real address and number the day they
+               have them, and take .loc--soon off. -->
+          <li class="loc loc--soon">
+            <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Newport Beach</span></h3>
+            <p class="loc__addr">California</p>
+            <p class="loc__soon">Opening soon</p>
           </li>
       </ul>
     </div>
