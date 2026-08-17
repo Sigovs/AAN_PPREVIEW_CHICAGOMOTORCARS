@@ -448,198 +448,6 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 }
 
 
-/* ---- 10. THE LOCATIONS ACCORDION ------------------------------------
-   Hover a showroom and its column widens and brings up its photograph;
-   its neighbours give up the width. Alex's call — of the ways to attach
-   an image to a register, the accordion is the one that does not cover
-   anything up or push the page around.
-
-   THE LIST DOES NOT MOVE. That is the condition this pattern has to meet
-   to be allowed at all: expansions that shift the list they live in are
-   a named failure. Here the row's outer box is fixed and only the
-   PROPORTIONS inside it change, so nothing below the section moves by a
-   pixel and nothing above it does either.
-
-   RECORDED YIELD — motion-taste, transform and opacity only. This
-   animates flex-grow, which is layout. There is no transform that widens
-   one column by taking width from four others; a scaled column would
-   stretch its own type. Five items, one row, 520ms: the cost is a
-   layout pass on five boxes, and it buys the only version of this
-   gesture that keeps the text sharp.
-
-   Everything a visitor NEEDS stays visible the whole time — address,
-   phone, the pin. The photograph is the only thing behind the hover, so
-   nothing task-relevant is hidden from a pointerless device. */
-/* LEFT-ALIGNED AND CONTENT-SIZED, not five equal shares of the full
-   width. Alex's call, and it is what makes the accordion legible: closed
-   columns are compact and sit against the left vertical, so the one that
-   opens is visibly taking room rather than everything quietly
-   redistributing. The row ends where its content ends. */
-.v2 .locs__list {
-  --locs-row-h: 14rem;
-  display: flex;
-  justify-content: flex-start;
-  /* THE ROW HAS A HEIGHT AND KEEPS IT. Not a minimum — a fixed one.
-     With min-block-size the tallest column still set the height, so a
-     column whose address wrapped to a third line while it was narrow
-     pushed the whole section down and let it snap back on the way out.
-     Nothing below the register moves now, whatever is open. */
-  block-size: var(--locs-row-h);
-}
-
-.v2 .loc {
-  --locs-row-h: 14rem;
-  /* --acc-ease is the project's own settle curve — a long tail, no
-     overshoot — and 760ms is its slowest interval. Alex asked for softer
-     and this is what softer is: the same distance, more time, and almost
-     all of the motion spent decelerating. */
-  --acc-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --acc-dur: var(--dur-4);
-  /* Sized so the closed column FITS ITS ADDRESS. The previous basis was
-     narrower than "West Chicago, IL 60185" and overflow: hidden was
-     quietly cutting it off — the text has a fixed measure precisely so
-     it never reflows, and that only works if the closed column can hold
-     it. */
-  flex: 0 0 clamp(11rem, 13.9vw, 12.5rem);
-  /* Tighter side padding than the register had. Every pixel taken off
-     the four closed columns is a pixel the open one can give to the
-     photograph, and this is where the cheapest ones were. */
-  padding-inline: var(--sp-4);
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  min-inline-size: 0;
-  transition: flex-basis var(--acc-dur) var(--acc-ease);
-}
-
-/* THE FIRST ONE IS OPEN ON ARRIVAL, so the mechanic is visible without
-   anyone having to discover it — a hover-only affordance that shows
-   nothing at rest is a gesture most visitors never learn exists. It
-   closes the moment the pointer enters the row, because from then on the
-   pointer is the thing saying which one is open. */
-.v2 .loc:first-child { flex-basis: clamp(21rem, 34.5vw, 31rem); }
-
-@media (hover: hover) {
-  .v2 .locs__list:hover .loc:first-child { flex-basis: clamp(11rem, 13.9vw, 12.5rem); }
-  .v2 .locs__list .loc:hover,
-  .v2 .locs__list:hover .loc:first-child:hover { flex-basis: clamp(21rem, 34.5vw, 31rem); }
-}
-.v2 .loc:focus-within { flex-basis: clamp(21rem, 34.5vw, 31rem); }
-
-/* ---- the photograph SLIDES OUT BESIDE THE TEXT ---------------------
-   Alex's revision, and it is the better version: the picture is not a
-   background the address sits on, it is its own panel arriving from the
-   side. The text never has anything over it and never needs a scrim to
-   survive, which is one whole class of contrast problem removed rather
-   than managed.
-
-   IT RIDES ON A TRANSLATE, NOT A WIDTH. The panel is always its full
-   size and always parked one width to the right, clipped by the column;
-   hover slides it home. So the only thing the layout animates is the
-   column's flex-grow, and the picture itself is pure transform — it
-   arrives INTO the space the widening has just made, which is what makes
-   the two read as one gesture instead of two.
-
-   Inset from the column's edges so it reads as a plate laid in the
-   register rather than as the column being filled. */
-/* The text keeps a fixed measure whatever the column is doing, so it
-   never reflows as the accordion moves — the only thing that changes
-   width is the empty space the picture arrives into. 11.5rem clears
-   "Newport Beach", which is the longest heading in the register and was
-   landing within 3px of the plate before this. */
-.v2 .loc__body {
-  position: relative;
-  z-index: 1;
-  inline-size: 10.5rem;
-  max-inline-size: 100%;
-}
-
-/* THE PLATE CANNOT TOUCH THE TEXT, BY CONSTRUCTION.
-
-   .loc__shot is not the picture any more — it is a SLOT, clipped, whose
-   left edge is pinned one gap to the right of the text's fixed measure.
-   The picture lives inside it and slides. So during the whole gesture
-   there is no state, and no frame, in which the image can be over the
-   address: the region it is allowed to paint in begins after the words
-   end.
-
-   It also means the slot is narrow while the column is narrow and opens
-   as the column opens, which is what makes the picture look like it is
-   emerging from behind the register rather than flying in over it. */
-.v2 .loc__shot {
-  position: absolute;
-  inset-block: var(--sp-5);
-  inset-inline: calc(var(--sp-4) + 10.5rem + var(--sp-6)) var(--sp-4);
-  border-radius: var(--r-panel);
-  overflow: hidden;
-  pointer-events: none;
-}
-.v2 .loc__shot img {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-end: 0;
-  /* LANDSCAPE, AND THE RATIO IS DERIVED RATHER THAN GUESSED. The plate
-     fills the row's height between its insets, so its width is that
-     height times 3:2 — the aspect the source frames were actually shot
-     at. Alex asked for more horizontal without losing the picture, and
-     this is the widest 3:2 the row can hold: any wider and the open
-     column stops fitting beside four closed ones.
-
-     Tied to --locs-row-h so the two cannot drift apart; change the row
-     height and the plate follows it. */
-  inline-size: calc((var(--locs-row-h) - 2 * var(--sp-5)) * 1.5);
-  block-size: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  /* Graded to the page: the register is a quiet closing chapter and a
-     full-strength photograph in one of five columns would be the loudest
-     thing on the screen. */
-  filter: saturate(0.68) brightness(0.74) contrast(1.04);
-  translate: calc(100% + var(--sp-6)) 0;
-  opacity: 0;
-  transition: translate var(--acc-dur) var(--acc-ease),
-              opacity var(--dur-3) var(--acc-ease);
-}
-
-/* The first one's picture is in place on arrival, and leaves when the
-   pointer takes over. */
-.v2 .loc:first-child .loc__shot img { translate: 0 0; opacity: 1; }
-
-@media (hover: hover) {
-  .v2 .locs__list:hover .loc:first-child .loc__shot img {
-    translate: calc(100% + var(--sp-6)) 0;
-    opacity: 0;
-  }
-  .v2 .locs__list .loc:hover .loc__shot img,
-  .v2 .locs__list:hover .loc:first-child:hover .loc__shot img { translate: 0 0; opacity: 1; }
-}
-.v2 .loc:focus-within .loc__shot img { translate: 0 0; opacity: 1; }
-
-/* No pointer: the plates are simply in place rather than unreachable. */
-@media (hover: none) {
-  .v2 .loc__shot img { translate: 0 0; opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .v2 .loc { transition: none; }
-  .v2 .loc__shot img { transition: none; }
-}
-
-/* Stacked, an accordion has nothing to trade width with, so the columns
-   go back to being rows and every photograph is simply present. */
-@media (max-width: 900px) {
-  .v2 .locs__list { display: grid; }
-  .v2 .loc,
-  .v2 .loc:first-child,
-  .v2 .locs__list .loc:hover { flex: 1 1 auto; }
-  /* Stacked there is width to spare, so the plate simply sits at the
-     right of its row with nothing to slide out of. */
-  .v2 .loc__shot { inset-inline-start: auto; inline-size: clamp(110px, 26vw, 170px); }
-  .v2 .loc__shot img { translate: 0 0; opacity: 1; }
-}
-
-
 /* ---- 11. THE FINDER IS ONE LINE PER FIELD ---------------------------
    Every row was saying its name twice: "MAKE" above and "Any Make"
    below. The second line was carrying no information at rest and the
@@ -688,438 +496,21 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 .v2 .rec { overflow: hidden; }
 
 
-/* ---- 13. NO GRID, ONE UNDERLINE ------------------------------------
-   The dividing lines go. They were drawing a table around five things
-   that are not a table, and once a column can open they actively fight
-   it — a vertical rule sliding sideways is the most visible thing on the
-   screen and it belongs to none of the states.
-
-   What is left is one hairline across the top, so the register still
-   reads as a register and still closes the chapter above it, and a thick
-   rule under whichever column is open. That is the whole indicator: the
-   open one is the one that is underlined, and because the rule is a
-   border it follows the column's width for free as it grows.
-
-   2px and full ink, against a 1px hairline at 0.14 above it — the two
-   cannot be mistaken for the same kind of line, which is the point. */
-.v2 .locs__list { border-block-start: 1px solid var(--rule); }
-
-.v2 .loc {
-  border-block-start: 0;
-  border-inline-start: 0;
-  border-block-end: 2px solid transparent;
-  transition: flex-basis var(--acc-dur) var(--acc-ease),
-              border-color var(--dur-3) var(--acc-ease);
-}
-.v2 .loc + .loc { border-inline-start: 0; }
-
-.v2 .loc:first-child { border-block-end-color: var(--ink); }
-
-@media (hover: hover) {
-  .v2 .locs__list:hover .loc:first-child { border-block-end-color: transparent; }
-  .v2 .locs__list .loc:hover,
-  .v2 .locs__list:hover .loc:first-child:hover { border-block-end-color: var(--ink); }
-}
-.v2 .loc:focus-within { border-block-end-color: var(--ink); }
-
-/* Stacked, every row is open, so an underline on each would be a grid
-   again by another name. */
-@media (max-width: 900px) {
-  .v2 .loc,
-  .v2 .loc:first-child { border-block-end: 1px solid var(--rule); }
-}
 
 
-/* ---- 14. THE TEXT USES THE ROW IT IS STANDING IN --------------------
-   The three parts were stacked at the top of a 224px row and the plate
-   beside them was full height, so the column read as a caption with a
-   picture rather than as two things of equal standing.
-
-   Distributed now: the city sits on the row's top line, the phone on its
-   bottom, the address between them. Both columns of the pair therefore
-   START and END together — the plate's top edge and the city's cap
-   height, the plate's foot and the phone — which is what makes them read
-   as one object rather than as text with an illustration next to it.
-
-   The insets match the plate's, so the two are measured off the same
-   line rather than each off its own. */
-/* .loc has to BE a flex container for its body to stretch — as a plain
-   block it was still a block, align-items had nothing to act on, and the
-   only thing my first pass achieved was deleting the margins that were
-   holding the stack apart. The picture stays absolutely positioned, so
-   the flex row has exactly one item in it. */
-.v2 .loc { display: flex; align-items: stretch; }
-.v2 .loc__body {
-  flex: 0 0 10.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-block: var(--sp-5);
-}
-.v2 .loc__addr,
-.v2 .loc__addr:not(#x) { margin: 0; }
-.v2 .loc__city,
-.v2 .loc__city:not(#x) { margin: 0; }
 
 
-/* ---- 15. THE TEXT STOPS MOVING; ONLY THE PICTURE DOES ---------------
-   Alex's correction, and it retires the accordion. Widening a column
-   moved every column to its right — the addresses slid sideways every
-   time the pointer crossed the register, which is a lot of movement to
-   spend on showing one photograph.
-
-   So the columns are FIXED, all five, and the picture has a home of its
-   own: one frame at the right of the row, in the space the five columns
-   do not use. Every .loc__shot is positioned against the LIST rather
-   than against its own column, so all five stack in that one frame and
-   only the live one is slid in. Nothing is covered, because the frame
-   begins after the last column ends; nothing moves, because the only
-   thing that animates is the picture's own transform.
-
-   The underline is now the whole indicator for which location is open,
-   which is the right amount of work for it: the photograph says the same
-   thing louder, and the two agree. */
-.v2 .locs__list { position: relative; }
-
-.v2 .loc,
-.v2 .loc:first-child,
-.v2 .locs__list:hover .loc:first-child,
-.v2 .locs__list .loc:hover,
-.v2 .locs__list:hover .loc:first-child:hover,
-.v2 .loc:focus-within {
-  flex: 0 0 clamp(11rem, 13.9vw, 12.5rem);
-  transition: border-color var(--dur-3) var(--acc-ease);
-}
-
-/* One frame, at the right of the row, in the width the columns leave. */
-.v2 .loc__shot {
-  position: absolute;
-  inset-block: var(--sp-5);
-  inset-inline: auto 0;
-  inline-size: calc((var(--locs-row-h) - 2 * var(--sp-5)) * 1.5);
-  border-radius: var(--r-panel);
-  overflow: hidden;
-}
-.v2 .loc__shot img {
-  position: static;
-  inline-size: 100%;
-  block-size: 100%;
-}
-/* The slide moves the frame, not the picture inside it, now that the
-   frame is the thing with a fixed home. */
-.v2 .loc__shot {
-  translate: calc(100% + var(--sp-6)) 0;
-  opacity: 0;
-  transition: translate var(--acc-dur) var(--acc-ease),
-              opacity var(--dur-3) var(--acc-ease);
-}
-.v2 .loc__shot img {
-  translate: none;
-  opacity: 1;
-  transition: none;
-}
-
-.v2 .loc:first-child .loc__shot { translate: 0 0; opacity: 1; }
-@media (hover: hover) {
-  .v2 .locs__list:hover .loc:first-child .loc__shot {
-    translate: calc(100% + var(--sp-6)) 0;
-    opacity: 0;
-  }
-  .v2 .locs__list .loc:hover .loc__shot,
-  .v2 .locs__list:hover .loc:first-child:hover .loc__shot { translate: 0 0; opacity: 1; }
-}
-.v2 .loc:focus-within .loc__shot { translate: 0 0; opacity: 1; }
-
-@media (hover: none) {
-  /* No pointer: the first one's picture stands, and the rest stay out of
-     the frame rather than stacking in it. */
-  .v2 .loc__shot { translate: calc(100% + var(--sp-6)) 0; opacity: 0; }
-  .v2 .loc:first-child .loc__shot { translate: 0 0; opacity: 1; }
-}
-
-@media (max-width: 900px) {
-  /* Stacked, each row carries its own picture again — there is no shared
-     frame to the right of anything. */
-  .v2 .loc__shot {
-    inset-inline: auto var(--sp-4);
-    inline-size: clamp(110px, 26vw, 170px);
-    translate: 0 0;
-    opacity: 1;
-  }
-  .v2 .loc,
-  .v2 .loc:first-child { flex: 1 1 auto; }
-}
 
 
-/* ---- 16. CITY AT THE TOP, THE REST AT THE FOOT ----------------------
-   Alex marked the zones: the city on the row's top line, a deliberate
-   emptiness under it, and the address and the phone together on the
-   bottom line. Not three things spread evenly — two groups, one at each
-   end, with the air between them.
-
-   space-between on three children gave three equal gaps, which is the
-   thing that reads as evenly distributed rather than as composed. An
-   auto margin above the address is the whole fix: it takes all the free
-   space, so the city keeps the top and the address takes the phone down
-   with it.
-
-   The pair at the foot keeps its own small interval, because they are
-   one group — the internal gap has to stay smaller than the gap to
-   anything outside it, which here is the entire empty middle. */
-.v2 .loc__body { justify-content: flex-start; }
-.v2 .loc__addr,
-.v2 .loc__addr:not(#x) { margin-block-start: auto; margin-block-end: 0; }
-.v2 .loc__tel,
-.v2 .loc__soon { margin-block-start: var(--sp-4); }
 
 
-/* ---- 17. TWO THINGS THE FRAME MOVE LEFT BEHIND ----------------------
-   Measured, not spotted: the plate rendered at x = -6, hanging off the
-   left of the register.
-
-   1. THE CONTAINING BLOCK. .loc still carried position: relative from
-      when the picture lived inside it, so `inset-inline-end: 0` was
-      still resolving against a 200px column rather than against the
-      1310px list — a 264px plate pinned to the right of a 200px box
-      starts 64px to its left. The list is the containing block now, so
-      .loc goes static, and its overflow with it: clipping was there to
-      hold a plate that is no longer inside it and would now cut the
-      plate off entirely.
-
-   2. THE DOUBLE PADDING. .loc kept the register's original 37px block
-      padding and .loc__body added 24 of its own, so the city sat 63px
-      below the row's top line and the phone finished 49px above its
-      bottom — the text was distributed inside a box two insets smaller
-      than the one it looked like it was in. The body owns that spacing
-      now; the column contributes none. */
-.v2 .loc {
-  position: static;
-  overflow: visible;
-  padding-block: 0;
-}
 
 
-/* ---- 18. THE FRAME IS A SIBLING, AND :has() DECIDES WHAT IS IN IT ---
-   Measured: with the plate inside a column, it rendered at the column's
-   right edge minus its own width — x = -64 for the first one — however
-   the column's `position` was set. A picture that lives inside a 200px
-   box can only ever be positioned against that box, and this one has to
-   sit at the right of the whole register.
-
-   So the five plates are siblings of the list now, stacked in one frame
-   in the width the columns leave, and :has() on the stage says which is
-   showing. No JavaScript, and the columns keep no responsibility for
-   something that is not theirs.
-
-   The text does not move, the frame does not move, and the only thing
-   that animates is which picture is in it. */
-/* --locs-row-h lives on the STAGE, not on the list: the frame is the
-   list's sibling and would not have inherited it, which is why it
-   computed to a 0px-wide box on the first pass. One place, both
-   consumers. */
-.v2 .locs__stage { position: relative; --locs-row-h: 14rem; }
-
-.v2 .locs__frame {
-  position: absolute;
-  inset-block: var(--sp-5);
-  inset-inline-end: 0;
-  inline-size: calc((var(--locs-row-h) - 2 * var(--sp-5)) * 1.5);
-  pointer-events: none;
-  /* THE FRAME CLIPS. Parked one width to the right, five plates were
-     reaching 296px past the container and putting a horizontal scrollbar
-     on the whole page — measured, not guessed. Clipped, they are simply
-     not there until they slide in, and 100% is now enough to be gone. */
-  overflow: hidden;
-  border-radius: var(--r-panel);
-}
-.v2 .locs__plate {
-  position: absolute;
-  inset: 0;
-  translate: 100% 0;
-  opacity: 0;
-  transition: translate var(--acc-dur) var(--acc-ease),
-              opacity var(--dur-3) var(--acc-ease);
-}
-.v2 .locs__plate img {
-  inline-size: 100%;
-  block-size: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  /* Graded to the page: the register is a quiet closing chapter and a
-     full-strength photograph would be the loudest thing on the screen. */
-  filter: saturate(0.68) brightness(0.74) contrast(1.04);
-}
-
-/* The first is in the frame on arrival. */
-.v2 .locs__plate:first-child { translate: 0 0; opacity: 1; }
-
-@media (hover: hover) {
-  .v2 .locs__stage:has(.locs__list:hover) .locs__plate { translate: 100% 0; opacity: 0; }
-  .v2 .locs__stage:has(.loc:nth-child(1):hover) .locs__plate:nth-child(1),
-  .v2 .locs__stage:has(.loc:nth-child(2):hover) .locs__plate:nth-child(2),
-  .v2 .locs__stage:has(.loc:nth-child(3):hover) .locs__plate:nth-child(3),
-  .v2 .locs__stage:has(.loc:nth-child(4):hover) .locs__plate:nth-child(4),
-  .v2 .locs__stage:has(.loc:nth-child(5):hover) .locs__plate:nth-child(5) { translate: 0 0; opacity: 1; }
-}
-/* Keyboard gets the same. */
-.v2 .locs__stage:has(.loc:nth-child(1):focus-within) .locs__plate:nth-child(1),
-.v2 .locs__stage:has(.loc:nth-child(2):focus-within) .locs__plate:nth-child(2),
-.v2 .locs__stage:has(.loc:nth-child(3):focus-within) .locs__plate:nth-child(3),
-.v2 .locs__stage:has(.loc:nth-child(4):focus-within) .locs__plate:nth-child(4),
-.v2 .locs__stage:has(.loc:nth-child(5):focus-within) .locs__plate:nth-child(5) { translate: 0 0; opacity: 1; }
-
-@media (prefers-reduced-motion: reduce) { .v2 .locs__plate { transition: none; } }
-
-@media (max-width: 900px) {
-  /* Stacked, there is no spare width beside the register, so the frame
-     goes with it. */
-  .v2 .locs__frame { display: none; }
-}
 
 
-/* ---- 19. BESIDE THE TEXT, AND BOTH LINES TRAVEL ---------------------
-   Alex's final shape, and it needs the two halves to move together.
-
-   THE PICTURE SITS BESIDE THE TEXT AGAIN, not parked at the far right.
-   It stays a single frame — the plates never went back inside the
-   columns, because a plate inside a 200px column can only be positioned
-   against that column — but the FRAME now moves to whichever location is
-   open, landing one gap past that column's text. So the picture is the
-   open column's picture, and it gets there by sliding, which is the
-   motion that was wanted in the first place.
-
-   THE UNDERLINE TRAVELS TOO, rather than switching off under one column
-   and on under the next. One bar, one width, one position, transitioned
-   between five stops — a line that moves reads as the same line, and a
-   line that blinks reads as five.
-
-   Both are driven off the same two numbers, so they cannot disagree:
-   --loc-c is a closed column, --loc-o is the open one, and everything
-   else is arithmetic on the index. Change a column width and the frame
-   and the rule both follow.
-
-   The columns widen again to make the room — that is the layout yield
-   already recorded, and it is what "beside" costs. */
-.v2 .locs__stage {
-  --loc-c: 12.5rem;                              /* a closed column      */
-  --loc-text: 10.5rem;                           /* the fixed measure    */
-  --loc-plate: calc((var(--locs-row-h) - 2 * var(--sp-5)) * 1.5);
-  --loc-o: calc(var(--sp-4) + var(--loc-text) + var(--sp-6) + var(--loc-plate) + var(--sp-4));
-  --loc-i: 0;                                    /* which one is open    */
-}
-
-/* CLOSED BY DEFAULT, EXCEPT THE FIRST. My previous pass set both in one
-   grouped selector and closed the first one with them — so at rest the
-   frame was drawn beside a 200px column and its 264px picture ran
-   straight across the two locations to its right. The open column has to
-   be wide enough to CONTAIN the picture; that is the whole reason
-   --loc-o is derived from --loc-plate rather than chosen. */
-.v2 .loc { flex: 0 0 var(--loc-c); }
-.v2 .loc:first-child { flex: 0 0 var(--loc-o); }
-.v2 .locs__list .loc:hover,
-.v2 .loc:focus-within { flex: 0 0 var(--loc-o); }
-@media (hover: hover) {
-  .v2 .locs__list:hover .loc:first-child { flex: 0 0 var(--loc-c); }
-  .v2 .locs__list .loc:hover { flex: 0 0 var(--loc-o); }
-}
-.v2 .loc {
-  transition: flex-basis var(--acc-dur) var(--acc-ease),
-              border-color var(--dur-3) var(--acc-ease);
-}
-
-/* The frame rides to the open column and shows only its picture. */
-.v2 .locs__frame {
-  inset-inline: calc(var(--loc-i) * var(--loc-c) + var(--sp-4) + var(--loc-text) + var(--sp-6)) auto;
-  inline-size: var(--loc-plate);
-  transition: inset-inline-start var(--acc-dur) var(--acc-ease);
-}
-
-/* The rule under the open column, as one bar that moves. */
-.v2 .locs__stage::after {
-  content: "";
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline-start: calc(var(--loc-i) * var(--loc-c));
-  inline-size: var(--loc-o);
-  block-size: 2px;
-  background: var(--ink);
-  transition: inset-inline-start var(--acc-dur) var(--acc-ease);
-  pointer-events: none;
-}
-/* The per-column border goes: the travelling bar is the indicator now. */
-.v2 .loc,
-.v2 .loc:first-child,
-.v2 .locs__list .loc:hover,
-.v2 .loc:focus-within { border-block-end-color: transparent; }
-
-@media (hover: hover) {
-  .v2 .locs__stage:has(.loc:nth-child(2):hover) { --loc-i: 1; }
-  .v2 .locs__stage:has(.loc:nth-child(3):hover) { --loc-i: 2; }
-  .v2 .locs__stage:has(.loc:nth-child(4):hover) { --loc-i: 3; }
-  .v2 .locs__stage:has(.loc:nth-child(5):hover) { --loc-i: 4; }
-}
-.v2 .locs__stage:has(.loc:nth-child(2):focus-within) { --loc-i: 1; }
-.v2 .locs__stage:has(.loc:nth-child(3):focus-within) { --loc-i: 2; }
-.v2 .locs__stage:has(.loc:nth-child(4):focus-within) { --loc-i: 3; }
-.v2 .locs__stage:has(.loc:nth-child(5):focus-within) { --loc-i: 4; }
-
-/* The plates no longer slide — the frame carries them — so the live one
-   is simply the one that is up. */
-.v2 .locs__plate { translate: none; transition: opacity var(--dur-3) var(--acc-ease); }
-.v2 .locs__stage:has(.locs__list:hover) .locs__plate { opacity: 0; }
-
-@media (prefers-reduced-motion: reduce) {
-  .v2 .locs__frame,
-  .v2 .locs__stage::after { transition: none; }
-}
-@media (max-width: 900px) {
-  .v2 .locs__stage::after { display: none; }
-  .v2 .loc,
-  .v2 .loc:first-child { flex: 1 1 auto; border-block-end: 1px solid var(--rule); }
-}
 
 
-/* ---- 20. THE OPENING IS SMOOTH ---------------------------------------
-   Three things were moving on three different mechanisms, and it showed.
 
-   THE FRAME AND THE RULE MOVE ON translate NOW, not on inset-inline-start.
-   An inset is a layout property: every frame of that transition is a
-   reflow, scheduled on the main thread, and it arrives when it arrives.
-   A translate is a compositor transform — it cannot stutter, and it
-   cannot be late. Same distance, same curve, none of the cost.
-
-   ONE DURATION AND ONE CURVE FOR ALL OF IT. The column's width, the
-   frame's travel, the rule's travel and the picture's crossfade are now
-   the same 760ms on the same ease, so nothing arrives before anything
-   else — which is what was reading as a jump: the parts were correct
-   individually and out of step together.
-
-   The crossfade is deliberately shorter than the travel and starts with
-   it, so the new picture is already the one you see by the time the
-   frame lands, rather than resolving after it has stopped. */
-.v2 .locs__frame {
-  inset-inline-start: 0;
-  translate: calc(var(--loc-i) * var(--loc-c) + var(--sp-4) + var(--loc-text) + var(--sp-6)) 0;
-  transition: translate var(--acc-dur) var(--acc-ease);
-  will-change: translate;
-}
-.v2 .locs__stage::after {
-  inset-inline-start: 0;
-  translate: calc(var(--loc-i) * var(--loc-c)) 0;
-  transition: translate var(--acc-dur) var(--acc-ease);
-  will-change: translate;
-}
-.v2 .locs__plate {
-  transition: opacity calc(var(--acc-dur) * 0.55) var(--acc-ease);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .v2 .locs__frame,
-  .v2 .locs__stage::after,
-  .v2 .locs__plate,
-  .v2 .loc { transition: none; }
-}
 
 /* ---- 21/22 REMOVED — the marque band ---------------------------------
    Built on a misread of the brief: Alex was pointing at three ANIMATED
@@ -1132,3 +523,192 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    idea is ever wanted: see "A marque band under the hero" and "Cars in
    the marque band".
    ------------------------------------------------------------------- */
+
+
+/* ============================================================
+   THE LOCATIONS PANEL ACCORDION
+   ============================================================
+   The mechanic from the Vegas reference Alex pointed at, read off its
+   own stylesheet: equal panels on flex-grow, one carrying .is-open,
+   and the row collapsing that one the moment the pointer enters so the
+   hovered panel can take its place.
+
+     .loc            flex: 1 1 0            equal base
+     .loc.is-open    flex-grow: 2.4         the default-open one
+     :hover .loc     flex-grow: 1           the row gives way
+     :hover .loc:hover flex-grow: 2.4       and the pointer decides
+
+   THE MECHANIC IS BORROWED, THE STYLING IS NOT — which is the line
+   CLAUDE.md's AAN ban actually draws. The type is this page's, the
+   radius is --r-panel, the spacing is off --sp-*, the scrim is built
+   from --bg-rgb, and the accent stays rationed. Nothing of that page's
+   component kit comes across.
+
+   This replaces the previous construction outright rather than tuning
+   it: fixed columns with a plate travelling beside them was a different
+   idea, and two ideas layered on one section is how a stylesheet stops
+   being readable.
+
+   RECORDED YIELD — motion-taste, transform and opacity only. flex-grow
+   is layout, and there is no transform that widens one panel by taking
+   width from four others. Five items, one row.
+   ============================================================ */
+.v2 .locs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: clamp(var(--sp-3), 1vw, var(--sp-4));
+  border: 0;
+}
+
+.v2 .loc {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  border-radius: var(--r-panel);
+  block-size: clamp(20rem, 28vw, 28rem);
+  transition: flex-grow var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1);
+}
+.v2 .loc.is-open { flex-grow: 2.4; }
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc { flex-grow: 1; }
+  .v2 .locs__list:hover .loc:hover { flex-grow: 2.4; }
+}
+.v2 .loc:focus-within { flex-grow: 2.4; }
+
+/* ---- the photograph ------------------------------------------------- */
+.v2 .loc__media { position: absolute; inset: 0; display: block; }
+.v2 .loc__media img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* Graded down: five photographs at full strength directly above the
+     footer would be the loudest thing on a page that has spent nine
+     chapters being quiet. */
+  filter: saturate(0.72) brightness(0.72) contrast(1.04);
+  transition: scale var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              filter var(--dur-3) var(--ease-out);
+}
+@media (hover: hover) {
+  .v2 .loc:hover .loc__media img { scale: 1.05; filter: saturate(0.8) brightness(0.82) contrast(1.04); }
+}
+.v2 .loc.is-open .loc__media img { filter: saturate(0.8) brightness(0.82) contrast(1.04); }
+
+/* The scrim is always up, because the name is always on the picture —
+   this is the "overlay" variant, and text that appears over a photograph
+   only when you hover it is text you cannot read at rest. */
+.v2 .loc__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgb(var(--bg-rgb) / 0.92) 0%,
+    rgb(var(--bg-rgb) / 0.62) 34%,
+    rgb(var(--bg-rgb) / 0.14) 66%,
+    rgb(var(--bg-rgb) / 0.06) 100%);
+}
+
+/* ---- the caption, pinned to the foot of its own panel ---------------- */
+.v2 .loc__info {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+}
+.v2 .loc__city {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-display);
+  /* SIZED FOR THE CLOSED PANEL, not the open one. At 22px "Newport
+     Beach" is 160px against the 144 a 196px panel leaves after its
+     padding, so four of the five names were being clipped by their own
+     edge. 17px closed clears it with room; the open panel — which has
+     470px — takes the larger size, and the name grows with the panel
+     rather than being the reason it has to be wide. */
+  font-size: clamp(1rem, 1.15vw, 1.0625rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: font-size var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1);
+}
+.v2 .loc.is-open .loc__city { font-size: clamp(1.125rem, 1.5vw, 1.375rem); }
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc .loc__city { font-size: clamp(1rem, 1.15vw, 1.0625rem); }
+  .v2 .locs__list:hover .loc:hover .loc__city { font-size: clamp(1.125rem, 1.5vw, 1.375rem); }
+}
+.v2 .loc:focus-within .loc__city { font-size: clamp(1.125rem, 1.5vw, 1.375rem); }
+.v2 .loc__pin { flex: none; color: var(--accent); }
+
+/* The address and the number only make sense on the panel that is open —
+   a 200px-wide panel cannot hold a street, and truncating one is worse
+   than not showing it. They fade with the panel rather than being
+   clipped by it. */
+/* THE ESCALATION IS SPLIT ON PURPOSE. main.css sets this margin through
+   a :not(#x) rule, so beating it needs the same weight — but carrying
+   OPACITY at that weight put it out of reach of .is-open and :hover,
+   which are ordinary class selectors, and the address never appeared on
+   any panel. The margin is escalated; everything that changes with state
+   is not. This file's own trap, caught by measuring the rendered
+   opacity rather than trusting the cascade. */
+.v2 .loc__addr:not(#x) { margin: 0; }
+.v2 .loc__addr {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+.v2 .loc__tel {
+  align-self: flex-start;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out),
+              color var(--dur-2) var(--ease-out);
+}
+.v2 .loc__tel:hover { color: var(--accent); }
+
+.v2 .loc.is-open .loc__addr,
+.v2 .loc.is-open .loc__tel { opacity: 1; }
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc .loc__addr,
+  .v2 .locs__list:hover .loc .loc__tel { opacity: 0; }
+  .v2 .locs__list:hover .loc:hover .loc__addr,
+  .v2 .locs__list:hover .loc:hover .loc__tel { opacity: 1; }
+}
+.v2 .loc:focus-within .loc__addr,
+.v2 .loc:focus-within .loc__tel { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .loc, .v2 .loc__media img, .v2 .loc__addr, .v2 .loc__tel { transition: none; }
+}
+
+/* Stacked, an accordion has nothing to trade width with: five panels
+   become five rows and every one is open. */
+@media (max-width: 900px) {
+  .v2 .locs__list { flex-direction: column; }
+  .v2 .loc,
+  .v2 .loc.is-open,
+  .v2 .locs__list:hover .loc { flex-grow: 1; block-size: clamp(13rem, 42vw, 18rem); }
+  .v2 .loc .loc__addr,
+  .v2 .loc .loc__tel { opacity: 1; }
+}

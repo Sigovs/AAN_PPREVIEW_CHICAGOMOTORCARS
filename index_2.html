@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=34">
+<link rel="stylesheet" href="assets/css/v2.css?v=37">
 </head>
 <body class="v2">
 
@@ -1803,98 +1803,78 @@
         </h2>
       </div>
       <!-- ============================================================
-           PLACEHOLDER IMAGERY — READ THIS BEFORE SHOWING ANYONE
+           PANEL ACCORDION — the mechanic from Alex's Vegas reference
            ============================================================
-           These five frames are NOT these five showrooms. They are real
-           CMC photographs borrowed out of assets/img/instagram/ so the
-           hover mechanic can be built and judged; not one of them was
-           taken at the location it now sits under.
+           Five photographs in a row, one open. Hovering the row collapses
+           the default-open one and expands whichever is under the
+           pointer; the text sits ON its own panel, at the foot, over a
+           scrim that is always up.
 
-           That matters more here than anywhere else on the page. A
-           photograph under a city name reads as THAT city's showroom,
-           and four of these are turntable shots that could have been
-           taken anywhere. Left as they are they would be a false
-           statement about a real address.
+           THE MECHANIC IS BORROWED, THE STYLING IS NOT. Everything here
+           is built from this page's own tokens, type and radii — the ban
+           in CLAUDE.md is on AAN's component kit, not on a layout idea
+           Alex is pointing at.
 
-           They exist to answer one question — does the accordion feel
-           right — and they are replaced by each showroom's own interior
-           before this is shown outside the studio.
+           PLACEHOLDER IMAGERY, AND IT MATTERS MORE IN THIS SHAPE THAN IT
+           DID BEFORE. These are real CMC frames borrowed from the
+           Instagram folder, and not one was taken at the location it now
+           sits under. As a small plate beside an address that was
+           already wrong; filling a panel with the city's name written
+           across it, it is a photograph of a showroom claiming to be
+           that showroom. Replace before anyone outside sees it.
            ============================================================ -->
-      <!-- ONE FRAME, FIVE PICTURES. The plates are siblings of the list
-           rather than children of the columns, because a picture that
-           lives inside a 200px column can only ever be positioned
-           against that column — and this one has to sit at the right of
-           the whole register, in the width the five columns leave. Which
-           one is showing is decided by :has() on the stage. -->
-      <div class="locs__stage">
       <ul class="locs__list">
-          <li class="loc">
-            <div class="loc__body">
-              <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>West Chicago</span></h3>
-              <p class="loc__addr">27W110 North Avenue<br>West Chicago, IL 60185</p>
+          <li class="loc is-open">
+            <span class="loc__media">
+              <img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="" width="640" height="427" loading="lazy" decoding="async">
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>West Chicago</span></span>
+              <span class="loc__addr">27W110 North Avenue, West Chicago, IL 60185</span>
               <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
-            </div>
+            </span>
           </li>
           <li class="loc">
-            <div class="loc__body">
-              <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Naperville</span></h3>
-              <p class="loc__addr">2104 Ferry Road<br>Naperville, IL 60563</p>
+            <span class="loc__media">
+              <img src="assets/img/instagram/cmc-ig-lamborghini-countach-showroom.jpg" alt="" width="640" height="427" loading="lazy" decoding="async">
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Naperville</span></span>
+              <span class="loc__addr">2104 Ferry Road, Naperville, IL 60563</span>
               <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
-            </div>
+            </span>
           </li>
           <li class="loc">
-            <div class="loc__body">
-              <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Rock Hill</span></h3>
-              <p class="loc__addr">727 Marine Drive<br>Rock Hill, SC 29730</p>
+            <span class="loc__media">
+              <img src="assets/img/instagram/cmc-ig-audi-r8-v10.jpg" alt="" width="640" height="427" loading="lazy" decoding="async">
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Rock Hill</span></span>
+              <span class="loc__addr">727 Marine Drive, Rock Hill, SC 29730</span>
               <a class="loc__tel" href="tel:+18038917788">803-891-7788</a>
-            </div>
+            </span>
           </li>
           <li class="loc">
-            <div class="loc__body">
-              <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Tonganoxie</span></h3>
-              <p class="loc__addr">1650 Commerce Ave<br>Tonganoxie, KS 66086</p>
+            <span class="loc__media">
+              <img src="assets/img/instagram/cmc-ig-mercedes-s65-amg.jpg" alt="" width="640" height="427" loading="lazy" decoding="async">
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Tonganoxie</span></span>
+              <span class="loc__addr">1650 Commerce Ave, Tonganoxie, KS 66086</span>
               <a class="loc__tel" href="tel:+19138459633">913-845-9633</a>
-            </div>
+            </span>
           </li>
-          <!-- SIMULATED, 2026-08-17. Newport Beach is a real fifth
-               showroom on the way — Alex's information — and everything
-               about it here that is NOT the city and the state is
-               deliberately absent rather than invented. A street address
-               and a phone number for a dealership that has not opened is
-               a false statement about a real business, and it is the
-               kind that sends someone to a door that is not there.
-
-               "Opening soon" is also the honest design answer: a
-               location you cannot drive to yet should not show an
-               address as though you can. The pin drops to --ink-3 so
-               the row reads as pending against four live ones.
-
-               THE NUMBER IS REAL AND IT IS NOT INVENTED. 630-221-1800 is
-               CMC's main line — West Chicago and Naperville already
-               share it, so a third row carrying it is how their own data
-               already works, and it is the number that actually answers
-               a question about Newport Beach today. It also lets the
-               phone sit on the same line as the other four, which is
-               what the row was missing.
-
-               REPLACE with the real address and number the day they
-               have them, and take .loc--soon off. -->
-          <li class="loc loc--soon">
-            <div class="loc__body">
-              <h3 class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Newport Beach</span></h3>
-              <p class="loc__addr">California<br><span class="loc__soon">Opening soon</span></p>
+          <li class="loc">
+            <span class="loc__media">
+              <img src="assets/img/instagram/cmc-ig-porsche-911-gt2-rs.jpg" alt="" width="640" height="427" loading="lazy" decoding="async">
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Newport Beach</span></span>
+              <span class="loc__addr">California — opening soon</span>
               <a class="loc__tel" href="tel:+16302211800">630-221-1800</a>
-            </div>
+            </span>
           </li>
       </ul>
-        <div class="locs__frame" aria-hidden="true">
-          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
-          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-lamborghini-countach-showroom.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
-          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-audi-r8-v10.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
-          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-mercedes-s65-amg.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
-          <span class="locs__plate"><img src="assets/img/instagram/cmc-ig-porsche-911-gt2-rs.jpg" alt="" width="640" height="427" loading="lazy" decoding="async"></span>
-        </div>
-      </div>
     </div>
   </section>
 
