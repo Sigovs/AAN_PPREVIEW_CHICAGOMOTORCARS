@@ -171,10 +171,15 @@
 /* The record being read. The edge and the lift still carry the state, so
    nothing here depends on hue alone — which is the point: this cue was
    blue-only and it did not have to be. */
+/* Dimmed, on Alex's call. 0.42 was doing the job of a selection ring on
+   a page whose selections are made of one hairline going slightly
+   brighter than its neighbours. 0.24 against the resting 0.10 is still a
+   clear step — the eye reads the RATIO, not the absolute — and the tint
+   and the light underneath carry the rest of the state. */
 .v2 .rec.is-active,
 .v2 .fin__rec.is-lead {
-  border-color: rgba(240, 237, 231, 0.42);
-  background: rgba(244, 242, 239, 0.05);
+  border-color: rgba(240, 237, 231, 0.24);
+  background: rgba(244, 242, 239, 0.04);
 }
 .v2 .rec.is-active .rec__pill {
   background: rgba(240, 237, 231, 0.10);
@@ -186,11 +191,14 @@
 }
 
 /* The light under it, and the same light under the big figures. */
+/* Dimmed too. The geometry and the travel are unchanged; only the
+   intensity comes down, so it still reads as the record's edge being lit
+   rather than as a light of its own sitting behind the row. */
 .v2 .rec::before {
   background: radial-gradient(52% 100% at 50% 100%,
-    rgba(244, 242, 239, 0.44) 0%,
-    rgba(196, 192, 185, 0.19) 34%,
-    rgba(150, 146, 140, 0.07) 58%,
+    rgba(244, 242, 239, 0.26) 0%,
+    rgba(196, 192, 185, 0.11) 34%,
+    rgba(150, 146, 140, 0.04) 58%,
     transparent 78%);
 }
 .v2 .stat__fig::after {
