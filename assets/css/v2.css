@@ -1195,3 +1195,60 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
                                  translate var(--rv-cta) var(--ease-out); }
 .reveal-armed [data-reveal].is-revealed .marques__list { opacity: 1; translate: 0 0; }
 html.reveal-armed [data-reveal]:not(.is-revealed) .marques__list { opacity: 0; translate: 0 10px; }
+
+
+/* ---- 22. THE MARQUE BAND GETS ITS CARS ------------------------------
+   Hover a marque and its car stands above the row — cut out, on the
+   ground, no frame. That is this page's own way of showing a car and the
+   most expensive-looking thing it owns.
+
+   TWO THINGS TO SAY OUT LOUD.
+
+   1. THE LIST IS CMC'S OWN NOW. My first pass had Bentley and Aston
+      Martin in it, which I put there because they sounded right — CMC
+      publishes no evidence of either. These eight are the make list
+      straight off their own inventory finder.
+
+   2. ONLY FOUR HAVE A CAR, and they are the same four the Featured
+      Inventory shows directly below. The repo holds exactly four
+      cut-outs. So this band either repeats the section under it or
+      leaves half its marques without a picture, and neither is a
+      decision — both are the asset folder. One cut-out per marque from
+      CMC settles it; nothing here can be generated, because a made-up
+      car under a real dealer's marque is a claim about stock.
+
+   Shown so Alex can judge the device with the four that exist. */
+.v2 .marques { padding-block: 0 clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
+.v2 .marques__inner { position: relative; }
+
+.v2 .marques__stage {
+  position: relative;
+  block-size: clamp(8rem, 13vw, 12rem);
+  margin-block-end: clamp(var(--sp-5), 2vw, var(--sp-6));
+}
+.v2 .marque__car {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  inline-size: clamp(18rem, 30vw, 30rem);
+  opacity: 0;
+  translate: 0 8px;
+  transition: opacity var(--dur-3) var(--ease-out),
+              translate var(--dur-4) var(--ease-out);
+}
+.v2 .marque__car img { inline-size: 100%; block-size: auto; display: block; }
+
+/* The first marque that HAS a car stands on arrival. */
+.v2 .marque__car:first-child { opacity: 1; translate: 0 0; }
+
+@media (hover: hover) {
+  .v2 .marques__inner:has(.marques__list:hover) .marque__car { opacity: 0; translate: 0 8px; }
+  .v2 .marques__inner:has(.marque:nth-child(1) .marque__link:hover) .marque__car:nth-child(1),
+  .v2 .marques__inner:has(.marque:nth-child(2) .marque__link:hover) .marque__car:nth-child(2),
+  .v2 .marques__inner:has(.marque:nth-child(4) .marque__link:hover) .marque__car:nth-child(4),
+  .v2 .marques__inner:has(.marque:nth-child(6) .marque__link:hover) .marque__car:nth-child(6) {
+    opacity: 1; translate: 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .v2 .marque__car { transition: none; } }
+@media (max-width: 760px) { .v2 .marques__stage { display: none; } }

@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=32">
+<link rel="stylesheet" href="assets/css/v2.css?v=33">
 </head>
 <body class="v2">
 
@@ -713,20 +713,33 @@
        Inventory search uses. So a name is a route, not a label.
        ============================================================ -->
   <section class="marques" data-reveal aria-labelledby="marques-title">
-    <div class="shell">
+    <div class="shell marques__inner">
+      <!-- FOUR OF THE EIGHT HAVE A CAR, and that is the honest state of
+           the asset folder rather than a design decision — see the note
+           in v2.css. The empty spans hold the others' place so the
+           mechanism is uniform. -->
+      <div class="marques__stage" aria-hidden="true">
+          <span class="marque__car"><img src="assets/img/inventory/cutout-ferrari-812-gts.png" alt="" width="1400" height="580" loading="lazy" decoding="async"></span>
+          <span class="marque__car"><img src="assets/img/inventory/cutout-aventador-svj-roadster.png" alt="" width="1400" height="580" loading="lazy" decoding="async"></span>
+          <span class="marque__car"></span>
+          <span class="marque__car"><img src="assets/img/inventory/cutout-porsche-gt2rs.png" alt="" width="1400" height="580" loading="lazy" decoding="async"></span>
+          <span class="marque__car"></span>
+          <span class="marque__car"><img src="assets/img/inventory/cutout-koenigsegg-regera.png" alt="" width="1400" height="580" loading="lazy" decoding="async"></span>
+          <span class="marque__car"></span>
+          <span class="marque__car"></span>
+      </div>
+
       <p class="micro marques__eyebrow">What we keep</p>
       <h2 class="marques__title u-visually-hidden" id="marques-title">Marques on the floor</h2>
       <ul class="marques__list">
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Ferrari">Ferrari</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Lamborghini">Lamborghini</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=McLaren">McLaren</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Porsche">Porsche</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Rolls-Royce">Rolls-Royce</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Bentley">Bentley</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Mercedes">Mercedes-AMG</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Aston+Martin">Aston Martin</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Koenigsegg">Koenigsegg</a></li>
-        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Karma">Karma</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Ferrari">Ferrari</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Lamborghini">Lamborghini</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=McLaren">McLaren</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Porsche">Porsche</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Rolls-Royce">Rolls-Royce</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Koenigsegg">Koenigsegg</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Rimac">Rimac</a></li>
+          <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Dodge">Dodge</a></li>
       </ul>
     </div>
   </section>
