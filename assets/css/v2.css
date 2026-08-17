@@ -1,0 +1,94 @@
+/* ============================================================
+   v2.css — WHAT IS DIFFERENT ON index_2.html
+   ============================================================
+   Loaded by index_2.html only, last, after tokens.css and main.css.
+   index.html does not load it, so nothing in here can reach the
+   approved page.
+
+   THE ANSWER TO "do we need a second design system": no, and we should
+   not have one. The scale lives in custom properties, and a custom
+   property can be redefined for one subtree. `body.v2` is that subtree,
+   so redefining a token here changes it for every consumer inside
+   version two and for nothing else. One line instead of a second
+   10,000-line stylesheet that starts drifting the day it is copied.
+
+   Verified: html only sets -webkit-text-size-adjust; every token-driven
+   rule in main.css hangs off body or below, so a .v2 override reaches
+   all of them.
+
+   TWO RULES FOR WRITING IN HERE
+   1. If a size is a token, change the TOKEN in the block below. Every
+      consumer follows in one move, which is the whole reason the tokens
+      exist.
+   2. If a size is hard-coded in main.css — several display sizes are
+      their own clamp() — override that component under `.v2` in the
+      second block. Never edit main.css for a v2-only change; it is one
+      file serving both pages.
+
+   IF v2 IS APPROVED: the first block is promoted into tokens.css
+   verbatim, the second block's rules are folded into their own
+   components, this file is deleted and index_2.html becomes index.html.
+   Keeping the deltas in one small readable file is what makes that a
+   morning's work rather than a diff archaeology exercise.
+   ============================================================ */
+
+
+/* ---- 1. THE SCALE ---------------------------------------------------
+   The tokens as they stand today, listed so the available handles are
+   visible without opening tokens.css. Uncomment and change what moves;
+   leave the rest alone rather than restating it, so this file reads as
+   a list of DIFFERENCES and not as a second copy of the system.
+
+   TYPE
+     --t-count    clamp(5rem, 12vw, 12rem)          the big figures
+     --t-claim    clamp(2.75rem, 5.6vw, 5.25rem)    hero
+     --t-h1       clamp(1.625rem, 3.2vw, 3.25rem)   section headlines
+     --t-lede     clamp(1rem, 1.1vw, 1.0625rem)
+     --t-body     1rem
+     --t-micro    0.875rem                          the 14px floor
+     --t-eyebrow  0.9375rem
+
+   SPACE      4 8 12 16 24 32 48 64 96 128 192 256
+     --sp-1 … --sp-12
+
+   MEASURE
+     --container  1440px
+     --shell      1580px
+     --maxw       1700px
+     --gutter     clamp(24px, 4vw, 64px)
+*/
+.v2 {
+  /* nothing overridden yet — the client's numbers go here */
+}
+
+
+/* ---- 2. THE SIZES THAT ARE NOT TOKENS -------------------------------
+   Some display sizes in main.css carry their own clamp() rather than a
+   token — the section headlines mostly. They cannot be moved from the
+   block above, so they get a scoped rule here instead.
+
+   Written as `.v2 .thing`, always. A bare `.thing` in this file would
+   still only load on index_2, but the class is what makes the intent
+   readable at a glance and what survives the file being merged later.
+
+   AND THAT IS MOST OF THEM. Surveyed at 1440 by overriding the tokens
+   and watching what moved: --t-lede is the ONLY one the sections
+   actually follow. Every display size on the page carries its own
+   clamp():
+
+     .brk__title      60px      .fin__title      63px
+     .about__title    58px      .locs__title     58px
+     .warranty__title 56px      .sell__title     52px
+     .inv__title      49px      .story__title    49px
+     .svc__title      49px      .karma__title    49px
+     .ig__title       43px      .revs__title     37px
+     .stat__n        130px
+
+   So a "make the headlines bigger" instruction is thirteen rules here,
+   not one token. Worth knowing before quoting the change, and worth
+   fixing properly if v2 is approved — those thirteen clamps are a type
+   scale that was never written down as one.
+
+   e.g.
+     .v2 .warranty__title { font-size: clamp(2rem, 3.4vw, 3rem); }
+*/
