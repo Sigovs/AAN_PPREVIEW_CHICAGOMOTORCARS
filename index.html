@@ -168,6 +168,35 @@
           </div>
         </div>
 
+        <!-- LOCATIONS, after Inventory. Built from the same .navmenu
+             primitive as Financing and Services — trigger, panel, list —
+             so it inherits the open/close, the focus handling and the
+             escape key without a line of new script.
+
+             The four rows point at CMC's per-location INVENTORY pages,
+             because those are the only per-location pages the site has:
+             there is no West Chicago page with hours and directions on
+             it. Worth building; not something to invent here. Contact us
+             closes the list, since that is where an address question
+             currently has to go. -->
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-locations">
+            Locations
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-locations" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago, IL</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a></li>
+                <li><a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a></li>
+                <li><a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a></li>
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="navmenu">
           <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-financing">
             Financing
@@ -320,6 +349,15 @@
         <a href="https://www.chicagomotorcars.com/used-cars-chicago-il/karma-chicago-il">Karma</a>
         <a href="https://www.chicagomotorcars.com/test-drive-cars-chicago-il/">Schedule Test Drive</a>
       </section>
+      <section class="menu__group">
+        <p class="micro menu__label">Locations</p>
+        <a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago, IL</a>
+        <a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a>
+        <a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a>
+        <a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a>
+      </section>
+
       <section class="menu__group">
         <p class="micro menu__label">Financing</p>
         <a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online Credit Approval</a>
