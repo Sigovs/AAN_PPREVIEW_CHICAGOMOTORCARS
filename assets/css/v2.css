@@ -1121,134 +1121,14 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .loc { transition: none; }
 }
 
+/* ---- 21/22 REMOVED — the marque band ---------------------------------
+   Built on a misread of the brief: Alex was pointing at three ANIMATED
+   BOXES under the reference's hero and wanted that mechanic for the
+   ADDRESSES, not a band of marque names. He has said it can go.
 
-/* ---- 21. THE MARQUES, UNDER THE HERO --------------------------------
-   The page went from a claim straight to four cars without ever saying
-   whose cars. This says it, in one band, before the inventory.
-
-   TYPOGRAPHIC, NOT A LOGO WALL. A row of manufacturer badges is what
-   every site in this category runs under the fold — the most generic
-   thing available, and somebody else's trademark used as decoration.
-   The names in the page's own face say the same thing and belong to this
-   page rather than to ten other companies.
-
-   ONE LINE, AND IT HOLDS ITS SIZE. Ten names at 22px come to about
-   1240px against a 1310 container, so the row fits without wrapping and
-   without shrinking to fit. Below that the band scrolls rather than
-   stacking: a marque list that wraps to three ragged lines stops being a
-   register.
-
-   The hover is the page's own "one is live" grammar, the same as the
-   locations register: the one under the pointer comes up to full ink and
-   the rest step back. Nothing moves — this band sits directly under a
-   hero and is the first thing a visitor's pointer crosses. */
-.v2 .marques {
-  background: var(--bg);
-  padding-block: clamp(var(--sp-6), 2.6vw, var(--sp-7));
-  border-block-end: 1px solid var(--rule);
-}
-.v2 .marques__eyebrow,
-.v2 .marques__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-3); }
-
-.v2 .marques__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: baseline;
-  gap: clamp(var(--sp-5), 2.4vw, var(--sp-7));
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.v2 .marques__list::-webkit-scrollbar { display: none; }
-.v2 .marque { flex: none; }
-
-.v2 .marque__link {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(1.0625rem, 1.55vw, 1.375rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.012em;
-  white-space: nowrap;
-  color: var(--ink-2);
-  text-decoration: none;
-  transition: color var(--dur-2) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .v2 .marques__list:hover .marque__link { color: var(--ink-3); }
-  .v2 .marques__list .marque__link:hover { color: var(--ink); }
-}
-.v2 .marque__link:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
-  border-radius: 2px;
-  color: var(--ink);
-}
-
-/* It joins the page's staircase as an action — a quiet settle, no rise
-   from the left: this band is one line and a line that slides sideways
-   under a hero is the wrong amount of event for it. */
-.reveal-armed [data-reveal] .marques__list { opacity: 0; translate: 0 10px; }
-.v2 .marques__list { transition: opacity var(--rv-cta) var(--ease-out),
-                                 translate var(--rv-cta) var(--ease-out); }
-.reveal-armed [data-reveal].is-revealed .marques__list { opacity: 1; translate: 0 0; }
-html.reveal-armed [data-reveal]:not(.is-revealed) .marques__list { opacity: 0; translate: 0 10px; }
-
-
-/* ---- 22. THE MARQUE BAND GETS ITS CARS ------------------------------
-   Hover a marque and its car stands above the row — cut out, on the
-   ground, no frame. That is this page's own way of showing a car and the
-   most expensive-looking thing it owns.
-
-   TWO THINGS TO SAY OUT LOUD.
-
-   1. THE LIST IS CMC'S OWN NOW. My first pass had Bentley and Aston
-      Martin in it, which I put there because they sounded right — CMC
-      publishes no evidence of either. These eight are the make list
-      straight off their own inventory finder.
-
-   2. ONLY FOUR HAVE A CAR, and they are the same four the Featured
-      Inventory shows directly below. The repo holds exactly four
-      cut-outs. So this band either repeats the section under it or
-      leaves half its marques without a picture, and neither is a
-      decision — both are the asset folder. One cut-out per marque from
-      CMC settles it; nothing here can be generated, because a made-up
-      car under a real dealer's marque is a claim about stock.
-
-   Shown so Alex can judge the device with the four that exist. */
-.v2 .marques { padding-block: 0 clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
-.v2 .marques__inner { position: relative; }
-
-.v2 .marques__stage {
-  position: relative;
-  block-size: clamp(8rem, 13vw, 12rem);
-  margin-block-end: clamp(var(--sp-5), 2vw, var(--sp-6));
-}
-.v2 .marque__car {
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline-end: 0;
-  inline-size: clamp(18rem, 30vw, 30rem);
-  opacity: 0;
-  translate: 0 8px;
-  transition: opacity var(--dur-3) var(--ease-out),
-              translate var(--dur-4) var(--ease-out);
-}
-.v2 .marque__car img { inline-size: 100%; block-size: auto; display: block; }
-
-/* The first marque that HAS a car stands on arrival. */
-.v2 .marque__car:first-child { opacity: 1; translate: 0 0; }
-
-@media (hover: hover) {
-  .v2 .marques__inner:has(.marques__list:hover) .marque__car { opacity: 0; translate: 0 8px; }
-  .v2 .marques__inner:has(.marque:nth-child(1) .marque__link:hover) .marque__car:nth-child(1),
-  .v2 .marques__inner:has(.marque:nth-child(2) .marque__link:hover) .marque__car:nth-child(2),
-  .v2 .marques__inner:has(.marque:nth-child(4) .marque__link:hover) .marque__car:nth-child(4),
-  .v2 .marques__inner:has(.marque:nth-child(6) .marque__link:hover) .marque__car:nth-child(6) {
-    opacity: 1; translate: 0 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) { .v2 .marque__car { transition: none; } }
-@media (max-width: 760px) { .v2 .marques__stage { display: none; } }
+   Not kept commented out, because it was a whole section with its own
+   markup and two blocks of CSS, and a dead section that large is a thing
+   the next person has to read past. It is one revert away in git if the
+   idea is ever wanted: see "A marque band under the hero" and "Cars in
+   the marque band".
+   ------------------------------------------------------------------- */
