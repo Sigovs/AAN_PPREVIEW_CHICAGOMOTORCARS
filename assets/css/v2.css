@@ -729,13 +729,20 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   align-self: flex-start;
   font-family: var(--font-label);
   font-size: var(--t-micro);
-  /* The collapse ceiling and the line box are the same measurement, so
-     the box has no slack under the text and its ink lands where the
-     closed panels' city ink lands. Left to differ they were 14px apart —
-     the two lines Alex asked to have level. */
-  line-height: 1.7;
+  /* A RED PILL, because the number is the one thing on this panel that
+     DOES something — you tap it and the phone rings. Red is the action
+     colour on this page and it is rationed to one use per chapter; here
+     that use is a call button, which is the most literal action the
+     register has.
+
+     White on #CB141D measures 5.77:1, which is the pairing the token
+     file already clears for a label. */
+  line-height: 1.4;
   letter-spacing: var(--tr-label);
   color: var(--ink);
+  background: var(--accent);
+  padding: 6px 14px;
+  border-radius: 999px;
   text-decoration: none;
   overflow: hidden;
   max-block-size: 0;
@@ -746,18 +753,18 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
               opacity var(--dur-3) var(--ease-out),
               color var(--dur-2) var(--ease-out);
 }
-.v2 .loc__tel:hover { color: var(--accent); }
+.v2 .loc__tel:hover { background: #E11B24; }
 
 .v2 .loc.is-open .loc__addr,
-.v2 .loc.is-open .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
+.v2 .loc.is-open .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
 @media (hover: hover) {
   .v2 .locs__list:hover .loc .loc__addr,
   .v2 .locs__list:hover .loc .loc__tel { opacity: 0; max-block-size: 0; margin-block-start: 0; }
   .v2 .locs__list:hover .loc:hover .loc__addr,
-  .v2 .locs__list:hover .loc:hover .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
+  .v2 .locs__list:hover .loc:hover .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
 }
 .v2 .loc:focus-within .loc__addr,
-.v2 .loc:focus-within .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
+.v2 .loc:focus-within .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
 
 @media (prefers-reduced-motion: reduce) {
   .v2 .loc, .v2 .loc__media img, .v2 .loc__addr, .v2 .loc__tel { transition: none; }
@@ -771,5 +778,5 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .loc.is-open,
   .v2 .locs__list:hover .loc { flex-grow: 1; block-size: clamp(13rem, 42vw, 18rem); }
   .v2 .loc .loc__addr,
-  .v2 .loc .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
+  .v2 .loc .loc__tel { opacity: 1; max-block-size: 2.4em; margin-block-start: var(--sp-4); }
 }
