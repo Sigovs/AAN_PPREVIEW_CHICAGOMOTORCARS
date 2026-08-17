@@ -1120,3 +1120,78 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .locs__plate,
   .v2 .loc { transition: none; }
 }
+
+
+/* ---- 21. THE MARQUES, UNDER THE HERO --------------------------------
+   The page went from a claim straight to four cars without ever saying
+   whose cars. This says it, in one band, before the inventory.
+
+   TYPOGRAPHIC, NOT A LOGO WALL. A row of manufacturer badges is what
+   every site in this category runs under the fold — the most generic
+   thing available, and somebody else's trademark used as decoration.
+   The names in the page's own face say the same thing and belong to this
+   page rather than to ten other companies.
+
+   ONE LINE, AND IT HOLDS ITS SIZE. Ten names at 22px come to about
+   1240px against a 1310 container, so the row fits without wrapping and
+   without shrinking to fit. Below that the band scrolls rather than
+   stacking: a marque list that wraps to three ragged lines stops being a
+   register.
+
+   The hover is the page's own "one is live" grammar, the same as the
+   locations register: the one under the pointer comes up to full ink and
+   the rest step back. Nothing moves — this band sits directly under a
+   hero and is the first thing a visitor's pointer crosses. */
+.v2 .marques {
+  background: var(--bg);
+  padding-block: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  border-block-end: 1px solid var(--rule);
+}
+.v2 .marques__eyebrow,
+.v2 .marques__eyebrow:not(#x) { margin: 0 0 var(--gap-eyebrow); color: var(--ink-3); }
+
+.v2 .marques__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.v2 .marques__list::-webkit-scrollbar { display: none; }
+.v2 .marque { flex: none; }
+
+.v2 .marque__link {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 1.55vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .v2 .marques__list:hover .marque__link { color: var(--ink-3); }
+  .v2 .marques__list .marque__link:hover { color: var(--ink); }
+}
+.v2 .marque__link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+/* It joins the page's staircase as an action — a quiet settle, no rise
+   from the left: this band is one line and a line that slides sideways
+   under a hero is the wrong amount of event for it. */
+.reveal-armed [data-reveal] .marques__list { opacity: 0; translate: 0 10px; }
+.v2 .marques__list { transition: opacity var(--rv-cta) var(--ease-out),
+                                 translate var(--rv-cta) var(--ease-out); }
+.reveal-armed [data-reveal].is-revealed .marques__list { opacity: 1; translate: 0 0; }
+html.reveal-armed [data-reveal]:not(.is-revealed) .marques__list { opacity: 0; translate: 0 10px; }

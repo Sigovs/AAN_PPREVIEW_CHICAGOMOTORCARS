@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=31">
+<link rel="stylesheet" href="assets/css/v2.css?v=32">
 </head>
 <body class="v2">
 
@@ -693,7 +693,45 @@
        because the inventory capture does not say which floor each car
        is standing on, and guessing that is the same class of error as
        guessing a price.
+       ============================================================ -->  <!-- ============================================================
+       1b — THE MARQUES
+       ============================================================
+       Directly under the hero, before the inventory. A dealer at this
+       level is known by the badges on its floor, and the page went
+       straight from a claim to four cars without ever saying whose.
+
+       NOT A LOGO STRIP. Every dealership site in this category runs a
+       row of manufacturer logos under the fold, which is both the most
+       generic thing available and somebody else's trademark used as
+       decoration. This says the same thing in the page's own voice —
+       the names, set in the page's own face, on the page's own hairline
+       — and it reads as a list of what is on the floor rather than as a
+       wall of borrowed badges.
+
+       Ten marques, and each one is a real search: their inventory takes
+       ?stockno= as a keyword, which is the same endpoint the Featured
+       Inventory search uses. So a name is a route, not a label.
        ============================================================ -->
+  <section class="marques" data-reveal aria-labelledby="marques-title">
+    <div class="shell">
+      <p class="micro marques__eyebrow">What we keep</p>
+      <h2 class="marques__title u-visually-hidden" id="marques-title">Marques on the floor</h2>
+      <ul class="marques__list">
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Ferrari">Ferrari</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Lamborghini">Lamborghini</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=McLaren">McLaren</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Porsche">Porsche</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Rolls-Royce">Rolls-Royce</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Bentley">Bentley</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Mercedes">Mercedes-AMG</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Aston+Martin">Aston Martin</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Koenigsegg">Koenigsegg</a></li>
+        <li class="marque"><a class="marque__link" href="https://www.chicagomotorcars.com/used-cars-chicago-il/?stockno=Karma">Karma</a></li>
+      </ul>
+    </div>
+  </section>
+
+
   <section class="inv" id="inventory" data-reveal>
     <div class="shell inv__inner">
 
