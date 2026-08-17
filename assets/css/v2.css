@@ -976,3 +976,99 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
      goes with it. */
   .v2 .locs__frame { display: none; }
 }
+
+
+/* ---- 19. BESIDE THE TEXT, AND BOTH LINES TRAVEL ---------------------
+   Alex's final shape, and it needs the two halves to move together.
+
+   THE PICTURE SITS BESIDE THE TEXT AGAIN, not parked at the far right.
+   It stays a single frame — the plates never went back inside the
+   columns, because a plate inside a 200px column can only be positioned
+   against that column — but the FRAME now moves to whichever location is
+   open, landing one gap past that column's text. So the picture is the
+   open column's picture, and it gets there by sliding, which is the
+   motion that was wanted in the first place.
+
+   THE UNDERLINE TRAVELS TOO, rather than switching off under one column
+   and on under the next. One bar, one width, one position, transitioned
+   between five stops — a line that moves reads as the same line, and a
+   line that blinks reads as five.
+
+   Both are driven off the same two numbers, so they cannot disagree:
+   --loc-c is a closed column, --loc-o is the open one, and everything
+   else is arithmetic on the index. Change a column width and the frame
+   and the rule both follow.
+
+   The columns widen again to make the room — that is the layout yield
+   already recorded, and it is what "beside" costs. */
+.v2 .locs__stage {
+  --loc-c: 12.5rem;                              /* a closed column      */
+  --loc-text: 10.5rem;                           /* the fixed measure    */
+  --loc-plate: calc((var(--locs-row-h) - 2 * var(--sp-5)) * 1.5);
+  --loc-o: calc(var(--sp-4) + var(--loc-text) + var(--sp-6) + var(--loc-plate) + var(--sp-4));
+  --loc-i: 0;                                    /* which one is open    */
+}
+
+.v2 .loc,
+.v2 .loc:first-child { flex: 0 0 var(--loc-c); }
+.v2 .locs__list .loc:hover,
+.v2 .loc:focus-within { flex: 0 0 var(--loc-o); }
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc:first-child { flex: 0 0 var(--loc-c); }
+  .v2 .locs__list .loc:hover { flex: 0 0 var(--loc-o); }
+}
+.v2 .loc {
+  transition: flex-basis var(--acc-dur) var(--acc-ease),
+              border-color var(--dur-3) var(--acc-ease);
+}
+
+/* The frame rides to the open column and shows only its picture. */
+.v2 .locs__frame {
+  inset-inline: calc(var(--loc-i) * var(--loc-c) + var(--sp-4) + var(--loc-text) + var(--sp-6)) auto;
+  inline-size: var(--loc-plate);
+  transition: inset-inline-start var(--acc-dur) var(--acc-ease);
+}
+
+/* The rule under the open column, as one bar that moves. */
+.v2 .locs__stage::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: calc(var(--loc-i) * var(--loc-c));
+  inline-size: var(--loc-o);
+  block-size: 2px;
+  background: var(--ink);
+  transition: inset-inline-start var(--acc-dur) var(--acc-ease);
+  pointer-events: none;
+}
+/* The per-column border goes: the travelling bar is the indicator now. */
+.v2 .loc,
+.v2 .loc:first-child,
+.v2 .locs__list .loc:hover,
+.v2 .loc:focus-within { border-block-end-color: transparent; }
+
+@media (hover: hover) {
+  .v2 .locs__stage:has(.loc:nth-child(2):hover) { --loc-i: 1; }
+  .v2 .locs__stage:has(.loc:nth-child(3):hover) { --loc-i: 2; }
+  .v2 .locs__stage:has(.loc:nth-child(4):hover) { --loc-i: 3; }
+  .v2 .locs__stage:has(.loc:nth-child(5):hover) { --loc-i: 4; }
+}
+.v2 .locs__stage:has(.loc:nth-child(2):focus-within) { --loc-i: 1; }
+.v2 .locs__stage:has(.loc:nth-child(3):focus-within) { --loc-i: 2; }
+.v2 .locs__stage:has(.loc:nth-child(4):focus-within) { --loc-i: 3; }
+.v2 .locs__stage:has(.loc:nth-child(5):focus-within) { --loc-i: 4; }
+
+/* The plates no longer slide — the frame carries them — so the live one
+   is simply the one that is up. */
+.v2 .locs__plate { translate: none; transition: opacity var(--dur-3) var(--acc-ease); }
+.v2 .locs__stage:has(.locs__list:hover) .locs__plate { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .locs__frame,
+  .v2 .locs__stage::after { transition: none; }
+}
+@media (max-width: 900px) {
+  .v2 .locs__stage::after { display: none; }
+  .v2 .loc,
+  .v2 .loc:first-child { flex: 1 1 auto; border-block-end: 1px solid var(--rule); }
+}
