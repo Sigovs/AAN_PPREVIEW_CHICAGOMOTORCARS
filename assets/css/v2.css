@@ -476,6 +476,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    opens is visibly taking room rather than everything quietly
    redistributing. The row ends where its content ends. */
 .v2 .locs__list {
+  --locs-row-h: 14rem;
   display: flex;
   justify-content: flex-start;
   /* THE ROW HAS A HEIGHT AND KEEPS IT. Not a minimum — a fixed one.
@@ -483,10 +484,11 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
      column whose address wrapped to a third line while it was narrow
      pushed the whole section down and let it snap back on the way out.
      Nothing below the register moves now, whatever is open. */
-  block-size: 14rem;
+  block-size: var(--locs-row-h);
 }
 
 .v2 .loc {
+  --locs-row-h: 14rem;
   /* --acc-ease is the project's own settle curve — a long tail, no
      overshoot — and 760ms is its slowest interval. Alex asked for softer
      and this is what softer is: the same distance, more time, and almost
@@ -498,8 +500,11 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
      quietly cutting it off — the text has a fixed measure precisely so
      it never reflows, and that only works if the closed column can hold
      it. */
-  flex: 0 0 clamp(12rem, 15.3vw, 13.75rem);
-  padding-inline: var(--sp-5);
+  flex: 0 0 clamp(11rem, 13.9vw, 12.5rem);
+  /* Tighter side padding than the register had. Every pixel taken off
+     the four closed columns is a pixel the open one can give to the
+     photograph, and this is where the cheapest ones were. */
+  padding-inline: var(--sp-4);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -512,14 +517,14 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    nothing at rest is a gesture most visitors never learn exists. It
    closes the moment the pointer enters the row, because from then on the
    pointer is the thing saying which one is open. */
-.v2 .loc:first-child { flex-basis: clamp(20rem, 28.5vw, 25.6rem); }
+.v2 .loc:first-child { flex-basis: clamp(21rem, 34.5vw, 31rem); }
 
 @media (hover: hover) {
-  .v2 .locs__list:hover .loc:first-child { flex-basis: clamp(12rem, 15.3vw, 13.75rem); }
+  .v2 .locs__list:hover .loc:first-child { flex-basis: clamp(11rem, 13.9vw, 12.5rem); }
   .v2 .locs__list .loc:hover,
-  .v2 .locs__list:hover .loc:first-child:hover { flex-basis: clamp(20rem, 28.5vw, 25.6rem); }
+  .v2 .locs__list:hover .loc:first-child:hover { flex-basis: clamp(21rem, 34.5vw, 31rem); }
 }
-.v2 .loc:focus-within { flex-basis: clamp(20rem, 28.5vw, 25.6rem); }
+.v2 .loc:focus-within { flex-basis: clamp(21rem, 34.5vw, 31rem); }
 
 /* ---- the photograph SLIDES OUT BESIDE THE TEXT ---------------------
    Alex's revision, and it is the better version: the picture is not a
@@ -545,7 +550,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 .v2 .loc__body {
   position: relative;
   z-index: 1;
-  inline-size: 10.75rem;
+  inline-size: 10.5rem;
   max-inline-size: 100%;
 }
 
@@ -564,7 +569,7 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 .v2 .loc__shot {
   position: absolute;
   inset-block: var(--sp-5);
-  inset-inline: calc(var(--sp-5) + 10.75rem + var(--sp-6)) var(--sp-5);
+  inset-inline: calc(var(--sp-4) + 10.5rem + var(--sp-6)) var(--sp-4);
   border-radius: var(--r-panel);
   overflow: hidden;
   pointer-events: none;
@@ -573,7 +578,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   position: absolute;
   inset-block: 0;
   inset-inline-end: 0;
-  inline-size: clamp(110px, 10.4vw, 150px);
+  /* LANDSCAPE, AND THE RATIO IS DERIVED RATHER THAN GUESSED. The plate
+     fills the row's height between its insets, so its width is that
+     height times 3:2 — the aspect the source frames were actually shot
+     at. Alex asked for more horizontal without losing the picture, and
+     this is the widest 3:2 the row can hold: any wider and the open
+     column stops fitting beside four closed ones.
+
+     Tied to --locs-row-h so the two cannot drift apart; change the row
+     height and the plate follows it. */
+  inline-size: calc((var(--locs-row-h) - 2 * var(--sp-5)) * 1.5);
   block-size: 100%;
   object-fit: cover;
   object-position: center;
@@ -672,3 +686,45 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    property, not something each layer inside it should have to know
    about. */
 .v2 .rec { overflow: hidden; }
+
+
+/* ---- 13. NO GRID, ONE UNDERLINE ------------------------------------
+   The dividing lines go. They were drawing a table around five things
+   that are not a table, and once a column can open they actively fight
+   it — a vertical rule sliding sideways is the most visible thing on the
+   screen and it belongs to none of the states.
+
+   What is left is one hairline across the top, so the register still
+   reads as a register and still closes the chapter above it, and a thick
+   rule under whichever column is open. That is the whole indicator: the
+   open one is the one that is underlined, and because the rule is a
+   border it follows the column's width for free as it grows.
+
+   2px and full ink, against a 1px hairline at 0.14 above it — the two
+   cannot be mistaken for the same kind of line, which is the point. */
+.v2 .locs__list { border-block-start: 1px solid var(--rule); }
+
+.v2 .loc {
+  border-block-start: 0;
+  border-inline-start: 0;
+  border-block-end: 2px solid transparent;
+  transition: flex-basis var(--acc-dur) var(--acc-ease),
+              border-color var(--dur-3) var(--acc-ease);
+}
+.v2 .loc + .loc { border-inline-start: 0; }
+
+.v2 .loc:first-child { border-block-end-color: var(--ink); }
+
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc:first-child { border-block-end-color: transparent; }
+  .v2 .locs__list .loc:hover,
+  .v2 .locs__list:hover .loc:first-child:hover { border-block-end-color: var(--ink); }
+}
+.v2 .loc:focus-within { border-block-end-color: var(--ink); }
+
+/* Stacked, every row is open, so an underline on each would be a grid
+   again by another name. */
+@media (max-width: 900px) {
+  .v2 .loc,
+  .v2 .loc:first-child { border-block-end: 1px solid var(--rule); }
+}
