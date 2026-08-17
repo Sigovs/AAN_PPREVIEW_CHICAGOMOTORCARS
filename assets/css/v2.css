@@ -237,3 +237,72 @@
    approved page, so patching it is Alex's call rather than something to
    do quietly under a colour change. */
 .v2 .fin__label:not(#x) { color: var(--ink-eyebrow); }
+
+
+/* ---- 4. THE KEYWORD SEARCH ------------------------------------------
+   Above the tiles, under the paragraph. Client request 2026-08-17.
+
+   ON A HAIRLINE, NOT IN A BOX. The page's registers — Service, Locations,
+   the footer — are all built on hairlines, and a bordered pill here would
+   have been a control drawn as an object on a page that draws them as
+   lines. It also keeps this visibly subordinate to the hero's finder,
+   which is the point: that one is the chapter's action, this one is a
+   shortcut for someone who already knows the model name.
+
+   The line lifts to full ink on focus-within, so the field answers the
+   keyboard as clearly as it answers the pointer. */
+.v2 .invsearch {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  max-inline-size: 46rem;
+  margin-block: clamp(var(--sp-6), 2.6vw, var(--sp-7)) clamp(var(--sp-7), 3.4vw, var(--sp-8));
+  padding-block-end: var(--sp-4);
+  border-block-end: 1px solid var(--rule);
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+.v2 .invsearch:focus-within { border-block-end-color: var(--ink); }
+
+.v2 .invsearch__icon { flex: none; color: var(--ink-3); }
+
+.v2 .invsearch__field {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--t-lede);
+  line-height: 1.4;
+  color: var(--ink);
+}
+/* --ink-3 measures 4.9:1 on this ground, so the placeholder clears the
+   4.5 floor as text rather than being decoration you have to guess at. */
+.v2 .invsearch__field::placeholder { color: var(--ink-3); opacity: 1; }
+/* The field's own outline is redundant — the rule under it already moves
+   on focus-within — but only once that is guaranteed to be visible. */
+.v2 .invsearch__field:focus { outline: none; }
+.v2 .invsearch__field::-webkit-search-cancel-button { filter: invert(1); opacity: 0.5; }
+
+.v2 .invsearch__go { flex: none; }
+
+@media (max-width: 620px) {
+  /* The action drops under the field rather than squeezing it: a search
+     input narrower than the phrase it holds is worse than a second row. */
+  .v2 .invsearch { flex-wrap: wrap; }
+  .v2 .invsearch__field { flex-basis: calc(100% - 17px - var(--sp-4)); }
+  .v2 .invsearch__go { margin-block-start: var(--sp-5); margin-inline-start: auto; }
+}
+
+/* It joins the section's existing staircase as an action — the same
+   quiet settle the CTAs use — rather than arriving with the tiles. */
+.reveal-armed [data-reveal] .v2 .invsearch,
+.v2 .reveal-armed [data-reveal] .invsearch { opacity: 0; translate: 0 10px; }
+.v2 .invsearch {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out);
+}
+.reveal-armed [data-reveal].is-revealed .invsearch { opacity: 1; translate: 0 0; }
+html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; translate: 0 10px; }

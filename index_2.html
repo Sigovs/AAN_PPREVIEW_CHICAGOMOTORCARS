@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=4">
+<link rel="stylesheet" href="assets/css/v2.css?v=5">
 </head>
 <body class="v2">
 
@@ -713,6 +713,35 @@
         <h2 class="inv__title"><span class="ttl-line">Featured Inventory</span></h2>
         <p class="lede">Hand-selected performance, luxury and collector vehicles. Each one chosen for its pedigree, condition and driving experience.</p>
       </header>
+
+      <!-- KEYWORD SEARCH, above the tiles and under the paragraph.
+           Client request 2026-08-17.
+
+           It is deliberately NOT a second hero finder. The hero owns the
+           filtered search — four selects and a red primary — and
+           repeating that here would be the same control twice on one
+           page with the second one weaker. This is the other kind of
+           search: you already know what the car is called, so you type
+           it. One field, one line, one quiet action.
+
+           REAL ENDPOINT. Their inventory page carries a keyword input of
+           its own; typing into it and pressing Enter produces
+           /used-cars-chicago-il/?stockno=…, so that is the method, the
+           action and the field name here. The placeholder is their
+           wording too — "Search Make, Model or Keyword". GET, so the
+           result is a URL that can be shared. -->
+      <form class="invsearch" method="get"
+            action="https://www.chicagomotorcars.com/used-cars-chicago-il/"
+            role="search" aria-label="Search inventory by keyword">
+        <label class="u-visually-hidden" for="inv-kw">Search make, model or keyword</label>
+        <svg class="invsearch__icon" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+          <circle cx="7.2" cy="7.2" r="5.4" stroke="currentColor" stroke-width="1.4"/>
+          <path d="m11.4 11.4 3.8 3.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input class="invsearch__field" id="inv-kw" name="stockno" type="search"
+               placeholder="Search make, model or keyword" autocomplete="off">
+        <button class="btn btn--line invsearch__go" type="submit">Search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      </form>
 
       <div class="showcase">
 
