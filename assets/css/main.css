@@ -10230,14 +10230,12 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .wcard {
    register, so it should sit on that line. It is not a link because
    there is nowhere yet to send anyone. */
 .loc--soon .loc__pin { color: var(--ink-3); }
-.loc__soon,
-.loc__soon:not(#x) {
-  margin: 0;
-  font-family: var(--font-label);
-  font-size: var(--t-micro);
-  letter-spacing: var(--tr-label);
-  color: var(--ink-3);
-}
+/* "Opening soon" sits on the address's SECOND line, where the other four
+   put their city and ZIP. That is what puts the phone on the same line as
+   theirs — the row was one line short and floating a step high. Quieter
+   than the address around it, so it still reads as a status rather than
+   as a street. */
+.loc__soon { color: var(--ink-3); }
 
 /* The nav's version of the same fact, at label scale. */
 .navmenu__soon {
