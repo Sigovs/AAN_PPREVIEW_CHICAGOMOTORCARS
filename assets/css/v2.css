@@ -571,7 +571,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   border: 0;
   padding: 0;
   border-radius: var(--r-panel);
-  block-size: clamp(20rem, 28vw, 28rem);
+  /* HORIZONTAL. At 403px tall the open panel was 1.17:1 and the closed
+     ones were 0.49 — five portraits standing in a row. 274 puts the open
+     one at 1.71:1, which is a landscape frame, and leaves the closed ones
+     reading as what they are: tabs waiting their turn.
+
+     The floor is the caption, not the picture. City, address and phone
+     with their padding come to about 150px, so a panel shorter than
+     ~15rem starts pushing the address into the photograph rather than
+     sitting under it. */
+  block-size: clamp(15rem, 19vw, 19rem);
   transition: flex-grow var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1);
 }
 .v2 .loc.is-open { flex-grow: 2.4; }
