@@ -1009,8 +1009,14 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   --loc-i: 0;                                    /* which one is open    */
 }
 
-.v2 .loc,
-.v2 .loc:first-child { flex: 0 0 var(--loc-c); }
+/* CLOSED BY DEFAULT, EXCEPT THE FIRST. My previous pass set both in one
+   grouped selector and closed the first one with them — so at rest the
+   frame was drawn beside a 200px column and its 264px picture ran
+   straight across the two locations to its right. The open column has to
+   be wide enough to CONTAIN the picture; that is the whole reason
+   --loc-o is derived from --loc-plate rather than chosen. */
+.v2 .loc { flex: 0 0 var(--loc-c); }
+.v2 .loc:first-child { flex: 0 0 var(--loc-o); }
 .v2 .locs__list .loc:hover,
 .v2 .loc:focus-within { flex: 0 0 var(--loc-o); }
 @media (hover: hover) {
@@ -1071,4 +1077,46 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .locs__stage::after { display: none; }
   .v2 .loc,
   .v2 .loc:first-child { flex: 1 1 auto; border-block-end: 1px solid var(--rule); }
+}
+
+
+/* ---- 20. THE OPENING IS SMOOTH ---------------------------------------
+   Three things were moving on three different mechanisms, and it showed.
+
+   THE FRAME AND THE RULE MOVE ON translate NOW, not on inset-inline-start.
+   An inset is a layout property: every frame of that transition is a
+   reflow, scheduled on the main thread, and it arrives when it arrives.
+   A translate is a compositor transform — it cannot stutter, and it
+   cannot be late. Same distance, same curve, none of the cost.
+
+   ONE DURATION AND ONE CURVE FOR ALL OF IT. The column's width, the
+   frame's travel, the rule's travel and the picture's crossfade are now
+   the same 760ms on the same ease, so nothing arrives before anything
+   else — which is what was reading as a jump: the parts were correct
+   individually and out of step together.
+
+   The crossfade is deliberately shorter than the travel and starts with
+   it, so the new picture is already the one you see by the time the
+   frame lands, rather than resolving after it has stopped. */
+.v2 .locs__frame {
+  inset-inline-start: 0;
+  translate: calc(var(--loc-i) * var(--loc-c) + var(--sp-4) + var(--loc-text) + var(--sp-6)) 0;
+  transition: translate var(--acc-dur) var(--acc-ease);
+  will-change: translate;
+}
+.v2 .locs__stage::after {
+  inset-inline-start: 0;
+  translate: calc(var(--loc-i) * var(--loc-c)) 0;
+  transition: translate var(--acc-dur) var(--acc-ease);
+  will-change: translate;
+}
+.v2 .locs__plate {
+  transition: opacity calc(var(--acc-dur) * 0.55) var(--acc-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .locs__frame,
+  .v2 .locs__stage::after,
+  .v2 .locs__plate,
+  .v2 .loc { transition: none; }
 }
