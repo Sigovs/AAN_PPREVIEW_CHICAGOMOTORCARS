@@ -58,7 +58,40 @@
      --gutter     clamp(24px, 4vw, 64px)
 */
 .v2 {
-  /* nothing overridden yet — the client's numbers go here */
+  /* ---- WARM BLACK, NOT NAVY ----------------------------------------
+     Client direction 2026-08-17, value chosen by Alex: #0B0A09.
+
+     It REVERSES the art direction's first named term — "deep navy, not
+     pure black", 2026-08-06 — so it is recorded as a reversal with its
+     reason rather than applied quietly. What the old reasoning got right
+     still holds and is why the value is #0B0A09 and not #000: pure black
+     on a screen is a hole. It crushes the shadow detail out of dark
+     photography, and this page is made of dark photography — the hero
+     film, the Karma headlight, the McLaren showroom, the service band.
+
+     WARM is the whole point of this particular black. The ink is #F4F2EF
+     and the inverted bands are #EDEAE4, both warm; a neutral or cool
+     black under them makes the off-white read faintly blue, which is the
+     thing being removed. R above G above B by one point each — far too
+     little to name as a colour, exactly enough to agree with the ink.
+
+     The four below carry 111 wash and scrim rules built on var(--bg-rgb),
+     so every gradient over the hero, sell, story, warranty, service and
+     Karma follows from here. */
+  --bg:        #0B0A09;
+  --bg-rgb:    11 10 9;
+  --bg-sunk:   #070605;
+  --bg-raised: #151311;
+
+  /* The tail's own black goes with it. Instagram, Reviews, Locations and
+     the footer were on #0A0A0C — cool-neutral — and leaving them there
+     against a warm ground would open exactly the seam this change closes.
+     Karma's navy-to-black ramp becomes black-to-black and stops doing
+     anything, which is correct: it existed to bridge two grounds that
+     are now one. */
+  --bg-black:        #0B0A09;
+  --bg-black-rgb:    11 10 9;
+  --bg-raised-black: #151311;
 }
 
 
@@ -92,3 +125,115 @@
    e.g.
      .v2 .warranty__title { font-size: clamp(2rem, 3.4vw, 3rem); }
 */
+
+
+/* ---- 2. THE BLUE THAT IS NOT THE GROUND -----------------------------
+   The ground was four tokens. The blue LIGHT is a separate system, and
+   it is what a client is actually pointing at: a black page lit blue
+   still reads blue. Confirmed by test — swapping only the tokens left
+   the glow under the active record blue.
+
+   Every rule below keeps its geometry and its alphas and changes only
+   its hue. The lighting design is not being redone, it is being taken
+   off the blue. The new light is the page's own ink, #F4F2EF, pulled
+   down in value — warm-neutral, so it agrees with the ground it now
+   sits on and with the type standing in it. */
+
+/* The room the cut-outs stand in. */
+.v2 .showcase,
+.v2 .fin__showcase {
+  background:
+    radial-gradient(125% 118% at 34% 44%,
+      transparent 34%, rgba(4, 4, 3, 0.5) 82%, rgba(3, 3, 2, 0.72) 100%),
+    radial-gradient(24% 27% at 31% 56%,
+      rgba(240, 237, 231, 0.115) 0%, rgba(190, 186, 179, 0.05) 54%, transparent 76%),
+    radial-gradient(58% 62% at 38% 37%,
+      rgba(190, 186, 179, 0.10) 0%, rgba(146, 143, 137, 0.045) 44%, transparent 78%),
+    radial-gradient(46% 34% at 21% 62%,
+      rgba(168, 164, 157, 0.07) 0%, rgba(128, 125, 120, 0.03) 50%, transparent 80%),
+    radial-gradient(30% 44% at 52% 46%,
+      rgba(196, 192, 185, 0.055) 0%, transparent 74%),
+    radial-gradient(18% 16% at 24% 28%,
+      rgba(220, 216, 209, 0.05) 0%, transparent 72%),
+    linear-gradient(180deg, #151311 0%, #0E0D0B 48%, #080706 100%);
+}
+
+/* The "Just in" plate. */
+.v2 .justin {
+  background: linear-gradient(133deg,
+    rgba(46, 44, 40, 0.92) 0%,
+    rgba(34, 32, 29, 0.92) 52%,
+    rgba(24, 23, 21, 0.92) 100%);
+  box-shadow: inset 0 1px 0 rgba(240, 237, 231, 0.16),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+}
+
+/* The record being read. The edge and the lift still carry the state, so
+   nothing here depends on hue alone — which is the point: this cue was
+   blue-only and it did not have to be. */
+.v2 .rec.is-active,
+.v2 .fin__rec.is-lead {
+  border-color: rgba(240, 237, 231, 0.42);
+  background: rgba(244, 242, 239, 0.05);
+}
+.v2 .rec.is-active .rec__pill {
+  background: rgba(240, 237, 231, 0.10);
+  /* The last one. A sweep of every computed property on the rendered
+     page found this survivor hiding in box-shadow rather than in a
+     colour — which is why the sweep was run instead of trusting the
+     grep. */
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.14);
+}
+
+/* The light under it, and the same light under the big figures. */
+.v2 .rec::before {
+  background: radial-gradient(52% 100% at 50% 100%,
+    rgba(244, 242, 239, 0.44) 0%,
+    rgba(196, 192, 185, 0.19) 34%,
+    rgba(150, 146, 140, 0.07) 58%,
+    transparent 78%);
+}
+.v2 .stat__fig::after {
+  background: radial-gradient(50% 100% at 50% 100%,
+    rgba(244, 242, 239, 0.8) 0%,
+    rgba(196, 192, 185, 0.3) 34%,
+    transparent 74%);
+}
+
+/* The stage's arrows. */
+.v2 .stage__arrow {
+  background: rgba(30, 28, 25, 0.52);
+  box-shadow: inset 0 1px 0 rgba(240, 237, 231, 0.16),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+}
+.v2 .stage__arrow:hover { background: rgba(46, 44, 40, 0.66); }
+
+/* The bloom behind About and Reviews. Same five lobes, same uneven
+   outline, same mask — warm smoke instead of dirty blue. */
+.v2 [data-bloom]::before {
+  background:
+    radial-gradient(52% 58% at 34% 38%, rgba(128, 124, 116, 0.50), transparent 66%),
+    radial-gradient(40% 34% at 72% 24%, rgba(104, 101, 95, 0.44), transparent 70%),
+    radial-gradient(32% 46% at 58% 80%, rgba(92, 89, 84, 0.40), transparent 68%),
+    radial-gradient(26% 22% at 18% 70%, rgba(140, 136, 128, 0.32), transparent 72%),
+    radial-gradient(22% 30% at 84% 58%, rgba(100, 97, 91, 0.28), transparent 74%);
+}
+
+
+/* ---- 3. ONE THING THE SWEEP FOUND THAT IS NOT ABOUT COLOUR TEMPERATURE
+   The Financing eyebrow is --accent-deep, and its ground is dark, not
+   bone. Measured on the composited render with the text hidden: 2.60:1
+   against a 4.5 floor at 15px. It fails on the approved page too — 2.51
+   there — so this is a pre-existing defect that the black change merely
+   walked past, not one it caused.
+
+   It is my error from the eyebrow standardisation: --accent-deep was
+   given to Warranty and Financing together as "the bone grounds", and
+   Financing's card is a dark photograph. Red is a fill-and-rule colour
+   on a dark ground; it cannot carry 15px of text. So this eyebrow joins
+   the other dark-ground ones and takes --ink-eyebrow.
+
+   FIXED HERE ONLY. index.html carries the same failure and is the
+   approved page, so patching it is Alex's call rather than something to
+   do quietly under a colour change. */
+.v2 .fin__label:not(#x) { color: var(--ink-eyebrow); }
