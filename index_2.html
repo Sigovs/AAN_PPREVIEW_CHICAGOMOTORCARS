@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=44">
+<link rel="stylesheet" href="assets/css/v2.css?v=48">
 </head>
 <body class="v2">
 
@@ -1825,8 +1825,20 @@
            ============================================================ -->
       <ul class="locs__list">
           <li class="loc is-open">
+            <!-- WEST CHICAGO IS THE REAL ONE. Alex's own footage of the
+                 27W110 North Avenue floor, with its own frame as the
+                 poster — so this panel is a photograph of the showroom it
+                 is named after, which is what the other four are still
+                 waiting for.
+
+                 The still carries the panel at rest and the film plays
+                 only while the panel is open: preload="none", so a
+                 visitor who never hovers it never downloads 2.6MB. -->
             <span class="loc__media">
-              <img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="" width="640" height="427" loading="lazy" decoding="async">
+              <img src="assets/img/locations/loc-west-chicago-1200.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+              <video class="loc__video" muted loop playsinline preload="none" width="1280" height="720">
+                <source data-src="assets/video/loc-west-chicago.mp4" type="video/mp4">
+              </video>
             </span>
             <span class="loc__info">
               <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>West Chicago</span></span>
@@ -1929,6 +1941,6 @@
   </footer>
 
 
-<script src="assets/js/main.js?v=47" defer></script>
+<script src="assets/js/main.js?v=48" defer></script>
 </body>
 </html>

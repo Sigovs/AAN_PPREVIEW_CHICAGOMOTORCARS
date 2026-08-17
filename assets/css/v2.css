@@ -820,3 +820,196 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .loc .loc__addr,
   .v2 .loc .loc__acts { opacity: 1; max-block-size: 3em; margin-block-start: var(--sp-4); }
 }
+
+
+/* ---- THE WEST CHICAGO PANEL PLAYS ------------------------------------
+   The film sits over its own still and fades up when the panel opens, so
+   the panel is never empty while the video is deciding whether it is
+   ready — the poster IS the still underneath rather than a separate
+   frame the browser has to fetch.
+
+   It is the only panel with footage, and that is the honest state of the
+   folder: this is the one location Alex has shot. The other four keep
+   their placeholder photographs and their loud note. */
+.v2 .loc__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  opacity: 0;
+  filter: saturate(0.72) brightness(0.72) contrast(1.04);
+  transition: opacity var(--dur-3) var(--ease-out),
+              filter var(--dur-3) var(--ease-out);
+  pointer-events: none;
+}
+.v2 .loc.is-open .loc__video { opacity: 1; filter: saturate(0.8) brightness(0.82) contrast(1.04); }
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc .loc__video { opacity: 0; }
+  .v2 .locs__list:hover .loc:hover .loc__video {
+    opacity: 1;
+    filter: saturate(0.8) brightness(0.82) contrast(1.04);
+  }
+}
+.v2 .loc:focus-within .loc__video { opacity: 1; }
+
+/* The scrim has to sit ABOVE the film, or the caption loses its ground
+   the moment the video fades up. */
+.v2 .loc__media::after { z-index: 1; }
+
+/* ============================================================
+   FEATURED INVENTORY — rebuilt to the Figma, node 179:403
+   ============================================================
+   Supplied by Alex 2026-08-17 as the client's own design for this
+   chapter, and it moves ONE structural idea: the modelled light stops
+   being the whole section's room and becomes the car's own box.
+
+   What the file actually specifies, measured off the 1600px export
+   rather than eyeballed:
+
+     page ground        #080808   (already ours)
+     outer container    #0C0C0D   radius ~24, NO border, no light
+     stage panel        #111213 -> near-black, 1px #272727, radius ~16
+     record card        #111213   1px hairline, radius ~12
+     container padding  77 top/left/right, 106 bottom, on a 1428 box
+     columns            695 stage : 34 gap : 547 rail  (~56 / 44)
+     records            148 tall, 26 apart
+     CTA                full-width outline pill, its foot LEVEL with the
+                        stage's foot
+
+   That last measurement is the one that decides the geometry. The stage
+   and the rail end on the same line, so the stage takes its height from
+   the rail instead of from an aspect ratio — four cards and a button
+   set the height, and the picture fills whatever they make. Forcing a
+   ratio here would either float the button or crop the car.
+
+   WHAT IS NOT TOUCHED, on Alex's instruction 2026-08-17: the right-hand
+   column's hover. The wedge glow, the crossfade, the thumbnail lift and
+   the chevron all stay exactly as they are. This pass gives each record
+   a ground and an edge to sit in; it does not re-time or re-light one.
+   ============================================================ */
+
+/* ---- the outer container --------------------------------------
+   Flat. Every radial that used to model this box has moved into the
+   stage below, because in the Figma the light is inside the frame and
+   the container around it is a plain raised plane. Keeping both would
+   have lit the same scene twice. */
+.v2 .showcase {
+  background: #0C0C0D;
+  border-radius: 24px;
+  padding: clamp(var(--sp-6), 4.8vw, var(--sp-8));
+  /* 56/44 rather than 59/41, and a much tighter gap — 34px on a 1428
+     box is 2.4%, where ours was running near 4%. The narrower gutter is
+     what makes the two columns read as one panel rather than as two
+     objects sharing a background. */
+  grid-template-columns: minmax(0, 56fr) minmax(20rem, 44fr);
+  gap: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  align-items: stretch;
+}
+
+/* ---- the stage becomes a framed panel -------------------------
+   It had no ground and no radius of its own — deliberately, back when
+   the whole section was one lit room. The Figma puts the frame back, so
+   the light comes with it: the same lobed construction as before,
+   re-centred on a box that is now nearly square instead of 16:10. */
+.v2 .showcase__stage {
+  aspect-ratio: auto;
+  block-size: 100%;
+  align-self: stretch;
+  border-radius: 16px;
+  border: 1px solid rgba(244, 242, 239, 0.13);
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(120% 110% at 42% 40%,
+      transparent 30%, rgba(4, 4, 3, 0.46) 78%, rgba(3, 3, 2, 0.70) 100%),
+    radial-gradient(34% 26% at 46% 62%,
+      rgba(240, 237, 231, 0.10) 0%, rgba(190, 186, 179, 0.045) 54%, transparent 78%),
+    radial-gradient(64% 56% at 50% 32%,
+      rgba(190, 186, 179, 0.085) 0%, rgba(146, 143, 137, 0.038) 46%, transparent 80%),
+    radial-gradient(22% 18% at 30% 22%,
+      rgba(220, 216, 209, 0.05) 0%, transparent 74%),
+    linear-gradient(180deg, #16181A 0%, #0F1113 46%, #070809 100%);
+}
+
+/* THE CAR IS SMALLER IN THE FIGMA THAN IT IS HERE — 59% of the stage's
+   width against our 80%. On a 16:10 box 80% was right; in a near-square
+   one it runs the car to both edges and the frame stops being a frame.
+
+   The four per-model widths are NOT replaced by one number. They exist
+   because the four cut-outs have different amounts of empty margin baked
+   into their own files, and the percentages were solved so all four
+   render at the same physical size — a single value here would undo that
+   and the cars would jump size as the list is stepped through. Every one
+   is scaled by the same 0.75, so the correction is uniform and the
+   solved relationship survives it. */
+.v2 .stage__car[src*="gt2rs"]     { width: 59.9%; }
+.v2 .stage__car[src*="aventador"] { width: 59.1%; }
+.v2 .stage__car[src*="regera"]    { width: 61.4%; }
+.v2 .stage__car[src*="812-gts"]   { width: 59.8%; }
+
+/* NOT IN THE FIGMA, and it was already carrying an unresolved content
+   warning of its own — "Just in" is a claim about an arrival date that
+   the feed never exposed, asserted statically over all four cars. The
+   client's file removes it, which resolves the question by deleting it.
+   Rule kept rather than the markup, so index.html is unaffected. */
+.v2 .justin { display: none; }
+
+/* ---- the rail -------------------------------------------------
+   Four cards and the button, distributed down the column so their feet
+   land on the stage's foot. The list was a ruled index — a top hairline
+   and a divider under each row; cards have their own edges, so both
+   rules go and the dividers become gaps. */
+.v2 .showcase__index { gap: var(--sp-4); }
+.v2 .recs {
+  border-top: 0;
+  gap: var(--sp-4);
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+}
+.v2 .rec {
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 12px;
+  background: rgba(244, 242, 239, 0.022);
+  padding: var(--sp-4) var(--sp-5);
+}
+/* .rec.is-active already sets border-color and a lift; it is stated
+   again here only because the resting rule above now sets all four
+   borders where before it set one, and shorthand order would otherwise
+   decide the winner. The values are the approved ones, unchanged. */
+.v2 .rec.is-active {
+  border-color: rgba(240, 237, 231, 0.24);
+  background: rgba(244, 242, 239, 0.05);
+}
+
+/* THE THUMBNAIL WAS EATING THE RECORD'S HEIGHT, NOT ITS WIDTH.
+
+   It had grown to 160px, which left the type column 202px — narrower
+   than two price pills side by side. So the pills wrapped, the model
+   name wrapped, and the card came out 214px tall against the Figma's
+   138. The card was not too tall; the picture inside it was too wide.
+
+   104px is the Figma's own proportion measured back to our container
+   (112px on its 1600 export, x 1.327/1.428). It gives the type ~292px,
+   the pills fit on one line, the names fit on one line, and the card
+   lands on its drawn height without a single value being forced. */
+.v2 .rec__thumb { width: 104px; }
+.v2 .rec.is-active .rec__facts { flex-wrap: nowrap; }
+
+/* Full width and centred, level with the foot of the picture. It was a
+   left-aligned link at the end of a list; in the Figma it is the rail's
+   fifth object and it spans the rail. */
+.v2 .index__all {
+  align-self: stretch;
+  justify-content: center;
+  margin-block-start: 0;
+}
+
+@media (max-width: 60rem) {
+  /* Stacked, the rail no longer has a stage to match, so the stage takes
+     a shape of its own again rather than inheriting a column height that
+     has stopped existing. */
+  .v2 .showcase__stage { aspect-ratio: 3 / 2; block-size: auto; }
+  .v2 .stage__car { max-block-size: 68%; }
+}

@@ -1151,3 +1151,64 @@
     });
   }
 })();
+
+
+/* ============================================================
+   LOCATION PANELS — the film plays only while its panel is open
+   ============================================================
+   preload="none" until the panel is first opened, so a visitor who never
+   goes near the register never downloads it. Attached on first open,
+   played while open, paused the moment it closes — a looping video
+   running behind a collapsed 196px panel is work nobody asked for.
+
+   Guarded on prefers-reduced-motion: the still underneath is the whole
+   picture there, and it is already in place.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var panels = document.querySelectorAll('.loc');
+  if (!panels.length) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  Array.prototype.forEach.call(panels, function (panel) {
+    var video = panel.querySelector('.loc__video');
+    if (!video) return;
+    var source = video.querySelector('source[data-src]');
+    var attached = false;
+
+    function attach() {
+      if (attached || !source) return;
+      attached = true;
+      source.src = source.getAttribute('data-src');
+      video.load();
+    }
+    function play() {
+      if (calm.matches) return;
+      attach();
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    function stop() { if (!video.paused) video.pause(); }
+
+    panel.addEventListener('mouseenter', play);
+    panel.addEventListener('focusin', play);
+    panel.addEventListener('mouseleave', stop);
+    panel.addEventListener('focusout', function (e) {
+      if (!panel.contains(e.relatedTarget)) stop();
+    });
+
+    /* The one that is open on arrival starts when the register does,
+       not when the page does — same rule as every other film here. */
+    if (panel.classList.contains('is-open') && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          play();
+          obs.unobserve(panel);
+        });
+      }, { rootMargin: '0px 0px -20% 0px' }).observe(panel);
+    }
+  });
+})();
