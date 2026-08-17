@@ -306,3 +306,72 @@
 }
 .reveal-armed [data-reveal].is-revealed .invsearch { opacity: 1; translate: 0 0; }
 html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; translate: 0 10px; }
+
+
+/* ---- 5. THE LIGHT ARRIVES SHORT AND LENGTHENS ----------------------
+   Client request, refined: on hover the glow under the record starts
+   SHORT near the left edge and lengthens as it travels toward the middle
+   — not a light sliding across at a fixed size, a light opening out.
+
+   SCALE FROM A LEFT ANCHOR, which is what makes it read as lengthening
+   rather than as growing in both directions. transform-origin is the
+   left edge, so the strip stretches rightward from where it starts; the
+   constant -8% shift puts that start at roughly a fifth across the
+   record and lands the finished light just short of centre, which is the
+   travel Alex marked.
+
+   Scale and translate only — both compositor work, both inside the
+   project's motion rule. Nothing here animates geometry.
+
+   760ms and ease-out, the page's slowest interval, because a light
+   opening across a surface is the one thing here that should not look
+   quick. It rides in on the same activation that fades it up, so the
+   record lights and the light arrives as one gesture. */
+.v2 .rec::before {
+  transform-origin: left center;
+  translate: -8% 0;
+  scale: 0.42 1;
+  transition: opacity var(--dur-3) var(--ease-out),
+              scale var(--dur-4) var(--ease-out);
+}
+.v2 .rec.is-active::before { scale: 1 1; }
+
+/* The designed static path: no growth, the light simply appears at the
+   length it would have reached. */
+@media (prefers-reduced-motion: reduce) {
+  .v2 .rec::before,
+  .v2 .rec.is-active::before { scale: 1 1; transition: none; }
+}
+
+
+/* ---- 6. THE PINK HOVER GOES GREY ------------------------------------
+   The warranty card's glyph tile took the accent at 10% on hover, and
+   10% of #CB141D over the bone ground composites to a pale pink — a
+   colour this palette does not have and did not intend. It was written
+   as "the tile warms", which is what a translucent red does on paper and
+   not what it does here.
+
+   Neutral now: the same lift, made of the ground's own ink. The mark
+   still goes to --accent-deep, so red is still spent in these cards
+   exactly once and the hover keeps its colour event. */
+.v2 .wcard:hover .wcard__ico { background: rgba(22, 21, 15, 0.09); }
+
+
+/* ---- 7. THE OUTLINE CTA GETS MORE BODY ------------------------------
+   --rule-strong is a hairline built for dividing, and the secondary
+   action was wearing it: at rest the pill read as an outline someone had
+   forgotten to finish. 1.5px and a brighter value give it a real edge
+   without turning it into a second filled button — it is still the quiet
+   control, it is just no longer a faint one. Hover still goes to full
+   ink, so the state change survives the stronger resting edge. */
+.v2 .btn--line {
+  box-shadow: inset 0 0 0 1.5px rgba(244, 242, 239, 0.42);
+}
+.v2 .btn--line:hover,
+.v2 .btn--line.is-hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
+/* On the bone bands the same move, in that ground's ink. */
+.v2 .on-bone .btn--line {
+  box-shadow: inset 0 0 0 1.5px rgba(22, 21, 15, 0.42);
+}
+.v2 .on-bone .btn--line:hover,
+.v2 .on-bone .btn--line.is-hover { box-shadow: inset 0 0 0 1.5px var(--bone-ink); }
