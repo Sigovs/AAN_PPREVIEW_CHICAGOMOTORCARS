@@ -78,10 +78,19 @@
      The four below carry 111 wash and scrim rules built on var(--bg-rgb),
      so every gradient over the hero, sell, story, warranty, service and
      Karma follows from here. */
-  --bg:        #0B0A09;
-  --bg-rgb:    11 10 9;
-  --bg-sunk:   #070605;
-  --bg-raised: #151311;
+  /* NEUTRAL, second attempt. #0B0A09 was warm on purpose — the ink and
+     the bone bands are warm, and a cool ground under them makes the
+     off-white read blue. In place it went the other way: with 111 scrims
+     built on this value, the warmth accumulated and the page read grey
+     rather than black. Alex's call, and the render agrees with him.
+
+     #080808 keeps the off-black rule — never #000, because pure black
+     crushes the shadow detail out of dark photography and this page is
+     made of it — and drops the temperature to nothing. */
+  --bg:        #080808;
+  --bg-rgb:    8 8 8;
+  --bg-sunk:   #050505;
+  --bg-raised: #131313;
 
   /* The tail's own black goes with it. Instagram, Reviews, Locations and
      the footer were on #0A0A0C — cool-neutral — and leaving them there
@@ -89,9 +98,9 @@
      Karma's navy-to-black ramp becomes black-to-black and stops doing
      anything, which is correct: it existed to bridge two grounds that
      are now one. */
-  --bg-black:        #0B0A09;
-  --bg-black-rgb:    11 10 9;
-  --bg-raised-black: #151311;
+  --bg-black:        #080808;
+  --bg-black-rgb:    8 8 8;
+  --bg-raised-black: #131313;
 }
 
 
@@ -633,7 +642,10 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  /* No gap: the hidden lines have to collapse to nothing, and a flex gap
+     keeps its 12px whether its item has height or not. Each line carries
+     its own top margin instead, and that margin collapses with it. */
+  gap: 0;
   padding: clamp(var(--sp-5), 2.2vw, var(--sp-6));
 }
 .v2 .loc__city {
@@ -675,37 +687,64 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    is not. This file's own trap, caught by measuring the rendered
    opacity rather than trusting the cascade. */
 .v2 .loc__addr:not(#x) { margin: 0; }
+/* THE HIDDEN LINES TAKE NO ROOM. Alex's mark: on a closed panel the city
+   should sit on the bottom line, level with the open panel's phone
+   number — not floating a third of the way up because an invisible
+   address and an invisible number are still holding their space.
+
+   So they collapse rather than just fading. Opening a panel is then one
+   gesture: the picture widens, the city rides up, and the two lines open
+   underneath it. */
+/* 1.7em, not 4: both lines are single lines, and a ceiling three times
+   their height leaves 34px of empty box under the text. Bottom-pinned,
+   that box pushed the open panel's phone 16px below the closed panels'
+   city names — the two lines Alex asked to have level. */
 .v2 .loc__addr {
   font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--ink-2);
   white-space: nowrap;
+  overflow: hidden;
+  max-block-size: 0;
+  margin-block-start: 0;
   opacity: 0;
-  transition: opacity var(--dur-3) var(--ease-out);
+  transition: max-block-size var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              margin-block-start var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              opacity var(--dur-3) var(--ease-out);
 }
 .v2 .loc__tel {
   align-self: flex-start;
   font-family: var(--font-label);
   font-size: var(--t-micro);
+  /* The collapse ceiling and the line box are the same measurement, so
+     the box has no slack under the text and its ink lands where the
+     closed panels' city ink lands. Left to differ they were 14px apart —
+     the two lines Alex asked to have level. */
+  line-height: 1.7;
   letter-spacing: var(--tr-label);
   color: var(--ink);
   text-decoration: none;
+  overflow: hidden;
+  max-block-size: 0;
+  margin-block-start: 0;
   opacity: 0;
-  transition: opacity var(--dur-3) var(--ease-out),
+  transition: max-block-size var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              margin-block-start var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
+              opacity var(--dur-3) var(--ease-out),
               color var(--dur-2) var(--ease-out);
 }
 .v2 .loc__tel:hover { color: var(--accent); }
 
 .v2 .loc.is-open .loc__addr,
-.v2 .loc.is-open .loc__tel { opacity: 1; }
+.v2 .loc.is-open .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
 @media (hover: hover) {
   .v2 .locs__list:hover .loc .loc__addr,
-  .v2 .locs__list:hover .loc .loc__tel { opacity: 0; }
+  .v2 .locs__list:hover .loc .loc__tel { opacity: 0; max-block-size: 0; margin-block-start: 0; }
   .v2 .locs__list:hover .loc:hover .loc__addr,
-  .v2 .locs__list:hover .loc:hover .loc__tel { opacity: 1; }
+  .v2 .locs__list:hover .loc:hover .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
 }
 .v2 .loc:focus-within .loc__addr,
-.v2 .loc:focus-within .loc__tel { opacity: 1; }
+.v2 .loc:focus-within .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
 
 @media (prefers-reduced-motion: reduce) {
   .v2 .loc, .v2 .loc__media img, .v2 .loc__addr, .v2 .loc__tel { transition: none; }
@@ -719,5 +758,5 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .loc.is-open,
   .v2 .locs__list:hover .loc { flex-grow: 1; block-size: clamp(13rem, 42vw, 18rem); }
   .v2 .loc .loc__addr,
-  .v2 .loc .loc__tel { opacity: 1; }
+  .v2 .loc .loc__tel { opacity: 1; max-block-size: 1.7em; margin-block-start: var(--sp-4); }
 }
