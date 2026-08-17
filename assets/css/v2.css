@@ -222,8 +222,21 @@
     rgba(196, 192, 185, 0.13) 36%,
     rgba(150, 146, 140, 0.05) 62%,
     transparent 82%);
-  -webkit-mask-image: linear-gradient(to right, #000 0%, rgba(0,0,0,0.58) 40%, transparent 80%);
-          mask-image: linear-gradient(to right, #000 0%, rgba(0,0,0,0.58) 40%, transparent 80%);
+  /* THE MASK FADES IN AT ITS LEFT EDGE TOO, and that is the gap Alex
+     marked. The radial is anchored at 6% of this strip, so at the
+     strip's own left edge the light is already near its brightest — and
+     the mask was opaque from 0%, which meant the wedge began with a hard
+     vertical cut against the card. A bright line down the inside of the
+     border, ending where the strip ends.
+
+     Fading the first 12% closes it: the light now starts at nothing,
+     comes up to full just inside the card, and tapers away to the right
+     as before. The wedge is unchanged; only its leading edge stops being
+     a straight line. */
+  -webkit-mask-image: linear-gradient(to right,
+    transparent 0%, rgba(0,0,0,0.55) 6%, #000 14%, rgba(0,0,0,0.58) 44%, transparent 82%);
+          mask-image: linear-gradient(to right,
+    transparent 0%, rgba(0,0,0,0.55) 6%, #000 14%, rgba(0,0,0,0.58) 44%, transparent 82%);
 }
 .v2 .stat__fig::after {
   background: radial-gradient(50% 100% at 50% 100%,
