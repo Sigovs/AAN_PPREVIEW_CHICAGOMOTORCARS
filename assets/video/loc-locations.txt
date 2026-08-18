@@ -5,11 +5,13 @@ FILES
   loc-west-chicago.mp4    1280 x 720   10.0s   2.6 MB
   loc-naperville.mp4      1280 x 720           1.1 MB
   loc-rock-hill.mp4       1280 x 720           2.6 MB
+  loc-tonganoxie.mp4      1280 x 720           2.6 MB
 
   Posters, served under the film and shown whenever it is not playing:
   assets/img/locations/loc-west-chicago-1200.jpg   1200 x 675   336 KB
   assets/img/locations/loc-naperville-1200.jpg     1200 x 675   220 KB
   assets/img/locations/loc-rock-hill-1200.jpg      1200 x 675   302 KB
+  assets/img/locations/loc-tonganoxie-1200.jpg     1200 x 675   296 KB
 
   The masters as supplied sit beside the posters in
   assets/img/locations/ under their address filenames, and are not what
@@ -20,19 +22,22 @@ SUPPLIED BY
     27W110 North Avenue West Chicago, IL 60185_vid.mp4
     Naperville2104 Ferry Road, Naperville, IL 60563_vid.mp4
     Rock Hill 727 Marine Drive, Rock Hill, SC 29730_vid.mp4
+    Tonganoxie 1650 Commerce Ave, Tonganoxie, KS 66086_vid.mp4
 
   The filenames are the claim: each file is asserted to be the showroom
   at the address it is filed under, which is the whole reason they can
   be used here at all.
 
 NOT SYNTHETIC — AND THAT IS THE POINT
-  Three of the five panels now carry their own location. The remaining
-  two — Tonganoxie and Newport Beach — still hold stand-in frames pulled
-  from the Instagram set, and neither was taken at the location it sits
-  under. The gap gets louder with every one that is closed: three panels
-  playing their own building make the two that do not look like the ones
-  with something to hide. Newport Beach has an excuse, since it has not
-  opened. Tonganoxie does not.
+  ALL FOUR OPEN SHOWROOMS NOW CARRY THEIR OWN LOCATION. This was the
+  page's oldest outstanding content risk and it is closed: every panel
+  that names a place a customer can drive to shows that place.
+
+  One panel is still a stand-in — Newport Beach, an Instagram frame of a
+  911 on a showroom turntable. That one has an excuse the other four did
+  not: the location has not opened, so there is no building to film. It
+  is the only remaining placeholder in the section and it should be
+  replaced the day there is something to point a camera at.
 
   Nothing here is generated, so no gen- prefix and no generated-imagery
   audit applies. GI3 is satisfied directly.
