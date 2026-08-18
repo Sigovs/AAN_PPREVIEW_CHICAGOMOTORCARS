@@ -1785,3 +1785,97 @@
   var t;
   window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(build, 150); });
 })();
+
+/* ============================================================
+   SAVE · SHARE · TEXT TO PHONE
+   ============================================================
+   The three page-furniture controls above the vehicle. None of them
+   talks to a server: Save is local, Share and Text both hand the
+   browser a link and step out of the way.
+   ============================================================ */
+(function () {
+  'use strict';
+  var bar = document.querySelector('.topbar__tools');
+  if (!bar) return;
+
+  var url = location.href.split('?')[0];
+  var title = (document.querySelector('h1') || {}).textContent || document.title;
+  title = title.replace(/\s+/g, ' ').trim();
+
+  /* ---- text to phone ----
+     The href carries the listing so a phone opens its composer already
+     written and the reader picks the recipient — usually themselves.
+     Nobody's number is asked for or stored.
+
+     On a desktop an sms: link is a control that silently does nothing,
+     so there it copies instead and says so. Detected by pointer, not by
+     user-agent string. */
+  var textLink = bar.querySelector('[data-text-to-phone]');
+  if (textLink) {
+    var body = title + ' — ' + url;
+    textLink.setAttribute('href', 'sms:?&body=' + encodeURIComponent(body));
+    var coarse = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (!coarse) {
+      textLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        copy(body, textLink, 'Link copied');
+      });
+    }
+  }
+
+  /* ---- share ---- */
+  var shareBtn = bar.querySelector('[data-share]');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({ title: title, url: url }).catch(function () {});
+        return;
+      }
+      copy(url, shareBtn, 'Link copied');
+    });
+  }
+
+  function copy(text, el, msg) {
+    var done = function () {
+      var label = el.lastChild;
+      var was = label.nodeValue;
+      label.nodeValue = ' ' + msg;
+      setTimeout(function () { label.nodeValue = was; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+      return;
+    }
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (err) {}
+    document.body.removeChild(ta);
+  }
+
+  /* ---- save ----
+     Local only, and it survives a reload, which is the whole point of a
+     save mark. The garage counter in the masthead is another module's
+     business; this one just remembers. */
+  var saveBtn = bar.querySelector('[data-save]');
+  if (saveBtn) {
+    var key = 'cmc-saved';
+    var id = saveBtn.getAttribute('data-save');
+    var read = function () {
+      try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; }
+    };
+    var set = function (on) { saveBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+    set(read().indexOf(id) > -1);
+    saveBtn.addEventListener('click', function () {
+      var list = read();
+      var at = list.indexOf(id);
+      if (at > -1) list.splice(at, 1); else list.push(id);
+      try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
+      set(list.indexOf(id) > -1);
+    });
+  }
+})();

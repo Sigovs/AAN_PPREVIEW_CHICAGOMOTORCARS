@@ -1343,23 +1343,60 @@
 .v2 .panel__act .btn { inline-size: 100%; justify-content: center; }
 
 /* ---- the action bar ---- */
+/* THE BAR USES THE SUMMARY'S GRID, so its buttons line up with the one
+   above them by construction rather than by a number.
+
+   Measured before: the two rows already ended flush on the right, and
+   their left edges were 27px apart because the contact group was simply
+   wider than the Enquire button. Setting a width would have fixed the
+   symptom at 1440 and broken at every other viewport.
+
+   Same template, same gap as .sum — so the right-hand cell IS the panel
+   column, whatever the viewport does to it, and the actions in it start
+   and end exactly where Enquire does. The left cell takes the Carfax
+   mark and the location.
+
+   The bar's own padding is subtracted from the cells, so the grid the
+   two rows share is the shell's, not the card's. */
 .v2 .actbar {
+  display: grid;
+  grid-template-columns: minmax(0, 60fr) minmax(22rem, 40fr);
+  gap: var(--sp-4) clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  align-items: center;
+  margin-block-start: var(--sp-5);
+  padding: var(--sp-5) 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+/* The left cell holds the two facts; they sit on one line and the cell
+   keeps them off the column boundary. */
+.v2 .actbar > .cfx { justify-self: start; }
+.v2 .actbar__left {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sp-4) var(--sp-5);
-  margin-block-start: var(--sp-5);
-  padding: var(--sp-5);
-  border: 1px solid rgba(244, 242, 239, 0.10);
-  border-radius: 12px;
-  background: rgba(244, 242, 239, 0.022);
 }
 .v2 .actbar__facts {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-2);
 }
-.v2 .actbar__contact { margin-inline-start: auto; }
+/* Three actions across the panel's own column. They divide it rather
+   than sit at its end, so the row reads as one block the width of the
+   button above it. */
+.v2 .actbar__contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  justify-content: flex-end;
+}
+.v2 .actbar__contact > * { flex: 1 1 auto; justify-content: center; text-align: center; }
+/* Inset by the panel's own padding, so the row starts and ends exactly
+   where the Enquire button above it does. The grid gives them the same
+   COLUMN; this gives them the same INTERIOR. Measured after: 0 and 0. */
+.v2 .actbar__contact { padding-inline: var(--sp-5); }
 .v2 .actbar__contact { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
 
 /* SAVE and SHARE. Not buttons in the CTA sense — they are marks you
@@ -1588,21 +1625,30 @@
 .v2 .acc__sum::before {
   content: "";
   position: absolute;
-  inset: auto 4% -1px 8%;
+  /* EDGE TO EDGE. Alex: "полоска под подсветкой должна доходить до края
+     card." It did not, for two reasons that stacked. It was inset 8%
+     and 4% so it stopped short of both sides by construction, and it
+     also carried the wedge's scale animation — so it GREW from the
+     right, which is why it looked like a line that stops in the middle.
+
+     A rule that divides a card has to reach the card. So it spans the
+     full width now, and only its brightness tapers: strongest at the
+     right under the deepest part of the glow, fading left, but never
+     reaching zero before the edge. It fades in rather than growing —
+     the wedge above it still opens, and one moving element is the
+     gesture; two was a race. */
+  inset: auto 0 -1px 0;
   block-size: 1px;
   z-index: -1;
   background: linear-gradient(to left,
     rgba(244, 242, 239, 0.42) 0%,
-    rgba(244, 242, 239, 0.26) 22%,
-    rgba(196, 192, 185, 0.10) 52%,
-    transparent 84%);
+    rgba(244, 242, 239, 0.30) 26%,
+    rgba(210, 206, 199, 0.18) 58%,
+    rgba(180, 176, 170, 0.10) 100%);
   opacity: 0;
-  transform-origin: right center;
-  scale: 0.42 1;
-  transition: opacity var(--dur-3) var(--ease-out),
-              scale var(--dur-4) var(--ease-out);
+  transition: opacity var(--dur-3) var(--ease-out);
 }
-.v2 .acc[open] .acc__sum::before { opacity: 1; scale: 1 1; }
+.v2 .acc[open] .acc__sum::before { opacity: 1; }
 
 /* THE CLOSED ONES ANSWER THE POINTER. Alex: "добавь hover effect на
    остальные." Same light, same line, same opening — at a little over
@@ -1611,14 +1657,14 @@
    the results list already uses: hover previews, click commits. */
 @media (hover: hover) {
   .v2 .acc:not([open]) .acc__sum:hover::after { opacity: 0.55; scale: 1 1; }
-  .v2 .acc:not([open]) .acc__sum:hover::before { opacity: 0.6; scale: 1 1; }
+  .v2 .acc:not([open]) .acc__sum:hover::before { opacity: 0.6; }
 }
 .v2 .acc:not([open]) .acc__sum:focus-visible::after { opacity: 0.55; scale: 1 1; }
-.v2 .acc:not([open]) .acc__sum:focus-visible::before { opacity: 0.6; scale: 1 1; }
+.v2 .acc:not([open]) .acc__sum:focus-visible::before { opacity: 0.6; }
 
 @media (prefers-reduced-motion: reduce) {
-  .v2 .acc__sum::after,  .v2 .acc[open] .acc__sum::after,
-  .v2 .acc__sum::before, .v2 .acc[open] .acc__sum::before { scale: 1 1; transition: none; }
+  .v2 .acc__sum::after, .v2 .acc[open] .acc__sum::after { scale: 1 1; transition: none; }
+  .v2 .acc__sum::before { transition: none; }
 }
 
 .v2 .acc__sum {
@@ -1742,6 +1788,13 @@
 
 @media (max-width: 60rem) {
   .v2 .sum { grid-template-columns: minmax(0, 1fr); }
+  /* The bar shares the summary's grid, so it has to share its collapse.
+     Left at two columns it kept a 22rem minimum on the right cell and
+     pushed 25px of overflow off a 390px screen — the grid was doing
+     exactly what it was told and the instruction was only written for
+     one width. */
+  .v2 .actbar { grid-template-columns: minmax(0, 1fr); }
+  .v2 .actbar__contact { padding-inline: 0; justify-content: flex-start; }
   .v2 .actbar__tools { margin-inline-start: 0; }
 }
 

@@ -472,6 +472,23 @@ vdp = """<!DOCTYPE html>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.4 8.6 8.6 5.4M6 2.6 7.4 1.2a2.6 2.6 0 0 1 3.7 3.7L9.7 6.3M8 11.4 6.6 12.8a2.6 2.6 0 0 1-3.7-3.7L4.3 7.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
             Share
           </button>
+          <!-- SEND IT TO YOURSELF, not to the dealership. Alex drew the
+               distinction and it is the one that decides where the control
+               lives: "Text us" in the action bar starts a conversation with
+               Chicago Motor Cars; this puts the car in your own pocket, so
+               it sits with Save and Share as page furniture.
+
+               It is a real sms: link with the listing's URL in the body, so
+               on a phone it opens the composer already written and you pick
+               who gets it — usually yourself. No form, no field, no number
+               collected, nothing to wire on the back end. On a desktop the
+               script falls back to copying the link, because an sms: href
+               there is a control that silently does nothing. -->
+          <a class="tool" href="sms:?&amp;body=" data-text-to-phone
+             aria-label="Send this vehicle to your phone">
+            <svg width="13" height="15" viewBox="0 0 13 15" fill="none" aria-hidden="true"><rect x="2.4" y="0.9" width="8.2" height="13.2" rx="1.8" stroke="currentColor" stroke-width="1.2"/><path d="M5.6 11.9h1.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Text to phone
+          </a>
         </div>
       </div>
 
@@ -536,6 +553,7 @@ vdp = """<!DOCTYPE html>
 
       <!-- ---- ACTION BAR ---- -->
       <div class="actbar">
+        <div class="actbar__left">
         <a class="cfx" href="https://www.carfax.com/cfm/ccc_displayhistoryrpt.cfm?partner=AAN_0&amp;vin=1C3BDEDZXHV500169"
            target="_blank" rel="noopener">
           <img class="cfx__logo" src="assets/logos/carfax.svg" alt="Show me the Carfax"
@@ -557,6 +575,7 @@ vdp = """<!DOCTYPE html>
           <span class="micro actbar__loc-k">Location</span>
           <a class="actbar__loc-v" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%%2C+Naperville%%2C+IL+60563" target="_blank" rel="noopener">Naperville, IL &mdash; 2104 Ferry Road</a>
         </p>
+        </div>
         <div class="actbar__contact">
           <a class="telpill" href="tel:+16302211800">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M11 8.6v1.6c0 .5-.4.9-.9.8A9.6 9.6 0 0 1 1 1.9c0-.5.4-.9.8-.9h1.6c.4 0 .8.3.9.7l.4 1.8c0 .3 0 .6-.3.8l-.8.7a7.6 7.6 0 0 0 3.4 3.4l.7-.8c.2-.2.5-.3.8-.2l1.8.4c.4.1.7.4.7.8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
@@ -564,7 +583,7 @@ vdp = """<!DOCTYPE html>
           </a>
           <a class="telpill telpill--bone" href="sms:+16302211800">
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12.4 8.2a1.2 1.2 0 0 1-1.2 1.2H3.9L1.5 11.8V2.5a1.2 1.2 0 0 1 1.2-1.2h8.5a1.2 1.2 0 0 1 1.2 1.2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-            Text us
+            Text the dealership
           </a>
           <a class="btn btn--line" href="https://www.chicagomotorcars.com/finance-application/">
             Start financing
