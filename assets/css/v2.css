@@ -656,23 +656,114 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   transition: scale var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1),
               filter var(--dur-3) var(--ease-out);
 }
-@media (hover: hover) {
-  .v2 .loc:hover .loc__media img { scale: 1.05; filter: saturate(0.8) brightness(0.82) contrast(1.04); }
+/* ---- CHOOSING ONE STEPS THE OTHER FOUR BACK -------------------------
+   Alex 2026-08-17. The grade above was one value for all five and a
+   small lift on the chosen one — 0.72 brightness against 0.82. That is
+   a step you have to look for, and with the panel widths already
+   carrying the selection it made the row read as five equally lit
+   pictures, one of which happened to be wider.
+
+   The unselected panels now drop to 0.42 and lose most of their colour.
+   The chosen panel does not get brighter to achieve this; the others
+   get quieter, which is the version that keeps the section as dark as
+   the nine chapters above it. Selection is carried by width AND by
+   light, so it is never on one channel alone.
+
+   Two triggers, because there are two ways a panel becomes the one
+   being read: .is-open, set by click and on the default panel, and
+   hover, which previews without committing. The hover rules sit last on
+   purpose — moving the pointer to a neighbour has to be able to dim a
+   panel that is .is-open, and that only works if the hover pass is
+   allowed to win on source order.
+
+   Filter and scale only. Both composite, neither is layout, so a row of
+   five films re-lighting costs no reflow. */
+/* NO :has() HERE, AND THAT IS THE WHOLE BUG THIS AVOIDS.
+
+   The first version keyed the dim off .locs__list:has(.loc.is-open),
+   which reads naturally and is wrong: :has() takes the specificity of
+   its most specific argument, so :has(.loc.is-open) counts TWO classes.
+   The dim rule landed at (0,7,1) and quietly outweighed the hover rule
+   at (0,6,1) — every panel dimmed, including the one under the pointer,
+   and the selector looked correct while doing it.
+
+   Rewritten as four rules of strictly increasing weight, dim then
+   bright at each level. The row always has exactly one .is-open panel,
+   so :not(.is-open) is a complete description of "the other four" and
+   the ancestor test was never needed.
+
+     (0,4,1)  the other four, at rest        dim
+     (0,4,1)  the chosen one, at rest        bright   [later wins]
+     (0,5,1)  all five, while the row is hovered      dim
+     (0,6,1)  the one under the pointer      bright
+
+   Filter and scale only. Both composite, so five panels re-lighting
+   together costs no layout. */
+.v2 .loc:not(.is-open) .loc__media img {
+  filter: saturate(0.42) brightness(0.42) contrast(1.02);
 }
-.v2 .loc.is-open .loc__media img { filter: saturate(0.8) brightness(0.82) contrast(1.04); }
+.v2 .loc.is-open .loc__media img {
+  filter: saturate(0.8) brightness(0.82) contrast(1.04);
+}
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc .loc__media img {
+    filter: saturate(0.42) brightness(0.42) contrast(1.02);
+  }
+  .v2 .locs__list:hover .loc:hover .loc__media img {
+    scale: 1.05;
+    filter: saturate(0.8) brightness(0.82) contrast(1.04);
+  }
+}
 
 /* The scrim is always up, because the name is always on the picture —
    this is the "overlay" variant, and text that appears over a photograph
    only when you hover it is text you cannot read at rest. */
+/* TWO LAYERS, NOT ONE RAMP. Alex 2026-08-17: a soft plate along the
+   foot of the card, under the caption, with no visible seam.
+
+   A single full-height ramp cannot do both jobs. Deep enough at the
+   bottom to carry type, it is also still dark at mid-panel, so the
+   photograph is veiled everywhere and the caption is not actually
+   separated from anything — it is dark type region on dark picture.
+
+   So the ramp is SOFTENED and a short plate is added under it. The
+   plate occupies the bottom 46% and dies to nothing by its top. What
+   changes is the SHAPE of the falloff, not the total ink: the
+   composite at the very foot is 0.94 against the 0.92 it was, while
+   mid-panel drops from about 0.36 to 0.24 and gives the building back.
+   The caption reads better because the band around it is now a band,
+   not because more black was poured over the picture.
+
+   SEVEN STOPS ON THE PLATE, approximating an ease-out. This is the "no
+   seam" part and it is the whole reason the stop list looks excessive:
+   a two-stop linear gradient has a constant slope, and a constant slope
+   meeting flat transparency puts a visible straight shoulder across the
+   photograph. The eased tail arrives at zero with zero gradient, so
+   there is no line to find.
+
+   Built on --bg-rgb, so it is the page's own ground closing over the
+   frame rather than a grey wash — the panels sit directly on the
+   section and any other black would show as a seam at the card edge. */
 .v2 .loc__media::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top,
-    rgb(var(--bg-rgb) / 0.92) 0%,
-    rgb(var(--bg-rgb) / 0.62) 34%,
-    rgb(var(--bg-rgb) / 0.14) 66%,
-    rgb(var(--bg-rgb) / 0.06) 100%);
+  background:
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.80) 0%,
+      rgb(var(--bg-rgb) / 0.76) 14%,
+      rgb(var(--bg-rgb) / 0.68) 30%,
+      rgb(var(--bg-rgb) / 0.56) 46%,
+      rgb(var(--bg-rgb) / 0.40) 60%,
+      rgb(var(--bg-rgb) / 0.22) 74%,
+      rgb(var(--bg-rgb) / 0.08) 86%,
+      rgb(var(--bg-rgb) / 0.015) 95%,
+      rgb(var(--bg-rgb) / 0)  100%) 0 100% / 100% 62% no-repeat,
+    linear-gradient(to top,
+      rgb(var(--bg-rgb) / 0.72) 0%,
+      rgb(var(--bg-rgb) / 0.44) 34%,
+      rgb(var(--bg-rgb) / 0.11) 66%,
+      rgb(var(--bg-rgb) / 0.05) 100%);
 }
 
 /* ---- the caption, pinned to the foot of its own panel ---------------- */
@@ -1130,3 +1221,66 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    AND THE SPACE IT FREES STAYS EMPTY. That is what makes this read as a
    quieter headline rather than as a smaller one. */
 .v2 .claim { font-size: clamp(2.75rem, 5.9vw, 5.375rem); }
+
+
+/* ---- THE ADDRESS LINE GOES OPAQUE ------------------------------------
+   Measured on the composite render, glyphs diffed out, on the Newport
+   Beach panel — the brightest of the five and therefore the one that
+   decides this: the address line came in at 3.49:1 where AA asks 4.5.
+   The city name above it passed at 8.10, so this is one line, not the
+   caption.
+
+   TWO CAUSES, AND ONLY FIXING ONE WOULD NOT HAVE CLEARED IT.
+
+   The plate is the first. The caption's glyphs sit 29-48% up from the
+   foot of the panel, and the plate only ran to 46% — so the address was
+   standing almost entirely above the thing built to carry it, held up
+   by the base ramp alone. The plate now runs to 62% and holds more of
+   its strength through the middle, which is where the type actually is.
+   The very foot is unchanged: it was already dark enough and more ink
+   there would have bought nothing.
+
+   The ink is the second, and it is the one the plate could not solve. A
+   TRANSLUCENT INK INHERITS ITS GROUND — at 0.62 alpha the line is
+   partly made of whatever is behind it, so darkening the ground darkens
+   the type in the same move and the ratio converges instead of opening.
+   Deepening the plate alone got it to about 3.95 and would have kept
+   asking for more black over a photograph to buy less and less.
+
+   An opaque value at the same apparent lightness breaks that coupling.
+   #CECAC3 is where 0.62 of the bone lands over this ground, so nothing
+   in the caption's hierarchy moves — the address still reads quieter
+   than the city name — but it no longer dims when its ground does.
+
+   This is a colour choice, not a rescue. No shadow, no outline, no
+   heavier weight: those trade a contrast defect for a typographic one,
+   and the rule says fix the background or fix the colour. */
+.v2 .loc__addr { color: #CECAC3; }
+
+/* ---- THE OUTLINE ON THE BONE BANDS WAS PAINTED WHITE -----------------
+   My own regression, and Alex caught it on the render. The "make the
+   secondary CTA more solid" pass wrote one blanket rule —
+
+     .v2 .btn--line { box-shadow: inset 0 0 0 1.5px rgba(244,242,239,.42) }
+
+   — which is right on the dark page and wrong everywhere the page turns
+   light. It also outweighs what it broke: .sell__how is a single class,
+   .v2 .btn--line is two, so main.css's carefully-argued dark hairline
+   lost to a rule that never looked at its ground.
+
+   .on-bone was covered in that same pass. .sell__how was not, because
+   the sell band is not .on-bone — its light ground is a PHOTOGRAPH of a
+   white wall, not a bone fill, so it never carried the class.
+
+   The values are main.css's own, at the new weight. The hairline is the
+   DEEP red rather than the bright one, and that is measured, not
+   stylistic: on this wall #CB141D falls to 3.67:1 and #A50F17 holds
+   4.77:1. Non-text would clear 3:1 either way, but hover recolours the
+   label too, so the border and the label have to agree on one red. */
+.v2 .sell__how {
+  box-shadow: inset 0 0 0 1.5px rgba(22, 21, 15, 0.42);
+}
+.v2 .sell__how:hover,
+.v2 .sell__how:focus-visible {
+  box-shadow: inset 0 0 0 1.5px var(--accent-deep);
+}

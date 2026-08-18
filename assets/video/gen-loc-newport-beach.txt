@@ -1,0 +1,68 @@
+gen-loc-newport-beach — GENERATED IMAGERY, provenance sidecar + GI audit
+=======================================================================
+
+FILES
+  assets/video/gen-loc-newport-beach.mp4               1.0 MB
+  assets/img/locations/gen-loc-newport-beach-1200.jpg  1200 x 675  140 KB
+
+  Masters as supplied, in assets/img/locations/:
+    Newport Beach California — opening soon.mp4
+    Newport Beach California — opening soon.png
+
+SUPPLIED BY
+  Alex, 2026-08-17, as the fifth location film, alongside the four real
+  aerials for West Chicago, Naperville, Rock Hill and Tonganoxie.
+
+THIS ONE IS SYNTHETIC, AND THE OTHER FOUR ARE NOT
+  It carries the gen- prefix and they do not. The prefix travels with
+  the file precisely so this distinction survives the file being moved,
+  renamed in a CMS, or handed to someone who never read this note.
+
+  It does not need a pixel-level judgement to establish. NEWPORT BEACH
+  HAS NOT OPENED — the panel's own caption says "California — opening
+  soon" — so no photograph of its showroom can exist. Whatever this
+  frame is, it is not a picture of the thing it sits under. The visual
+  reading agrees: uniform LED cove lighting around a curved glass
+  facade, rendered paint and reflections on the car, planting and
+  ground-lighting placed rather than grown.
+
+GI3 AUDIT — THIS IS THE RULE IT ENGAGES
+  The project's standing rule: nothing synthetic depicts a real CMC car,
+  a real CMC showroom or a real person.
+
+  The frame depicts BOTH a showroom and a car, and the placement makes
+  each reading stronger, not weaker:
+
+  1. THE SHOWROOM. It sits in position five of a row of four verified
+     aerials of real premises. The row is the claim. A synthetic
+     building in the fifth slot inherits the credibility of the four
+     beside it, and a reader has no reason to treat one card in a
+     uniform row differently from its neighbours.
+
+  2. THE CAR. A silver 911 stands at the entrance. On a dealership page
+     a car in front of a showroom reads as stock. This one is rendered,
+     so it is a picture of a car that does not exist, positioned where
+     inventory would be.
+
+  WHAT MAKES IT DEFENSIBLE, AND WHAT DOES NOT
+  A rendering of a PLANNED showroom is a legitimate and ordinary thing
+  for a business to publish — architectural visualisation is a named
+  category and nobody is deceived by it. What makes it a problem here is
+  not the image, it is that the page does not say what the image is. The
+  caption states the location is opening soon; it does not state that
+  the picture is a rendering, and those are different claims.
+
+  THE FIX IS ONE WORD ON THE PANEL. A label — "Rendering", or "Concept"
+  — in the caption's existing micro register, on this panel only. It
+  costs nothing, it resolves GI3 completely, and it turns the odd panel
+  from a thing that might be caught into a thing that was declared.
+
+  NOT DONE, because adding words to a client-facing page is Alex's call
+  and not a styling decision. RAISED WITH HIM 2026-08-17. Until it is
+  labelled or replaced, this is the one asset in the locations section
+  that makes a statement the business has not verified.
+
+CONTRAST
+  The panel's caption sits over this frame under the same two-layer
+  scrim as the other four, and was measured with them. Nothing about
+  the synthesis changes the legibility question.
