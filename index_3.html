@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     index_2.html — THE SECOND VERSION
+     ============================================================
+     A copy of index.html taken 2026-08-17, for the round of changes
+     that came back from Chicago Motor Cars. index.html is untouched and
+     stays the approved page, so the two can be opened side by side.
+
+     IT SHARES THE STYLESHEET. assets/css/main.css and tokens.css are the
+     same files both pages load, so a rule written for this version lands
+     on the approved one too. <body> carries .v2 for exactly that reason:
+     scope anything new as `.v2 .thing` and index.html cannot move. If a
+     change is meant for both, write it unscoped and say so.
+
+     Same for assets/js/main.js — one file, both pages.
+
+     Not indexed: a work-in-progress variant on a public host.
+     ============================================================ -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uncut photography — Chicago Motor Cars — Exotic, Luxury &amp; Collector Cars Since 2003</title>
+<meta name="description" content="Chicago Motor Cars has sold over 40,000 exotic, luxury and collector vehicles since 2003. Four showrooms, delivered nationwide.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Instrument Serif is gone: nothing is set in it any more, and a face
+     nothing uses is a request nothing needs. See tokens.css. -->
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- The frame is the whole page right now, so it is the LCP element and
+     nothing should discover it late. -->
+<link rel="preload" as="image" href="assets/img/hero/hero_d.jpg" fetchpriority="high">
+
+<!-- There was no icon at all, so every tab showed the browser's blank page
+     glyph — the identity simply stopped existing at 16px. The script
+     wordmark cannot go there (its hairlines are a quarter-pixel at header
+     size, never mind a tab), so the tile is the CMC red carrying the "C"
+     lifted out of the wordmark. Both elements are already the brand's. -->
+<link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/logos/favicon.svg">
+
+<link rel="stylesheet" href="assets/css/tokens.css?v=50">
+<link rel="stylesheet" href="assets/css/main.css?v=439">
+<!-- Last, so it wins on equal specificity. index.html does not load
+     it, which is what keeps the approved page out of reach. -->
+<link rel="stylesheet" href="assets/css/v2.css?v=61">
+<!-- index_3 only: the Featured stage carries real photography. -->
+<link rel="stylesheet" href="assets/css/v3.css?v=12">
+</head>
+<body class="v2 is-v3">
+
+<!-- Watched by IntersectionObserver so the condensed header costs nothing
+     per frame. A scroll listener would run on every one of them to
+     answer a question that changes twice. -->
+<span class="scroll-sentinel" aria-hidden="true"></span>
+
+<!-- Navigation: eco.com's SHAPE, chicagomotorcars.com's TREE.
+
+     The shape — wordmark alone far left, everything else in one frosted
+     object top right, mono labels, a light pill closing the bar, and a
+     panel that grows downward out of the bar.
+
+     The tree is theirs, walked off the live <ul class="navbar-nav">
+     rather than retyped from memory: six top-level items in their
+     order, their labels, their hrefs, and their three levels. Nothing
+     promoted, nothing folded, nothing renamed — Sell Us Your Car sits
+     under Services because that is where they put it, and Warranty and
+     Events stay top-level links with no children because that is what
+     they are.
+
+     Two things are NOT reproduced, both defects rather than structure:
+     the same href printed twice in one menu (All Inventory / View All
+     Inventory, and Boats on both levels), which is a duplicate link,
+     not a choice. Each is kept once, in its first position.
+
+     The eco rows carry a description line. These do not: their site
+     has no such copy, and last pass I wrote it myself, which is how a
+     nav ends up asserting things the business never said. Titles only,
+     until there is real copy to put under them. -->
+<!-- HREFS ARE THE LIVE SITE'S. The IA is the deliverable here, so the
+     destinations are real and checkable rather than "#". -->
+<!-- THE GLASS. A real refraction, not a frosted rectangle.
+
+     feTurbulence makes a smooth low-frequency field and feDisplacementMap
+     pushes the BACKDROP around by it, so whatever is behind the nav bends
+     as it scrolls past. The type is content, not backdrop, so none of this
+     touches the labels' legibility — only the picture under them moves.
+
+     Verified in-browser before it was used: `backdrop-filter: url(#id)`
+     parses in most engines and PAINTS in far fewer, so a striped probe was
+     rendered and photographed first. It displaces in Chrome 151.
+
+     baseFrequency is deliberately low. Higher and it stops reading as
+     glass and starts reading as noise on a lens. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="nav-glass" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="11" result="warp"/>
+    <feGaussianBlur in="warp" stdDeviation="2.5" result="softWarp"/>
+    <feDisplacementMap in="SourceGraphic" in2="softWarp" scale="16"
+                       xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<header class="masthead">
+  <div class="masthead__inner">
+
+    <!-- One rail holding the whole navigation, wordmark included, with
+         the call as a separate object beside it. That is the reference's
+         structure, and it is also what makes the scrolled state calm:
+         the rail keeps its box, so nothing slides when the contents
+         change — see the crossfade in main.css. -->
+    <div class="navbar">
+      <a class="masthead__mark" href="/" aria-label="Chicago Motor Cars — home">
+        <!-- The outlines are inline rather than <img src="cmc-wordmark.svg">
+             because an <img> can be given neither of the two things this mark
+             needed: colour it inherits, and a stroke. See main.css →
+             .masthead__wm for the measurement behind both.
+
+             They sit here rather than in a <symbol> + <use> sprite at the
+             foot of the file simply because there is one consumer. A sprite
+             buys reuse this page has no second use for, and it costs a layer
+             of indirection between the header and the thing the header is.
+
+             assets/logos/cmc-wordmark.svg stays the canonical source and
+             holds the same 13 paths, with no stroke, so it is still the pure
+             wordmark on its own. Regenerate from it; never retype. -->
+        <svg class="masthead__wm" viewBox="0 0 1271 247" role="img" aria-hidden="true" focusable="false">
+          <g id="cmc-wm">
+          <path vector-effect="non-scaling-stroke" d="M342.645 95.7522C343.379 95.916 346.69 97.3987 347.583 97.7809C348.585 102.583 348.923 102.21 351.456 106.471C351.721 107.282 351.441 111.852 352.183 112.194C361.413 116.441 352.828 130.626 355.213 135.035C360.852 132.141 369.752 120.53 374.752 115.986C378.518 112.564 382.012 117.408 383.634 116.187C389.341 112.179 395.16 104.531 401.922 102.315C410.669 99.4497 415.646 99.7507 418.662 108.821C423.183 109.919 428.202 105.143 431.151 104.677C436.127 103.891 457.692 99.6465 460.808 102.439C460.465 103.904 460.217 104.717 460.257 106.245C461.201 106.485 486.311 91.4793 493.393 98.1843C493.975 99.7445 493.966 100.667 493.994 102.327C494.393 125.773 476.795 137.094 462.236 152.387C456.248 158.009 448.131 163.098 441.087 167.454C418.55 181.39 423.285 164.681 427.807 150.962C433.409 133.965 432.707 123.483 446.319 110.818C441.162 111.937 425.4 112.911 422.58 114.455C417.083 117.465 412.947 134.264 407.409 140.863C400.451 149.154 394.392 152.207 387.399 160.053C387.202 162.803 385.121 166.61 385.171 168.455C385.199 169.471 385.397 169.902 386.306 170.373C391.078 172.848 407.063 173.648 413.023 174.551C419.421 175.52 426.247 176.854 432.573 178.244C438.677 179.584 444.809 182.582 450.742 184.662C453.95 185.787 459.086 186.826 461.502 189.188C463.89 191.522 465.821 195.541 465.834 198.906C465.853 203.872 462.112 208.477 458.766 211.817C455.654 214.923 452.189 217.543 448.275 219.553C427.039 230.457 367.845 243.183 344.199 243.195C334.013 243.333 297.301 239.929 305.79 219.701C307.046 216.708 318.414 203.674 320.919 203.267C330.119 201.776 333.577 195.404 341.325 193.138C335.966 202.14 316.505 214.323 316.028 217.566C313.032 237.919 363.808 237.214 373.939 234.914C386.463 232.071 388.555 230.628 395.908 229.483C407.686 227.648 449.726 214.905 452.862 204.98C451.982 199.319 441.907 196.569 437.322 194.465C422.443 187.636 410.149 183.845 393.602 184.428C388.212 184.618 381.205 184.424 375.746 183.99C365.183 181.923 369.943 176.697 371.11 171.423C370.076 168.918 366.327 170.501 365.619 169.778C363.578 167.697 361.74 166.129 359.406 164.37C358.841 160.628 358.765 158.224 358.856 154.49C358.95 150.613 362.237 142.02 361.166 139.299C358.699 138.633 354.502 137.296 352.142 137.437C348.228 139.586 340.117 153.327 341.28 157.962C344.082 158.657 345.469 156.211 348.314 156.869C352.57 163.42 335.087 173.709 328.811 170.028C326.667 164.825 332.74 149.331 334.472 142.487C329.482 144.959 323.899 146.949 318.798 149.249C310.425 153.023 282.365 180.203 273.136 170.912C271.886 168.995 272.418 166.59 272.658 164.296C290.485 140.565 305.084 111.787 332.939 97.7927C334.968 96.7737 340.225 96.119 342.645 95.7522ZM293.29 161.943C295.32 159.223 298.941 158.239 301.981 155.943C321.396 141.278 331.066 137.384 335.388 112.79C333.313 108.493 332.967 108.737 328.097 109.323C317.83 113.119 285.391 150.496 286.311 160.82C288.302 162.725 290.603 162.149 293.29 161.943ZM380.329 159.191C396.458 155.723 422.181 107.22 399.465 110.449C384.204 115.813 379.544 131.601 374.514 145.258C373.396 148.292 370.823 155.161 371.858 158.28C373.335 159.573 374.596 159.689 376.543 159.562C377.808 159.47 379.07 159.347 380.329 159.191ZM465.072 116.107C457.824 118.322 453.959 118.496 450.355 126.465C447.879 131.938 436.593 154.237 436.394 158.216C438.669 159.658 444.057 157.219 446.587 156.355C457.147 147.706 463.046 138.866 475.825 131.244C480.143 121.379 483.088 120.115 482.755 109.328C478.712 109.178 474.795 108.965 470.752 109.279C467.972 111.57 467.073 113.127 465.072 116.107Z"/>
+          <path vector-effect="non-scaling-stroke" d="M603.637 45.9087C605.277 45.7242 606.639 46.2817 608.21 46.7772C608.541 47.111 608.927 47.4981 609.365 47.9386C608.212 58.027 601.69 76.3342 601.123 85.6277C600.786 91.1449 607.905 105.14 609.686 109.029C621.054 115.096 618.155 117.412 632.545 110.942C652.418 102.023 668.091 87.6552 684.558 73.84C689.813 69.4281 705.387 54.27 711.623 55.8534C719.806 65.2192 697.619 99.7421 693.046 109.461C687.276 121.131 685.774 128.499 685.917 141.231C686.066 154.676 688.039 150.73 691.861 161.361L688.225 166.734C684.577 166.937 674.879 167.686 672.968 165.367C660.205 149.878 677.013 113.981 684.167 103.422C685.756 99.2791 690.781 88.4602 687.785 84.6925C673.415 92.9868 662.557 105.124 645.866 113.064C625.236 122.875 625.59 127.989 600.912 126.781C594.022 121.624 591.71 116.439 585.707 110.702C583.054 108.166 578.984 114.494 577.437 116.528C564.608 133.387 550.712 149.363 539.724 167.565C532.702 173.759 525.785 165.575 531.109 158.534C547.382 137.011 563.036 116.504 577.814 93.9072C577.141 83.6933 571.972 72.8247 587.086 72.4486C592.426 62.2788 590.398 49.7198 603.637 45.9087Z"/>
+          <path vector-effect="non-scaling-stroke" d="M839.263 47.8657C840.2 47.6619 840.548 47.8207 841.46 48.0844C842.725 53.4018 813.856 93.4963 809.674 101.193C819.018 102.308 832.724 100.033 842.273 99.335C844.959 99.1388 850.432 98.2638 852.771 98.5946C853.937 101.651 850.196 104.173 851.331 106.969C856.065 106.942 871.775 92.7305 885.066 97.565C890.265 104.169 880.406 126.447 874.809 131.887C866.148 140.306 858.045 149.651 848.998 157.715C847.23 159.297 842.322 160.141 840.368 161.944C835.292 165.901 822.983 176.601 816.455 170.795C813.88 165.311 822.393 142.665 824.192 134.33C825.787 129.936 829.293 121.669 831.148 117.246C831.992 116.676 832.817 116.085 833.63 115.475C835.646 113.961 837.055 112.796 837.396 110.35C835.919 109.459 807.899 112.623 804.431 113.193C797.227 119.635 790.229 131.657 786.351 140.71C785.798 141.563 783.894 149.23 783.621 149.486C777.385 155.341 785.215 158.143 784.235 163.262C782.646 166.452 774.388 169.793 770.864 171.507C769.437 169.765 767.873 168.269 766.273 166.691C764.976 143.93 775.815 138.854 785.029 119.58C784.638 117.312 781.157 119.084 778.98 116.515C776.188 106.36 792.586 103.687 799.163 101.806C801.887 95.3774 808.284 88.6296 811.374 82.8002C816.877 72.4144 823.194 61.2674 828.492 50.8829C832.6 49.9619 835.274 49.2093 839.263 47.8657ZM856.891 116.207C853.155 117.309 849.47 118.259 846.039 120.118C842.8 125.572 828.256 153.676 828.548 158.532C830.794 159.519 836.558 157.016 838.922 156.114C845.083 150.862 850.86 144.45 857.288 139.356C867.128 131.549 876.286 122.945 874.878 109.275C871.018 109.168 866.824 108.954 863.008 109.309C860.669 111.179 858.752 113.841 856.891 116.207Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1081.06 47.2774C1086.16 47.2574 1087.87 48.322 1092.36 50.5011C1093.84 53.1122 1094.84 54.3995 1096.66 56.728C1096.78 62.8156 1096.85 68.9037 1096.87 74.9924C1092.11 81.4498 1085.84 93.6583 1078.26 83.689C1078 78.1228 1078.37 71.9515 1078.12 65.9192C1075.45 64.5359 1070.2 62.1094 1067.31 63.2457C1054.22 68.3719 1041.22 84.4957 1030.53 93.9084C1026.97 98.0454 1020.67 101.465 1017.5 105.822C1007.55 119.493 987.187 136.806 987.317 154.54C988.397 160.431 998.671 159.352 1002.13 159.887C1026.62 163.675 1046.71 145.879 1068.28 140.815L1070 140.357C1071.87 140.824 1072.36 140.925 1073.93 142.047L1074.14 143.516C1071 151.178 1050.26 157.217 1043.2 160.388C1023.82 169.096 1003.88 173.359 982.682 173.93C980.281 173.994 975.752 172.128 973.444 171.247C971.923 169.235 970.385 167.239 968.827 165.257C968.48 158.417 969.795 152.087 972.407 145.759C982.558 121.167 1036.04 66.7732 1059.12 53.7328C1065.72 49.9999 1074.01 50.2079 1081.06 47.2774Z"/>
+          <path vector-effect="non-scaling-stroke" d="M115.096 47.3053C120.397 47.2448 121.913 48.2396 126.593 50.5256C127.914 52.9448 129.234 54.6446 130.868 56.8313C130.99 62.7268 130.894 68.9664 130.902 74.8919C127.804 79.4086 121.841 89.5884 115.534 87.2475C111.259 82.7773 112.451 72.2568 112.263 65.9086C106.446 62.8187 102.191 61.5238 96.4353 65.5704C85.0412 73.5824 75.6841 84.0048 65.3727 93.3108C60.746 97.4855 55.807 101.622 51.464 106.109C43.5428 116.513 31.753 127.96 25.6673 139.386C13.8971 161.486 26.2113 158.988 40.9632 159.853C63.9667 161.202 80.242 147.391 100.048 141.49C102.841 140.577 106.351 139.944 108.594 142.235C108.617 147.421 94.0391 153.974 89.3844 156.005C65.6079 166.377 42.3477 173.396 16.2236 174.134C15.1307 174.165 8.90197 171.583 7.51493 171.021C6.77479 169.738 4.84241 167.27 3.88791 165.978C3.01986 155.455 5.06218 152.156 7.40902 142.159C12.2995 137.171 20.4568 124.126 26.1799 117.138C45.3774 93.6961 67.8297 70.1604 93.611 53.8956C98.0243 51.1115 108.524 49.9436 115.096 47.3053Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1148.65 95.6486C1150.26 95.8174 1152.5 97.2143 1154.01 98.0317C1155.41 102.502 1155.76 106.314 1156.32 110.918C1158.28 113.191 1160.14 111.205 1161.15 114.789C1165.18 129.029 1156.8 137.543 1149.78 148.687C1148.58 150.589 1146.42 155.12 1147.07 157.433C1150.11 158.951 1151.92 156.008 1155.46 157.623C1155.43 157.865 1155.39 158.105 1155.34 158.344C1154.54 161.952 1149.56 166.754 1146.33 168.566C1125.69 180.132 1138.18 151.193 1140.56 142.503C1136.46 144.444 1118.73 151.009 1117.49 153.717C1115.69 156.147 1098.07 168.416 1094.93 169.618C1080.11 175.125 1072.36 173.216 1083.32 157.283C1094.91 140.446 1104.35 125.634 1119.64 111.729C1131.13 101.277 1132.95 98.5362 1148.65 95.6486ZM1098.66 161.923C1101.64 159.373 1103.32 158.907 1106.59 156.671C1117.37 149.244 1129.48 141.192 1136.69 130.008C1137.64 128.529 1139.06 122.406 1139.53 120.53C1140.48 116.829 1143.13 114.533 1141.27 110.907C1138.98 108.63 1137.24 108.874 1134.18 109.283C1124.11 112.886 1090.34 151.325 1092.19 161.238C1093.98 162.511 1096.39 162.182 1098.66 161.923Z"/>
+          <path vector-effect="non-scaling-stroke" d="M765.205 97.0542C767.11 96.5267 770.914 96.4833 772.533 97.7543C773.253 98.7199 773.755 99.5931 773.811 100.814C775.065 127.345 750.885 140.761 736.416 158.177C724.733 162.215 721.686 168.918 711.803 172.155C710.016 172.376 707.428 172.878 705.679 172.28C705.064 172.071 704.382 171.607 704.09 171.031C700.479 163.968 715.209 126.87 718.355 117.435C722.654 114.779 723.982 113.173 726.687 109.111C732.253 107.287 734.127 107.155 739.984 107.496C748.838 101.258 753.832 98.1961 765.205 97.0542ZM744.339 116.52C738.799 117.766 738.811 117.722 733.835 120.101C730.181 125.872 716.22 152.847 716.189 158.388C717.945 159.261 720.123 158.362 722.046 157.714C723.442 157.241 724.826 156.756 726.21 156.26C731.229 151.449 736.336 146.734 741.535 142.118C751.928 132.867 763.89 125.212 761.954 109.232C758.225 109.16 753.752 108.957 750.11 109.352C747.727 110.979 745.971 114.071 744.339 116.52Z"/>
+          <path vector-effect="non-scaling-stroke" d="M268.502 156.513C256.348 167.04 246.178 174.576 228.56 172.572C220.142 171.614 224.442 153.664 227.032 148.909C235.669 134.238 248.383 107.888 263.368 98.5102C286.097 84.286 287.298 95.0981 283.043 114.299C280.106 117.068 278.192 122.071 273.691 123.645C269.317 121.382 275.643 109.724 269.267 106.965C260.556 107.265 238.832 143.123 236.732 151.577C232.105 170.195 259.635 157.785 265.445 154.585C267.418 155.344 267.46 155.006 268.502 156.513Z"/>
+          <path vector-effect="non-scaling-stroke" d="M943.643 90.5454C944.927 90.4777 949.761 90.8805 950.561 91.8077C948.594 99.0253 944.567 105.416 939.411 110.734C936.911 110.644 933.654 110.77 931.091 110.799C929.23 112.186 919.451 119.366 918.341 120.769C910.877 130.055 903.816 139.48 897.109 149.312C893.69 154.317 885.401 169.269 880.282 170.47C878.327 170.149 878.96 170.52 877.738 169.013C876.931 166.341 877.409 164.318 877.806 161.59C878.997 156.438 884.47 151.634 887.442 146.167C893.814 134.44 896.507 125.891 899.646 113.017C903.623 109.866 908.227 101.138 913.607 104.217C916.181 109.166 910.324 115.462 913.272 117.439C918.403 115.59 927.554 102.66 931.836 98.7932C934.888 96.034 939.97 93.4895 943.643 90.5454Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1227.4 90.5137C1228.91 90.497 1229.5 90.4305 1230.89 91.1331C1235.28 96.8172 1226.29 107.049 1222.33 110.842C1219.78 110.706 1216.71 110.77 1214.12 110.76C1211.67 112.796 1203.45 118.476 1201.43 120.852C1192.01 131.904 1182.82 145.605 1174.84 157.674C1171.79 162.307 1166.52 172.407 1161.25 169.544C1159.51 166.544 1160.79 162.854 1161.59 159.616C1166.83 150.751 1173.44 142.575 1177.23 132.728C1177.8 131.256 1179.13 128.958 1179.19 127.426C1179.46 120.573 1186.94 101.569 1195.77 104.058C1198.52 108.574 1195.24 112.083 1195.7 117.331C1200.03 117.39 1212.03 101.259 1216.25 97.9498C1220.39 94.7022 1222.86 93.222 1227.4 90.5137Z"/>
+          <path vector-effect="non-scaling-stroke" d="M241.37 55.9161C241.545 55.9123 241.721 55.9143 241.898 55.922C244.062 56.0171 245.267 56.3558 246.582 57.7461C247.309 60.0686 247.01 62.697 246.885 65.1416C242.62 69.3989 242.689 72.4101 236.512 75.0743C234.548 75.4734 235.285 75.5385 233.462 74.9415C230.887 72.1314 231.273 66.8762 231.14 62.9651C234.481 58.099 235.875 57.1347 241.37 55.9161Z"/>
+          <path vector-effect="non-scaling-stroke" d="M193.829 0H200.489C202.398 5.27974 205.353 8.78451 202.409 14.624C200.144 15.0994 200.916 13.3065 197.705 12.3146C195.853 13.3189 184.019 38.6235 183.363 41.5685C179.899 57.1183 124.821 142.828 128.425 151.281L129.664 151.514C133.274 150.566 150.415 134.968 152.932 131.302C160.47 120.327 169.648 114.216 178.537 104.866C181.304 104.843 189.427 104.396 191.54 105.876C194.697 114.862 151.641 167.962 186.117 161.864C193.554 147.209 205.034 130.834 209.356 114.825C209.872 112.917 209.757 107.739 209.722 105.594C213.159 102.649 216.528 99.6273 219.827 96.5311C222.464 96.2375 225.862 95.2651 228.492 94.601C228.712 98.5437 229.342 105.746 227.79 109.324C220.707 125.632 209.979 140.514 200.976 155.851C197.674 161.476 193.378 165.975 188.761 170.49C177.287 172.648 179.952 174.754 167.28 174.16C164.888 172.453 161.845 169.68 159.547 167.691C158.757 154.481 160.548 145.943 167.786 134.651C169.525 131.937 172.366 125.771 171.716 122.529C169.63 122.492 157.065 138.974 154.485 141.389C148.723 146.846 142.499 151.754 136.83 157.327C131.849 162.225 120.604 173.496 113.103 170.197C112.565 168.73 113.1 168.293 113.318 166.923C120.051 124.707 146.606 90.0272 166.236 53.1037C174.368 37.5873 182.069 21.8347 189.749 6.09131C190.625 4.29554 192.624 2.1927 193.829 0Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1206.85 155.785C1211.95 158.083 1232.46 165.79 1236.25 161.715C1236.79 159.29 1235.07 154.459 1233.46 152.722C1212.75 130.315 1234.81 103.58 1259.3 98.5536C1264.3 97.5259 1266.11 98.1483 1270.7 100.804V106.582C1266.61 109.614 1258.62 124.01 1252.88 124.512C1252.41 121.045 1259.42 115.146 1258.24 109.909C1252.56 105.73 1242.51 111.199 1238.44 115.774C1238.03 118.517 1235.2 128.101 1235.61 129.776C1237.14 135.932 1242.83 142.728 1245.58 148.59C1247.14 151.904 1248.08 154.604 1249.89 157.889C1243.63 165.045 1241.2 169.633 1231.01 171.249C1224.75 172.243 1198.51 173.251 1197.37 164.709C1198.67 162.665 1204.24 158.495 1206.85 155.785Z"/>
+        </g>
+          </svg>
+      </a>
+
+      <nav class="navbar__groups" aria-label="Primary">
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-inventory">
+            Inventory
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <!-- Their third level is "View Inventory", which is dropped as a
+               heading: you are already inside Inventory, so it names the
+               menu you are standing in. That is CMS structure showing
+               through, not information. The twelve body types keep their
+               own column; the siblings keep theirs. -->
+          <div class="navmenu__panel navmenu__panel--mega" id="nav-inventory" hidden>
+            <div class="navmenu__group navmenu__group--wide">
+              <ul class="navmenu__list navmenu__list--2">
+                <li><a href="srp.html">All Inventory</a></li>
+                <li><a href="https://www.chicagomotorcars.com/convertible-inventory/">Convertibles</a></li>
+                <li><a href="https://www.chicagomotorcars.com/coupe-inventory/">Coupes</a></li>
+                <li><a href="https://www.chicagomotorcars.com/hatchback-inventory/">Hatchbacks</a></li>
+                <li><a href="https://www.chicagomotorcars.com/sedan-inventory/">Sedans</a></li>
+                <li><a href="https://www.chicagomotorcars.com/suv-inventory/">SUVs</a></li>
+                <li><a href="https://www.chicagomotorcars.com/wagon-inventory/">Wagons</a></li>
+                <li><a href="https://www.chicagomotorcars.com/pickup-truck-inventory/">Pickup Trucks</a></li>
+                <li><a href="https://www.chicagomotorcars.com/minivan-van-inventory/">Sprinter Van</a></li>
+                <li><a href="https://www.chicagomotorcars.com/motorcycle-inventory/">Motorcycles</a></li>
+                <li><a href="https://www.chicagomotorcars.com/boats/">Boats</a></li>
+                <li><a href="https://www.chicagomotorcars.com/sold-inventory/">Sold Inventory</a></li>
+              </ul>
+            </div>
+            <!-- The eight siblings, in their order, unlabelled — the site
+                 gives them no heading and inventing one is how "Showrooms"
+                 nearly ended up here as my copy rather than theirs. -->
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville</a></li>
+                <li><a href="https://www.chicagomotorcars.com/south-carolina-inventory/">South Carolina</a></li>
+                <li><a href="https://www.chicagomotorcars.com/kansas-inventory/">Kansas</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-cars-chicago-il/karma-chicago-il">Karma</a></li>
+                <li><a href="https://www.chicagomotorcars.com/test-drive-cars-chicago-il/">Schedule Test Drive</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOCATIONS, after Inventory. Built from the same .navmenu
+             primitive as Financing and Services — trigger, panel, list —
+             so it inherits the open/close, the focus handling and the
+             escape key without a line of new script.
+
+             The four rows point at CMC's per-location INVENTORY pages,
+             because those are the only per-location pages the site has:
+             there is no West Chicago page with hours and directions on
+             it. Worth building; not something to invent here. Contact us
+             closes the list, since that is where an address question
+             currently has to go. -->
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-locations">
+            Locations
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-locations" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago, IL</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a></li>
+                <li><a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a></li>
+                <li><a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a></li>
+                <!-- SIMULATED — see the Locations register. It points at
+                     Contact Us because that is where a question about a
+                     showroom that has not opened has to go. -->
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Newport Beach, CA <span class="navmenu__soon">Soon</span></a></li>
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-financing">
+            Financing
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-financing" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online Credit Approval</a></li>
+                <li><a href="https://www.chicagomotorcars.com/trucks-and-equipment-online-credit-approval/">Trucks &amp; Equipment Online Credit Approval</a></li>
+                <li><a href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate Your Trade</a></li>
+                <li><a href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate Payments</a></li>
+                <li><a href="https://www.chicagomotorcars.com/bitpay/">Purchase with BitPay</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <a class="navbar__link" href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">Warranty</a>
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-services">
+            Services
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-services" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/car-service-chicago-il/">Our Services</a></li>
+                <li><a href="https://www.chicagomotorcars.com/schedule-car-maintenance-or-auto-repair-chicago-il/">Schedule Appointment</a></li>
+                <li><a href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">Sell Us Your Car</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-about">
+            About Us
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-about" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/review-us/">Review Us</a></li>
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a></li>
+                <li><a href="https://www.chicagomotorcars.com/about-chicago-motor-cars-in-chicago-il/">Our Dealership</a></li>
+                <li><a href="https://www.chicagomotorcars.com/team-chicago-motor-cars-in-chicago-il/">Our Team</a></li>
+                <li><a href="https://www.chicagomotorcars.com/our-videos-chicago-il/">Our Videos</a></li>
+                <li><a href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Testimonials</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <a class="navbar__link" href="https://www.chicagomotorcars.com/blog/">Events</a>
+
+      </nav>
+
+      <!-- Also in their header, and easy to miss: a saved-vehicles counter.
+           It stays, quiet, because a count nobody has filled yet should
+           not outrank the call. -->
+      <!-- Glyph + count while the rail is packed, full label everywhere
+           else. This is where the bigger wordmark's width came from —
+           main.css said so before it was needed: "the width has to come
+           from the CONTENT — dropping My Garage to its glyph frees
+           100px". The label is only ever visually hidden, never removed,
+           so the control keeps its name for a screen reader. -->
+      <a class="navbar__garage" href="https://www.chicagomotorcars.com/my-garage/">
+        <svg class="navbar__garage-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path d="M4 2.2h7a.8.8 0 0 1 .8.8v9.4L7.5 9.9l-4.3 2.5V3a.8.8 0 0 1 .8-.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+        <span class="navbar__garage-label">My Garage</span>
+        <span class="navbar__count">0</span>
+      </a>
+
+      <!-- Absolutely positioned at the rail's trailing edge so it can
+           fade in exactly where the groups fade out, and take no space
+           while it is invisible. -->
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="site-menu">
+        <span class="menu-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="menu-toggle__label"></span>
+      </button>
+    </div>
+
+    <!-- Outside the rail, and deliberately: on a $1.2M car the conversion
+         is a call, so it is the one thing that is never inside a
+         container that can collapse. It does not move on scroll. -->
+    <a class="navbar__cta" href="tel:+16302211800">
+        <svg class="navbar__cta-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/>
+        </svg>
+      <span class="navbar__cta-text">630&#160;221&#160;1800</span>
+      <span class="u-visually-hidden">Call Chicago Motor Cars</span>
+    </a>
+  </div>
+</header>
+
+<!-- READ POSITION, along the bottom edge of the screen.
+
+     It started as a hairline under the masthead, doing two jobs at once
+     — separating the bar and reporting position. Moved down here it is
+     only doing the second, which is the honest arrangement: the bar no
+     longer needs a rule under it now that the nav items carry their own
+     ground, and a progress line reads better against the edge you are
+     scrolling toward than the one you are scrolling away from.
+
+     Outside <header> because it is no longer part of it. It appears only
+     after the hero has gone, so it never lies across the claim's air.
+
+     A persistent layer, and counted as one: 3px on the extreme edge,
+     below the menu's z-index so an open panel covers it rather than
+     having a red line float over a full-screen overlay. -->
+<div class="readbar" aria-hidden="true"><i class="readbar__fill"></i></div>
+
+<!-- Ships hidden; the toggle only becomes real once the script confirms
+     it can open. Without JS the nav row above stays on the page, so no
+     route is ever trapped behind a script. -->
+<div class="menu" id="site-menu" hidden>
+  <div class="menu__inner shell">
+    <!-- Every group and every row the desktop bar has. Content parity is
+         an invariant: neither a phone nor a scrolled desktop is offered
+         a shorter site.
+
+         It mirrors the bar exactly: four headed groups, then the two
+         top-level entries that have no children, unheaded. A heading
+         reading "Warranty" over a single link reading "Warranty" is the
+         same defect as "View Inventory" inside Inventory — a label that
+         names itself. -->
+    <nav class="menu__nav" aria-label="Primary">
+      <section class="menu__group menu__group--wide">
+        <p class="micro menu__label">Inventory</p>
+        <a href="srp.html">All Inventory</a>
+        <a href="https://www.chicagomotorcars.com/convertible-inventory/">Convertibles</a>
+        <a href="https://www.chicagomotorcars.com/coupe-inventory/">Coupes</a>
+        <a href="https://www.chicagomotorcars.com/hatchback-inventory/">Hatchbacks</a>
+        <a href="https://www.chicagomotorcars.com/sedan-inventory/">Sedans</a>
+        <a href="https://www.chicagomotorcars.com/suv-inventory/">SUVs</a>
+        <a href="https://www.chicagomotorcars.com/wagon-inventory/">Wagons</a>
+        <a href="https://www.chicagomotorcars.com/pickup-truck-inventory/">Pickup Trucks</a>
+        <a href="https://www.chicagomotorcars.com/minivan-van-inventory/">Sprinter Van</a>
+        <a href="https://www.chicagomotorcars.com/motorcycle-inventory/">Motorcycles</a>
+        <a href="https://www.chicagomotorcars.com/boats/">Boats</a>
+        <a href="https://www.chicagomotorcars.com/sold-inventory/">Sold Inventory</a>
+        <a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago</a>
+        <a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville</a>
+        <a href="https://www.chicagomotorcars.com/south-carolina-inventory/">South Carolina</a>
+        <a href="https://www.chicagomotorcars.com/kansas-inventory/">Kansas</a>
+        <a href="https://www.chicagomotorcars.com/used-cars-chicago-il/karma-chicago-il">Karma</a>
+        <a href="https://www.chicagomotorcars.com/test-drive-cars-chicago-il/">Schedule Test Drive</a>
+      </section>
+      <section class="menu__group">
+        <p class="micro menu__label">Locations</p>
+        <a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago, IL</a>
+        <a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a>
+        <a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a>
+        <a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Newport Beach, CA <span class="navmenu__soon">Soon</span></a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a>
+      </section>
+
+      <section class="menu__group">
+        <p class="micro menu__label">Financing</p>
+        <a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online Credit Approval</a>
+        <a href="https://www.chicagomotorcars.com/trucks-and-equipment-online-credit-approval/">Trucks &amp; Equipment Online Credit Approval</a>
+        <a href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate Your Trade</a>
+        <a href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate Payments</a>
+        <a href="https://www.chicagomotorcars.com/bitpay/">Purchase with BitPay</a>
+      </section>
+      <section class="menu__group">
+        <p class="micro menu__label">Services</p>
+        <a href="https://www.chicagomotorcars.com/car-service-chicago-il/">Our Services</a>
+        <a href="https://www.chicagomotorcars.com/schedule-car-maintenance-or-auto-repair-chicago-il/">Schedule Appointment</a>
+        <a href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">Sell Us Your Car</a>
+      </section>
+      <section class="menu__group">
+        <p class="micro menu__label">About Us</p>
+        <a href="https://www.chicagomotorcars.com/review-us/">Review Us</a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a>
+        <a href="https://www.chicagomotorcars.com/about-chicago-motor-cars-in-chicago-il/">Our Dealership</a>
+        <a href="https://www.chicagomotorcars.com/team-chicago-motor-cars-in-chicago-il/">Our Team</a>
+        <a href="https://www.chicagomotorcars.com/our-videos-chicago-il/">Our Videos</a>
+        <a href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Testimonials</a>
+      </section>
+      <!-- The bar's two childless top-level entries, plus My Garage.
+           No heading: there is no category here to name. -->
+      <section class="menu__group menu__group--plain">
+        <a href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">Warranty</a>
+        <a href="https://www.chicagomotorcars.com/blog/">Events</a>
+        <a href="https://www.chicagomotorcars.com/my-garage/">My Garage</a>
+      </section>
+    </nav>
+
+    <!-- The two feature cards that used to sit here are GONE.
+
+         They came from ballance.framer.website, where the panel surfaces
+         content beside the routes, and the idea was sound. It cost 303px
+         of a 1374px panel — a quarter of it — to show two cars the
+         visitor did not ask for, in a control whose entire job is to get
+         them somewhere. That is the device losing to the task: a menu
+         that has to be scrolled to reach its own links has stopped being
+         a menu. The cars belong on the page, not inside the way out of
+         it.
+
+         assets/img/stock/ keeps both frames for whoever wants them in a
+         section. -->
+
+    <div class="menu__foot">
+      <p class="micro menu__label">Showrooms</p>
+      <ul class="menu__places">
+        <li>West Chicago, IL <span>630 221 1800</span></li>
+        <li>Naperville, IL <span>630 221 1800</span></li>
+        <li>Rock Hill, SC <span>803 891 7788</span></li>
+        <li>Kansas City <span>913 845 9633</span></li>
+        <li>Newport Beach, CA <span>Opening soon</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<main>
+  <!-- Exactly one screen tall. The fold below it is now deliberate.
+
+       The words are here now. The note that used to sit in this comment
+       said the ground came first and the type after it, so the
+       composition got judged on the photograph rather than on what was
+       covering it. That has happened; this is the second half of it. -->
+  <section class="hero" id="floor">
+    <!-- TWO SLIDES: the film, then the frame.
+
+         The still had accumulated four jobs — first paint, the video's
+         poster, the reduced-motion fallback, and now a slide of its own.
+         Three of those are the same picture doing background work and
+         the fourth is it being the subject, so they are separated here:
+
+         · slide 2 is the photograph AS CONTENT, at full opacity, chosen;
+         · the video keeps poster="hero_d.jpg" for first paint only, so
+           the opening is still a composed frame rather than black while
+           21 MB arrives.
+
+         They never appear together, so the repeat costs nothing. -->
+    <div class="hero__media">
+
+      <div class="hero__slide is-current" data-slide="0" data-title="Luxury">
+        <!-- No `autoplay` attribute on purpose. Autoplay in the markup
+             starts the download and the playback before anything can ask
+             whether this visitor wants motion; main.js starts it instead,
+             and only when prefers-reduced-motion says it may. `muted` is
+             not a nicety either — without it no browser will autoplay at
+             all — and the track has no audio to begin with.
+
+             `loop` is GONE. It has to be able to end, because reaching
+             the end is what hands the hero to slide 2. A looping video
+             would hold the stage forever and the second slide would be
+             reachable only by clicking. -->
+        <video class="hero__video"
+               poster="assets/img/hero/hero_d.jpg"
+               muted playsinline
+               preload="metadata"
+               width="1920" height="1080"
+               aria-hidden="true" tabindex="-1">
+          <source src="assets/video/hero-video.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="hero__slide" data-slide="1" data-title="Performance">
+        <img class="hero__photo"
+             src="assets/img/hero/hero_d.jpg"
+             alt=""
+             width="2301" height="1430"
+             fetchpriority="high" decoding="async">
+      </div>
+      <!-- Part of the ground, not a panel behind anything. It stays here
+           when the photograph changes, so legibility never depends on
+           which frame the feed happens to return.
+
+           It was ALREADY built for this: its own note records that the
+           bottom gradient exists to fix the lower left, which measured
+           1.58:1 against near-white, at the ground layer — "so the claim
+           that goes there later needs no panel behind it". This is that
+           claim, and it duly carries no panel. -->
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+
+
+    <!-- Bottom left, on the WORDMARK's line — the full-bleed gutter, not
+         the centred .shell the sections below use.
+
+         It was on .shell first, on the argument that the claim is reading
+         matter and the mark is chrome. That was wrong on the only screen
+         where it shows: past 1440 the container starts centring and the
+         claim walked inward while the mark stayed pinned, so the first
+         screen had two different left edges and no reason for either.
+         The mark and the claim are the only two things ON the frame, and
+         one edge under both is worth more here than agreement with a
+         section that has not been built yet.
+
+         The first h1 on the page. There was none at all before this. -->
+    <div class="hero__foot">
+        <div class="hero__claim stack">
+          <!-- CIRCULAR SLIDE COUNTER — an instrument, not carousel chrome.
+
+               It replaces the line pagination outright; both systems
+               were never going to coexist without reading as two
+               opinions about the same fact.
+
+               THE COUNTER IS A BUTTON. The brief describes a counter,
+               and a counter alone would have left this hero with no way
+               back: the film hands over to the photograph when it ends,
+               and nothing would hand it back. Stepping on click keeps
+               the sequence in the visitor's hands without adding a
+               second control beside the instrument.
+
+               The arc is drawn with stroke-dashoffset on a real circle
+               rather than with a conic gradient, because only a stroked
+               path can be 1.75px thin and stay 1.75px at every radius. -->
+          <!-- The counter and the slide's own title read as one line.
+
+               The words are the EYEBROW's, not new copy: "Luxury ·
+               Exotic · Performance" used to sit here as one line for the
+               whole hero, and it has been distributed — one word per
+               slide, three words for three slides. Two are in use; the
+               third is waiting for a third slide rather than being
+               invented for one.
+
+               The title is written on the SLIDE (data-title), so a slide
+               and its name cannot drift apart when one is reordered. -->
+          <!-- The word list lives HERE, not in the script, so it can be
+               rewritten without touching code. It is longer than the
+               slide list on purpose: the word is a rotating register
+               rather than a caption on a picture, so it is not claiming
+               to describe the frame behind it. -->
+          <div class="hero__meter">
+          <button class="counter" type="button"
+                  aria-label="Next hero slide"
+                  data-total="2">
+            <svg class="counter__ring" viewBox="0 0 68 68" aria-hidden="true" focusable="false">
+              <circle class="counter__track" cx="34" cy="34" r="32.6"/>
+              <!-- Rotated so the arc starts at twelve o'clock, which is
+                   where an instrument reads from. -->
+              <circle class="counter__arc" cx="34" cy="34" r="32.6"
+                      transform="rotate(-90 34 34)"/>
+            </svg>
+            <span class="counter__n">01</span>
+          </button>
+            <span class="hero__slide-title micro">Luxury</span>
+          </div>
+          <!-- Two spans, not one wrapped sentence, because the two lines
+               have to leave at different speeds on the scroll — and
+               because a break this size should be authored rather than
+               left to a max-width to discover. -->
+          <h1 class="claim"><span class="claim__line">Find the car</span><span class="claim__line">worth chasing.</span></h1>
+          <p class="lede">Curated performance and collector vehicles, available nationwide.</p>
+          <!-- Two doors of equal rank, which is the recorded yield on
+               anti-patterns D6 — buying and selling are genuinely
+               parallel here, not a primary with a decoy beside it. The
+               RANK still differs: the light mass is the one the business
+               leads with. -->
+          <div class="cta-row">
+            <a class="btn btn--fill" href="srp.html">
+              View Inventory
+              <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 10 10 3M4.4 3H10v5.6" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+            <a class="btn btn--line" href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">
+              Sell Your Car
+              <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M3 10 10 3M4.4 3H10v5.6" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- THE SEARCH, INSIDE THE HERO.
+
+             Moved up from the horizontal bar that used to ride the hero's
+             bottom edge, and that bar is gone — two inventory searches one
+             after the other is the same question asked twice.
+
+             The fields carry NO BOXES, and that is the whole difference
+             between this and a booking form. A bordered input per field is
+             what makes a hotel widget read as a hotel widget: four framed
+             slots demanding to be filled. Here each row is a label over a
+             value with a hairline under it — the register of a spec sheet,
+             which is what a car is described by. Same controls, same
+             semantics, entirely different claim about what the thing is.
+
+             It stays a real <form> pointed at their live inventory: the
+             search is the one part of this hero that has to survive being
+             wired to the feed. -->
+        <form class="hunt" action="srp.html" method="get">
+          <p class="micro hunt__eyebrow">Find your next car</p>
+
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-make">Make</label>
+            <select class="hunt__control" id="h-make" name="make">
+              <option value="">Make</option>
+              <option>Ferrari</option><option>Lamborghini</option><option>McLaren</option>
+              <option>Porsche</option><option>Rolls-Royce</option><option>Dodge</option>
+              <option>Koenigsegg</option><option>Rimac</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-model">Model</label>
+            <select class="hunt__control" id="h-model" name="model">
+              <option value="">Model</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <!-- Their own body-style taxonomy, straight off the live nav. -->
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-body">Body Style</label>
+            <select class="hunt__control" id="h-body" name="bodystyle">
+              <option value="">Body Style</option>
+              <option>Convertible</option><option>Coupe</option><option>Hatchback</option>
+              <option>Sedan</option><option>SUV</option><option>Wagon</option>
+              <option>Pickup Truck</option><option>Sprinter Van</option>
+              <option>Motorcycle</option><option>Boat</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="h-price">Price</label>
+            <select class="hunt__control" id="h-price" name="price">
+              <option value="">Price</option>
+              <option>Under $250,000</option><option>$250,000 – $500,000</option>
+              <option>$500,000 – $1,000,000</option><option>Over $1,000,000</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+
+          <!-- The DS variant, consumed rather than reproduced: no colour is
+               declared here at all. See .btn--accent in main.css. -->
+          <button class="btn btn--accent hunt__go" type="submit">
+            Search Inventory
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+        </form>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       2 — INVENTORY
+
+       EVERY CAR, PRICE, MILEAGE AND STOCK NUMBER ON THIS PAGE IS REAL.
+
+       They are read off refferences/current-site/cmc-inventory-full.png,
+       which is a full-page capture of Chicago Motor Cars' own live
+       inventory, and matched to the frames in assets/img/stock/, which
+       came out of that same capture. So each card is that dealership's
+       photograph of that dealership's car at that dealership's price.
+
+       This matters more here than anywhere else on the page. A hero can
+       carry a placeholder frame with a sidecar declaring it; a LISTING
+       cannot carry a placeholder price. "2019 McLaren Senna — $3,500,212
+       — 2,615 miles" is a specific factual claim about a specific car
+       for sale, and inventing one to fill a layout would be putting a
+       false statement on a dealership's website. The rough sketch this
+       was built from carried figures for a Ferrari 296 GTB and a
+       Cullinan Black Badge; there are no CMC frames for either car, so
+       neither is here.
+
+       WHAT IS STILL PROVISIONAL: the photographs are ~326x218, because
+       that is what a screenshot gives. Fine for judging a card system,
+       too small to ship — assets/img/stock/README.txt says so and says
+       where the originals are. And no showroom is named on any card,
+       because the inventory capture does not say which floor each car
+       is standing on, and guessing that is the same class of error as
+       guessing a price.
+       ============================================================ -->
+  <section class="inv" id="inventory" data-reveal>
+    <div class="shell inv__inner">
+
+      <!-- The horizontal finder that used to ride this edge is GONE.
+           It moved into the hero as a vertical panel; keeping both would
+           have asked the same question twice, forty pixels apart. Its
+           stitching job — overlapping the hero's bottom edge so the two
+           chapters read as joined rather than stacked — is now done by
+           the hero gradient resolving into this section's ground. -->
+
+
+      <!-- SECTION INTRO — belongs to the whole section, not to the index.
+           It sat inside the index column and read as sidebar copy; the
+           heading of a section has to span the section. Browse-all closes
+           the opposite end of the same line. No rule under it. -->
+      <header class="inv__intro">
+        <h2 class="inv__title"><span class="ttl-line">Featured Inventory</span></h2>
+        <p class="lede">Hand-selected performance, luxury and collector vehicles. Each one chosen for its pedigree, condition and driving experience.</p>
+      </header>
+
+      <!-- KEYWORD SEARCH, above the tiles and under the paragraph.
+           Client request 2026-08-17.
+
+           It is deliberately NOT a second hero finder. The hero owns the
+           filtered search — four selects and a red primary — and
+           repeating that here would be the same control twice on one
+           page with the second one weaker. This is the other kind of
+           search: you already know what the car is called, so you type
+           it. One field, one line, one quiet action.
+
+           REAL ENDPOINT. Their inventory page carries a keyword input of
+           its own; typing into it and pressing Enter produces
+           /used-cars-chicago-il/?stockno=…, so that is the method, the
+           action and the field name here. The placeholder is their
+           wording too — "Search Make, Model or Keyword". GET, so the
+           result is a URL that can be shared. -->
+      <form class="invsearch" method="get"
+            action="srp.html"
+            role="search" aria-label="Search inventory by keyword">
+        <label class="u-visually-hidden" for="inv-kw">Search make, model or keyword</label>
+        <svg class="invsearch__icon" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+          <circle cx="7.2" cy="7.2" r="5.4" stroke="currentColor" stroke-width="1.4"/>
+          <path d="m11.4 11.4 3.8 3.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input class="invsearch__field" id="inv-kw" name="stockno" type="search"
+               placeholder="Search make, model or keyword" autocomplete="off">
+        <button class="btn btn--line invsearch__go" type="submit">Search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      </form>
+
+      <div class="showcase">
+
+
+        <!-- The dominant field. The cut-outs replaced full-frame dealer
+             photography because that photography brought its own room with
+             it — turntables, curtains, burned-in branding. A cut-out has no
+             room, so this field builds one: a radial light behind the car, a
+             tonal floor under it, and a contact shadow where it meets that
+             floor. Without those three the car is a sticker. -->
+        <!-- THE CONTROLS SIT ABOVE THE FRAME, not inside it. With a
+             cut-out the field was empty and a pill could stand in it; a
+             photograph has no empty field — anything laid on it covers a
+             car, a floor or a curtain, and moves to a different part of
+             the picture every time the frame changes. -->
+        <!-- ONE GRID CELL, NOT TWO. .showcase is a two-column grid and
+             its children are the stage and the index; dropping the bar in
+             as a third child put it in column one and pushed the picture
+             into column two. The bar belongs to the stage, so it travels
+             with it inside a single cell. -->
+        <div class="stage__col">
+        <div class="stage__bar">
+          <p class="justin"><span class="justin__lead">Just in</span></p>
+          <div class="stage__nav">
+            <button class="stage__arrow" type="button" data-step="-1" aria-label="Previous vehicle">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor"
+                      stroke-width="1.6" stroke-linecap="square"/>
+              </svg>
+            </button>
+            <button class="stage__arrow" type="button" data-step="1" aria-label="Next vehicle">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor"
+                      stroke-width="1.6" stroke-linecap="square"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="showcase__stage">
+          <div class="stage__field" aria-hidden="true">
+            <span class="stage__light"></span>
+          </div>
+
+          <!-- INSIDE the field now. The stage clips its own overflow, so a
+               pill placed here is contained by construction — no element can
+               half-escape the boundary the way the corner flag did.
+
+               CONTENT WARNING, unchanged and still outstanding: "Just in" is
+               a claim about a vehicle's arrival date and the feed exposes
+               none. This is static and sits over whichever car is active,
+               which asserts that all four are new arrivals. Bind it to a real
+               date-added field and render it conditionally before shipping. -->
+          <div class="stage__cars">
+            <img class="stage__car is-active" data-frame="0"
+                 src="assets/img/inventory-live/viper-voodoo-ii.jpg" alt="2017 Dodge Viper GTC ACR Voodoo II"
+                 width="900" height="598" fetchpriority="high" decoding="async">
+            <img class="stage__car" data-frame="1"
+                 src="assets/img/inventory-live/corvette-1965-restomod.jpg" alt="1965 Chevrolet Corvette LS3 Restomod"
+                 width="900" height="598" loading="lazy" decoding="async">
+            <img class="stage__car" data-frame="2"
+                 src="assets/img/inventory-live/corvette-zr1-2019.jpg" alt="2019 Chevrolet Corvette ZR1"
+                 width="900" height="598" loading="lazy" decoding="async">
+            <img class="stage__car" data-frame="3"
+                 src="assets/img/inventory-live/audi-r8-gated.jpg" alt="2014 Audi R8 V10 Gated Manual"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </div>
+
+          <!-- Bottom-left, at the SAME inset and the SAME radius as the
+               "Just in" pill in the opposite corner. They are the only two
+               objects sitting in the field, so they are built as one family
+               rather than as a pill plus a pair of generic UI circles.
+
+               Hidden until the field is hovered, but they must also appear on
+               :focus-within — a control a keyboard reaches and cannot see is
+               a control that does not exist. -->
+        </div>
+        </div>
+
+        <div class="showcase__index">
+          <div class="recs">
+          <div class="rec is-active" data-frame="0">
+            <button class="rec__select" type="button" aria-pressed="true" aria-label="Show Viper GTC ACR Voodoo II"></button>
+
+            <span class="rec__body">
+              <span class="micro rec__make">2017 Dodge</span>
+              <span class="rec__name"><span class="rec__model">Viper GTC ACR Voodoo II</span></span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts"><span class="rec__pill">$899,912</span><span class="rec__pill">38 miles</span><a class="rec__cta" href="vdp.html">See details</a></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory-live/viper-voodoo-ii.jpg" alt="" width="900" height="598" loading="lazy" decoding="async">
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </div>
+
+          <div class="rec" data-frame="1">
+            <button class="rec__select" type="button" aria-pressed="false" aria-label="Show Corvette LS3 Restomod"></button>
+
+            <span class="rec__body">
+              <span class="micro rec__make">1965 Chevrolet</span>
+              <span class="rec__name"><span class="rec__model">Corvette LS3 Restomod</span></span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts"><span class="rec__pill">$340,212</span><span class="rec__pill">1,974 miles</span><a class="rec__cta" href="https://www.chicagomotorcars.com/1965-chevrolet-corvette-convertible-ls3-540hp-6.2-restomod-over-500k-build-best-of-the-best-c-13297/">See details</a></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory-live/corvette-1965-restomod.jpg" alt="" width="900" height="598" loading="lazy" decoding="async">
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </div>
+
+          <div class="rec" data-frame="2">
+            <button class="rec__select" type="button" aria-pressed="false" aria-label="Show Corvette ZR1"></button>
+
+            <span class="rec__body">
+              <span class="micro rec__make">2019 Chevrolet</span>
+              <span class="rec__name"><span class="rec__model">Corvette ZR1</span></span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts"><span class="rec__pill">$279,212</span><span class="rec__pill">3,499 miles</span><a class="rec__cta" href="https://www.chicagomotorcars.com/2019-chevrolet-corvette-zr1-coupe-only-3k-miles-3zr-7-speed-manual-carbon-buckets-loaded-c-13824/">See details</a></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory-live/corvette-zr1-2019.jpg" alt="" width="900" height="598" loading="lazy" decoding="async">
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </div>
+
+          <div class="rec" data-frame="3">
+            <button class="rec__select" type="button" aria-pressed="false" aria-label="Show R8 V10 Gated Manual"></button>
+
+            <span class="rec__body">
+              <span class="micro rec__make">2014 Audi</span>
+              <span class="rec__name"><span class="rec__model">R8 V10 Gated Manual</span></span>
+              <span class="rec__detail"><span class="rec__detail-in">
+                <span class="rec__facts"><span class="rec__pill">$256,212</span><span class="rec__pill">12,371 miles</span><a class="rec__cta" href="https://www.chicagomotorcars.com/2014-audi-r8-v10-rare-gated-6-spd-manual-collector-car-carbon-blades-ceramic-brakes-c-13758/">See details</a></span>
+              </span></span>
+            </span>
+              <img class="rec__thumb" src="assets/img/inventory-live/audi-r8-gated.jpg" alt="" width="900" height="598" loading="lazy" decoding="async">
+              <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
+          </div>
+
+          <!-- The concluding line of the index, not a button.
+
+               It used to sit in the section header opposite the eyebrow,
+               where it was an escape hatch offered before anyone had
+               been shown anything. At the foot of the list it is the
+               opposite: four cars, then the way to the rest of them. A
+               list that ends in the total it was drawn from.
+
+               Deliberately the same mono/tracked register as the record
+               numbers above it, so it reads as the last row of the index
+               rather than as a control parked underneath it. -->
+        </div>
+      </div>
+    </div>
+<a class="btn btn--line index__all showcase__all" href="srp.html">
+            View all 301 vehicles
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+  </section>
+
+  <!-- The break is pinned and the sell band rides up over it, so the
+       two are one unit. The wrapper is what BOUNDS the stickiness:
+       position: sticky holds until its containing block ends, and
+       without this .brk would stay pinned behind every section to the
+       foot of the page — never seen, always composited. -->
+  <div class="stick">
+
+  <!-- ============================================================
+       THE BREAK — a held shot between two dense chapters
+       ============================================================
+
+       It sits HERE, between the inventory and the sell band, because
+       this is where the page is densest: the showcase and its index
+       are the most information on the page, and the bone band that
+       follows is a change of ground. A break that arrives before the
+       ground changes reads as a breath; one placed at the end would
+       just be a second hero.
+
+       THE FILM IS A BACKGROUND, and the copy is the section. It began
+       as a bare pause; Alex's direction is content over it.
+
+       IT IS A TITLE CARD, NOT A SECOND CHAPTER, and the difference is
+       deliberate. STORY already sets a statement over a photograph, and
+       two chapters doing the same thing in the same register weaken
+       each other. So that one is a left column with a data row on a
+       still frame, and this one is centred, larger, shorter, and
+       carries no figures at all.
+
+       THE ONE FACTUAL LINE IS VERIFIED. Four showrooms, and they are
+       not the four Chicago-area rooms this project had assumed: West
+       Chicago and Naperville in Illinois, Rock Hill in South Carolina,
+       Tonganoxie in Kansas — read off their own directions page. The
+       address list itself is not printed here; that was the option
+       Alex did not take, and one verified sentence is not a directory.
+
+       TWENTY MEGABYTES DO NOT LOAD WITH THE PAGE. The <source> carries
+       no src: script attaches it when the band is one viewport away,
+       and never at all under reduced motion. Until then the poster is
+       the band, which is why the poster is a real frame from the film
+       rather than a black rectangle — if the video never loads, this
+       is still a photograph of the room, and the copy still reads on
+       it because the wash below sits on the poster too. -->
+  <section class="brk" id="break" data-reveal>
+    <div class="brk__frame">
+      <video class="brk__video"
+             poster="assets/video/visual-break-poster-1600.jpg"
+             muted loop playsinline
+             preload="none"
+             width="1920" height="1080"
+             aria-hidden="true" tabindex="-1">
+        <source data-src="assets/video/visual_brake_video.mp4" type="video/mp4">
+      </video>
+
+      <!-- Two jobs, one element. The edges dissolve the band into the
+           sections above and below it, built from --bg-rgb so it is cut
+           from the same ground rather than laid on top. The flat wash
+           underneath is what makes the copy legible: the film is a
+           moving photograph, so no single ink can be trusted against it
+           and the ground has to be guaranteed rather than hoped for. -->
+      <span class="brk__scrim" aria-hidden="true"></span>
+
+      <div class="brk__copy">
+        <p class="micro brk__eyebrow">Visit</p>
+        <h2 class="brk__title">
+          <span class="ttl-line">Some cars only make</span><span class="ttl-line">sense in person.</span>
+        </h2>
+        <p class="lede brk__lede">Four showrooms &mdash; West Chicago and Naperville
+          in Illinois, Rock Hill in South Carolina, Tonganoxie in Kansas. Newport
+          Beach, California, opening soon.</p>
+        <div class="brk__cta">
+          <a class="btn btn--fill" href="https://www.chicagomotorcars.com/dealership/directions.htm">
+            Plan a visit
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SELL / TRADE — the one inverted band
+       ============================================================
+       This is the light ground the system allows itself ONCE, and it is
+       free: the record section that used to hold it is gone. It is what
+       gives the page a tonal structure rather than one continuous dark,
+       and it is what makes the hero's darkness mean something.
+
+       Selling is recorded in this project as equal in priority to
+       buying, which is why it gets a full band of its own rather than a
+       line in the footer.
+
+       Red is legible here in a way it is not on the dark ground: on
+       --bone it measures 4.78:1, so the eyebrow and the step numerals
+       can carry it as TEXT. On the dark side of the page the same red
+       is a mark only. Same value, different ground, different licence.
+       ============================================================ -->
+  <section class="sell" id="sell" data-reveal>
+
+    <!-- THE PHOTOGRAPH IS THE GROUND, not a panel in a column.
+
+         The frame was shot for this: the left 45% is empty lit wall and
+         the car sits right of centre. Cropping that into a right-hand
+         box would throw away the half the composition actually needs —
+         the copy belongs ON the wall, which is where the photographer
+         left room for it.
+
+         The band keeps its bone colour underneath, so the section is
+         still the page's one inverted ground even before the image
+         arrives, and still is if it never does. -->
+    <div class="sell__bg" aria-hidden="true">
+      <!-- The master is 1920 wide, so the ladder tops out there: a 2560
+           step would be an upscale, which costs bytes and returns nothing.
+           1.25MB -> 254KB / 418KB on the wire. -->
+      <img src="assets/img/sell/sell_page_image-1600.jpg"
+           srcset="assets/img/sell/sell_page_image-1600.jpg 1600w,
+                   assets/img/sell/sell_page_image-1920.jpg 1920w"
+           sizes="100vw"
+           alt="" width="1920" height="1080" loading="lazy" decoding="async">
+    </div>
+
+    <div class="sell__grid">
+
+      <!-- THE PHONE GETS ITS OWN FRAME, not a crop of the desktop one.
+           The landscape photograph has the car on one side and the wall
+           the copy stands on at the other; narrowed to 390 it can keep
+           one or the other, never both. This is a portrait frame of the
+           same showroom, and it sits in the flow between the copy and
+           the steps rather than behind them, which is what the phone
+           composition asks for. Hidden above the breakpoint. -->
+      <img class="sell__mobile" src="assets/img/sell/sell-mobile-mid-716.jpg" alt=""
+           width="716" height="466" loading="lazy" decoding="async">
+      <div class="sell__copy">
+        <h2 class="sell__title"><span class="ttl-line">Your car deserves</span><span class="ttl-line">the right market.</span></h2>
+        <p class="sell__lede">We buy exceptional performance, exotic and collector
+          vehicles &mdash; with a straightforward offer and nationwide support.</p>
+
+        <!-- The DS variant again, consumed not copied: this is the second
+             ACCENT ACTION on the page and they are in different visual
+             regions, which is the documented limit. -->
+        <!-- Primary and secondary on one row. The secondary is the DS's
+             outlined variant now, not a text link: it is the second half
+             of a real decision — commit, or find out more first — and a
+             pair reads as a pair only when both are the same kind of
+             object. The accent stays the only filled control, so the
+             one-Accent-Action rule is untouched. -->
+        <div class="sell__actions">
+          <a class="btn btn--accent sell__go" href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">
+            Get an offer
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+
+          <!-- The label changed and the destination had to change with it.
+               "How it works" jumped to the three steps below, so it carried a
+               down arrow; "Talk to our specialist" is a person, not a passage
+               of this page, and it goes to the contact page. The arrow goes
+               back to the pair's right one, because now both buttons really
+               do leave. -->
+          <a class="btn btn--line sell__how" href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">
+            Talk to our specialist
+            <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </div>
+      </div>
+
+
+      <ol class="sell__steps" id="sell-steps">
+        <li><span class="micro sell__step-n">01</span><span class="micro sell__step-t">Tell us about your car</span></li>
+        <li><span class="micro sell__step-n">02</span><span class="micro sell__step-t">Receive an offer</span></li>
+        <li><span class="micro sell__step-n">03</span><span class="micro sell__step-t">Payment &amp; pickup</span></li>
+      </ol>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STORY — the house behind the inventory
+       ============================================================
+       Dark again after the bone reset, which is the rhythm this page
+       runs on: cinematic, technical, bright, then this.
+
+       THE PHOTOGRAPH IS REAL, AND THAT WAS NOT OPTIONAL. The sketch
+       showed a generated showroom with the CMC wordmark on the wall.
+       generated-imagery GI3 forbids exactly that — nothing synthetic may
+       depict a real CMC car, a real CMC showroom or a real person — and
+       the same skill bars type and logos inside a generated frame. A
+       fabricated photograph of this dealership, with its own mark in it,
+       would be a picture of a place that does not exist, presented as
+       theirs. This is their own frame of their own space instead: the
+       Kansas industrial room, off their CDN, already in the repo.
+       ============================================================ -->
+  <section class="story" id="story" data-reveal>
+
+    <!-- FULL-BLEED GROUND. The photograph is the section now, not a framed
+         object inside it, so the copy and the figures stand ON the room
+         rather than beside a picture of it.
+
+         Alex's frame, supplied 2026-08-14 as story_upd_background.jpg:
+         a McLaren showroom with the 675LT, the Senna and the P1 against
+         a lit mural wall. It replaces the Ford GT placeholder.
+
+         It suits this composition better than anything before it — the
+         left third is already near-black and the lower third is empty
+         floor, which is exactly where the copy and the figures stand, so
+         the scrims that used to carry them can come almost all the way
+         off. See the sidecar in that folder for what is still open. -->
+    <div class="story__bg" aria-hidden="true">
+      <!-- The master is 5760 wide and 2.05MB; nothing serves it. This band
+           is full-bleed, so a 1440 viewport asks for 1600 and a 2x one for
+           2560 — 57KB and 113KB. See the README beside the files.
+
+           Origin is UNCONFIRMED and it is recorded as such: whether the
+           room and the cars are CMC own is not established, and the copy
+           beside it reads as if they are. -->
+      <img src="assets/img/backgrounds/cmc-mclaren-showroom-1600.jpg"
+           srcset="assets/img/backgrounds/cmc-mclaren-showroom-1600.jpg 1600w,
+                   assets/img/backgrounds/cmc-mclaren-showroom-1905.jpg 1905w"
+           sizes="100vw"
+           alt="" width="1905" height="1029" loading="lazy" decoding="async">
+    </div>
+
+      <!-- Same pattern as Sell / Trade and Warranty: on a phone the
+           photograph is its own part of the stack rather than a ground
+           with type over it. Hidden above the breakpoint, where the
+           section keeps its background treatment. -->
+      <img class="story__mobile" src="assets/img/backgrounds/story-mobile.jpg" alt=""
+           width="716" height="466" loading="lazy" decoding="async">
+    <div class="story__inner">
+
+      <div class="story__copy">
+        <h2 class="story__title"><span class="story__line ttl-line">Built on more</span><span class="story__line ttl-line">than exceptional cars.</span></h2>
+        <p class="story__lede">For over two decades, Chicago Motor Cars has connected
+          enthusiasts and collectors with exceptional vehicles across the country
+          and around the world.</p>
+        <!-- An outlined pill rather than the editorial text action, on
+             Alex's call 2026-08-14. Same primitive the rest of the dark
+             chapters use — Karma, Instagram, Reviews — so the change is
+             a reclassification, not a new control. -->
+        <div class="story__act">
+          <a class="btn btn--line" href="https://www.chicagomotorcars.com/about-chicago-motor-cars/">Our story <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+        </div>
+      </div>
+
+      <!-- ONE FIGURE LEADS AND TWO ANSWER IT. Equal statistics in a row is
+           a data wall — the recorded weakness on hbbody-com, where several
+           similarly treated numbers stopped being evidence and became
+           wallpaper. 40,000+ is the claim; the other two are its context,
+           and they are sized as context.
+
+           The figures were 30,000+ and $2B; CMC revised them to 40,000+
+           and $4B on 2026-08-17. Both are updated everywhere they appear
+           — here, in the About paragraph, and in the page description —
+           because two of them disagreeing is worse than either. -->
+      <dl class="story__stats">
+        <div class="stat stat--lead">
+          <dt class="micro stat__label">Vehicles sold</dt>
+          <dd class="stat__fig"><span class="stat__n" data-count-to="40000" data-suffix="+">40,000+</span></dd>
+        </div>
+        <div class="stat stat--proof">
+          <dt class="micro stat__label">Since</dt>
+          <dd class="stat__fig"><span class="stat__n">2003</span></dd>
+        </div>
+        <div class="stat stat--proof">
+          <dt class="micro stat__label">Worldwide sales</dt>
+          <dd class="stat__fig"><span class="stat__n">$4B+</span></dd>
+        </div>
+      </dl>
+
+    </div>
+  </section>
+
+  </div>
+
+  <!-- ============================================================
+       6 — WARRANTY / PROTECTION
+       ============================================================
+
+       Built from Alex's mock. The composition is his: copy left, a
+       raised panel of three numbered provisions right, a rule of three
+       assurances beneath. What changed is the COPY, and it changed for
+       one reason.
+
+       THE MOCK'S THREE HEADLINE CLAIMS ARE NOT CLAIMS CMC MAKES.
+       Their warranty page says exactly three things: "Our extensive
+       warranty covers all parts belonging to each vehicle available on
+       our lot", "With multiple coverage plans for you to choose from",
+       and that these are aftermarket warranties on pre-owned luxury
+       vehicles. It does not say "thousands of certified facilities",
+       it does not say "nationwide", and it does not say "12-84 months".
+
+       A warranty is a financial promise. Printing a term range and a
+       facility count the business has never published is not a design
+       placeholder, it is the site making an offer on their behalf. So
+       every line below is their claim, and the diagram that carried
+       "12-84 MONTHS" carries no number at all.
+
+       NO PHOTOGRAPH. The mock has a Porsche interior behind the panel;
+       there is no such asset in the repo, and the four showroom frames
+       we do have are 322x262 thumbnails. Rather than reach for a stock
+       interior — which GI3 rules out anyway, since it would read as a
+       car CMC is selling — the panel is a raised bone surface and the
+       technical marks do the work. -->
+    <!-- ============================================================
+       6 — WARRANTY / PROTECTION
+       ============================================================
+       Rebuilt to Alex's reference layout: copy and actions on the left,
+       one image beside them, three provisions as cards beneath.
+
+       IT IS THE REFERENCE'S STRUCTURE, NOT ITS SKIN. The mock is teal on
+       near-white with a tinted icon tile per card; this is the page's own
+       bone ground, its red, its two faces and the Material Symbols set
+       the section already carried. Nothing new is introduced.
+
+       THE DUPLICATION GOES. The old section stated its three provisions
+       twice — once in a raised panel and again in a facts row beneath —
+       six items saying three things. The reference has three, and three
+       is right.
+
+       THE IMAGE IS NEW because the reason there was none no longer holds:
+       the note here used to record that the repo had no suitable asset.
+       One was made for it. Origin declared in its sidecar; the subject is
+       a PART, which is what a warranty covers, rather than a whole car,
+       which would be a claim about a vehicle.
+       ============================================================ -->
+  <section class="warranty on-bone" id="warranty" data-reveal aria-labelledby="warranty-title">
+
+    <!-- THE PHOTOGRAPH IS THE GROUND. Alex's warranty_upd.png is a 16:9
+         frame with the three cars held right of centre and the left 45%
+         left as empty lit concrete — it was composed for copy to stand
+         on, and cropping that into a column would throw away the half
+         the composition needs.
+
+         This is Sell's device MIRRORED, not repeated: Sell puts its copy
+         on the right of an interior showroom, this puts it on the left of
+         an exterior plaza. The two bone bands already mirror each other
+         at the cut; they now mirror each other in the frame as well, and
+         Warranty keeps the three cards Sell does not have.
+
+         The band's own bone shows under the picture, so the section is
+         still the page's inverted ground before the image arrives and
+         still is if it never does. The frame's concrete is within a few
+         values of --bone, which is why the join at the foot reads as the
+         same surface continuing rather than as a photograph ending. -->
+    <div class="warranty__band">
+      <div class="warranty__bg" aria-hidden="true">
+        <img src="assets/img/warranty/warranty-plaza-1600.jpg"
+             srcset="assets/img/warranty/warranty-plaza-1600.jpg 1600w,
+                     assets/img/warranty/warranty-plaza-1920.jpg 1920w"
+             sizes="100vw"
+             alt="" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+
+      <!-- The phone gets the photograph as its OWN part, the same way
+           Sell / Trade does: type over a fixed-aspect frame moves while
+           the subject does not, and something always ends up on top of
+           something. Hidden above the breakpoint, where the band keeps
+           its background treatment. -->
+      <img class="warranty__mobile" src="assets/img/warranty/warranty-mobile-716.jpg" alt=""
+           width="716" height="466" loading="lazy" decoding="async">
+      <div class="shell warranty__inner">
+        <div class="warranty__copy">
+          <p class="micro warranty__eyebrow">
+            <span>Warranty</span>
+            <span aria-hidden="true">·</span>
+            <span>Protection</span>
+          </p>
+          <h2 class="warranty__title" id="warranty-title">
+            <span class="ttl-line">Protect the car</span>
+            <span class="ttl-line">worth chasing.</span>
+          </h2>
+          <p class="lede warranty__lede">Aftermarket coverage for pre-owned exotic,
+            performance and collector vehicles &mdash; with multiple plans to choose
+            from, so the cover can be matched to the car.</p>
+          <div class="warranty__actions">
+            <a class="btn btn--accent" href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">
+              Explore warranty
+              <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+            <a class="btn btn--line" href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">
+              Ask a specialist
+              <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shell warranty__foot">
+      <ul class="wcards">
+          <li class="wcard">
+            <span class="wcard__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M686-132 444-376q-20 8-40.5 12t-43.5 4q-100 0-170-70t-70-170q0-36 10-68.5t28-61.5l146 146 72-72-146-146q29-18 61.5-28t68.5-10q100 0 170 70t70 170q0 23-4 43.5T584-516l244 242q12 12 12 29t-12 29l-84 84q-12 12-29 12t-29-12Zm29-85 27-27-256-256q18-20 26-46.5t8-53.5q0-60-38.5-104.5T386-758l74 74q12 12 12 28t-12 28L332-500q-12 12-28 12t-28-12l-74-74q9 57 53.5 95.5T360-440q26 0 52-8t47-25l256 256ZM472-488Z"/></svg></span>
+            <h3 class="wcard__h">Every part covered</h3>
+            <p class="wcard__p">Covers all parts belonging to each vehicle available on the lot.</p>
+          </li>
+          <li class="wcard">
+            <span class="wcard__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z"/></svg></span>
+            <h3 class="wcard__h">Multiple plans</h3>
+            <p class="wcard__p">Several coverage plans to choose from, so the one you take is the one that suits the vehicle.</p>
+          </li>
+          <li class="wcard">
+            <span class="wcard__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z"/></svg></span>
+            <h3 class="wcard__h">Aftermarket protection</h3>
+            <p class="wcard__p">Offered to protect your investment in a pre-owned luxury vehicle after the sale.</p>
+          </li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       7 — FINANCING
+       ============================================================
+       Alex's composition: the photograph fills the card, the statement
+       is centred over it, the three routes sit as a row of cards on the
+       floor, and the payment method closes the card underneath them.
+
+       Centred, and deliberately so — every other chapter on this page
+       reads left, so the one symmetrical chapter is the closing one.
+       The vehicles keep the middle of the field and nothing is placed
+       on top of them.
+       ============================================================ -->
+  <section class="fin" data-reveal aria-labelledby="fin-title">
+    <div class="shell fin__inner">
+      <div class="fin__card">
+
+        <div class="fin__bg" aria-hidden="true">
+          <img src="assets/img/financing/fin-lineup-1600.jpg"
+               srcset="assets/img/financing/fin-lineup-1600.jpg 1600w,
+                       assets/img/financing/fin-lineup-2473.jpg 2473w"
+               sizes="(max-width: 900px) 100vw, 92vw"
+               alt="" width="2473" height="1545" loading="lazy" decoding="async">
+        </div>
+        <span class="fin__wash" aria-hidden="true"></span>
+
+        <div class="fin__copy">
+          <p class="fin__label">Financing</p>
+          <h2 class="fin__title" id="fin-title">Make it yours.</h2>
+          <p class="fin__lede">Three ways to start, and all of them open online.</p>
+        </div>
+
+        <div class="fin__foot">
+          <div class="fin__rows">
+            <a class="fin__row" href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">
+              <span class="fin__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="m438-338 226-226-57-57-169 169-84-84-57 57 141 141Zm42 258q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 66t6 70q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg></span>
+              <span class="fin__row-t">Online Credit Approval</span>
+            </a>
+            <a class="fin__row" href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">
+              <span class="fin__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M320-240h60v-80h80v-60h-80v-80h-60v80h-80v60h80v80Zm200-30h200v-60H520v60Zm0-100h200v-60H520v60Zm12-172 44-44 44 44 42-42-44-44 44-44-42-42-44 44-44-44-42 42 44 44-44 44 42 42Zm-252-38h200v-60H280v60ZM200-80q-33 0-56.5-23.5T120-160v-640q0-33 23.5-56.5T200-880h560q33 0 56.5 23.5T840-800v640q0 33-23.5 56.5T760-80H200Zm0-80h560v-640H200v640Zm0-640v640-640Z"/></svg></span>
+              <span class="fin__row-t">Calculate Payments</span>
+            </a>
+            <a class="fin__row" href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">
+              <span class="fin__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg></span>
+              <span class="fin__row-t">Calculate Your Trade</span>
+            </a>
+          </div>
+
+          <a class="fin__tert" href="https://www.chicagomotorcars.com/bitpay/">
+            <img class="fin__bitpay" src="assets/img/logos/bitpay.com-10.svg"
+                 alt="BitPay" width="133" height="46" loading="lazy" decoding="async">
+            <span>Accepted</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       8 — SERVICE
+       ============================================================
+
+       THE FILM KEEPS ITS WHOLE FRAME. The first cut of this asset ran
+       three acts and its workshop act was too bright for type anywhere,
+       so the register sat on a column of page ground beside a film cut
+       to 64%. The replacement is one continuous shot of three cars in a
+       dark hall, and two measurements reversed that:
+
+         - it is quiet enough to carry type. Upper-left reads p95 0.090
+           and the upper band 0.099, against a 0.154 body ceiling. The
+           previous film's best zone was 0.272 and failed even the
+           large-text floor of 0.263.
+         - its subject spans the full width. Energy is even across all
+           twelve columns because the picture IS a lineup — a green 911,
+           the blue STO, a red Ferrari with its doors up. A 36% ground
+           column would have removed the Porsche and clipped the STO.
+
+       So the film is full bleed and the register sits on it, in the
+       upper-left: the quietest field in every sampled frame and the
+       corner reading starts from. Six items rather than eight, because
+       a corner of a frame is not a column and a register that runs past
+       its field stops being one.
+
+       NO DISPLAY HEADLINE. Five sections in a row open with a two-line
+       statement; this one opens with a register instead. That is the
+       felt departure C7 asks for, against a pattern the page has
+       already established. -->
+  <section class="svc" id="service" data-reveal>
+
+    <div class="svc__film" aria-hidden="true">
+      <video class="svc__video"
+             muted loop playsinline
+             preload="none"
+             width="1280" height="720">
+        <source data-src="assets/video/service_video.mp4" type="video/mp4">
+      </video>
+      <span class="svc__edge"></span>
+    </div>
+
+    <!-- In the same .shell as Warranty's copy, so "Our Services" lands on
+         the exact vertical of "Warranty / Protection" and "Protect the car
+         worth chasing" — that alignment is the link between the two
+         chapters. Sharing the container rather than matching a number
+         means they cannot drift apart at any width. -->
+    <div class="shell svc__inner">
+      <div class="svc__register">
+      <h2 class="svc__title">Our Services</h2>
+
+      <!-- Six of the thirteen the live site lists — a register that runs
+           past the frame stops being a register and becomes a wall.
+           Numbering and rules carry the structure; no cards.
+
+           EACH ROW IS A LINK, and that is what earns the hover. A hover
+           state is a promise of interactivity, so putting one on inert
+           text would be a lie told to the cursor. They open the services
+           page, which is also how that route returns to the homepage —
+           it left when the button was renamed to Ask about service. -->
+      <ol class="svc__list">
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">01</span><span class="svc__item">Lube, oil &amp; filter</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">02</span><span class="svc__item">Brakes</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">03</span><span class="svc__item">Front end alignment</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">04</span><span class="svc__item">Vehicle inspection</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">05</span><span class="svc__item">Electrical service</span></a></li>
+        <li><a class="svc__row" href="https://www.chicagomotorcars.com/car-service-chicago-il/"><span class="svc__n">06</span><span class="svc__item">Transmission</span></a></li>
+      </ol>
+
+      <div class="svc__actions">
+        <a class="btn btn--fill" href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">
+          Ask about service
+          <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </a>
+        <a class="btn btn--line" href="https://www.chicagomotorcars.com/schedule-car-maintenance-or-auto-repair-chicago-il">
+          Schedule appointment
+          <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       9 — ABOUT US
+       ============================================================
+       CMC's own About copy, supplied by Alex 2026-08-14, in the slot the
+       placeholder testimonial held. Four departures from their text, all
+       of them deletions or a typo, none of them new sentences:
+
+         · "That's who we are at Chicago Motor Cars." is lifted out of the
+           end of their second paragraph and set as the claim. It is the
+           line the copy was already building to.
+         · "worldwide sale" -> "worldwide sales".
+         · "Chicago Motor Cars has three locations conveniently located in
+           the Chicago suburbs." is dropped. The Locations chapter 600px
+           below lists FOUR, two of them in South Carolina and Kansas. The
+           page cannot say both. CMC needs to update that sentence.
+         · "at ChicagoMotorCars.com" is dropped from the browse line —
+           this page is ChicagoMotorCars.com.
+
+       Nothing here is written for them. The rest is verbatim.
+       ============================================================ -->
+  <section class="about" id="about" data-reveal data-bloom="left" aria-labelledby="about-title">
+    <div class="shell about__inner">
+
+      <div class="about__claim">
+        <p class="micro about__eyebrow">About us</p>
+        <h2 class="about__title" id="about-title"><span class="ttl-line">That's who</span><span class="ttl-line">we are.</span></h2>
+
+        <!-- Under the claim, in the field the claim leaves empty. The
+             head office only: the Locations register 900px below lists
+             all four, and repeating them here would make that chapter a
+             second telling instead of the answer. Same pin, same address
+             and phone grammar as that register — one contact language on
+             the page, used twice. -->
+      </div>
+
+      <div class="about__body">
+        <p class="about__p">Since 2003, Chicago Motor Cars has grown from our humble
+          beginnings to a respected leader in the luxury and exotic automotive
+          marketplace. With over 40,000 vehicles sold and more than $4 billion in
+          worldwide sales, you can count on Chicago Motor Cars to exceed your
+          expectations.</p>
+        <p class="about__p">Browse among hundreds of high-quality pre-owned vehicles
+          and let our professional staff help you secure the vehicle of your dreams.
+          We offer competitive financing terms tailored to fit your budget, and we
+          can deliver directly to your door. Work with a leader when purchasing your
+          next sports or exotic automobile.</p>
+      </div>
+
+      <div class="about__contact">
+        <p class="about__addr">
+          <span class="about__ico"><svg width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg></span>
+          <span>27W110 North Avenue<br>West Chicago, IL 60185</span>
+        </p>
+        <a class="about__tel" href="tel:+16302211800">
+          <span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span>
+          <span>630-221-1800</span>
+        </a>
+        <div class="about__socials">
+        <a class="soc" href="https://www.instagram.com/chicagomotorcars/" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 1.5h7.6a4.7 4.7 0 0 1 4.7 4.7v7.6a4.7 4.7 0 0 1-4.7 4.7H6.2a4.7 4.7 0 0 1-4.7-4.7V6.2a4.7 4.7 0 0 1 4.7-4.7Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.7" cy="5.3" r="1.05" fill="currentColor"/></svg></a>
+        <a class="soc" href="https://www.facebook.com/chicagomotorcars" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 19v-7.6h2.5l.4-3h-2.9V6.5c0-.85.24-1.43 1.46-1.43H15.6V2.4A19.6 19.6 0 0 0 13.34 2.3c-2.23 0-3.76 1.36-3.76 3.87v2.16H7.1v3h2.48V19Z" fill="currentColor"/></svg></a>
+        <a class="soc" href="https://twitter.com/chgomotorcars" rel="noopener" aria-label="X"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h3.6l4.03 5.4L15.1 3H18l-5.9 6.85L18.4 18h-3.6l-4.3-5.76L5.5 18H2.6l6.2-7.2Zm2.06 1.55 8.3 11.9h1.6l-8.3-11.9Z" fill="currentColor"/></svg></a>
+        <a class="soc" href="https://www.youtube.com/user/ChicagoMotorCars" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M18.6 6.6a2.3 2.3 0 0 0-1.6-1.63C15.55 4.6 10 4.6 10 4.6s-5.55 0-7 .37A2.3 2.3 0 0 0 1.4 6.6C1 8.05 1 10 1 10s0 1.95.4 3.4a2.3 2.3 0 0 0 1.6 1.63c1.45.37 7 .37 7 .37s5.55 0 7-.37a2.3 2.3 0 0 0 1.6-1.63C19 11.95 19 10 19 10s0-1.95-.4-3.4Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.3 12.6 12.9 10 8.3 7.4Z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+
+      <!-- The chapter's one action, on the same grid row as the contact
+           block so it sits level with the social marks rather than
+           floating under the prose on its own — Alex's call, 2026-08-14,
+           over tucking it under the last paragraph.
+
+           .btn--fill, also his call: the bone primary, the same control
+           the hero's SEARCH INVENTORY uses. It is the strongest thing in
+           the tail and it is the only action this chapter has. Existing
+           primitive either way; a new chapter does not get a new
+           control.
+
+           "Contact us" rather than "Read more", 2026-08-14 — and the
+           href follows the label to the contact page. A button that says
+           one thing and goes somewhere else is the failure this note
+           exists to prevent. It also sits better beside the address and
+           phone in the same row than a second route into the About page
+           this chapter already is. -->
+      <div class="about__act">
+        <a class="btn btn--fill" href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact us <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10 — KARMA · AUTHORIZED DEALER
+       ============================================================
+       A brand inside the brand, and deliberately the shortest, quietest
+       chapter of the tail — one mark, one line, one route.
+
+       NO CAR. The repo has no Karma photograph and one cannot be
+       generated: a synthetic frame of another manufacturer's product,
+       presented as the car this dealer is authorised to sell, is a false
+       statement about a real vehicle. The chapter is built on the real
+       wordmark instead. A frame from CMC would strengthen it.
+       ============================================================ -->
+  <section class="karma" id="karma" data-reveal aria-labelledby="karma-title">
+
+    <!-- KARMA'S OWN FILM, NOT OURS. TECH_HEADLIGHT_9x5-1.mp4 from
+         karmaautomotive.com — the manufacturer's product footage on the
+         page of one of its authorised dealers, and cleared as such:
+         Alex confirmed 2026-08-14 that CMC's Karma dealer agreement
+         covers it. Sidecar in assets/video/ carries the record.
+
+         It is heavily knocked back on purpose: the chapter is a mark, a
+         line and a route, and the film is the room they stand in. At
+         full strength it would be a Karma advertisement with a CMC
+         button on it. -->
+    <div class="karma__film" aria-hidden="true">
+      <video class="karma__video"
+             muted loop playsinline
+             preload="none"
+             width="1280" height="710">
+        <source data-src="assets/video/karma-tech-headlight.mp4" type="video/mp4">
+      </video>
+      <span class="karma__wash"></span>
+    </div>
+
+    <div class="shell karma__inner">
+      <span class="karma__logo" aria-hidden="true"><svg class="karma__mark" role="img" aria-label="Karma" xmlns="http://www.w3.org/2000/svg" width="126.189" height="18.346" viewBox="0 0 126.189 18.346">
+  <g id="Group_1" data-name="Group 1" transform="translate(-108.981 -102.261)">
+    <path id="Path_1" data-name="Path 1" d="M190.29,107.022l-6.163,13.039h-2.27l8.434-17.8,8.433,17.8h-2.27Z" transform="translate(-48.394)" fill="#fff"/>
+    <path id="Path_2" data-name="Path 2" d="M442.832,107.022l-6.163,13.039H434.4l8.434-17.8,8.433,17.8H449Z" transform="translate(-216.097)" fill="#fff"/>
+    <rect id="Rectangle_1" data-name="Rectangle 1" width="2.074" height="17.31" transform="translate(108.981 102.752)" fill="#fff"/>
+    <path id="Path_3" data-name="Path 3" d="M125.682,128.925" transform="translate(-11.09 -17.708)" fill="#fff"/>
+    <path id="Path_4" data-name="Path 4" d="M120.351,112.19l9.066,8.845h-2.705l-9.058-8.843,8.322-8.467h2.7Z" transform="translate(-5.759 -0.973)" fill="#fff"/>
+    <path id="Path_5" data-name="Path 5" d="M352.811,120.607l-6.27-11.393-1.6,10.848h-2.227l2.509-17.8,7.585,13.722,7.585-13.722,2.5,17.8h-2.221l-1.6-10.848Z" transform="translate(-155.215)" fill="#fff"/>
+    <path id="Path_6" data-name="Path 6" d="M274.525,111.459a4,4,0,0,0,3.27-1.19,2.749,2.749,0,0,0,.563-2.226,2.634,2.634,0,0,0-1.141-1.805,2.918,2.918,0,0,0-1.128-.407,9.754,9.754,0,0,0-1.564-.079h-4.639v15.305H267.77v-17.3h6.755a12.663,12.663,0,0,1,2.079.125,5.806,5.806,0,0,1,1.956.655,4.4,4.4,0,0,1,2.149,2.992,4.883,4.883,0,0,1-.713,3.742,5.617,5.617,0,0,1-4.547,2.19l6.338,7.6h-2.7l-7.9-9.4-.166-.2h3.508" transform="translate(-105.445 -0.996)" fill="#fff"/>
+  </g>
+</svg></span>
+      <p class="micro karma__label">Authorized dealer</p>
+      <h2 class="karma__title" id="karma-title"><span class="ttl-line">Be one of the few.</span></h2>
+      <div class="karma__act">
+        <a class="btn btn--line" href="https://www.chicagomotorcars.com/karma/">View Karma inventory <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       11 — INSTAGRAM
+       ============================================================
+       A contact sheet, not a 3x2 grid: the cells take three different
+       shapes and the row scrolls, so the sequence reads as a feed rather
+       than as a tile set. Real CMC frames, small because they were
+       lifted from their own live site — the sidecar in that folder says
+       so and says to ask for the originals.
+       ============================================================ -->
+  <section class="ig" id="instagram" data-reveal aria-labelledby="ig-title">
+    <div class="shell ig__head">
+      <div>
+        <p class="micro ig__eyebrow">Instagram</p>
+        <h2 class="ig__title" id="ig-title"><span class="ttl-line">@chicagomotorcars</span></h2>
+      </div>
+      <a class="btn btn--line ig__cta" href="https://www.instagram.com/chicagomotorcars/">Follow on Instagram <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+
+    <!-- ONE HEIGHT, NATIVE WIDTHS. Every frame is set to the same block
+         size and keeps its own aspect, so the row has one clean top and
+         one clean bottom and the widths do the varying. Eleven of the
+         twelve are 3:2; the Countach reel is 9:16 and lands as the narrow
+         frame, which is what a real feed looks like — cropping it to
+         match would have thrown most of the picture away.
+
+         These are CMC's own twelve, read out of the live Smash Balloon
+         feed on chicagomotorcars.com and fetched from their wp-content.
+         640px masters rendered at 280px tall: everything downscales,
+         nothing upscales. See README.txt beside the files. -->
+    <ul class="ig__sheet" data-drag-scroll>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-jeep-gladiator.jpg" alt="2023 Jeep Gladiator High Altitude 4x4"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3.jpg" alt="2022 Porsche 911 GT3 in Racing Yellow"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-huracan-evo-gt.jpg" alt="2020 Lamborghini Huracan LP640-4 EVO GT"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-gt2-rs.jpg" alt="2018 Porsche 911 GT2 RS Weissach Package"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-urus-s.jpg" alt="2024 Lamborghini Urus S"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-huracan-sto.jpg" alt="2022 Lamborghini Huracan STO"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-audi-r8-v10.jpg" alt="2020 Audi R8 V10 Performance in Ascari Blue"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-lamborghini-countach-showroom.jpg" alt="1989 Lamborghini Countach 25th Anniversary on the showroom floor"
+           width="640" height="1138" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-dodge-viper-acr.jpg" alt="2016 Dodge Viper ACR Extreme"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-carrera-s.jpg" alt="2006 Porsche 911 Carrera S 6-speed"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-porsche-911-gt3-touring.jpg" alt="2023 Porsche 911 GT3 Touring"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+      <li class="ig__cell"><img src="assets/img/instagram/cmc-ig-mercedes-s65-amg.jpg" alt="2019 Mercedes-Benz S65 V12 AMG"
+           width="640" height="427" loading="lazy" decoding="async"><span class="ig__tag" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 20 20"><path d="M6.4 1.9h7.2a4.5 4.5 0 0 1 4.5 4.5v7.2a4.5 4.5 0 0 1-4.5 4.5H6.4a4.5 4.5 0 0 1-4.5-4.5V6.4a4.5 4.5 0 0 1 4.5-4.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="5.5" r="1" fill="currentColor"/></svg></span></li>
+    </ul>
+  </section>
+
+  <!-- ============================================================
+       12 — REVIEWS
+       ============================================================
+       Nine real reviews across the three platforms CMC's own testimonials
+       page aggregates, read from the DealerRater widget that page embeds
+       (dealerrater.com/os/remote.aspx?dId=31085) on 2026-08-14. Names,
+       dates, wording and the five-star marks are as published; each card
+       links to its own source so the claim is checkable.
+
+       VERBATIM, and that is the whole correction. The first pass
+       shortened four of the longer ones "by cutting sentences from the
+       end" — except one of them lost its opening sentence and two from
+       its middle, which is not trimming, it is editing a customer. Nine
+       reviews now carry the published wording exactly: their spelling,
+       their punctuation, their capitalisation of the business name,
+       nothing joined and nothing dropped. If a card is long, that is a
+       layout problem and it gets solved in the layout.
+
+       NO AGGREGATE. No "4.9 from 300 reviews" anywhere in here, because
+       CMC publishes no such figure and a number invented on this page
+       would be a claim the business never made. Every review shown is a
+       five-star review, and that is all the star rows assert.
+
+       The rail is the Instagram sheet's mechanism — scroll-snap, one
+       page at a time — with dots built by script. No script, no dots,
+       and it degrades to a rail you can still push.
+       ============================================================ -->
+  <section class="revs" id="reviews" data-reveal data-bloom="center" aria-labelledby="revs-title">
+    <div class="shell revs__head">
+      <div>
+        <p class="micro revs__eyebrow">Reviews</p>
+        <h2 class="revs__title" id="revs-title"><span class="ttl-line">What owners say.</span></h2>
+      </div>
+      <a class="btn btn--line revs__cta" href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Read all reviews <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+
+    <div class="shell revs__body">
+      <ul class="revs__list" id="revs-track">
+          <li class="rv">
+            <a class="rv__card" href="https://search.google.com/local/reviews?placeid=ChIJ32Vdc8qqD4gRx6CryD4eNDk" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">P</span>
+                <div class="rv__who">
+                  <p class="rv__name">paul Silver</p>
+                  <p class="rv__meta"><time datetime="2026-08-03">August 3, 2026</time> · Google</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Sekou Is one of the best sales people that I ever dealt with I have bought and sold over 90 cars I’m a car guy and this gentleman is very polite, Understanding gets the job done and follows up to make sure his customer is happy. I would definitely buy another car with Sekou and I’ll definitely be referring my car head friends thank you Sekou and thanks Chicago motor cars. Good outfit .</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://search.google.com/local/reviews?placeid=ChIJ32Vdc8qqD4gRx6CryD4eNDk" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">F</span>
+                <div class="rv__who">
+                  <p class="rv__name">Fascinatepictures</p>
+                  <p class="rv__meta"><time datetime="2026-07-06">July 6, 2026</time> · Google</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Mike S. &amp; team go the extra miles to make sure diligence, communication, paperwork, delivery and everything in between in buying exotic cars go smooth and customer friendly. Car was as described if not even better. Highly recommend working with these guys for sourcing / buying.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">K</span>
+                <div class="rv__who">
+                  <p class="rv__name">Karl T</p>
+                  <p class="rv__meta"><time datetime="2025-11-13">November 13, 2025</time> · Cars.com</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Was a pleasure doing business with these guys. Gorgeous showroom with an amazing selection of cars. True enthusiasts here. Got a great price on my car, they offered a fair price on my trade. Were super up front on all details of the car and the deal. Fast and efficient. I look forward to buying again - these guys are more like a fine automotive concierge service than a dealership! Keep it up fellas!</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.cars.com/dealers/158948/reviews/" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">S</span>
+                <div class="rv__who">
+                  <p class="rv__name">SKilander</p>
+                  <p class="rv__meta"><time datetime="2025-04-02">April 2, 2025</time> · Cars.com</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">A remarkable buying experience! Jackson was responsive, informative, personal and NOT pushy. I am enjoying my new ride and have already recommended Chicago Motor Cars to my friends. Thank you for the quick turn around for a memorable Christmas surprise for my wife and family!</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12505029" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">M</span>
+                <div class="rv__who">
+                  <p class="rv__name">Mitch</p>
+                  <p class="rv__meta"><time datetime="2024-08-19">August 19, 2024</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">I cannot say enough good things about CMC and especially Eric. He has been the easiest person to work with and have done multiple deals. I can’t imagine a better company and better human to work with. You cannot go wrong with Eric nor CMC. Mitch</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/12505104" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">A</span>
+                <div class="rv__who">
+                  <p class="rv__name">Arne.toman</p>
+                  <p class="rv__meta"><time datetime="2024-08-19">August 19, 2024</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">I have bought 10+ cars from Chicago Motor Cars over the course of past 10 years. I’ve also used them to consign vehicles. Always a great experience with Eric and their team!</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/11573289" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">D</span>
+                <div class="rv__who">
+                  <p class="rv__name">davidsreines</p>
+                  <p class="rv__meta"><time datetime="2023-12-18">December 18, 2023</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Hands down the easiest car buying experience I have ever had. Saw a vehicle online on a Thursday afternoon, made and offer and signed paperwork via docusign that night. The car was delivered as described on Saturday morning halfway across the country. Ask for “Mood”. He was top notch.</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/11084390" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">J</span>
+                <div class="rv__who">
+                  <p class="rv__name">jnclark78</p>
+                  <p class="rv__meta"><time datetime="2023-08-09">August 9, 2023</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">Doug was great to work with. It took 2 days from start to finish to have a car shipped to me, all over the phone! Doug was super responsive and went out of his way to make sure that everything was perfect. Looking forward to my next purchase from Chicago Motor Cars!</p>
+            </a>
+          </li>
+          <li class="rv">
+            <a class="rv__card" href="https://www.dealerrater.com/consumer/reviews/11206234" rel="noopener">
+              <div class="rv__head">
+                <span class="rv__avatar" aria-hidden="true">M</span>
+                <div class="rv__who">
+                  <p class="rv__name">Mjonesjr8</p>
+                  <p class="rv__meta"><time datetime="2023-09-10">September 10, 2023</time> · DealerRater</p>
+                </div>
+              </div>
+              <span class="rv__stars" role="img" aria-label="Rated 5 out of 5"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 .9l1.9 3.9 4.3.6-3.1 3 .7 4.3L7 10.7 3.2 12.7l.7-4.3-3.1-3 4.3-.6z"/></svg></span>
+              <p class="rv__text">It was the best experience I’ve ever had in a car purchase . Doug went above and beyond and was an absolute pleasure to work with. I would highly recommend him to anyone thinking of buying their next car.</p>
+            </a>
+          </li>
+      </ul>
+      <div class="revs__dots" data-dots-for="revs-track" aria-label="Reviews, page" role="tablist"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       13 — LOCATIONS · FINAL CTA
+       ============================================================
+       An editorial register, not four cards — the same grammar the page
+       already uses for a list of peers, and the last chapter dissolves
+       into the footer rather than ending on an edge.
+       ============================================================ -->
+  <section class="locs" id="locations" data-reveal aria-labelledby="locs-title">
+    <div class="shell locs__inner">
+      <div class="locs__head">
+        <p class="micro locs__eyebrow">Four showrooms, one opening</p>
+        <h2 class="locs__title" id="locs-title">
+          <span class="ttl-line">Come see what's</span>
+          <span class="ttl-line">on the floor.</span>
+        </h2>
+      </div>
+      <!-- ============================================================
+           PANEL ACCORDION — the mechanic from Alex's Vegas reference
+           ============================================================
+           Five photographs in a row, one open. Hovering the row collapses
+           the default-open one and expands whichever is under the
+           pointer; the text sits ON its own panel, at the foot, over a
+           scrim that is always up.
+
+           THE MECHANIC IS BORROWED, THE STYLING IS NOT. Everything here
+           is built from this page's own tokens, type and radii — the ban
+           in CLAUDE.md is on AAN's component kit, not on a layout idea
+           Alex is pointing at.
+
+           PLACEHOLDER IMAGERY, AND IT MATTERS MORE IN THIS SHAPE THAN IT
+           DID BEFORE. These are real CMC frames borrowed from the
+           Instagram folder, and not one was taken at the location it now
+           sits under. As a small plate beside an address that was
+           already wrong; filling a panel with the city's name written
+           across it, it is a photograph of a showroom claiming to be
+           that showroom. Replace before anyone outside sees it.
+           ============================================================ -->
+      <ul class="locs__list">
+          <li class="loc is-open">
+            <!-- WEST CHICAGO IS THE REAL ONE. Alex's own footage of the
+                 27W110 North Avenue floor, with its own frame as the
+                 poster — so this panel is a photograph of the showroom it
+                 is named after, which is what the other four are still
+                 waiting for.
+
+                 The still carries the panel at rest and the film plays
+                 only while the panel is open: preload="none", so a
+                 visitor who never hovers it never downloads 2.6MB. -->
+            <span class="loc__media">
+              <img src="assets/img/locations/loc-west-chicago-1200.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+              <video class="loc__video" muted loop playsinline preload="none" width="1280" height="720">
+                <source data-src="assets/video/loc-west-chicago.mp4" type="video/mp4">
+              </video>
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>West Chicago</span></span>
+              <span class="loc__addr">27W110 North Avenue, West Chicago, IL 60185</span>
+              <span class="loc__acts"><a class="loc__tel" href="tel:+16302211800">630-221-1800</a><a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=27W110+North+Avenue%2C+West+Chicago%2C+IL+60185" rel="noopener">Get directions</a></span>
+            </span>
+          </li>
+          <li class="loc">
+            <span class="loc__media">
+              <img src="assets/img/locations/loc-naperville-1200.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+              <video class="loc__video" muted loop playsinline preload="none" width="1280" height="720">
+                <source data-src="assets/video/loc-naperville.mp4" type="video/mp4">
+              </video>
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Naperville</span></span>
+              <span class="loc__addr">2104 Ferry Road, Naperville, IL 60563</span>
+              <span class="loc__acts"><a class="loc__tel" href="tel:+16302211800">630-221-1800</a><a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%2C+Naperville%2C+IL+60563" rel="noopener">Get directions</a></span>
+            </span>
+          </li>
+          <li class="loc">
+            <span class="loc__media">
+              <img src="assets/img/locations/loc-rock-hill-1200.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+              <video class="loc__video" muted loop playsinline preload="none" width="1280" height="720">
+                <source data-src="assets/video/loc-rock-hill.mp4" type="video/mp4">
+              </video>
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Rock Hill</span></span>
+              <span class="loc__addr">727 Marine Drive, Rock Hill, SC 29730</span>
+              <span class="loc__acts"><a class="loc__tel" href="tel:+18038917788">803-891-7788</a><a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=727+Marine+Drive%2C+Rock+Hill%2C+SC+29730" rel="noopener">Get directions</a></span>
+            </span>
+          </li>
+          <li class="loc">
+            <span class="loc__media">
+              <img src="assets/img/locations/loc-tonganoxie-1200.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+              <video class="loc__video" muted loop playsinline preload="none" width="1280" height="720">
+                <source data-src="assets/video/loc-tonganoxie.mp4" type="video/mp4">
+              </video>
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Tonganoxie</span></span>
+              <span class="loc__addr">1650 Commerce Ave, Tonganoxie, KS 66086</span>
+              <span class="loc__acts"><a class="loc__tel" href="tel:+19138459633">913-845-9633</a><a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=1650+Commerce+Ave%2C+Tonganoxie%2C+KS+66086" rel="noopener">Get directions</a></span>
+            </span>
+          </li>
+          <li class="loc">
+            <span class="loc__media">
+              <img src="assets/img/locations/gen-loc-newport-beach-1200.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+              <video class="loc__video" muted loop playsinline preload="none" width="1280" height="720">
+                <source data-src="assets/video/gen-loc-newport-beach.mp4" type="video/mp4">
+              </video>
+            </span>
+            <span class="loc__info">
+              <span class="loc__city"><svg class="loc__pin" width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg><span>Newport Beach</span></span>
+              <span class="loc__addr">California — opening soon</span>
+              <span class="loc__acts"><a class="loc__tel" href="tel:+16302211800">630-221-1800</a><a class="loc__map" href="https://www.google.com/maps/search/?api=1&amp;query=Newport+Beach%2C+CA" rel="noopener">See on map</a></span>
+            </span>
+          </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+  <!-- ============================================================
+       13 — FOOTER
+       ============================================================ -->
+  <footer class="foot">
+    <div class="shell foot__inner">
+      <a class="foot__mark" href="/" aria-label="Chicago Motor Cars — home">
+        <!-- The same outlines as the masthead, by reference. An <img> of
+             cmc-wordmark.svg cannot inherit colour, so on this ground it
+             rendered black on near-black — invisible. -->
+        <svg class="foot__wm" viewBox="0 0 1271 247" role="img" aria-hidden="true" focusable="false"><use href="#cmc-wm"/></svg>
+      </a>
+
+      <nav class="foot__nav" aria-label="Footer">
+        <div class="foot__col">
+          <p class="micro foot__h">Inventory</p>
+          <a href="srp.html">All inventory</a>
+          <a href="https://www.chicagomotorcars.com/sold-inventory/">Sold inventory</a>
+          <a href="https://www.chicagomotorcars.com/karma/">Karma</a>
+        </div>
+        <div class="foot__col">
+          <p class="micro foot__h">Financing</p>
+          <a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online credit approval</a>
+          <a href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate payments</a>
+          <a href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate your trade</a>
+        </div>
+        <div class="foot__col">
+          <p class="micro foot__h">Company</p>
+          <a href="https://www.chicagomotorcars.com/about-chicago-motor-cars-in-chicago-il/">Our dealership</a>
+          <a href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">Warranty</a>
+          <a href="https://www.chicagomotorcars.com/car-service-chicago-il/">Service</a>
+          <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact</a>
+        </div>
+      </nav>
+
+      <div class="foot__socials">
+          <a class="soc" href="https://www.instagram.com/chicagomotorcars/" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 1.5h7.6a4.7 4.7 0 0 1 4.7 4.7v7.6a4.7 4.7 0 0 1-4.7 4.7H6.2a4.7 4.7 0 0 1-4.7-4.7V6.2a4.7 4.7 0 0 1 4.7-4.7Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.7" cy="5.3" r="1.05" fill="currentColor"/></svg></a>
+          <a class="soc" href="https://www.facebook.com/chicagomotorcars" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 19v-7.6h2.5l.4-3h-2.9V6.5c0-.85.24-1.43 1.46-1.43H15.6V2.4A19.6 19.6 0 0 0 13.34 2.3c-2.23 0-3.76 1.36-3.76 3.87v2.16H7.1v3h2.48V19Z" fill="currentColor"/></svg></a>
+          <a class="soc" href="https://twitter.com/chgomotorcars" rel="noopener" aria-label="X"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h3.6l4.03 5.4L15.1 3H18l-5.9 6.85L18.4 18h-3.6l-4.3-5.76L5.5 18H2.6l6.2-7.2Zm2.06 1.55 8.3 11.9h1.6l-8.3-11.9Z" fill="currentColor"/></svg></a>
+          <a class="soc" href="https://www.youtube.com/user/ChicagoMotorCars" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M18.6 6.6a2.3 2.3 0 0 0-1.6-1.63C15.55 4.6 10 4.6 10 4.6s-5.55 0-7 .37A2.3 2.3 0 0 0 1.4 6.6C1 8.05 1 10 1 10s0 1.95.4 3.4a2.3 2.3 0 0 0 1.6 1.63c1.45.37 7 .37 7 .37s5.55 0 7-.37a2.3 2.3 0 0 0 1.6-1.63C19 11.95 19 10 19 10s0-1.95-.4-3.4Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.3 12.6 12.9 10 8.3 7.4Z" fill="currentColor"/></svg></a>
+      </div>
+
+      <div class="foot__base">
+        <p class="foot__legal">© 2026 Chicago Motor Cars. All rights reserved.</p>
+        <p class="foot__by">Powered by All Auto Network</p>
+      </div>
+    </div>
+  </footer>
+
+
+<script src="assets/js/main.js?v=62" defer></script>
+</body>
+</html>
