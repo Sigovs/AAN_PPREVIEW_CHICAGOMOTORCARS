@@ -54,7 +54,7 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=58">
 <!-- Last again. srp.html and vdp.html load this; index_2.html does
      not, and index.html loads neither. -->
-<link rel="stylesheet" href="assets/css/inventory.css?v=18">
+<link rel="stylesheet" href="assets/css/inventory.css?v=19">
 </head>
 <body class="v2">
 
@@ -1083,18 +1083,13 @@
         </div>
       </div>
 
-      <!-- Thirteen pages at twenty-four a page is the real shape of 301.
-           The numbers are the control: they say where you are as well as
-           where you can go, which a pair of chevrons does not. -->
-      <nav class="pager" aria-label="Inventory pages">
-        <a class="pager__link" href="srp.html" aria-current="page">1</a>
-        <a class="pager__link" href="srp.html">2</a>
-        <a class="pager__link" href="srp.html">3</a>
-        <a class="pager__link" href="srp.html">4</a>
-        <span class="pager__gap" aria-hidden="true">&hellip;</span>
-        <a class="pager__link" href="srp.html">13</a>
+      <!-- The pager is gone. Thirteen numbered pages were a control this
+           preview cannot honour: every one of them pointed back at srp.html,
+           so the numbers said "you are on 1 of 13" and then did nothing. The
+           one link that was real is kept, on its own. -->
+      <p class="pager-out">
         <a class="micro pager__rest" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">See all 301 on the live site &rarr;</a>
-      </nav>
+      </p>
     </div>
   </section>
 

@@ -1122,3 +1122,14 @@
 }
 .v2 .brands__label { margin-block-end: var(--sp-3); }
 .v2 .brands__row { gap: var(--sp-2); }
+
+/* The pager is retired. What is left is one link out, aligned right where
+   the row it belonged to used to end, with the rule above it kept — the
+   results still need closing off from the footer. */
+.v2 .pager-out {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-start: var(--sp-6);
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--rule);
+}
