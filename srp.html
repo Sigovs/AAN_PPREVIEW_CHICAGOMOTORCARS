@@ -54,7 +54,7 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=58">
 <!-- Last again. srp.html and vdp.html load this; index_2.html does
      not, and index.html loads neither. -->
-<link rel="stylesheet" href="assets/css/inventory.css?v=6">
+<link rel="stylesheet" href="assets/css/inventory.css?v=13">
 </head>
 <body class="v2">
 
@@ -458,9 +458,6 @@
         <span class="ttl-line">Three hundred and one</span>
         <span class="ttl-line">cars worth chasing.</span>
       </h1>
-      <p class="lede page-head__lede">Exotic, performance and collector vehicles across four
-        showrooms — West Chicago, Naperville, Rock Hill and Tonganoxie — and delivered anywhere
-        in the country.</p>
 
       <!-- THE FILTERS ARE PILLS THAT COUNT, and that reverses the note
            that used to sit here. Four selects could not say how many cars
@@ -536,10 +533,24 @@
           </div>
         </details>
         <span class="filterbar__gap"></span>
+        <!-- No Apply. The filtering happens on the change, which is how it
+             works everywhere else in AAN, and a button that only confirms
+             what already happened is a step with nothing behind it. The
+             slot takes the way into the full search instead. -->
         <p class="filterbar__go">
-          <button class="btn btn--line" type="submit">Apply <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+          <a class="btn btn--line" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">Detailed search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
         </p>
       </form>
+
+      <!-- Chosen filters, read back. The row is empty in the markup and
+           stays out of the layout until something is actually selected —
+           an always-present "no filters" strip is a line of furniture
+           that tells you nothing. -->
+      <div class="chips" id="srp-chips" hidden>
+        <p class="micro chips__label">Filtered by</p>
+        <ul class="chips__row"></ul>
+        <button class="chips__clear" type="button">Clear all</button>
+      </div>
 
       <!-- The marques actually in stock, with their counts. It is the same
            seven the Make filter holds — the strip is the filter read as a
@@ -612,6 +623,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$899,912</span><span class="veh__pill">38 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -630,6 +642,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$876,212</span><span class="veh__pill">311 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -648,6 +661,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$750,700</span><span class="veh__pill">2,141 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -666,6 +680,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$649,912</span><span class="veh__pill">3,199 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -684,6 +699,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">13,232 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -702,6 +718,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">5,250 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -720,6 +737,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">12,776 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -738,6 +756,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$340,212</span><span class="veh__pill">1,974 mi</span><span class="veh__pill">Convertible</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -756,6 +775,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$285,212</span><span class="veh__pill">647 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -774,6 +794,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$279,212</span><span class="veh__pill">3,499 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -792,6 +813,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$259,912</span><span class="veh__pill">2,670 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -810,6 +832,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$256,212</span><span class="veh__pill">12,371 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -828,6 +851,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$219,912</span><span class="veh__pill">2,897 mi</span><span class="veh__pill">SUV</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -846,6 +870,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$200,212</span><span class="veh__pill">15,106 mi</span><span class="veh__pill">Convertible</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -864,6 +889,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$200,212</span><span class="veh__pill">19,992 mi</span><span class="veh__pill">Convertible</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -882,6 +908,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$160,212</span><span class="veh__pill">19,830 mi</span><span class="veh__pill">Convertible</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -900,6 +927,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$159,912</span><span class="veh__pill">19,510 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -918,6 +946,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$140,212</span><span class="veh__pill">2,957 mi</span><span class="veh__pill">Sedan</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -936,6 +965,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$133,912</span><span class="veh__pill">18,070 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -954,6 +984,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$133,212</span><span class="veh__pill">18,700 mi</span><span class="veh__pill">SUV</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -972,6 +1003,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$125,212</span><span class="veh__pill">45,358 mi</span><span class="veh__pill">SUV</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -990,6 +1022,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$125,212</span><span class="veh__pill">4,012 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -1008,6 +1041,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$119,912</span><span class="veh__pill">65,824 mi</span><span class="veh__pill">Coupe</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
         <div class="veh-cell">
           <span class="veh__tag">
@@ -1026,6 +1060,7 @@
             <span class="veh__facts"><span class="veh__pill veh__pill--price">$115,212</span><span class="veh__pill">2,324 mi</span><span class="veh__pill">Sedan</span></span>
           </span>
           </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
       </div>
 
@@ -1091,6 +1126,6 @@
     </div>
   </footer>
 
-<script src="assets/js/main.js?v=50" defer></script>
+<script src="assets/js/main.js?v=53" defer></script>
 </body>
 </html>

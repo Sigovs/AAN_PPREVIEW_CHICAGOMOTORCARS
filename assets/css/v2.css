@@ -1343,7 +1343,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   translate: 0 0;
   pointer-events: auto;
 }
-.v2 .rec__cta:hover { background: var(--accent-hi, #E01B25); }
+/* The pill answers the pointer. --accent-hi is not a token in this
+   project, so the lift is stated: #CB141D to #E4212B is a step the eye
+   reads without the pill changing size — a fill that grew would shove
+   the two facts beside it, which is the thing this row was built to
+   avoid. The ring carries the rest of the signal. */
+.v2 .rec__cta:hover {
+  background: #E4212B;
+  box-shadow: 0 0 0 4px rgba(203, 20, 29, 0.22);
+}
+.v2 .rec__cta:active { background: #B8121A; box-shadow: none; }
 .v2 .rec__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* The arrow answers the pill: the record's one action is red, so the

@@ -1302,3 +1302,192 @@
     });
   });
 })();
+
+/* ============================================================
+   THE CHOSEN FILTERS, READ BACK
+   ============================================================
+   Each filter panel closes over its own choices, so once three panels are
+   shut there is nothing on screen saying what the list is filtered by.
+   The chips are that sentence.
+
+   They are built from the checkboxes rather than kept in a second list,
+   so the two cannot disagree: the checkbox is the state, the chip is a
+   view of it, and removing a chip unchecks the box it came from.
+
+   The row ships `hidden` and stays out of the layout until something is
+   selected — an always-present "no filters" strip is furniture that says
+   nothing.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var bar = document.querySelector('.filterbar');
+  var wrap = document.getElementById('srp-chips');
+  if (!bar || !wrap) return;
+
+  var row = wrap.querySelector('.chips__row');
+  var clearAll = wrap.querySelector('.chips__clear');
+  var boxes = [].slice.call(bar.querySelectorAll('.fopt input[type="checkbox"]'));
+  if (!boxes.length) return;
+
+  function label(box) {
+    var n = box.closest('.fopt').querySelector('.fopt__name');
+    return n ? n.textContent.trim() : box.value;
+  }
+
+  function render() {
+    var on = boxes.filter(function (b) { return b.checked; });
+    wrap.hidden = on.length === 0;
+    row.textContent = '';
+    on.forEach(function (b) {
+      var li = document.createElement('li');
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'chip';
+      chip.setAttribute('aria-label', 'Remove filter ' + label(b));
+      chip.innerHTML = '<span>' + label(b) + '</span>' +
+        '<svg class="chip__x" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">' +
+        '<path d="m1 1 7 7M8 1 1 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+      chip.addEventListener('click', function () {
+        b.checked = false;
+        render();
+        b.focus();
+      });
+      li.appendChild(chip);
+      row.appendChild(li);
+    });
+  }
+
+  boxes.forEach(function (b) { b.addEventListener('change', render); });
+
+  clearAll.addEventListener('click', function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    render();
+    var first = bar.querySelector('.fpill__trigger');
+    if (first) first.focus();
+  });
+
+  /* Clear inside a panel only clears that panel. */
+  [].slice.call(bar.querySelectorAll('.fpill__clear')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pill = btn.closest('.fpill');
+      [].slice.call(pill.querySelectorAll('input[type="checkbox"]'))
+        .forEach(function (b) { b.checked = false; });
+      render();
+    });
+  });
+
+  /* ---- and the list actually filters ----
+     There is no Apply, so the change IS the action. The predicates read
+     each card off the DOM once — make, body, year and price are all in
+     the markup — and every band below is the same one the panels offer,
+     so a label and its filter cannot drift apart. */
+  var cells = [].slice.call(document.querySelectorAll('.veh-cell'));
+  var count = document.querySelector('.page-head__count');
+  /* Everything after the LAST 'of'. A leading regex re-read its own
+     output once the count had been rewritten, and the label grew a
+     second '24 of' every time. Splitting from the end cannot. */
+  /* Everything after the LAST 'of'. A leading regex re-read its own
+     output once the count had been rewritten, so the label grew a second
+     '24 of' on every pass. Splitting from the end cannot. */
+  var countTotal = count ? count.textContent.trim().split(/\s+of\s+/).pop() : '';
+
+  var data = cells.map(function (c) {
+    var txt = function (sel) { var e = c.querySelector(sel); return e ? e.textContent.trim() : ''; };
+    var name = txt('.veh__name');
+    var pe = c.querySelector('.veh__pill--price');
+    var price = pe ? Number(pe.textContent.replace(/[^0-9]/g, '')) : 0;
+    var pills = [].slice.call(c.querySelectorAll('.veh__pill'));
+    var body = pills.length ? pills[pills.length - 1].textContent.trim() : '';
+    return { cell: c, make: txt('.veh__make'), body: body,
+             year: Number((name.match(/^(d{4})/) || [0, 0])[1]), price: price };
+  });
+
+  var YEAR = {
+    '2024 and newer': function (y) { return y >= 2024; },
+    '2020 – 2023': function (y) { return y >= 2020 && y <= 2023; },
+    '2015 – 2019': function (y) { return y >= 2015 && y <= 2019; },
+    'Before 2015': function (y) { return y > 0 && y < 2015; }
+  };
+  var PRICE = {
+    'Under $250,000': function (v) { return v < 250000; },
+    '$250,000 – $500,000': function (v) { return v >= 250000 && v < 500000; },
+    '$500,000 – $750,000': function (v) { return v >= 500000 && v < 750000; },
+    '$750,000 and above': function (v) { return v >= 750000; }
+  };
+
+  function chosen(pillId) {
+    var pill = document.getElementById(pillId);
+    if (!pill) return [];
+    return [].slice.call(pill.querySelectorAll('input:checked')).map(function (bx) {
+      var n = bx.closest('.fopt').querySelector('.fopt__name');
+      return n ? n.textContent.trim() : bx.value;
+    });
+  }
+
+  function apply() {
+    var mk = chosen('f-make'), bd = chosen('f-body'),
+        yr = chosen('f-year'), pr = chosen('f-price');
+    var shown = 0;
+    data.forEach(function (d) {
+      var ok = (!mk.length || mk.indexOf(d.make) > -1)
+            && (!bd.length || bd.indexOf(d.body) > -1)
+            && (!yr.length || yr.some(function (k) { return YEAR[k] && YEAR[k](d.year); }))
+            && (!pr.length || pr.some(function (k) { return PRICE[k] && PRICE[k](d.price); }));
+      d.cell.hidden = !ok;
+      if (ok) shown++;
+    });
+    if (count) count.innerHTML = '<b>' + shown + '</b> of ' + countTotal;
+  }
+
+  boxes.forEach(function (bx) { bx.addEventListener('change', apply); });
+  clearAll.addEventListener('click', apply);
+  [].slice.call(bar.querySelectorAll('.fpill__clear')).forEach(function (btn) {
+    btn.addEventListener('click', apply);
+  });
+
+  render();
+  apply();
+})();
+
+/* ============================================================
+   ONE FILTER PANEL AT A TIME
+   ============================================================
+   <details> has no idea its siblings exist, so every panel opened stayed
+   open: four overlapping cards, the ones behind unreachable, and nothing
+   closed them but clicking the trigger again.
+
+   Opening one closes the others. Clicking outside the row closes all of
+   them. Escape closes and returns focus to the trigger it came from,
+   which is the same contract the nav dropdowns already keep.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var bar = document.querySelector('.filterbar');
+  if (!bar) return;
+
+  var pills = [].slice.call(bar.querySelectorAll('.fpill'));
+  if (!pills.length) return;
+
+  pills.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      pills.forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (bar.contains(e.target)) return;
+    pills.forEach(function (d) { d.open = false; });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var open = pills.filter(function (d) { return d.open; })[0];
+    if (!open) return;
+    open.open = false;
+    var t = open.querySelector('.fpill__trigger');
+    if (t) t.focus();
+  });
+})();
