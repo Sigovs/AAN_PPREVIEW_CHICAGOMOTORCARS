@@ -1,0 +1,53 @@
+location films — provenance sidecar
+==================================
+
+FILES
+  loc-west-chicago.mp4    1280 x 720   10.0s   2.6 MB
+  loc-naperville.mp4      1280 x 720           1.1 MB
+
+  Posters, served under the film and shown whenever it is not playing:
+  assets/img/locations/loc-west-chicago-1200.jpg   1200 x 675   336 KB
+  assets/img/locations/loc-naperville-1200.jpg     1200 x 675   220 KB
+
+  The masters as supplied sit beside the posters in
+  assets/img/locations/ under their address filenames, and are not what
+  the page serves.
+
+SUPPLIED BY
+  Alex — West Chicago 2026-08-17, Naperville 2026-08-17 — named by
+  address:
+    27W110 North Avenue West Chicago, IL 60185_vid.mp4
+    Naperville2104 Ferry Road, Naperville, IL 60563_vid.mp4
+
+  The filenames are the claim: each file is asserted to be the showroom
+  at the address it is filed under, which is the whole reason they can
+  be used here at all.
+
+NOT SYNTHETIC — AND THAT IS THE POINT
+  These two panels are the first location media on the page that is not
+  a placeholder. The other three still carry stand-in frames pulled from
+  the Instagram set, and none of those was taken at the location it sits
+  under. That gap is loudest now, not quieter: two panels playing their
+  own building make the three that do not look like the ones with
+  something to hide. Worth closing before this goes to the client.
+
+  Nothing here is generated, so no gen- prefix and no generated-imagery
+  audit applies. GI3 is satisfied directly.
+
+HOW THEY ARE USED
+  Background of their own accordion panel, under the same grade as the
+  stills and under the panel's existing scrim, which sits ABOVE the film
+  so the caption keeps its ground when the video fades up.
+
+  preload="none" and the source's URL held in data-src, so a visitor who
+  never opens the panel never downloads it. Attached on first open,
+  played while open or hovered, paused the moment it closes. Never
+  started under prefers-reduced-motion — the still underneath is the
+  whole picture there and it is already in place.
+
+OPEN
+  Duration and exact dimensions for the Naperville file are not recorded
+  above because ffprobe is not installed on this machine; the browser
+  reports 1280 x 720 on load and the file plays and loops cleanly. If a
+  precise figure is ever needed it should be read off the master, not
+  guessed from the byte count.

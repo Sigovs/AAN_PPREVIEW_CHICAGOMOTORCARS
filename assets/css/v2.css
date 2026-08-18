@@ -214,10 +214,19 @@
    The strip is taller than it was — 74px against 40 — because a wedge
    needs somewhere to be tall, and it starts further left: 4% rather than
    8%, with the shift Alex asked for on top. */
+/* MIRRORED, on Alex's call 2026-08-17. Every value in this block and in
+   the motion block below is the same number reflected about the card's
+   vertical centre — the wedge now stands highest at the bottom-RIGHT
+   corner and tapers away to the left. Nothing about its shape, reach or
+   timing changes; only which corner it is anchored to.
+
+   Mirrored by hand rather than with scale: -1, because the strip is
+   already using scale to open out on hover and a negative x factor there
+   would fight the animation instead of composing with it. */
 .v2 .rec::before {
-  inset: auto 8% -1px 4%;
+  inset: auto 4% -1px 8%;
   height: 74px;
-  background: radial-gradient(72% 132% at 6% 100%,
+  background: radial-gradient(72% 132% at 94% 100%,
     rgba(244, 242, 239, 0.30) 0%,
     rgba(196, 192, 185, 0.13) 36%,
     rgba(150, 146, 140, 0.05) 62%,
@@ -233,9 +242,9 @@
      comes up to full just inside the card, and tapers away to the right
      as before. The wedge is unchanged; only its leading edge stops being
      a straight line. */
-  -webkit-mask-image: linear-gradient(to right,
+  -webkit-mask-image: linear-gradient(to left,
     transparent 0%, rgba(0,0,0,0.55) 6%, #000 14%, rgba(0,0,0,0.58) 44%, transparent 82%);
-          mask-image: linear-gradient(to right,
+          mask-image: linear-gradient(to left,
     transparent 0%, rgba(0,0,0,0.55) 6%, #000 14%, rgba(0,0,0,0.58) 44%, transparent 82%);
 }
 .v2 .stat__fig::after {
@@ -355,15 +364,15 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 
 /* ---- 5. THE LIGHT ARRIVES SHORT AND LENGTHENS ----------------------
    Client request, refined: on hover the glow under the record starts
-   SHORT near the left edge and lengthens as it travels toward the middle
+   SHORT near the right edge and lengthens as it travels toward the middle
    — not a light sliding across at a fixed size, a light opening out.
 
-   SCALE FROM A LEFT ANCHOR, which is what makes it read as lengthening
+   SCALE FROM A RIGHT ANCHOR, which is what makes it read as lengthening
    rather than as growing in both directions. transform-origin is the
-   left edge, so the strip stretches rightward from where it starts; the
-   constant -8% shift puts that start at roughly a fifth across the
-   record and lands the finished light just short of centre, which is the
-   travel Alex marked.
+   right edge, so the strip stretches leftward from where it starts; the
+   constant shift puts that start at roughly a fifth in from the record's
+   right edge and lands the finished light just past centre, which is the
+   travel Alex marked — mirrored 2026-08-17.
 
    Scale and translate only — both compositor work, both inside the
    project's motion rule. Nothing here animates geometry.
@@ -373,8 +382,8 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
    quick. It rides in on the same activation that fades it up, so the
    record lights and the light arrives as one gesture. */
 .v2 .rec::before {
-  transform-origin: left center;
-  translate: -4% 0;
+  transform-origin: right center;
+  translate: 4% 0;
   scale: 0.42 1;
   transition: opacity var(--dur-3) var(--ease-out),
               scale var(--dur-4) var(--ease-out);
@@ -922,37 +931,53 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   border: 1px solid rgba(244, 242, 239, 0.13);
   overflow: hidden;
   isolation: isolate;
-  /* THE LIGHT SAT TOO HIGH AND STOPPED TOO EARLY ON THE LEFT.
+  /* LIT FROM ABOVE AND FROM THE LEFT, FALLING AWAY DOWNWARD.
 
-     Measured on the render, in a 9x9 luminance grid across the panel:
-     the bright band peaked at 22-39% down the box — ABOVE the car, not
-     behind it — and the whole bottom third read a flat 8-10, dead black
-     with no falloff left in it. So the car stood in front of a lit wall
-     rather than inside a lit room, and the left half below it had
-     nothing at all.
+     Two passes got this wrong in opposite directions and the reference
+     settles it. In the Figma the mass of the light is HIGH — the upper
+     band is the brightest part of the frame, strongest toward the left —
+     and it falls steadily all the way to the floor. The car reads as a
+     silhouette standing in front of that, with the ground immediately
+     around it darker than the field above it, and one soft sheen on the
+     floor beneath.
 
-     Three moves, and the third is the one Alex marked. The core drops
-     from 32% to 50% so it sits behind the car's mass. The broad field
-     comes left with it. And a fourth lobe is added low and left — the
-     piece that was missing — so the light carries down the left side
-     instead of clamping to the base colour halfway down.
+     The first pass had the height right and let the left edge die
+     halfway down. The second fixed the left edge by dragging the whole
+     light down onto the car — which put the brightest pixels directly
+     behind the subject, so the car competed with its own halo, and left
+     the top band the DARKEST thing on the panel at 13-15. A centred pool
+     has no direction, and this frame is supposed to have one.
 
-     The corner falloff moves to 44% 48% and opens its first stop from
-     30% to 34%: centred at 40% it began darkening the left edge before
-     the light had reached it, which is what put a hard shoulder down
-     that side. */
+     So: the mass goes back up and to the left, the spill down the left
+     edge stays, and the region behind the car is deliberately not the
+     peak. Falloff is monotonic downward — every row darker than the one
+     above it — which is what makes it read as light from a source rather
+     than as a vignette. */
   background:
-    radial-gradient(122% 112% at 44% 48%,
-      transparent 34%, rgba(4, 4, 3, 0.42) 80%, rgba(3, 3, 2, 0.68) 100%),
-    radial-gradient(40% 30% at 42% 50%,
-      rgba(240, 237, 231, 0.115) 0%, rgba(190, 186, 179, 0.05) 52%, transparent 78%),
-    radial-gradient(62% 54% at 40% 38%,
-      rgba(190, 186, 179, 0.085) 0%, rgba(146, 143, 137, 0.036) 46%, transparent 80%),
-    radial-gradient(48% 42% at 21% 62%,
-      rgba(168, 164, 157, 0.065) 0%, rgba(128, 125, 120, 0.028) 50%, transparent 82%),
-    radial-gradient(22% 18% at 27% 24%,
-      rgba(220, 216, 209, 0.045) 0%, transparent 74%),
-    linear-gradient(180deg, #16181A 0%, #0F1113 48%, #08090A 100%);
+    /* The corner falloff, centred on the light rather than on the box,
+       so the darkening arrives from the corners the light left last. */
+    radial-gradient(128% 118% at 38% 30%,
+      transparent 38%, rgba(4, 4, 3, 0.40) 78%, rgba(3, 3, 2, 0.72) 100%),
+    /* The mass. High and left — this is the brightest thing in the
+       frame and it is nowhere near the car. */
+    radial-gradient(56% 42% at 32% 20%,
+      rgba(240, 237, 231, 0.105) 0%, rgba(190, 186, 179, 0.046) 50%, transparent 80%),
+    /* The same light carrying right along the top, so the upper band is
+       continuous instead of a lobe sitting in one corner. */
+    radial-gradient(72% 50% at 58% 17%,
+      rgba(190, 186, 179, 0.072) 0%, rgba(146, 143, 137, 0.030) 48%, transparent 82%),
+    /* The left spill — kept from the last pass, because that part was
+       right. It is what stops the left edge clamping to the base colour
+       at mid-height. Tall and narrow, so it reads as the wall staying
+       open rather than as a second lamp. */
+    radial-gradient(40% 54% at 12% 46%,
+      rgba(168, 164, 157, 0.055) 0%, rgba(128, 125, 120, 0.024) 52%, transparent 84%),
+    /* The floor. A wide, very shallow sheen under the car — the only
+       light below the subject, and the thing that gives the contact
+       shadow something to sit on. */
+    radial-gradient(42% 11% at 46% 63%,
+      rgba(200, 196, 189, 0.045) 0%, transparent 78%),
+    linear-gradient(180deg, #191B1D 0%, #121416 40%, #08090A 100%);
 }
 
 /* THE CAR IS SMALLER IN THE FIGMA THAN IT IS HERE — 59% of the stage's
