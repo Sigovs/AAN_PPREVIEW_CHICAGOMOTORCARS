@@ -288,10 +288,15 @@ def _textblock(heading, lines):
         out.append('              <h3 class="dsc__h">%s</h3>' % html.escape(heading))
     out.append('              <ul class="dsc__list">')
     for l in lines:
-        if l:
-            out.append('                <li>%s</li>' % html.escape(l))
+        if not l:
+            out.append('                <li class="dsc__gap" aria-hidden="true"></li>')
+        elif l.endswith(')') and '(Originally' in l:
+            # A package name with its price is a sub-heading inside the
+            # list — it is what the blank lines are separating — so it is
+            # marked as one rather than left to look like another part.
+            out.append('                <li class="dsc__pkg">%s</li>' % html.escape(l))
         else:
-            out.append('                <li class="dsc__gap"></li>')
+            out.append('                <li>%s</li>' % html.escape(l))
     out.append('              </ul>')
     return chr(10).join(out)
 

@@ -2457,10 +2457,21 @@
   color: var(--ink-2);
   line-height: 1.75;
 }
-/* A blank line in the feed separates one package from the next. It is a
-   break, not an item, so it is space rather than an empty row — and it
-   carries no text, so it stays out of the accessibility tree. */
-.v2 .dsc__gap { block-size: var(--sp-5); }
+/* A blank line in the feed separates one package from the next. It was
+   space; Alex's call is to draw it. So the break becomes the page's own
+   hairline — the same rule that divides everything else here — with air
+   on both sides, which says "new package" more plainly than a gap of
+   the same height ever did.
+
+   Still not an item: no text, and aria-hidden in the markup, so the
+   rule a sighted reader sees does not become a blank bullet a screen
+   reader has to announce. */
+.v2 .dsc__gap {
+  block-size: 1px;
+  margin-block: var(--sp-5);
+  background: var(--rule);
+  max-inline-size: 26rem;
+}
 
 /* The opening claims are the listing's own summary of the car, so they
    read at full ink — the only weight change in the whole block. */
@@ -2488,3 +2499,43 @@
   text-align: left;
   max-inline-size: 46ch;
 }
+
+/* ---- the headings are marked ------------------------------------------
+   Alex: "заголовки выделить, не забудь." They were --ink-3 at the 14px
+   floor, which is the caption voice — correct for a label sitting on
+   something, wrong for the thing that divides ninety-one lines into six
+   groups. A reader scrolling this needs to find "Interior highlights"
+   without hunting.
+
+   Full ink, 16px, 600, and the uppercase tracking kept so they still
+   read as structure rather than as sentences. Bigger air above than
+   below, so each one belongs to the block it opens rather than floating
+   between two.
+
+   The package names inside Factory options are sub-headings too — they
+   are what the blank lines separate — so they take full ink and weight
+   without the uppercase, one clear step under the section heads. */
+.v2 .dsc__h {
+  margin: var(--sp-8) 0 var(--sp-4);
+  font-size: var(--t-body);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: var(--tr-label);
+}
+.v2 .dsc__h:first-child { margin-block-start: 0; }
+
+/* .v2 .dsc__list li.dsc__pkg, NOT .v2 .dsc__pkg — FOURTH TIME.
+   .v2 .dsc__list li is (0,3,1); a class on its own is (0,2,0) and
+   loses, so the package name kept the list's quiet ink and the
+   emphasis did nothing.
+
+   THE RULE FOR THIS FILE, since it has now cost four things: when a
+   list or a body sets a blanket colour on its children, a modifier for
+   one of those children must be written at the same depth. Match the
+   parent chain, do not just name the class. */
+.v2 .dsc__list li.dsc__pkg {
+  color: var(--ink);
+  font-weight: 600;
+  margin-block-start: var(--sp-2);
+}
+.v2 .dsc__list li.dsc__pkg:first-child { margin-block-start: 0; }
