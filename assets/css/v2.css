@@ -922,16 +922,37 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   border: 1px solid rgba(244, 242, 239, 0.13);
   overflow: hidden;
   isolation: isolate;
+  /* THE LIGHT SAT TOO HIGH AND STOPPED TOO EARLY ON THE LEFT.
+
+     Measured on the render, in a 9x9 luminance grid across the panel:
+     the bright band peaked at 22-39% down the box — ABOVE the car, not
+     behind it — and the whole bottom third read a flat 8-10, dead black
+     with no falloff left in it. So the car stood in front of a lit wall
+     rather than inside a lit room, and the left half below it had
+     nothing at all.
+
+     Three moves, and the third is the one Alex marked. The core drops
+     from 32% to 50% so it sits behind the car's mass. The broad field
+     comes left with it. And a fourth lobe is added low and left — the
+     piece that was missing — so the light carries down the left side
+     instead of clamping to the base colour halfway down.
+
+     The corner falloff moves to 44% 48% and opens its first stop from
+     30% to 34%: centred at 40% it began darkening the left edge before
+     the light had reached it, which is what put a hard shoulder down
+     that side. */
   background:
-    radial-gradient(120% 110% at 42% 40%,
-      transparent 30%, rgba(4, 4, 3, 0.46) 78%, rgba(3, 3, 2, 0.70) 100%),
-    radial-gradient(34% 26% at 46% 62%,
-      rgba(240, 237, 231, 0.10) 0%, rgba(190, 186, 179, 0.045) 54%, transparent 78%),
-    radial-gradient(64% 56% at 50% 32%,
-      rgba(190, 186, 179, 0.085) 0%, rgba(146, 143, 137, 0.038) 46%, transparent 80%),
-    radial-gradient(22% 18% at 30% 22%,
-      rgba(220, 216, 209, 0.05) 0%, transparent 74%),
-    linear-gradient(180deg, #16181A 0%, #0F1113 46%, #070809 100%);
+    radial-gradient(122% 112% at 44% 48%,
+      transparent 34%, rgba(4, 4, 3, 0.42) 80%, rgba(3, 3, 2, 0.68) 100%),
+    radial-gradient(40% 30% at 42% 50%,
+      rgba(240, 237, 231, 0.115) 0%, rgba(190, 186, 179, 0.05) 52%, transparent 78%),
+    radial-gradient(62% 54% at 40% 38%,
+      rgba(190, 186, 179, 0.085) 0%, rgba(146, 143, 137, 0.036) 46%, transparent 80%),
+    radial-gradient(48% 42% at 21% 62%,
+      rgba(168, 164, 157, 0.065) 0%, rgba(128, 125, 120, 0.028) 50%, transparent 82%),
+    radial-gradient(22% 18% at 27% 24%,
+      rgba(220, 216, 209, 0.045) 0%, transparent 74%),
+    linear-gradient(180deg, #16181A 0%, #0F1113 48%, #08090A 100%);
 }
 
 /* THE CAR IS SMALLER IN THE FIGMA THAN IT IS HERE — 59% of the stage's
