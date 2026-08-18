@@ -167,14 +167,32 @@
     linear-gradient(180deg, #151311 0%, #0E0D0B 48%, #080706 100%);
 }
 
-/* The "Just in" plate. */
+/* The "Just in" plate. RED, on Alex's call 2026-08-17.
+
+   It was a dark plate that had to be found; in the accent it is the
+   first thing read in the frame, which is what a status mark is for.
+
+   THE ACCENT BUDGET SURVIVES THIS, and that was the thing to check
+   before agreeing. Featured Inventory carried no red at all — the
+   keyword field's action and the index's closing CTA are both the
+   outlined variant, deliberately, because the hero owns the page's one
+   Accent Action. This pill is not an action: pointer-events is none, it
+   states a fact about the car behind it. So it adds a second red ROLE to
+   the page rather than a second red button competing with SEARCH
+   INVENTORY, and at roughly 110 x 40px in a 654 x 790 panel it is well
+   inside the 5% budget.
+
+   Nothing here is carried by hue alone — the pill says the words.
+
+   The gradient construction is kept rather than flattened, mirrored into
+   the accent: #CB141D to #A50F17 across the same 133deg, shallow enough
+   to read as a plate catching the light rather than as a gradient
+   effect. The ban on gradient fills is a ban on gradient BUTTONS, and
+   this is a non-interactive mark that already had this construction. */
 .v2 .justin {
-  background: linear-gradient(133deg,
-    rgba(46, 44, 40, 0.92) 0%,
-    rgba(34, 32, 29, 0.92) 52%,
-    rgba(24, 23, 21, 0.92) 100%);
-  box-shadow: inset 0 1px 0 rgba(240, 237, 231, 0.16),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+  background: linear-gradient(133deg, #CB141D 0%, #BC1219 52%, #A50F17 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.24);
 }
 
 /* The record being read. The edge and the lift still carry the state, so
