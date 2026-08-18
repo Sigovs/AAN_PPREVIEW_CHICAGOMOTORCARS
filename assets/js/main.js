@@ -1212,3 +1212,54 @@
     }
   });
 })();
+
+
+/* ============================================================
+   THE VDP GALLERY
+   ============================================================
+   Six frames stacked in one box, crossfading. Not a carousel and not a
+   lightbox: the frames are all in the DOM at their real size, so the
+   only thing a click changes is which one has opacity, and the browser
+   never reflows.
+
+   The strip drives it. Arrow keys walk it too, because a row of six
+   buttons that only answers to a pointer is a row of six buttons a
+   keyboard user has to tab through one at a time to see photograph six.
+
+   Nothing is hidden without script: the first frame carries .is-active
+   in the markup and the rest sit behind it at opacity 0, so a blocked
+   script leaves the page showing the car rather than showing nothing.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var gal = document.querySelector('.gal');
+  if (!gal) return;
+
+  var frames = gal.querySelectorAll('.gal__stage img');
+  var thumbs = gal.querySelectorAll('.gal__thumb');
+  if (!frames.length || !thumbs.length) return;
+
+  function show(i) {
+    if (i < 0) i = thumbs.length - 1;
+    if (i >= thumbs.length) i = 0;
+    Array.prototype.forEach.call(frames, function (f, n) {
+      f.classList.toggle('is-active', n === i);
+    });
+    Array.prototype.forEach.call(thumbs, function (t, n) {
+      t.setAttribute('aria-current', n === i ? 'true' : 'false');
+    });
+  }
+
+  Array.prototype.forEach.call(thumbs, function (t, i) {
+    t.addEventListener('click', function () { show(i); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var next = (i + d + thumbs.length) % thumbs.length;
+      show(next);
+      thumbs[next].focus();
+    });
+  });
+})();

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     srp.html — THE SEARCH RESULTS PAGE
+     ============================================================
+     Built 2026-08-17 for the index_2 preview. Head, masthead and footer
+     are COPIED FROM index_2.html at build time by the script in the
+     session scratchpad, not retyped, so the three pages cannot drift.
+
+     REAL INVENTORY. Every vehicle below is a live listing pulled from
+     chicagomotorcars.com/used-cars-chicago-il on 2026-08-17: real year,
+     make, model, trim, price, mileage, stock number and photograph, and
+     every card that is not the demo VDP links to that vehicle's own page
+     on the live site. Nothing here is invented — the point of a results
+     page is that it is true, and a mock full of fictional cars proves
+     nothing about how the real feed will look.
+
+     Twenty-four of the collection. The count is theirs.
+
+     NO NEW DESIGN SYSTEM. The buttons, pills, eyebrows, type scale,
+     hairlines, reveal choreography and finder fields are all the
+     homepage's, used as they are. See assets/css/inventory.css for what
+     is genuinely new and why it is only two objects.
+     ============================================================ -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventory — Chicago Motor Cars</title>
+<meta name="description" content="Browse the Chicago Motor Cars collection: exotic, performance and collector vehicles, delivered nationwide from four showrooms.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Instrument Serif is gone: nothing is set in it any more, and a face
+     nothing uses is a request nothing needs. See tokens.css. -->
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- The LCP here is the first row of the grid, not one frame. Three cards
+     load eagerly and the rest are lazy; preloading one of twenty-four
+     would just pick a winner among equals. -->
+
+<!-- There was no icon at all, so every tab showed the browser's blank page
+     glyph — the identity simply stopped existing at 16px. The script
+     wordmark cannot go there (its hairlines are a quarter-pixel at header
+     size, never mind a tab), so the tile is the CMC red carrying the "C"
+     lifted out of the wordmark. Both elements are already the brand's. -->
+<link rel="icon" href="assets/logos/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/logos/favicon.svg">
+
+<link rel="stylesheet" href="assets/css/tokens.css?v=50">
+<link rel="stylesheet" href="assets/css/main.css?v=439">
+<!-- Last, so it wins on equal specificity. index.html does not load
+     it, which is what keeps the approved page out of reach. -->
+<link rel="stylesheet" href="assets/css/v2.css?v=58">
+<!-- Last again. srp.html and vdp.html load this; index_2.html does
+     not, and index.html loads neither. -->
+<link rel="stylesheet" href="assets/css/inventory.css?v=4">
+</head>
+<body class="v2">
+
+<span class="scroll-sentinel" aria-hidden="true"></span>
+
+<!-- Navigation: eco.com's SHAPE, chicagomotorcars.com's TREE.
+
+     The shape — wordmark alone far left, everything else in one frosted
+     object top right, mono labels, a light pill closing the bar, and a
+     panel that grows downward out of the bar.
+
+     The tree is theirs, walked off the live <ul class="navbar-nav">
+     rather than retyped from memory: six top-level items in their
+     order, their labels, their hrefs, and their three levels. Nothing
+     promoted, nothing folded, nothing renamed — Sell Us Your Car sits
+     under Services because that is where they put it, and Warranty and
+     Events stay top-level links with no children because that is what
+     they are.
+
+     Two things are NOT reproduced, both defects rather than structure:
+     the same href printed twice in one menu (All Inventory / View All
+     Inventory, and Boats on both levels), which is a duplicate link,
+     not a choice. Each is kept once, in its first position.
+
+     The eco rows carry a description line. These do not: their site
+     has no such copy, and last pass I wrote it myself, which is how a
+     nav ends up asserting things the business never said. Titles only,
+     until there is real copy to put under them. -->
+<!-- HREFS ARE THE LIVE SITE'S. The IA is the deliverable here, so the
+     destinations are real and checkable rather than "#". -->
+<!-- THE GLASS. A real refraction, not a frosted rectangle.
+
+     feTurbulence makes a smooth low-frequency field and feDisplacementMap
+     pushes the BACKDROP around by it, so whatever is behind the nav bends
+     as it scrolls past. The type is content, not backdrop, so none of this
+     touches the labels' legibility — only the picture under them moves.
+
+     Verified in-browser before it was used: `backdrop-filter: url(#id)`
+     parses in most engines and PAINTS in far fewer, so a striped probe was
+     rendered and photographed first. It displaces in Chrome 151.
+
+     baseFrequency is deliberately low. Higher and it stops reading as
+     glass and starts reading as noise on a lens. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="nav-glass" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="11" result="warp"/>
+    <feGaussianBlur in="warp" stdDeviation="2.5" result="softWarp"/>
+    <feDisplacementMap in="SourceGraphic" in2="softWarp" scale="16"
+                       xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<header class="masthead">
+  <div class="masthead__inner">
+
+    <!-- One rail holding the whole navigation, wordmark included, with
+         the call as a separate object beside it. That is the reference's
+         structure, and it is also what makes the scrolled state calm:
+         the rail keeps its box, so nothing slides when the contents
+         change — see the crossfade in main.css. -->
+    <div class="navbar">
+      <a class="masthead__mark" href="/" aria-label="Chicago Motor Cars — home">
+        <!-- The outlines are inline rather than <img src="cmc-wordmark.svg">
+             because an <img> can be given neither of the two things this mark
+             needed: colour it inherits, and a stroke. See main.css →
+             .masthead__wm for the measurement behind both.
+
+             They sit here rather than in a <symbol> + <use> sprite at the
+             foot of the file simply because there is one consumer. A sprite
+             buys reuse this page has no second use for, and it costs a layer
+             of indirection between the header and the thing the header is.
+
+             assets/logos/cmc-wordmark.svg stays the canonical source and
+             holds the same 13 paths, with no stroke, so it is still the pure
+             wordmark on its own. Regenerate from it; never retype. -->
+        <svg class="masthead__wm" viewBox="0 0 1271 247" role="img" aria-hidden="true" focusable="false">
+          <g id="cmc-wm">
+          <path vector-effect="non-scaling-stroke" d="M342.645 95.7522C343.379 95.916 346.69 97.3987 347.583 97.7809C348.585 102.583 348.923 102.21 351.456 106.471C351.721 107.282 351.441 111.852 352.183 112.194C361.413 116.441 352.828 130.626 355.213 135.035C360.852 132.141 369.752 120.53 374.752 115.986C378.518 112.564 382.012 117.408 383.634 116.187C389.341 112.179 395.16 104.531 401.922 102.315C410.669 99.4497 415.646 99.7507 418.662 108.821C423.183 109.919 428.202 105.143 431.151 104.677C436.127 103.891 457.692 99.6465 460.808 102.439C460.465 103.904 460.217 104.717 460.257 106.245C461.201 106.485 486.311 91.4793 493.393 98.1843C493.975 99.7445 493.966 100.667 493.994 102.327C494.393 125.773 476.795 137.094 462.236 152.387C456.248 158.009 448.131 163.098 441.087 167.454C418.55 181.39 423.285 164.681 427.807 150.962C433.409 133.965 432.707 123.483 446.319 110.818C441.162 111.937 425.4 112.911 422.58 114.455C417.083 117.465 412.947 134.264 407.409 140.863C400.451 149.154 394.392 152.207 387.399 160.053C387.202 162.803 385.121 166.61 385.171 168.455C385.199 169.471 385.397 169.902 386.306 170.373C391.078 172.848 407.063 173.648 413.023 174.551C419.421 175.52 426.247 176.854 432.573 178.244C438.677 179.584 444.809 182.582 450.742 184.662C453.95 185.787 459.086 186.826 461.502 189.188C463.89 191.522 465.821 195.541 465.834 198.906C465.853 203.872 462.112 208.477 458.766 211.817C455.654 214.923 452.189 217.543 448.275 219.553C427.039 230.457 367.845 243.183 344.199 243.195C334.013 243.333 297.301 239.929 305.79 219.701C307.046 216.708 318.414 203.674 320.919 203.267C330.119 201.776 333.577 195.404 341.325 193.138C335.966 202.14 316.505 214.323 316.028 217.566C313.032 237.919 363.808 237.214 373.939 234.914C386.463 232.071 388.555 230.628 395.908 229.483C407.686 227.648 449.726 214.905 452.862 204.98C451.982 199.319 441.907 196.569 437.322 194.465C422.443 187.636 410.149 183.845 393.602 184.428C388.212 184.618 381.205 184.424 375.746 183.99C365.183 181.923 369.943 176.697 371.11 171.423C370.076 168.918 366.327 170.501 365.619 169.778C363.578 167.697 361.74 166.129 359.406 164.37C358.841 160.628 358.765 158.224 358.856 154.49C358.95 150.613 362.237 142.02 361.166 139.299C358.699 138.633 354.502 137.296 352.142 137.437C348.228 139.586 340.117 153.327 341.28 157.962C344.082 158.657 345.469 156.211 348.314 156.869C352.57 163.42 335.087 173.709 328.811 170.028C326.667 164.825 332.74 149.331 334.472 142.487C329.482 144.959 323.899 146.949 318.798 149.249C310.425 153.023 282.365 180.203 273.136 170.912C271.886 168.995 272.418 166.59 272.658 164.296C290.485 140.565 305.084 111.787 332.939 97.7927C334.968 96.7737 340.225 96.119 342.645 95.7522ZM293.29 161.943C295.32 159.223 298.941 158.239 301.981 155.943C321.396 141.278 331.066 137.384 335.388 112.79C333.313 108.493 332.967 108.737 328.097 109.323C317.83 113.119 285.391 150.496 286.311 160.82C288.302 162.725 290.603 162.149 293.29 161.943ZM380.329 159.191C396.458 155.723 422.181 107.22 399.465 110.449C384.204 115.813 379.544 131.601 374.514 145.258C373.396 148.292 370.823 155.161 371.858 158.28C373.335 159.573 374.596 159.689 376.543 159.562C377.808 159.47 379.07 159.347 380.329 159.191ZM465.072 116.107C457.824 118.322 453.959 118.496 450.355 126.465C447.879 131.938 436.593 154.237 436.394 158.216C438.669 159.658 444.057 157.219 446.587 156.355C457.147 147.706 463.046 138.866 475.825 131.244C480.143 121.379 483.088 120.115 482.755 109.328C478.712 109.178 474.795 108.965 470.752 109.279C467.972 111.57 467.073 113.127 465.072 116.107Z"/>
+          <path vector-effect="non-scaling-stroke" d="M603.637 45.9087C605.277 45.7242 606.639 46.2817 608.21 46.7772C608.541 47.111 608.927 47.4981 609.365 47.9386C608.212 58.027 601.69 76.3342 601.123 85.6277C600.786 91.1449 607.905 105.14 609.686 109.029C621.054 115.096 618.155 117.412 632.545 110.942C652.418 102.023 668.091 87.6552 684.558 73.84C689.813 69.4281 705.387 54.27 711.623 55.8534C719.806 65.2192 697.619 99.7421 693.046 109.461C687.276 121.131 685.774 128.499 685.917 141.231C686.066 154.676 688.039 150.73 691.861 161.361L688.225 166.734C684.577 166.937 674.879 167.686 672.968 165.367C660.205 149.878 677.013 113.981 684.167 103.422C685.756 99.2791 690.781 88.4602 687.785 84.6925C673.415 92.9868 662.557 105.124 645.866 113.064C625.236 122.875 625.59 127.989 600.912 126.781C594.022 121.624 591.71 116.439 585.707 110.702C583.054 108.166 578.984 114.494 577.437 116.528C564.608 133.387 550.712 149.363 539.724 167.565C532.702 173.759 525.785 165.575 531.109 158.534C547.382 137.011 563.036 116.504 577.814 93.9072C577.141 83.6933 571.972 72.8247 587.086 72.4486C592.426 62.2788 590.398 49.7198 603.637 45.9087Z"/>
+          <path vector-effect="non-scaling-stroke" d="M839.263 47.8657C840.2 47.6619 840.548 47.8207 841.46 48.0844C842.725 53.4018 813.856 93.4963 809.674 101.193C819.018 102.308 832.724 100.033 842.273 99.335C844.959 99.1388 850.432 98.2638 852.771 98.5946C853.937 101.651 850.196 104.173 851.331 106.969C856.065 106.942 871.775 92.7305 885.066 97.565C890.265 104.169 880.406 126.447 874.809 131.887C866.148 140.306 858.045 149.651 848.998 157.715C847.23 159.297 842.322 160.141 840.368 161.944C835.292 165.901 822.983 176.601 816.455 170.795C813.88 165.311 822.393 142.665 824.192 134.33C825.787 129.936 829.293 121.669 831.148 117.246C831.992 116.676 832.817 116.085 833.63 115.475C835.646 113.961 837.055 112.796 837.396 110.35C835.919 109.459 807.899 112.623 804.431 113.193C797.227 119.635 790.229 131.657 786.351 140.71C785.798 141.563 783.894 149.23 783.621 149.486C777.385 155.341 785.215 158.143 784.235 163.262C782.646 166.452 774.388 169.793 770.864 171.507C769.437 169.765 767.873 168.269 766.273 166.691C764.976 143.93 775.815 138.854 785.029 119.58C784.638 117.312 781.157 119.084 778.98 116.515C776.188 106.36 792.586 103.687 799.163 101.806C801.887 95.3774 808.284 88.6296 811.374 82.8002C816.877 72.4144 823.194 61.2674 828.492 50.8829C832.6 49.9619 835.274 49.2093 839.263 47.8657ZM856.891 116.207C853.155 117.309 849.47 118.259 846.039 120.118C842.8 125.572 828.256 153.676 828.548 158.532C830.794 159.519 836.558 157.016 838.922 156.114C845.083 150.862 850.86 144.45 857.288 139.356C867.128 131.549 876.286 122.945 874.878 109.275C871.018 109.168 866.824 108.954 863.008 109.309C860.669 111.179 858.752 113.841 856.891 116.207Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1081.06 47.2774C1086.16 47.2574 1087.87 48.322 1092.36 50.5011C1093.84 53.1122 1094.84 54.3995 1096.66 56.728C1096.78 62.8156 1096.85 68.9037 1096.87 74.9924C1092.11 81.4498 1085.84 93.6583 1078.26 83.689C1078 78.1228 1078.37 71.9515 1078.12 65.9192C1075.45 64.5359 1070.2 62.1094 1067.31 63.2457C1054.22 68.3719 1041.22 84.4957 1030.53 93.9084C1026.97 98.0454 1020.67 101.465 1017.5 105.822C1007.55 119.493 987.187 136.806 987.317 154.54C988.397 160.431 998.671 159.352 1002.13 159.887C1026.62 163.675 1046.71 145.879 1068.28 140.815L1070 140.357C1071.87 140.824 1072.36 140.925 1073.93 142.047L1074.14 143.516C1071 151.178 1050.26 157.217 1043.2 160.388C1023.82 169.096 1003.88 173.359 982.682 173.93C980.281 173.994 975.752 172.128 973.444 171.247C971.923 169.235 970.385 167.239 968.827 165.257C968.48 158.417 969.795 152.087 972.407 145.759C982.558 121.167 1036.04 66.7732 1059.12 53.7328C1065.72 49.9999 1074.01 50.2079 1081.06 47.2774Z"/>
+          <path vector-effect="non-scaling-stroke" d="M115.096 47.3053C120.397 47.2448 121.913 48.2396 126.593 50.5256C127.914 52.9448 129.234 54.6446 130.868 56.8313C130.99 62.7268 130.894 68.9664 130.902 74.8919C127.804 79.4086 121.841 89.5884 115.534 87.2475C111.259 82.7773 112.451 72.2568 112.263 65.9086C106.446 62.8187 102.191 61.5238 96.4353 65.5704C85.0412 73.5824 75.6841 84.0048 65.3727 93.3108C60.746 97.4855 55.807 101.622 51.464 106.109C43.5428 116.513 31.753 127.96 25.6673 139.386C13.8971 161.486 26.2113 158.988 40.9632 159.853C63.9667 161.202 80.242 147.391 100.048 141.49C102.841 140.577 106.351 139.944 108.594 142.235C108.617 147.421 94.0391 153.974 89.3844 156.005C65.6079 166.377 42.3477 173.396 16.2236 174.134C15.1307 174.165 8.90197 171.583 7.51493 171.021C6.77479 169.738 4.84241 167.27 3.88791 165.978C3.01986 155.455 5.06218 152.156 7.40902 142.159C12.2995 137.171 20.4568 124.126 26.1799 117.138C45.3774 93.6961 67.8297 70.1604 93.611 53.8956C98.0243 51.1115 108.524 49.9436 115.096 47.3053Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1148.65 95.6486C1150.26 95.8174 1152.5 97.2143 1154.01 98.0317C1155.41 102.502 1155.76 106.314 1156.32 110.918C1158.28 113.191 1160.14 111.205 1161.15 114.789C1165.18 129.029 1156.8 137.543 1149.78 148.687C1148.58 150.589 1146.42 155.12 1147.07 157.433C1150.11 158.951 1151.92 156.008 1155.46 157.623C1155.43 157.865 1155.39 158.105 1155.34 158.344C1154.54 161.952 1149.56 166.754 1146.33 168.566C1125.69 180.132 1138.18 151.193 1140.56 142.503C1136.46 144.444 1118.73 151.009 1117.49 153.717C1115.69 156.147 1098.07 168.416 1094.93 169.618C1080.11 175.125 1072.36 173.216 1083.32 157.283C1094.91 140.446 1104.35 125.634 1119.64 111.729C1131.13 101.277 1132.95 98.5362 1148.65 95.6486ZM1098.66 161.923C1101.64 159.373 1103.32 158.907 1106.59 156.671C1117.37 149.244 1129.48 141.192 1136.69 130.008C1137.64 128.529 1139.06 122.406 1139.53 120.53C1140.48 116.829 1143.13 114.533 1141.27 110.907C1138.98 108.63 1137.24 108.874 1134.18 109.283C1124.11 112.886 1090.34 151.325 1092.19 161.238C1093.98 162.511 1096.39 162.182 1098.66 161.923Z"/>
+          <path vector-effect="non-scaling-stroke" d="M765.205 97.0542C767.11 96.5267 770.914 96.4833 772.533 97.7543C773.253 98.7199 773.755 99.5931 773.811 100.814C775.065 127.345 750.885 140.761 736.416 158.177C724.733 162.215 721.686 168.918 711.803 172.155C710.016 172.376 707.428 172.878 705.679 172.28C705.064 172.071 704.382 171.607 704.09 171.031C700.479 163.968 715.209 126.87 718.355 117.435C722.654 114.779 723.982 113.173 726.687 109.111C732.253 107.287 734.127 107.155 739.984 107.496C748.838 101.258 753.832 98.1961 765.205 97.0542ZM744.339 116.52C738.799 117.766 738.811 117.722 733.835 120.101C730.181 125.872 716.22 152.847 716.189 158.388C717.945 159.261 720.123 158.362 722.046 157.714C723.442 157.241 724.826 156.756 726.21 156.26C731.229 151.449 736.336 146.734 741.535 142.118C751.928 132.867 763.89 125.212 761.954 109.232C758.225 109.16 753.752 108.957 750.11 109.352C747.727 110.979 745.971 114.071 744.339 116.52Z"/>
+          <path vector-effect="non-scaling-stroke" d="M268.502 156.513C256.348 167.04 246.178 174.576 228.56 172.572C220.142 171.614 224.442 153.664 227.032 148.909C235.669 134.238 248.383 107.888 263.368 98.5102C286.097 84.286 287.298 95.0981 283.043 114.299C280.106 117.068 278.192 122.071 273.691 123.645C269.317 121.382 275.643 109.724 269.267 106.965C260.556 107.265 238.832 143.123 236.732 151.577C232.105 170.195 259.635 157.785 265.445 154.585C267.418 155.344 267.46 155.006 268.502 156.513Z"/>
+          <path vector-effect="non-scaling-stroke" d="M943.643 90.5454C944.927 90.4777 949.761 90.8805 950.561 91.8077C948.594 99.0253 944.567 105.416 939.411 110.734C936.911 110.644 933.654 110.77 931.091 110.799C929.23 112.186 919.451 119.366 918.341 120.769C910.877 130.055 903.816 139.48 897.109 149.312C893.69 154.317 885.401 169.269 880.282 170.47C878.327 170.149 878.96 170.52 877.738 169.013C876.931 166.341 877.409 164.318 877.806 161.59C878.997 156.438 884.47 151.634 887.442 146.167C893.814 134.44 896.507 125.891 899.646 113.017C903.623 109.866 908.227 101.138 913.607 104.217C916.181 109.166 910.324 115.462 913.272 117.439C918.403 115.59 927.554 102.66 931.836 98.7932C934.888 96.034 939.97 93.4895 943.643 90.5454Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1227.4 90.5137C1228.91 90.497 1229.5 90.4305 1230.89 91.1331C1235.28 96.8172 1226.29 107.049 1222.33 110.842C1219.78 110.706 1216.71 110.77 1214.12 110.76C1211.67 112.796 1203.45 118.476 1201.43 120.852C1192.01 131.904 1182.82 145.605 1174.84 157.674C1171.79 162.307 1166.52 172.407 1161.25 169.544C1159.51 166.544 1160.79 162.854 1161.59 159.616C1166.83 150.751 1173.44 142.575 1177.23 132.728C1177.8 131.256 1179.13 128.958 1179.19 127.426C1179.46 120.573 1186.94 101.569 1195.77 104.058C1198.52 108.574 1195.24 112.083 1195.7 117.331C1200.03 117.39 1212.03 101.259 1216.25 97.9498C1220.39 94.7022 1222.86 93.222 1227.4 90.5137Z"/>
+          <path vector-effect="non-scaling-stroke" d="M241.37 55.9161C241.545 55.9123 241.721 55.9143 241.898 55.922C244.062 56.0171 245.267 56.3558 246.582 57.7461C247.309 60.0686 247.01 62.697 246.885 65.1416C242.62 69.3989 242.689 72.4101 236.512 75.0743C234.548 75.4734 235.285 75.5385 233.462 74.9415C230.887 72.1314 231.273 66.8762 231.14 62.9651C234.481 58.099 235.875 57.1347 241.37 55.9161Z"/>
+          <path vector-effect="non-scaling-stroke" d="M193.829 0H200.489C202.398 5.27974 205.353 8.78451 202.409 14.624C200.144 15.0994 200.916 13.3065 197.705 12.3146C195.853 13.3189 184.019 38.6235 183.363 41.5685C179.899 57.1183 124.821 142.828 128.425 151.281L129.664 151.514C133.274 150.566 150.415 134.968 152.932 131.302C160.47 120.327 169.648 114.216 178.537 104.866C181.304 104.843 189.427 104.396 191.54 105.876C194.697 114.862 151.641 167.962 186.117 161.864C193.554 147.209 205.034 130.834 209.356 114.825C209.872 112.917 209.757 107.739 209.722 105.594C213.159 102.649 216.528 99.6273 219.827 96.5311C222.464 96.2375 225.862 95.2651 228.492 94.601C228.712 98.5437 229.342 105.746 227.79 109.324C220.707 125.632 209.979 140.514 200.976 155.851C197.674 161.476 193.378 165.975 188.761 170.49C177.287 172.648 179.952 174.754 167.28 174.16C164.888 172.453 161.845 169.68 159.547 167.691C158.757 154.481 160.548 145.943 167.786 134.651C169.525 131.937 172.366 125.771 171.716 122.529C169.63 122.492 157.065 138.974 154.485 141.389C148.723 146.846 142.499 151.754 136.83 157.327C131.849 162.225 120.604 173.496 113.103 170.197C112.565 168.73 113.1 168.293 113.318 166.923C120.051 124.707 146.606 90.0272 166.236 53.1037C174.368 37.5873 182.069 21.8347 189.749 6.09131C190.625 4.29554 192.624 2.1927 193.829 0Z"/>
+          <path vector-effect="non-scaling-stroke" d="M1206.85 155.785C1211.95 158.083 1232.46 165.79 1236.25 161.715C1236.79 159.29 1235.07 154.459 1233.46 152.722C1212.75 130.315 1234.81 103.58 1259.3 98.5536C1264.3 97.5259 1266.11 98.1483 1270.7 100.804V106.582C1266.61 109.614 1258.62 124.01 1252.88 124.512C1252.41 121.045 1259.42 115.146 1258.24 109.909C1252.56 105.73 1242.51 111.199 1238.44 115.774C1238.03 118.517 1235.2 128.101 1235.61 129.776C1237.14 135.932 1242.83 142.728 1245.58 148.59C1247.14 151.904 1248.08 154.604 1249.89 157.889C1243.63 165.045 1241.2 169.633 1231.01 171.249C1224.75 172.243 1198.51 173.251 1197.37 164.709C1198.67 162.665 1204.24 158.495 1206.85 155.785Z"/>
+        </g>
+          </svg>
+      </a>
+
+      <nav class="navbar__groups" aria-label="Primary">
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-inventory">
+            Inventory
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <!-- Their third level is "View Inventory", which is dropped as a
+               heading: you are already inside Inventory, so it names the
+               menu you are standing in. That is CMS structure showing
+               through, not information. The twelve body types keep their
+               own column; the siblings keep theirs. -->
+          <div class="navmenu__panel navmenu__panel--mega" id="nav-inventory" hidden>
+            <div class="navmenu__group navmenu__group--wide">
+              <ul class="navmenu__list navmenu__list--2">
+                <li><a href="srp.html">All Inventory</a></li>
+                <li><a href="https://www.chicagomotorcars.com/convertible-inventory/">Convertibles</a></li>
+                <li><a href="https://www.chicagomotorcars.com/coupe-inventory/">Coupes</a></li>
+                <li><a href="https://www.chicagomotorcars.com/hatchback-inventory/">Hatchbacks</a></li>
+                <li><a href="https://www.chicagomotorcars.com/sedan-inventory/">Sedans</a></li>
+                <li><a href="https://www.chicagomotorcars.com/suv-inventory/">SUVs</a></li>
+                <li><a href="https://www.chicagomotorcars.com/wagon-inventory/">Wagons</a></li>
+                <li><a href="https://www.chicagomotorcars.com/pickup-truck-inventory/">Pickup Trucks</a></li>
+                <li><a href="https://www.chicagomotorcars.com/minivan-van-inventory/">Sprinter Van</a></li>
+                <li><a href="https://www.chicagomotorcars.com/motorcycle-inventory/">Motorcycles</a></li>
+                <li><a href="https://www.chicagomotorcars.com/boats/">Boats</a></li>
+                <li><a href="https://www.chicagomotorcars.com/sold-inventory/">Sold Inventory</a></li>
+              </ul>
+            </div>
+            <!-- The eight siblings, in their order, unlabelled — the site
+                 gives them no heading and inventing one is how "Showrooms"
+                 nearly ended up here as my copy rather than theirs. -->
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville</a></li>
+                <li><a href="https://www.chicagomotorcars.com/south-carolina-inventory/">South Carolina</a></li>
+                <li><a href="https://www.chicagomotorcars.com/kansas-inventory/">Kansas</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-cars-chicago-il/karma-chicago-il">Karma</a></li>
+                <li><a href="https://www.chicagomotorcars.com/test-drive-cars-chicago-il/">Schedule Test Drive</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOCATIONS, after Inventory. Built from the same .navmenu
+             primitive as Financing and Services — trigger, panel, list —
+             so it inherits the open/close, the focus handling and the
+             escape key without a line of new script.
+
+             The four rows point at CMC's per-location INVENTORY pages,
+             because those are the only per-location pages the site has:
+             there is no West Chicago page with hours and directions on
+             it. Worth building; not something to invent here. Contact us
+             closes the list, since that is where an address question
+             currently has to go. -->
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-locations">
+            Locations
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-locations" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago, IL</a></li>
+                <li><a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a></li>
+                <li><a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a></li>
+                <li><a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a></li>
+                <!-- SIMULATED — see the Locations register. It points at
+                     Contact Us because that is where a question about a
+                     showroom that has not opened has to go. -->
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Newport Beach, CA <span class="navmenu__soon">Soon</span></a></li>
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-financing">
+            Financing
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-financing" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online Credit Approval</a></li>
+                <li><a href="https://www.chicagomotorcars.com/trucks-and-equipment-online-credit-approval/">Trucks &amp; Equipment Online Credit Approval</a></li>
+                <li><a href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate Your Trade</a></li>
+                <li><a href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate Payments</a></li>
+                <li><a href="https://www.chicagomotorcars.com/bitpay/">Purchase with BitPay</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <a class="navbar__link" href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">Warranty</a>
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-services">
+            Services
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-services" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/car-service-chicago-il/">Our Services</a></li>
+                <li><a href="https://www.chicagomotorcars.com/schedule-car-maintenance-or-auto-repair-chicago-il/">Schedule Appointment</a></li>
+                <li><a href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">Sell Us Your Car</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="navmenu">
+          <button class="navmenu__trigger" type="button" aria-expanded="false" aria-controls="nav-about">
+            About Us
+            <svg class="navmenu__chev" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="m1 1 3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="navmenu__panel" id="nav-about" hidden>
+            <div class="navmenu__group">
+              <ul class="navmenu__list">
+                <li><a href="https://www.chicagomotorcars.com/review-us/">Review Us</a></li>
+                <li><a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a></li>
+                <li><a href="https://www.chicagomotorcars.com/about-chicago-motor-cars-in-chicago-il/">Our Dealership</a></li>
+                <li><a href="https://www.chicagomotorcars.com/team-chicago-motor-cars-in-chicago-il/">Our Team</a></li>
+                <li><a href="https://www.chicagomotorcars.com/our-videos-chicago-il/">Our Videos</a></li>
+                <li><a href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Testimonials</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <a class="navbar__link" href="https://www.chicagomotorcars.com/blog/">Events</a>
+
+      </nav>
+
+      <!-- Also in their header, and easy to miss: a saved-vehicles counter.
+           It stays, quiet, because a count nobody has filled yet should
+           not outrank the call. -->
+      <!-- Glyph + count while the rail is packed, full label everywhere
+           else. This is where the bigger wordmark's width came from —
+           main.css said so before it was needed: "the width has to come
+           from the CONTENT — dropping My Garage to its glyph frees
+           100px". The label is only ever visually hidden, never removed,
+           so the control keeps its name for a screen reader. -->
+      <a class="navbar__garage" href="https://www.chicagomotorcars.com/my-garage/">
+        <svg class="navbar__garage-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path d="M4 2.2h7a.8.8 0 0 1 .8.8v9.4L7.5 9.9l-4.3 2.5V3a.8.8 0 0 1 .8-.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+        <span class="navbar__garage-label">My Garage</span>
+        <span class="navbar__count">0</span>
+      </a>
+
+      <!-- Absolutely positioned at the rail's trailing edge so it can
+           fade in exactly where the groups fade out, and take no space
+           while it is invisible. -->
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="site-menu">
+        <span class="menu-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="menu-toggle__label"></span>
+      </button>
+    </div>
+
+    <!-- Outside the rail, and deliberately: on a $1.2M car the conversion
+         is a call, so it is the one thing that is never inside a
+         container that can collapse. It does not move on scroll. -->
+    <a class="navbar__cta" href="tel:+16302211800">
+        <svg class="navbar__cta-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/>
+        </svg>
+      <span class="navbar__cta-text">630&#160;221&#160;1800</span>
+      <span class="u-visually-hidden">Call Chicago Motor Cars</span>
+    </a>
+  </div>
+</header>
+
+
+<!-- READ POSITION, along the bottom edge of the screen.
+
+     It started as a hairline under the masthead, doing two jobs at once
+     — separating the bar and reporting position. Moved down here it is
+     only doing the second, which is the honest arrangement: the bar no
+     longer needs a rule under it now that the nav items carry their own
+     ground, and a progress line reads better against the edge you are
+     scrolling toward than the one you are scrolling away from.
+
+     Outside <header> because it is no longer part of it. It appears only
+     after the hero has gone, so it never lies across the claim's air.
+
+     A persistent layer, and counted as one: 3px on the extreme edge,
+     below the menu's z-index so an open panel covers it rather than
+     having a red line float over a full-screen overlay. -->
+<div class="readbar" aria-hidden="true"><i class="readbar__fill"></i></div>
+
+<!-- Ships hidden; the toggle only becomes real once the script confirms
+     it can open. Without JS the nav row above stays on the page, so no
+     route is ever trapped behind a script. -->
+<div class="menu" id="site-menu" hidden>
+  <div class="menu__inner shell">
+    <!-- Every group and every row the desktop bar has. Content parity is
+         an invariant: neither a phone nor a scrolled desktop is offered
+         a shorter site.
+
+         It mirrors the bar exactly: four headed groups, then the two
+         top-level entries that have no children, unheaded. A heading
+         reading "Warranty" over a single link reading "Warranty" is the
+         same defect as "View Inventory" inside Inventory — a label that
+         names itself. -->
+    <nav class="menu__nav" aria-label="Primary">
+      <section class="menu__group menu__group--wide">
+        <p class="micro menu__label">Inventory</p>
+        <a href="srp.html">All Inventory</a>
+        <a href="https://www.chicagomotorcars.com/convertible-inventory/">Convertibles</a>
+        <a href="https://www.chicagomotorcars.com/coupe-inventory/">Coupes</a>
+        <a href="https://www.chicagomotorcars.com/hatchback-inventory/">Hatchbacks</a>
+        <a href="https://www.chicagomotorcars.com/sedan-inventory/">Sedans</a>
+        <a href="https://www.chicagomotorcars.com/suv-inventory/">SUVs</a>
+        <a href="https://www.chicagomotorcars.com/wagon-inventory/">Wagons</a>
+        <a href="https://www.chicagomotorcars.com/pickup-truck-inventory/">Pickup Trucks</a>
+        <a href="https://www.chicagomotorcars.com/minivan-van-inventory/">Sprinter Van</a>
+        <a href="https://www.chicagomotorcars.com/motorcycle-inventory/">Motorcycles</a>
+        <a href="https://www.chicagomotorcars.com/boats/">Boats</a>
+        <a href="https://www.chicagomotorcars.com/sold-inventory/">Sold Inventory</a>
+        <a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago</a>
+        <a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville</a>
+        <a href="https://www.chicagomotorcars.com/south-carolina-inventory/">South Carolina</a>
+        <a href="https://www.chicagomotorcars.com/kansas-inventory/">Kansas</a>
+        <a href="https://www.chicagomotorcars.com/used-cars-chicago-il/karma-chicago-il">Karma</a>
+        <a href="https://www.chicagomotorcars.com/test-drive-cars-chicago-il/">Schedule Test Drive</a>
+      </section>
+      <section class="menu__group">
+        <p class="micro menu__label">Locations</p>
+        <a href="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/">West Chicago, IL</a>
+        <a href="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/">Naperville, IL</a>
+        <a href="https://www.chicagomotorcars.com/south-carolina-inventory/">Rock Hill, SC</a>
+        <a href="https://www.chicagomotorcars.com/kansas-inventory/">Tonganoxie, KS</a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Newport Beach, CA <span class="navmenu__soon">Soon</span></a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a>
+      </section>
+
+      <section class="menu__group">
+        <p class="micro menu__label">Financing</p>
+        <a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online Credit Approval</a>
+        <a href="https://www.chicagomotorcars.com/trucks-and-equipment-online-credit-approval/">Trucks &amp; Equipment Online Credit Approval</a>
+        <a href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate Your Trade</a>
+        <a href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate Payments</a>
+        <a href="https://www.chicagomotorcars.com/bitpay/">Purchase with BitPay</a>
+      </section>
+      <section class="menu__group">
+        <p class="micro menu__label">Services</p>
+        <a href="https://www.chicagomotorcars.com/car-service-chicago-il/">Our Services</a>
+        <a href="https://www.chicagomotorcars.com/schedule-car-maintenance-or-auto-repair-chicago-il/">Schedule Appointment</a>
+        <a href="https://www.chicagomotorcars.com/sell-us-your-car-in-chicago-il/">Sell Us Your Car</a>
+      </section>
+      <section class="menu__group">
+        <p class="micro menu__label">About Us</p>
+        <a href="https://www.chicagomotorcars.com/review-us/">Review Us</a>
+        <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact Us</a>
+        <a href="https://www.chicagomotorcars.com/about-chicago-motor-cars-in-chicago-il/">Our Dealership</a>
+        <a href="https://www.chicagomotorcars.com/team-chicago-motor-cars-in-chicago-il/">Our Team</a>
+        <a href="https://www.chicagomotorcars.com/our-videos-chicago-il/">Our Videos</a>
+        <a href="https://www.chicagomotorcars.com/chicago-motor-cars-dealership-customer-reviews/">Testimonials</a>
+      </section>
+      <!-- The bar's two childless top-level entries, plus My Garage.
+           No heading: there is no category here to name. -->
+      <section class="menu__group menu__group--plain">
+        <a href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">Warranty</a>
+        <a href="https://www.chicagomotorcars.com/blog/">Events</a>
+        <a href="https://www.chicagomotorcars.com/my-garage/">My Garage</a>
+      </section>
+    </nav>
+
+    <!-- The two feature cards that used to sit here are GONE.
+
+         They came from ballance.framer.website, where the panel surfaces
+         content beside the routes, and the idea was sound. It cost 303px
+         of a 1374px panel — a quarter of it — to show two cars the
+         visitor did not ask for, in a control whose entire job is to get
+         them somewhere. That is the device losing to the task: a menu
+         that has to be scrolled to reach its own links has stopped being
+         a menu. The cars belong on the page, not inside the way out of
+         it.
+
+         assets/img/stock/ keeps both frames for whoever wants them in a
+         section. -->
+
+    <div class="menu__foot">
+      <p class="micro menu__label">Showrooms</p>
+      <ul class="menu__places">
+        <li>West Chicago, IL <span>630 221 1800</span></li>
+        <li>Naperville, IL <span>630 221 1800</span></li>
+        <li>Rock Hill, SC <span>803 891 7788</span></li>
+        <li>Kansas City <span>913 845 9633</span></li>
+        <li>Newport Beach, CA <span>Opening soon</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="page-head" data-reveal>
+    <div class="shell">
+      <p class="micro eyebrow">The collection</p>
+      <h1 class="page-head__title">
+        <span class="ttl-line">Three hundred and one</span>
+        <span class="ttl-line">cars worth chasing.</span>
+      </h1>
+      <p class="lede page-head__lede">Exotic, performance and collector vehicles across four
+        showrooms — West Chicago, Naperville, Rock Hill and Tonganoxie — and delivered anywhere
+        in the country.</p>
+
+      <!-- The finder, horizontal. Same fields, same fieldless construction
+           as the hero: label over value over a hairline. A results page
+           that framed every input would read as a booking widget, and the
+           homepage already settled that argument. -->
+      <form class="filters" action="https://www.chicagomotorcars.com/used-cars-chicago-il/" method="get">
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="f-make">Make</label>
+            <select class="hunt__control" id="f-make" name="make">
+              <option value="">Make</option><option>Acura</option><option>Aston Martin</option><option>Audi</option><option>BMW</option><option>Bentley</option><option>Chevrolet</option><option>Dodge</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="f-body">Body Style</label>
+            <select class="hunt__control" id="f-body" name="bodystyle">
+              <option value="">Body Style</option><option>Convertible</option><option>Coupe</option><option>Hatchback</option><option>Sedan</option><option>SUV</option><option>Wagon</option><option>Pickup Truck</option><option>Sprinter Van</option><option>Motorcycle</option><option>Boat</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="f-year">Year</label>
+            <select class="hunt__control" id="f-year" name="year">
+              <option value="">Year</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>Before 2018</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+          <p class="hunt__field">
+            <label class="micro hunt__label" for="f-price">Price</label>
+            <select class="hunt__control" id="f-price" name="price">
+              <option value="">Price</option><option>Under $50,000</option><option>$50,000 – $100,000</option><option>$100,000 – $250,000</option><option>$250,000 – $500,000</option><option>$500,000 and above</option>
+            </select>
+            <span class="hunt__value" aria-hidden="true"></span>
+          </p>
+        <p class="filters__go">
+          <button class="btn btn--line" type="submit">Apply <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+        </p>
+      </form>
+
+      <!-- Keyword is a different question from the four above — you already
+           know what the car is called — so it keeps its own line and its
+           own action, exactly as it does on the homepage. -->
+      <form class="invsearch" method="get"
+            action="https://www.chicagomotorcars.com/used-cars-chicago-il/"
+            role="search" aria-label="Search inventory by keyword">
+        <label class="u-visually-hidden" for="srp-kw">Search make, model or keyword</label>
+        <svg class="invsearch__icon" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+          <circle cx="7.2" cy="7.2" r="5.4" stroke="currentColor" stroke-width="1.4"/>
+          <path d="m11.4 11.4 3.8 3.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input class="invsearch__field" id="srp-kw" name="stockno" type="search"
+               placeholder="Search make, model or keyword" autocomplete="off">
+        <button class="btn btn--line invsearch__go" type="submit">Search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      </form>
+
+      <div class="page-head__meta">
+        <p class="micro page-head__count"><b>24</b> of 301 vehicles</p>
+        <p class="sortbar">
+          <label class="micro" for="srp-sort">Sort</label>
+          <select id="srp-sort">
+            <option>Price: high to low</option>
+            <option>Price: low to high</option>
+            <option>Year: newest first</option>
+            <option>Year: oldest first</option>
+            <option>Mileage: low to high</option>
+            <option>Mileage: high to low</option>
+            <option>Recently added</option>
+          </select>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="inv-results">
+    <div class="shell">
+      <div class="grid">
+        <a class="veh" href="vdp.html" aria-label="2017 Viper GTC ACR, $899,912">
+          <span class="veh__stock">#22703</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-voodoo-ii.jpg" alt="2017 Viper GTC ACR"
+                 width="900" height="598" loading="eager" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2017 Viper GTC ACR</span>
+            <span class="veh__trim">Voodoo II Extreme Aero — 1 of 31 produced</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$899,912</span><span class="veh__pill">38 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2017-dodge-viper-gtc-acr-coupe-1-28-edition-311-miles-extreme-aero-pkg-signed-by-factory-c-6284/" rel="noopener" aria-label="2017 Viper GTC ACR, $876,212">
+          <span class="veh__stock">#500174 PS</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-128-edition.jpg" alt="2017 Viper GTC ACR"
+                 width="900" height="598" loading="eager" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2017 Viper GTC ACR</span>
+            <span class="veh__trim">1:28 Edition — Signed by the factory</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$876,212</span><span class="veh__pill">311 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2017-dodge-viper-gtc-rare-gts-r-only-2k-miles-acr-extreme-aero-pkg-full-ppf-exterior-carbon-pkg-c-13686/" rel="noopener" aria-label="2017 Viper GTC, $750,700">
+          <span class="veh__stock">#HV500467 SS</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-gts-r.jpg" alt="2017 Viper GTC"
+                 width="900" height="598" loading="eager" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2017 Viper GTC</span>
+            <span class="veh__trim">GTS-R Extreme Aero — Full PPF, exterior carbon</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$750,700</span><span class="veh__pill">2,141 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2017-dodge-viper-gtc-coupe-acr-extreme-aero-voodoo-ii-29-acr-interior-pkg-collector-quality-c-10066/" rel="noopener" aria-label="2017 Viper GTC, $649,912">
+          <span class="veh__stock">#22792</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-voodoo-29.jpg" alt="2017 Viper GTC"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2017 Viper GTC</span>
+            <span class="veh__trim">ACR Voodoo II #29 — ACR interior package</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$649,912</span><span class="veh__pill">3,199 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2016-dodge-viper-acr-extreme-aero-pkg-coupe-black-red-painted-stripes-only-13k-miles-c-11486/" rel="noopener" aria-label="2016 Viper ACR, $499,912">
+          <span class="veh__stock">#GV100296 JJ</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-acr-stripes.jpg" alt="2016 Viper ACR"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2016 Viper ACR</span>
+            <span class="veh__trim">Extreme Aero — Black with red painted stripes</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">13,232 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2016-dodge-viper-acr-coupe-only-5k-miles-gts-white-stripe-option-upgraded-exhaust-c-11931/" rel="noopener" aria-label="2016 Viper ACR, $499,912">
+          <span class="veh__stock">#GV100102 MS</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-acr-gts-white.jpg" alt="2016 Viper ACR"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2016 Viper ACR</span>
+            <span class="veh__trim">GTS white stripe option — Upgraded exhaust</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">5,250 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2016-dodge-viper-gtc-acr-e-calvo-9.0l-na-build-incredible-condition-c-13789/" rel="noopener" aria-label="2016 Viper GTC, $499,912">
+          <span class="veh__stock">#GV100451 MS</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/viper-acr-e-calvo.jpg" alt="2016 Viper GTC"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2016 Viper GTC</span>
+            <span class="veh__trim">ACR-E Calvo 9.0L NA build</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">12,776 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/1965-chevrolet-corvette-convertible-ls3-540hp-6.2-restomod-over-500k-build-best-of-the-best-c-13297/" rel="noopener" aria-label="1965 Corvette Convertible, $340,212">
+          <span class="veh__stock">#22336</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/corvette-1965-restomod.jpg" alt="1965 Corvette Convertible"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Chevrolet</span>
+            <span class="veh__name">1965 Corvette Convertible</span>
+            <span class="veh__trim">LS3 540 hp restomod — Over $500k build</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$340,212</span><span class="veh__pill">1,974 mi</span><span class="veh__pill">Convertible</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/1967-chevrolet-corvette-ls3-525hp-restomod-coffman-chassis-ncrs-awarded-c-13663/" rel="noopener" aria-label="1967 Corvette, $285,212">
+          <span class="veh__stock">#1284NEBR MS</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/corvette-1967-restomod.jpg" alt="1967 Corvette"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Chevrolet</span>
+            <span class="veh__name">1967 Corvette</span>
+            <span class="veh__trim">LS3 525 hp restomod — Coffman chassis, NCRS awarded</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$285,212</span><span class="veh__pill">647 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2019-chevrolet-corvette-zr1-coupe-only-3k-miles-3zr-7-speed-manual-carbon-buckets-loaded-c-13824/" rel="noopener" aria-label="2019 Corvette ZR1, $279,212">
+          <span class="veh__stock">#22798</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/corvette-zr1-2019.jpg" alt="2019 Corvette ZR1"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Chevrolet</span>
+            <span class="veh__name">2019 Corvette ZR1</span>
+            <span class="veh__trim">3ZR, 7-speed manual — Carbon buckets</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$279,212</span><span class="veh__pill">3,499 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2026-chevrolet-corvette-zr1-coupe-3lz-carbon-fiber-aero-and-interior-pkgs-carbon-flash-wheels-c-13786/" rel="noopener" aria-label="2026 Corvette ZR1, $259,912">
+          <span class="veh__stock">#22772</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/corvette-zr1-2026.jpg" alt="2026 Corvette ZR1"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Chevrolet</span>
+            <span class="veh__name">2026 Corvette ZR1</span>
+            <span class="veh__trim">3LZ carbon aero — Carbon Flash wheels</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$259,912</span><span class="veh__pill">2,670 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2014-audi-r8-v10-rare-gated-6-spd-manual-collector-car-carbon-blades-ceramic-brakes-c-13758/" rel="noopener" aria-label="2014 R8 V10, $256,212">
+          <span class="veh__stock">#22751</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/audi-r8-gated.jpg" alt="2014 R8 V10"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Audi</span>
+            <span class="veh__name">2014 R8 V10</span>
+            <span class="veh__trim">Gated 6-speed manual — Carbon blades, ceramic brakes</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$256,212</span><span class="veh__pill">12,371 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2025-aston-martin-dbx-707-msrp-280k-factory-warranty-inspire-sport-interior-forged-wheels-loade-c-13519/" rel="noopener" aria-label="2025 DBX 707, $219,912">
+          <span class="veh__stock">#22541</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/aston-dbx-707.jpg" alt="2025 DBX 707"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Aston Martin</span>
+            <span class="veh__name">2025 DBX 707</span>
+            <span class="veh__trim">Inspire Sport interior — Factory warranty</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$219,912</span><span class="veh__pill">2,897 mi</span><span class="veh__pill">SUV</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2022-bentley-continental-gtc-convertible-mulliner-driving-spec-rotating-display-full-satin-ppf-loaded-c-13177/" rel="noopener" aria-label="2022 Continental GTC, $200,212">
+          <span class="veh__stock">#NC001740 AM</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/bentley-gtc-mulliner.jpg" alt="2022 Continental GTC"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Bentley</span>
+            <span class="veh__name">2022 Continental GTC</span>
+            <span class="veh__trim">Mulliner Driving Spec — Rotating display, full satin PPF</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$200,212</span><span class="veh__pill">15,106 mi</span><span class="veh__pill">Convertible</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2021-bentley-continental-gtc-speed-convertible-carbon-fiber-exterior-trim-rotating-display-msrp-337-375-c-13814/" rel="noopener" aria-label="2021 Continental GTC Speed, $200,212">
+          <span class="veh__stock">#22790</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/bentley-gtc-speed.jpg" alt="2021 Continental GTC Speed"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Bentley</span>
+            <span class="veh__name">2021 Continental GTC Speed</span>
+            <span class="veh__trim">Carbon exterior trim — Rotating display</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$200,212</span><span class="veh__pill">19,992 mi</span><span class="veh__pill">Convertible</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2018-audi-r8-spyder-v10-plus-msrp-220-390-25k-in-upgrades-tons-of-carbon-fiber-anrky-wheels-c-4964/" rel="noopener" aria-label="2018 R8 Spyder V10 plus, $160,212">
+          <span class="veh__stock">#22849</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/audi-r8-spyder.jpg" alt="2018 R8 Spyder V10 plus"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Audi</span>
+            <span class="veh__name">2018 R8 Spyder V10 plus</span>
+            <span class="veh__trim">$25k in upgrades — Anrky wheels</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$160,212</span><span class="veh__pill">19,830 mi</span><span class="veh__pill">Convertible</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2019-acura-nsx-sh-awd-sport-hybrid-carbon-fiber-int-trim-spoiler-upgraded-vossen-wheels-c-13522/" rel="noopener" aria-label="2019 NSX SH-AWD, $159,912">
+          <span class="veh__stock">#22545</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/acura-nsx-2019.jpg" alt="2019 NSX SH-AWD"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Acura</span>
+            <span class="veh__name">2019 NSX SH-AWD</span>
+            <span class="veh__trim">Sport Hybrid — Carbon interior trim, Vossen wheels</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$159,912</span><span class="veh__pill">19,510 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2024-bmw-m3-cs-sedan-frozen-white-only-2-900-miles-m-carbon-bucket-seats-rare-c-13588/" rel="noopener" aria-label="2024 M3 CS, $140,212">
+          <span class="veh__stock">#22600</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/bmw-m3-cs.jpg" alt="2024 M3 CS"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">BMW</span>
+            <span class="veh__name">2024 M3 CS</span>
+            <span class="veh__trim">Frozen White — M carbon bucket seats</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$140,212</span><span class="veh__pill">2,957 mi</span><span class="veh__pill">Sedan</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2017-acura-nsx-sh-awd-sport-hybrid-carbon-ceramics-tech-pkg-premium-leather-new-tires-c-13643/" rel="noopener" aria-label="2017 NSX SH-AWD, $133,912">
+          <span class="veh__stock">#22652</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/acura-nsx-2017.jpg" alt="2017 NSX SH-AWD"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Acura</span>
+            <span class="veh__name">2017 NSX SH-AWD</span>
+            <span class="veh__trim">Sport Hybrid — Carbon ceramics, Tech package</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$133,912</span><span class="veh__pill">18,070 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2025-audi-rs-q8-performance-4.0t-quattro-msrp-151k-b-o-3d-sound-exec-pkg-carbon-ceramics-serviced-c-12858/" rel="noopener" aria-label="2025 RS Q8 Performance, $133,212">
+          <span class="veh__stock">#22648</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/audi-rsq8.jpg" alt="2025 RS Q8 Performance"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Audi</span>
+            <span class="veh__name">2025 RS Q8 Performance</span>
+            <span class="veh__trim">4.0T quattro — Carbon ceramics, Exec package</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$133,212</span><span class="veh__pill">18,700 mi</span><span class="veh__pill">SUV</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2021-bentley-bentayga-v8-suv-first-edition-blackline-specification-full-stealth-ppf-loaded-c-13821/" rel="noopener" aria-label="2021 Bentayga V8, $125,212">
+          <span class="veh__stock">#MC033765 JJ</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/bentley-bentayga.jpg" alt="2021 Bentayga V8"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Bentley</span>
+            <span class="veh__name">2021 Bentayga V8</span>
+            <span class="veh__trim">First Edition Blackline — Full stealth PPF</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$125,212</span><span class="veh__pill">45,358 mi</span><span class="veh__pill">SUV</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2024-chevrolet-corvette-z06-2lz-coupe-z07-performance-pkg-painted-carbon-aero-gt2-buckets-c-13734/" rel="noopener" aria-label="2024 Corvette Z06, $125,212">
+          <span class="veh__stock">#22702A</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/corvette-z06-2024.jpg" alt="2024 Corvette Z06"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Chevrolet</span>
+            <span class="veh__name">2024 Corvette Z06</span>
+            <span class="veh__trim">2LZ, Z07 Performance — Painted carbon aero, GT2 buckets</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$125,212</span><span class="veh__pill">4,012 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/1992-acura-nsx-scienceofspeed-twin-turbo-liberty-walk-widebody-air-lift-suspension-c-13295/" rel="noopener" aria-label="1992 NSX, $119,912">
+          <span class="veh__stock">#22731</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/acura-nsx-1992.jpg" alt="1992 NSX"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Acura</span>
+            <span class="veh__name">1992 NSX</span>
+            <span class="veh__trim">ScienceofSpeed twin turbo — Liberty Walk widebody</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$119,912</span><span class="veh__pill">65,824 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+        </a>
+        <a class="veh" href="https://www.chicagomotorcars.com/2015-bmw-m5-jahre-edition-1-300-worldwide-only-2k-miles-1-30-in-us-rare-collectible-c-13490/" rel="noopener" aria-label="2015 M5 30 Jahre Edition, $115,212">
+          <span class="veh__stock">#FD594223 AM</span>
+          <span class="veh__media">
+            <img src="assets/img/inventory-live/bmw-m5-jahre.jpg" alt="2015 M5 30 Jahre Edition"
+                 width="900" height="598" loading="lazy" decoding="async">
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">BMW</span>
+            <span class="veh__name">2015 M5 30 Jahre Edition</span>
+            <span class="veh__trim">1 of 300 worldwide — 1 of 30 in the US</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$115,212</span><span class="veh__pill">2,324 mi</span><span class="veh__pill">Sedan</span></span>
+          </span>
+        </a>
+      </div>
+
+      <!-- Thirteen pages at twenty-four a page is the real shape of 301.
+           The numbers are the control: they say where you are as well as
+           where you can go, which a pair of chevrons does not. -->
+      <nav class="pager" aria-label="Inventory pages">
+        <a class="pager__link" href="srp.html" aria-current="page">1</a>
+        <a class="pager__link" href="srp.html">2</a>
+        <a class="pager__link" href="srp.html">3</a>
+        <a class="pager__link" href="srp.html">4</a>
+        <span class="pager__gap" aria-hidden="true">&hellip;</span>
+        <a class="pager__link" href="srp.html">13</a>
+        <a class="micro pager__rest" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">See all 301 on the live site &rarr;</a>
+      </nav>
+    </div>
+  </section>
+
+</main>
+
+  <footer class="foot">
+    <div class="shell foot__inner">
+      <a class="foot__mark" href="/" aria-label="Chicago Motor Cars — home">
+        <!-- The same outlines as the masthead, by reference. An <img> of
+             cmc-wordmark.svg cannot inherit colour, so on this ground it
+             rendered black on near-black — invisible. -->
+        <svg class="foot__wm" viewBox="0 0 1271 247" role="img" aria-hidden="true" focusable="false"><use href="#cmc-wm"/></svg>
+      </a>
+
+      <nav class="foot__nav" aria-label="Footer">
+        <div class="foot__col">
+          <p class="micro foot__h">Inventory</p>
+          <a href="srp.html">All inventory</a>
+          <a href="https://www.chicagomotorcars.com/sold-inventory/">Sold inventory</a>
+          <a href="https://www.chicagomotorcars.com/karma/">Karma</a>
+        </div>
+        <div class="foot__col">
+          <p class="micro foot__h">Financing</p>
+          <a href="https://www.chicagomotorcars.com/car-loans-in-chicago-il/">Online credit approval</a>
+          <a href="https://www.chicagomotorcars.com/auto-loan-calculator-chicago-il/">Calculate payments</a>
+          <a href="https://www.chicagomotorcars.com/trade-in-car-chicago-il/">Calculate your trade</a>
+        </div>
+        <div class="foot__col">
+          <p class="micro foot__h">Company</p>
+          <a href="https://www.chicagomotorcars.com/about-chicago-motor-cars-in-chicago-il/">Our dealership</a>
+          <a href="https://www.chicagomotorcars.com/warranty-in-chicago-il/">Warranty</a>
+          <a href="https://www.chicagomotorcars.com/car-service-chicago-il/">Service</a>
+          <a href="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">Contact</a>
+        </div>
+      </nav>
+
+      <div class="foot__socials">
+          <a class="soc" href="https://www.instagram.com/chicagomotorcars/" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 1.5h7.6a4.7 4.7 0 0 1 4.7 4.7v7.6a4.7 4.7 0 0 1-4.7 4.7H6.2a4.7 4.7 0 0 1-4.7-4.7V6.2a4.7 4.7 0 0 1 4.7-4.7Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.7" cy="5.3" r="1.05" fill="currentColor"/></svg></a>
+          <a class="soc" href="https://www.facebook.com/chicagomotorcars" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 19v-7.6h2.5l.4-3h-2.9V6.5c0-.85.24-1.43 1.46-1.43H15.6V2.4A19.6 19.6 0 0 0 13.34 2.3c-2.23 0-3.76 1.36-3.76 3.87v2.16H7.1v3h2.48V19Z" fill="currentColor"/></svg></a>
+          <a class="soc" href="https://twitter.com/chgomotorcars" rel="noopener" aria-label="X"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h3.6l4.03 5.4L15.1 3H18l-5.9 6.85L18.4 18h-3.6l-4.3-5.76L5.5 18H2.6l6.2-7.2Zm2.06 1.55 8.3 11.9h1.6l-8.3-11.9Z" fill="currentColor"/></svg></a>
+          <a class="soc" href="https://www.youtube.com/user/ChicagoMotorCars" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M18.6 6.6a2.3 2.3 0 0 0-1.6-1.63C15.55 4.6 10 4.6 10 4.6s-5.55 0-7 .37A2.3 2.3 0 0 0 1.4 6.6C1 8.05 1 10 1 10s0 1.95.4 3.4a2.3 2.3 0 0 0 1.6 1.63c1.45.37 7 .37 7 .37s5.55 0 7-.37a2.3 2.3 0 0 0 1.6-1.63C19 11.95 19 10 19 10s0-1.95-.4-3.4Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.3 12.6 12.9 10 8.3 7.4Z" fill="currentColor"/></svg></a>
+      </div>
+
+      <div class="foot__base">
+        <p class="foot__legal">© 2026 Chicago Motor Cars. All rights reserved.</p>
+        <p class="foot__by">Powered by All Auto Network</p>
+      </div>
+    </div>
+  </footer>
+
+<script src="assets/js/main.js?v=49" defer></script>
+</body>
+</html>
