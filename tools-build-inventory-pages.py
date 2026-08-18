@@ -355,21 +355,8 @@ EQUIP = ["Extreme Aero package", "ACR interior package",
          "19-inch satin black ACR wheels", "645 horsepower",
          "Venom Black Clear Coat over black", "Delivery miles — 38 from new"]
 
-STANDARDS = [
-    ("Inspected in house",
-     "Chicago Motor Cars runs its own service department — inspection, brakes, "
-     "alignment, electrical and transmission work happen on site rather than at "
-     "a third party."),
-    ("Coverage available",
-     "Aftermarket plans for pre-owned exotic, performance and collector vehicles, "
-     "matched to the car rather than sold as one product."),
-    ("Delivered nationwide",
-     "Four showrooms across Illinois, South Carolina and Kansas, and delivery to "
-     "your door anywhere in the country."),
-    ("Since 2003",
-     "More than 40,000 exotic, luxury and collector vehicles sold, and over "
-     "$4 billion in worldwide sales."),
-]
+# STANDARDS lives in desc.py with the rest of the copy. A second copy
+# here is how the shipping link went missing: the block had its own.
 
 NL = chr(10)
 
@@ -433,7 +420,7 @@ SHOTS = NL.join(shot(i, s) for i, s in enumerate(GALLERY))
 EQUIP_LIS = NL.join('              <li>%s</li>' % e for e in EQUIP)
 STD_ITEMS = NL.join(
     '          <div class="stds__item"><span class="stds__k">%s</span>'
-    '<span class="stds__v">%s</span></div>' % (k, v) for k, v in STANDARDS)
+    '<span class="stds__v">%s</span></div>' % (k, v) for k, v in D.STANDARDS)
 RELATED = NL.join(srp_card(c["stock"]) for c in others)
 ARROW = ('<svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" '
          'aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" '
@@ -697,6 +684,69 @@ vdp = """<!DOCTYPE html>
           </div>
         </details>
 
+
+        <details class="acc">
+          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="1.4" y="3.6" width="15.2" height="10.8" rx="1.8" stroke="currentColor" stroke-width="1.3"/><path d="m1.8 4.6 7.2 5 7.2-5" stroke="currentColor" stroke-width="1.3"/></svg><span class="acc__label">Ask about this car</span> <span class="acc__mark" aria-hidden="true"></span></summary>
+          <div class="acc__body">
+            <div class="dsc">
+              <!-- THEIR FIELDS, ON THIS PAGE. Their VDP form carries a
+                   hidden vehicle id, so an enquiry arrives attached to the
+                   car. Ours had a link to their contact page instead, which
+                   loses that attachment and the reader's place at the same
+                   time. Same fields, same "best time to contact", and the
+                   stock number and VIN travel with it. -->
+              <form class="ask" method="post"
+                    action="https://www.chicagomotorcars.com/contact-chicago-motor-cars-in-chicago-il/">
+                <input type="hidden" name="stock" value="22703">
+                <input type="hidden" name="vin" value="1C3BDEDZXHV500169">
+                <input type="hidden" name="vehicle" value="2017 Dodge Viper GTC ACR Voodoo II">
+
+                <div class="ask__grid">
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="a-first">First name</label>
+                    <input class="calc__input" id="a-first" name="fname" autocomplete="given-name" required>
+                  </p>
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="a-last">Last name</label>
+                    <input class="calc__input" id="a-last" name="lname" autocomplete="family-name" required>
+                  </p>
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="a-email">Email</label>
+                    <input class="calc__input" id="a-email" name="email" type="email" autocomplete="email" required>
+                  </p>
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="a-phone">Phone</label>
+                    <input class="calc__input" id="a-phone" name="phone" type="tel" autocomplete="tel">
+                  </p>
+                </div>
+
+                <fieldset class="ask__when">
+                  <legend class="micro calc__label">Best time to reach you</legend>
+                  <span class="ask__opts">
+                    <label class="ask__opt"><input type="radio" name="contact_mode" value="morning" checked> Morning</label>
+                    <label class="ask__opt"><input type="radio" name="contact_mode" value="afternoon"> Afternoon</label>
+                    <label class="ask__opt"><input type="radio" name="contact_mode" value="evening"> Evening</label>
+                  </span>
+                </fieldset>
+
+                <p class="calc__field ask__msg">
+                  <label class="micro calc__label" for="a-msg">Message</label>
+                  <textarea class="calc__input" id="a-msg" name="message" rows="4"
+                    placeholder="Ask about service history, documentation, delivery&hellip;"></textarea>
+                </p>
+
+                <p class="ask__send">
+                  <button class="btn btn--accent" type="submit">Send message
+                    %(arrow)s
+                  </button>
+                </p>
+                <p class="acc__note">Or call 630&nbsp;221&nbsp;1800 &mdash; a car at 38 miles is
+                  worth a conversation rather than a form.</p>
+              </form>
+            </div>
+          </div>
+        </details>
+
         <details class="acc">
           <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="3.2" y="1.8" width="11.6" height="14.4" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 5.4h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="6.4" cy="9.2" r="1" fill="currentColor"/><circle cx="9" cy="9.2" r="1" fill="currentColor"/><circle cx="11.6" cy="9.2" r="1" fill="currentColor"/><circle cx="6.4" cy="12.4" r="1" fill="currentColor"/><circle cx="9" cy="12.4" r="1" fill="currentColor"/><circle cx="11.6" cy="12.4" r="1" fill="currentColor"/></svg><span class="acc__label">Financing &amp; payments</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
@@ -746,6 +796,56 @@ vdp = """<!DOCTYPE html>
             </form>
             <p><a class="btn btn--line" href="https://www.chicagomotorcars.com/finance-application/">Start an application
               %(arrow)s</a></p>
+          </div>
+        </details>
+
+        <details class="acc" id="shipping">
+          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 20 18" fill="none" aria-hidden="true"><path d="M1 3.6h10.2v8.6H1zM11.2 6.6h3.4l3 3v2.6h-6.4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="5" cy="14.2" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="14.2" cy="14.2" r="1.7" stroke="currentColor" stroke-width="1.3"/></svg><span class="acc__label">Shipping</span> <span class="acc__mark" aria-hidden="true"></span></summary>
+          <div class="acc__body">
+            <div class="dsc">
+              <p>Chicago Motor Cars delivers nationwide. This car is at the
+                Naperville showroom; the estimate below is worked from there.</p>
+
+              <!-- THEIR OWN MODULE, REBUILT. Their VDP carries a shipping
+                   calculator — Shipping From, Shipping To, Shipping Cost —
+                   and it is the one thing on their page that makes
+                   "delivered nationwide" checkable instead of a claim.
+
+                   THE RATES BELOW ARE PLACEHOLDERS AND THE PAGE SAYS SO.
+                   I do not have CMC's carrier pricing, and inventing a
+                   per-mile figure on a $900k car is the kind of number
+                   somebody quotes back at you. The model is visible on
+                   screen — a base plus a distance band, enclosed transport
+                   — so replacing it is changing two constants in main.js,
+                   not rebuilding the module. -->
+              <form class="ship" data-origin="60563">
+                <div class="ship__grid">
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="s-from">Shipping from</label>
+                    <input class="calc__input" id="s-from" value="Naperville, IL 60563" readonly>
+                  </p>
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="s-to">Delivering to (ZIP)</label>
+                    <input class="calc__input" id="s-to" inputmode="numeric" maxlength="5" placeholder="90210">
+                  </p>
+                  <p class="calc__field">
+                    <label class="micro calc__label" for="s-type">Transport</label>
+                    <select class="calc__input" id="s-type">
+                      <option value="enclosed" selected>Enclosed</option>
+                      <option value="open">Open</option>
+                    </select>
+                  </p>
+                </div>
+                <p class="calc__out">
+                  <span class="micro calc__out-label">Estimated transport</span>
+                  <output class="calc__figure" id="s-cost" for="s-to s-type">&mdash;</output>
+                </p>
+                <p class="acc__note">An estimate, not a quote. Enclosed transport is
+                  strongly recommended on a collector car and is what the figure
+                  above assumes. The carrier prices the actual run &mdash; call
+                  630&nbsp;221&nbsp;1800 and we will book it.</p>
+              </form>
+            </div>
           </div>
         </details>
       </section>

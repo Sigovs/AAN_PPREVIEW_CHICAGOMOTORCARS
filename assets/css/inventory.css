@@ -2564,3 +2564,78 @@
   margin-block-start: var(--sp-2);
 }
 .v2 .dsc__list li.dsc__pkg:first-child { margin-block-start: 0; }
+
+/* ============================================================
+   15. SHIPPING AND THE ENQUIRY — TAKEN FROM THEIR OWN VDP
+   ============================================================
+   Their live vehicle page carries seven tabs and we had three. These
+   are the two that were doing real work and were missing here.
+   ============================================================ */
+
+/* The link out of the standards band. A claim with a working estimator
+   behind it is a different kind of claim, so "Delivered nationwide"
+   now points at the thing that proves it. */
+.v2 .stds__link {
+  display: inline-block;
+  margin-block-start: var(--sp-2);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  box-shadow: 0 1px 0 var(--rule-strong);
+  transition: box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .stds__link:hover { box-shadow: 0 1px 0 currentColor; }
+.v2 .stds__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Both forms use the calculator's fields, because they are the same
+   kind of object and a third input style on one page would be a third
+   thing to learn. Left-ranged inside the centred description: a form is
+   operated, not read, and centred labels over centred inputs give the
+   eye no column to work down. */
+.v2 .ship,
+.v2 .ask { text-align: left; margin-block-start: var(--sp-6); }
+
+.v2 .ship__grid,
+.v2 .ask__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--sp-4);
+  align-items: start;
+}
+.v2 .ship .calc__field,
+.v2 .ask .calc__field { margin: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.v2 .ship .calc__input[readonly] { color: var(--ink-2); cursor: default; }
+
+.v2 .ask__when { border: 0; padding: 0; margin: var(--sp-5) 0 0; }
+.v2 .ask__opts { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-block-start: var(--sp-3); }
+.v2 .ask__opt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 8px 14px 9px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  background: rgba(240, 237, 231, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.10);
+  transition: color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .ask__opt:hover { color: var(--ink); }
+/* The pill carries the state as well as the radio, so the choice is
+   visible without hunting for a 13px dot. */
+.v2 .ask__opt:has(input:checked) {
+  color: var(--ink);
+  background: rgba(244, 242, 239, 0.09);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.3);
+}
+.v2 .ask__opt input { accent-color: var(--accent); }
+.v2 .ask__opt:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.v2 .ask__msg { margin-block-start: var(--sp-5); }
+.v2 .ask textarea.calc__input { resize: vertical; min-block-size: 6rem; line-height: 1.5; }
+.v2 .ask__send { margin-block-start: var(--sp-5); }
+
+.v2 .ship .calc__out,
+.v2 .ask .calc__out { text-align: left; }

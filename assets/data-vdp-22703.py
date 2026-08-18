@@ -147,3 +147,24 @@ DISCLAIMER = [
     "All sales must add tax, title, license and $300.00 Illinois Doc fee. Fees may vary by "
     "state and county of new vehicle registration. Contact dealer for details.",
 ]
+
+
+# The standards band. "Delivered nationwide" now points at the shipping
+# calculator further down the page, because a claim with a working
+# estimator behind it is a different kind of claim.
+STANDARDS = [
+    ("Inspected in house",
+     "Chicago Motor Cars runs its own service department \u2014 inspection, brakes, "
+     "alignment, electrical and transmission work happen on site rather than at "
+     "a third party."),
+    ("Coverage available",
+     "Aftermarket plans for pre-owned exotic, performance and collector vehicles, "
+     "matched to the car rather than sold as one product."),
+    ("Delivered nationwide",
+     'Four showrooms across Illinois, South Carolina and Kansas, and delivery to '
+     'your door anywhere in the country. '
+     '<a class="stds__link" href="#shipping" data-open-panel>Estimate shipping &rarr;</a>'),
+    ("Since 2003",
+     "More than 40,000 exotic, luxury and collector vehicles sold, and over "
+     "$4 billion in worldwide sales."),
+]

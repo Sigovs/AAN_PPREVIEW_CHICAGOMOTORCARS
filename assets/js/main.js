@@ -1900,3 +1900,83 @@
     });
   }
 })();
+
+/* ============================================================
+   THE VDP'S SHIPPING ESTIMATE, AND OPENING A PANEL FROM A LINK
+   ============================================================ */
+(function () {
+  'use strict';
+
+  /* ---- an anchor that opens what it points at ----
+     <details> does not open because you linked to it, so a link to a
+     closed panel scrolls to a heading and appears to do nothing. This
+     opens the target, then scrolls — and it also handles a page loaded
+     with #shipping already in the URL, which is how a link from another
+     page would arrive. */
+  function openPanel(hash) {
+    if (!hash || hash.length < 2) return null;
+    var el;
+    try { el = document.querySelector(hash); } catch (e) { return null; }
+    if (!el) return null;
+    var d = el.closest ? (el.matches('details') ? el : el.closest('details')) : null;
+    if (d) d.open = true;
+    return el;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var el = openPanel(a.getAttribute('href'));
+    if (!el) return;
+    e.preventDefault();
+    history.replaceState(null, '', a.getAttribute('href'));
+    el.scrollIntoView({ block: 'start',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  if (location.hash) {
+    var t = openPanel(location.hash);
+    if (t) setTimeout(function () { t.scrollIntoView({ block: 'start' }); }, 60);
+  }
+
+  /* ---- the shipping estimate ----
+     THE TWO CONSTANTS BELOW ARE PLACEHOLDERS. CMC's carrier pricing is
+     not something I have, and inventing a per-mile figure on a $900k
+     car is exactly the number somebody quotes back at you. They are
+     named, they are at the top, and the page says on screen that the
+     result is an estimate — so replacing them with the real rates is
+     editing two numbers, not rebuilding anything.
+
+     Distance is approximated from the first digit of the ZIP, which is
+     how the US postal regions are laid out west-to-east. It is a band,
+     not a route, and the copy does not pretend otherwise. */
+  var BASE = 450;          // pickup, loading, admin
+  var PER_100_MILES = 78;  // enclosed transport
+
+  var form = document.querySelector('.ship');
+  if (!form) return;
+
+  // rough road miles from Naperville (ZIP region 6) to each ZIP region
+  var MILES_BY_REGION = { 0: 900, 1: 800, 2: 750, 3: 900, 4: 350,
+                          5: 400, 6: 150, 7: 900, 8: 1300, 9: 2000 };
+
+  var to = form.querySelector('#s-to');
+  var type = form.querySelector('#s-type');
+  var out = form.querySelector('#s-cost');
+
+  function run() {
+    var z = (to.value || '').replace(/\D/g, '');
+    if (z.length < 5) { out.textContent = '—'; return; }
+    var miles = MILES_BY_REGION[z[0]];
+    if (miles === undefined) { out.textContent = '—'; return; }
+    var cost = BASE + (miles / 100) * PER_100_MILES;
+    if (type.value === 'open') cost *= 0.72;
+    var lo = Math.round(cost * 0.9 / 25) * 25;
+    var hi = Math.round(cost * 1.1 / 25) * 25;
+    out.textContent = '$' + lo.toLocaleString('en-US') + ' – $' + hi.toLocaleString('en-US');
+  }
+
+  ['input', 'change'].forEach(function (ev) { form.addEventListener(ev, run); });
+  form.addEventListener('submit', function (e) { e.preventDefault(); run(); });
+  run();
+})();
