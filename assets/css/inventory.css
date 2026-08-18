@@ -1741,32 +1741,67 @@
 /* Equipment reads as a list of facts, so it is set as one — two or
    three columns of short lines on the same hairline marker the
    highlights use. */
-/* EACH ITEM IS A ROW, NOT A BULLET. Alex: make this accordion read more
-   clearly. It was three columns of dashes at caption size and the eye
-   had nothing to land on — six short facts arranged as a paragraph that
-   happened to have gaps in it.
+/* TWO COLUMNS, AND A MEASURE. Alex: "это очень плохо и не читается
+   совсем" — and it was.
 
-   Two columns instead of three, so the lines are not fighting for width;
-   each item sits on its own hairline, which is the same device the
-   specification panel uses and therefore reads as the same KIND of
-   information; and the text steps up from --t-micro to body size with
-   full ink, because these are facts about the car, not captions on
-   something else. */
+   Removing the body's width cap to centre the head let these lists run
+   the full 1300px of the card, which auto-fit turned into FOUR columns
+   of three-word items, each with its own rule under it. That is not a
+   list, it is a grid of broken lines: no reading order, ragged ends
+   wherever a group did not divide by four, and the eye with nothing to
+   run down.
+
+   Capped at 62rem so it settles at two columns, which is the most a
+   list of short items can hold and still be read top-to-bottom. The
+   rules stay — they are what makes these read as specification rather
+   than prose — but they are lighter and the rows are tighter, so the
+   page shows a list rather than a spreadsheet. */
 .v2 .eqp {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 0 clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 0 clamp(var(--sp-6), 3vw, var(--sp-8));
+  max-inline-size: 62rem;
   padding: 0;
   margin: 0;
   list-style: none;
   border-block-start: 1px solid var(--rule);
 }
 .v2 .eqp li {
-  padding-block: var(--sp-4);
+  padding-block: var(--sp-3);
   border-block-end: 1px solid var(--rule);
   color: var(--ink);
-  line-height: 1.4;
+  font-size: var(--t-micro);
+  line-height: 1.45;
 }
+
+/* The package head: name and price together, not thrown to opposite
+   ends of a 1300px card with a canyon between them. */
+.v2 .eqp-group { margin-block-start: var(--sp-6); max-inline-size: 62rem; }
+.v2 .eqp-group:first-of-type { margin-block-start: var(--sp-4); }
+.v2 .eqp-group__h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: var(--sp-3) var(--sp-4);
+  margin: 0 0 var(--sp-3);
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+.v2 .eqp-group__n { color: var(--ink); font-weight: 600; }
+.v2 .eqp-group__p {
+  color: var(--ink-3);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* And the section labels get real air above them, so "Vehicle
+   highlights" reads as a new group rather than as another row. */
+.v2 .acc__body .acc__sub { margin-block-start: var(--sp-8); }
+.v2 .acc__body .acc__sub:first-child { margin-block-start: 0; }
+
 .v2 .acc__note {
   margin-block-start: var(--sp-5);
   color: var(--ink-3);
@@ -2297,26 +2332,10 @@
 /* A factory package is a named thing with a price and a contents list,
    so it is set as one: the name and what it originally cost on one
    line, its parts beneath. Four of these are what the car IS. */
-.v2 .eqp-group { margin-block-start: var(--sp-5); }
-.v2 .eqp-group:first-of-type { margin-block-start: var(--sp-4); }
-.v2 .eqp-group__h {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-3) var(--sp-4);
-  margin: 0 0 var(--sp-2);
-  padding-block-end: var(--sp-3);
-  border-block-end: 1px solid var(--rule-strong);
-}
-.v2 .eqp-group__n { color: var(--ink); font-weight: 600; }
-.v2 .eqp-group__p {
-  color: var(--ink-3);
-  font-family: var(--font-label);
-  font-size: var(--t-micro);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
+/* The later duplicate of these rules was removed: it re-declared
+   .eqp-group__h with space-between, which threw the price 773px away
+   from the name it belongs to, and it won purely by sitting further
+   down the file. The version above is the one that governs. */
 
 /* Their disclaimer, at the size a disclaimer is read at — small, but not
    below the 14px floor, because "we cannot be held responsible" is not a
