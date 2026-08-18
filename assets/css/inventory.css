@@ -1728,7 +1728,12 @@
    lists get their two columns and the head's right edge lands on the
    lists' right edge, so the whole panel shares one line down its right
    side instead of three different ones. */
-.v2 .acc__body { padding-block-end: var(--sp-7); max-inline-size: 62rem; }
+/* The 62rem cap comes off. It was holding the two-column equipment
+   lists, and those are gone — the description carries its own 46rem
+   measure now. Left on, it made "centred" mean centred inside a
+   left-aligned 62rem box, which put the whole block 151px left of the
+   card's middle. */
+.v2 .acc__body { padding-block-end: var(--sp-7); }
 .v2 .acc__body > p:not([class]),
 .v2 .acc__body .acc__note { max-inline-size: 76ch; }
 
@@ -2432,9 +2437,25 @@
    measure is capped because a single column of short lines running
    1300px would be unreadable in the other direction.
    ============================================================ */
+/* CENTRED, as on their live listing. Alex's call, and the panel is
+   coherent only if the whole block goes — a left-ranged title over
+   centred copy is two decisions arguing.
+
+   Everything shares one axis: the title, the colour line, every
+   heading, every item and the rules between packages. The measure
+   stays, because centred text with no measure is the worst of both —
+   no left edge to return to AND a line too long to find the start of. */
 .v2 .dsc {
-  margin-block-start: var(--sp-8);
+  margin: var(--sp-8) auto 0;
   max-inline-size: 46rem;
+  text-align: center;
+  /* Centred on the CARD, not on the padding box. The body's padding is
+     asymmetric by design — 33px more on the left so its text lines up
+     with the summary's label past the icon — and any auto-centred child
+     inherits that, landing half the difference off axis. Corrected from
+     the token that causes it, as a translate, so it moves the ink and
+     leaves the measure and the margins alone. */
+  translate: calc(var(--acc-indent) / -2) 0;
 }
 
 .v2 .dsc__h {
@@ -2468,7 +2489,7 @@
    reader has to announce. */
 .v2 .dsc__gap {
   block-size: 1px;
-  margin-block: var(--sp-5);
+  margin: var(--sp-5) auto;
   background: var(--rule);
   max-inline-size: 26rem;
 }
@@ -2489,15 +2510,19 @@
    Alex's call, after right. Which is the simpler answer anyway: the
    lines below it all start on the left, so a left-ranged head shares
    their edge and the panel reads down one line instead of across. */
+/* The head goes with it. One line to split them again if the title
+   should sit left over centred copy — but it should not. */
 .v2 .acc__body .acc__title {
-  margin: 0;
-  text-align: left;
-  max-inline-size: 24ch;
+  margin: 0 auto;
+  text-align: center;
+  max-inline-size: 26ch;
+  translate: calc(var(--acc-indent) / -2) 0;
 }
 .v2 .acc__body .acc__title + .acc__lead {
-  margin: var(--sp-4) 0 0;
-  text-align: left;
+  margin: var(--sp-4) auto 0;
+  text-align: center;
   max-inline-size: 46ch;
+  translate: calc(var(--acc-indent) / -2) 0;
 }
 
 /* ---- the headings are marked ------------------------------------------
