@@ -2193,7 +2193,40 @@
 .v2 .rel {
   padding-block: clamp(var(--sp-9), 6vw, var(--sp-10));
 }
-.v2 .rel .grid { margin-block-start: var(--sp-7); }
+/* A ROW THAT PAGES, not a grid that wraps. Three cards visible, six in
+   the track, the rest one dot away — which is the only shape that is
+   both one row tall and worth a pagination control.
+
+   scroll-snap rather than a transform carousel: the track is a real
+   scrolling element, so it works with a trackpad, a touch swipe, the
+   keyboard and the dots without any of them being special-cased, and it
+   degrades to a plain scroller if the script never runs.
+
+   The scrollbar is hidden because the dots already say where you are
+   and a second position indicator under the first is noise. */
+.v2 .rel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 2 * clamp(var(--sp-5), 2.2vw, var(--sp-6))) / 3);
+  gap: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  margin-block-start: var(--sp-7);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  /* The cards lift and glow on hover, so the track needs room for that
+     to happen without being clipped by its own overflow. */
+  padding-block: 2px;
+}
+.v2 .rel__track::-webkit-scrollbar { display: none; }
+.v2 .rel__track > * { scroll-snap-align: start; }
+@media (prefers-reduced-motion: reduce) { .v2 .rel__track { scroll-behavior: auto; } }
+@media (max-width: 60rem) {
+  .v2 .rel__track { grid-auto-columns: calc((100% - clamp(var(--sp-5), 2.2vw, var(--sp-6))) / 2); }
+}
+@media (max-width: 40rem) {
+  .v2 .rel__track { grid-auto-columns: 84%; }
+}
 .v2 .rel__dots {
   display: flex;
   justify-content: center;

@@ -364,15 +364,19 @@ def srp_card(stock):
             return blk
     raise SystemExit("ABORT: stock %s is no longer on srp.html." % stock)
 
-# THREE. It went to six so the dots would have two real pages to move
-# between; Alex has taken the second row back out, so it returns to one.
+# SIX CARS, ONE ROW. Both of Alex's instructions at once, and together
+# they describe a track rather than a grid: "убери второй ряд машин" and
+# then "ты зачем убрал pagination?"
 #
-# The dots do not need deleting with it — the module counts how many
-# cards fit a row and collapses itself when that leaves one page, and
-# .rel__dots:empty removes the box. So the control disappears on its
-# own, which is what it was built to do rather than something to
-# remember. Put a fourth card back and it returns.
-others = [c for c in cars if not c.get("vdp")][:3]
+# He is right that I removed it — not by deleting anything, but because
+# the dots collapse themselves when there is only one page, so taking
+# the second row out took the control with it. Three cards in a
+# three-across grid have nothing to page.
+#
+# A row that pages is the shape that satisfies both: six vehicles, three
+# visible, the rest one dot away. Now the dots have somewhere to go and
+# the section is still one row tall.
+others = [c for c in cars if not c.get("vdp")][:6]
 
 PANEL_ROWS = NL.join(prow(k, v) for k, v in PANEL)
 FRAMES = NL.join(frame(i, s) for i, s in enumerate(GALLERY))
@@ -756,7 +760,7 @@ vdp = """<!DOCTYPE html>
   <section class="rel" data-reveal>
     <div class="shell">
       <h2 class="gal-head"><span class="ttl-line">Others worth chasing.</span></h2>
-      <div class="grid" data-rel-track>
+      <div class="rel__track" data-rel-track>
 %(related)s
       </div>
       <div class="rel__dots" data-rel-dots aria-label="More vehicles"></div>

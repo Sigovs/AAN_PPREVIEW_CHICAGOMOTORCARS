@@ -1749,12 +1749,17 @@
   var cards = [].slice.call(track.children);
   if (cards.length < 2) return;
 
+  /* HOW MANY FIT, not how many share a top edge. The first version
+     counted cards on the same visual row, which was right for a grid
+     and wrong the moment this became a horizontal track — there every
+     card shares a top, so it counted all six and concluded there was
+     one page. Track width over card width is the question either way. */
   function perRow() {
-    var top = Math.round(cards[0].getBoundingClientRect().top);
-    var n = cards.filter(function (c) {
-      return Math.abs(Math.round(c.getBoundingClientRect().top) - top) < 4;
-    }).length;
-    return Math.max(1, n);
+    var w = track.clientWidth;
+    var cw = cards[0].getBoundingClientRect().width;
+    var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    if (!cw) return 1;
+    return Math.max(1, Math.round((w + gap) / (cw + gap)));
   }
 
   function build() {
@@ -1769,9 +1774,12 @@
       b.setAttribute('aria-label', 'Page ' + (i + 1) + ' of ' + pages);
       (function (idx) {
         b.addEventListener('click', function () {
+          /* scrollLeft rather than scrollIntoView: the latter also scrolls
+             the PAGE to bring the track into view, which yanks the
+             reader somewhere they did not ask to go when they only
+             wanted the next three cars. */
           var target = cards[idx * perRow()];
-          if (target) target.scrollIntoView({ block: 'nearest', inline: 'start',
-            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          if (target) track.scrollLeft = target.offsetLeft - cards[0].offsetLeft;
           [].forEach.call(wrap.children, function (d, n) {
             d.setAttribute('aria-current', n === idx ? 'true' : 'false');
           });
@@ -1781,7 +1789,20 @@
     }
   }
 
+  /* A swipe or a trackpad scroll moves the track without touching the
+     dots, so the dots have to follow the track rather than own it. */
+  function sync() {
+    var n = perRow();
+    var page = Math.round(track.scrollLeft / ((cards[0].getBoundingClientRect().width +
+      (parseFloat(getComputedStyle(track).columnGap) || 0)) * n));
+    [].forEach.call(wrap.children, function (d, i) {
+      d.setAttribute('aria-current', i === page ? 'true' : 'false');
+    });
+  }
+
   build();
+  var s;
+  track.addEventListener('scroll', function () { clearTimeout(s); s = setTimeout(sync, 90); });
   var t;
   window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(build, 150); });
 })();
