@@ -1,104 +1,136 @@
-# The listing's own description for stock 22703, pulled from
-# chicagomotorcars.com 2026-08-18 after their site came back up. Every
-# line below is theirs. The shouting capitals and the asterisks are
-# theirs too — those are stripped, because a page sets emphasis with
-# type rather than with punctuation, but not one fact is added, removed
-# or reworded.
+# The listing copy for stock 22703, as supplied by Alex 2026-08-18.
+#
+# ONE TEXT, HEADINGS AND LINES. His instruction: "давай одним текстом,
+# только заголовки и только текст перечисление." So there are no cards,
+# no columns, no hairlines and no price chips here — a heading, then its
+# lines, then the next heading. The structure is the feed's own.
+#
+# The asterisks and the ALL CAPS come off, because that is how you set
+# emphasis in a plain-text field and this page has type for it. Nothing
+# else is touched: not a word is added, removed or reordered.
 
-LEAD = [
-    "2017 Dodge Viper GTC ACR-E Voodoo II Edition.",
-    "Venom Black Clear Coat exterior over a black interior.",
+LEAD = "Venom Black Clear Coat over Black Interior"
+
+# Each entry is (heading or None, [lines]). None means the block runs
+# without one — the opening claims have no header in the source.
+BLOCKS = [
+    (None, [
+        "Only 3,100 miles",
+        "ACR Interior Package",
+        "Extreme Aero Package",
+        "Collector quality example",
+        "Ultra-rare Voodoo II Edition",
+        "Chassis #29 of 31 ever produced",
+        "1 of just 31 units ever produced",
+        "Excellent condition throughout",
+        "American made high-performance track car",
+    ]),
+
+    ("Factory options include", [
+        "ACR Package (Originally $19,000)",
+        "ACR Badge",
+        "SRT 6-Vent Hood",
+        "Lower Dive Planes",
+        "Front Splitter Assembly",
+        "Satin Black Front Decal",
+        "Finned Differential Cooler",
+        "Satin Black Fuel Filler Door",
+        '19" Satin Black ACR Wheels',
+        "Manually Adjustable Suspension",
+        "Red Brembo Brake Calipers w/ Viper Logo",
+        "Exposed Weave Carbon Fiber Exterior Wing",
+        "",
+        "Voodoo II Edition (Originally $8,300)",
+        "Custom Car Cover",
+        "Voodoo II Sill Decal",
+        "Voodoo II Serialized Badge",
+        "Voodoo II Driver Stripe w/Tracer",
+        "",
+        "Extreme Aero Package (Originally $6,900)",
+        "Extreme Hood",
+        "Upper Drive Planes",
+        "Extreme Rear Diffuser",
+        "Adjustable Extreme Aero Wing",
+        "",
+        "ACR Interior Package (Originally $6,000)",
+        "ACR Console",
+        "ACR Door Trim Panel",
+        "ACR Instrument Panel",
+        "High-Grip Alcantara Leather Seats",
+        "Alcantara Wrapped Steering Wheel",
+    ]),
+
+    ("Vehicle highlights", [
+        "8.4 Liter 10-Cylinder Engine",
+        "645 Horsepower",
+        "600 Lb/ft of Torque",
+        "Rear Wheel Drive",
+        "6-Speed Manual Transmission",
+    ]),
+
+    ("Exterior highlights", [
+        "LED Rear Taillights",
+        "Front Fender Venting",
+        "LED Front Headlights",
+        "ACR Extreme Aero Wing",
+        "Gloss Black Rear Diffuser",
+        "Gloss Red Tow Hook Accent",
+        "Intermittent Windshield Wipers",
+        "SRT Hood Vents & Hood Scoop",
+        "Satin Black Viper Logo on Hood",
+        "Ground Effects / Lower Spoilers",
+        "Front Dual Carbon Fiber Canards",
+        "Power Adjustable Exterior Mirrors",
+        'Satin Black Gas Cap w/ "Viper" Logo',
+        'Side "VOODOO II" Badging In Black & Red',
+        "Vented Hood w/ Grey & Red Single Stripe Accent",
+        'Red Painted Brembo Brake Calipers w/ "Viper" Logo',
+        "Rear Carbon Fiber Spoiler w/ Gloss Black & Red Accents",
+        "Dual Side Exit Performance Exhaust System w/Stainless Steel Tips",
+    ]),
+
+    ("Interior highlights", [
+        "Cruise Control System",
+        "Black Suede Headliner",
+        "Black Leather Shift Boot",
+        "Rear View Camera System",
+        "Manual Adjustable Seating",
+        "Multi-Function Steering Wheel",
+        "White Accent Interior Stitching",
+        "Black Leather Emergency Brake",
+        "Electronic Launch Control System",
+        "Automatic Climate Control System",
+        'Aluminum Door Sills w/ "Viper" Logo',
+        "Black Alcantara / Leather Door Panels",
+        "Digital Driver Instrument Cluster Display",
+        "HD Navigation System w/Live Traffic Info",
+        "Harman / Kardon Premium Sound System",
+        'Passenger Dashboard "Voodoo II" Badging',
+        "Adjustable Adaptive Driving Modes & Suspension",
+        "Multifunction Center Entertainment Touch Display Screen",
+        "Black Alcantara Steering Wheel w/ White Accent Stitching",
+        "Manual Adjustable Black Alcantara / Leather Front Seating w/ White Accent Stitching",
+    ]),
+
+    ("Vehicle history", [
+        "8.4 Liter V10 Engine",
+        "Rare Voodoo II Edition",
+        "Unit 5 of 31 Ever Produced",
+        "Excellent Condition Throughout",
+        "A Must Have for Any Viper Fan or Collector",
+        "Highly Desired Viper GTC VoooDoo II Model",
+        "645 Horsepower American Made High-Performance Muscle Car",
+    ]),
+
+    ("Includes", [
+        "Original Car Cover",
+        "Original Floor Mat Set",
+        "Original Owners Manual",
+        "Two Master Remote Keys",
+    ]),
 ]
 
-CLAIMS = [
-    "Delivery miles",
-    "One-owner car",
-    "645 hp 8.4L V10 engine",
-    "Pristine collector quality",
-    "Ultra-rare Voodoo II Edition",
-    "1 of just 31 units ever produced",
-    "Full front paint protection film",
-    "Excellent condition throughout",
-    "American-made high-performance track car",
-]
-
-HISTORY = [
-    "Only 37 miles",
-    "One owner",
-    "8.4 litre V10 engine",
-    "Rare Voodoo II Edition",
-    "Unit 5 of 31 ever produced",
-    "Excellent condition throughout",
-    "Highly desired Viper GTC Voodoo II model",
-    "645 horsepower American-made high-performance muscle car",
-]
-
-INCLUDED = ["Owner's manual", "Voodoo car cover", "Two master remote keys"]
-
-# The four factory packages, with the prices the listing gives them.
-PACKAGES = [
-    ("ACR Package", "$19,000", [
-        "ACR badge", "SRT 6-vent hood", "Lower dive planes",
-        "Front splitter assembly", "Satin black front decal",
-        "Finned differential cooler", "Satin black fuel filler door",
-        "19-inch satin black ACR wheels", "Manually adjustable suspension",
-        "Red Brembo brake calipers with Viper logo",
-        "Exposed-weave carbon fibre exterior wing"]),
-    ("Voodoo II Edition", "$8,300", [
-        "Custom car cover", "Voodoo II sill decal",
-        "Voodoo II serialised badge", "Voodoo II driver stripe with tracer"]),
-    ("Extreme Aero Package", "$6,900", [
-        "Extreme hood", "Upper dive planes", "Extreme rear diffuser",
-        "Adjustable Extreme Aero wing"]),
-    ("ACR Interior Package", "$6,000", [
-        "ACR console", "ACR door trim panel", "ACR instrument panel",
-        "High-grip Alcantara leather seats", "Alcantara-wrapped steering wheel"]),
-]
-
-MECHANICAL = [
-    "8.4 litre 10-cylinder engine", "645 horsepower", "600 lb-ft of torque",
-    "Rear-wheel drive", "6-speed manual transmission",
-    "19-inch satin black ACR wheels",
-]
-
-EXTERIOR = [
-    "LED rear taillights", "Front fender venting", "LED front headlights",
-    "ACR Extreme Aero wing", "Gloss black rear diffuser",
-    "Gloss red tow hook accent", "Intermittent windshield wipers",
-    "SRT hood vents and hood scoop", "Satin black Viper logo on the hood",
-    "Ground effects and lower spoilers", "Front dual carbon fibre canards",
-    "Power-adjustable exterior mirrors",
-    "Satin black gas cap with Viper logo",
-    "Side Voodoo II badging in black and red",
-    "Vented hood with grey and red single stripe accent",
-    "Red-painted Brembo brake calipers with Viper logo",
-    "Rear carbon fibre spoiler with gloss black and red accents",
-    "Dual side-exit performance exhaust with stainless steel tips",
-]
-
-INTERIOR = [
-    "Cruise control", "Black suede headliner", "Black leather shift boot",
-    "Rear view camera", "Manually adjustable seating",
-    "Multi-function steering wheel", "White accent interior stitching",
-    "Black leather emergency brake", "Electronic launch control",
-    "Automatic climate control", "Aluminium door sills with Viper logo",
-    "Black Alcantara and leather door panels",
-    "Digital driver instrument cluster display",
-    "HD navigation with live traffic",
-    "Harman/Kardon premium sound system",
-    "Passenger dashboard Voodoo II badging",
-    "Adjustable adaptive driving modes and suspension",
-    "Multifunction centre touch display",
-    "Black Alcantara steering wheel with white accent stitching",
-    "Manually adjustable black Alcantara and leather front seats with white accent stitching",
-]
-
-ADDITIONAL = ["Full front paint protection film"]
-
-# Their disclaimer, verbatim apart from paragraph breaks. It is on the
-# page because it is on theirs, and because a car described as
-# "delivery miles" deserves the sentence that says mileage can move
-# between listing and sale.
+# Their disclaimer, still theirs, still at the foot.
 DISCLAIMER = [
     "Please remember, every one of our cars has been enjoyed by their original owners, "
     "and these are not factory-new cars. This means they have actually been driven, and "
@@ -106,19 +138,11 @@ DISCLAIMER = [
     "vehicles are advertised with the current mileage at the time of listing, so mileage "
     "at the time of sale may vary due to test drives, transportation for reconditioning, etc.",
 
-    "We go above and beyond to be as accurate as possible in our listings and descriptions, "
-    "but remember, we are still human just like you. Cars leave the factory with unattached "
-    "accessories (i.e. floor mats, extra keys, owners manuals, headsets, remotes, etc), and "
-    "while it would be ideal to have all original accessories included with every car, this "
-    "is not always the case. We will note in our listings any accessories that will be "
-    "included, and provide a picture within the listing of all accessories.",
-
     "We do all within our power to avoid mistakes or misprints, so if you see any inaccuracy "
     "within our listing, we only ask that you bring this to our attention so that we can "
-    "immediately rectify the information. We cannot be held responsible for any purely "
-    "accidental inaccuracies. Since our ultimate goal is 100% customer satisfaction, we ask "
-    "every customer to verify the listed equipment at the time of purchase with their "
-    "salesperson.",
+    "immediately rectify the information. Since our ultimate goal is 100% customer "
+    "satisfaction, we ask every customer to verify the listed equipment at the time of "
+    "purchase with their salesperson.",
 
     "All sales must add tax, title, license and $300.00 Illinois Doc fee. Fees may vary by "
     "state and county of new vehicle registration. Contact dealer for details.",

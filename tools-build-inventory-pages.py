@@ -279,6 +279,23 @@ def _group(title, price, items):
             '              <ul class="eqp">' + _NL + _lis(items) + _NL + '              </ul>' + _NL +
             '            </div>')
 
+def _textblock(heading, lines):
+    """One heading and its lines, straight down. A blank line in the
+    source is a break between packages, not an item, so it renders as a
+    spacer rather than an empty row."""
+    out = []
+    if heading:
+        out.append('              <h3 class="dsc__h">%s</h3>' % html.escape(heading))
+    out.append('              <ul class="dsc__list">')
+    for l in lines:
+        if l:
+            out.append('                <li>%s</li>' % html.escape(l))
+        else:
+            out.append('                <li class="dsc__gap"></li>')
+    out.append('              </ul>')
+    return chr(10).join(out)
+
+
 def _sub(title, items):
     return ('            <span class="acc__sub">%s</span>' % title + _NL +
             '            <ul class="eqp">' + _NL + _lis(items) + _NL + '            </ul>')
@@ -634,54 +651,22 @@ vdp = """<!DOCTYPE html>
         <details class="acc" open>
           <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.2" stroke="currentColor" stroke-width="1.3"/><path d="M9 8v4.4M9 5.6v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acc__label">About this vehicle</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
-            <!-- Their own opening line, set as the title it always was.
-                 The listing writes it as two sentences — what the car is,
-                 then what colour it is — and they are not equal: one names
-                 the machine, the other describes it. So the first takes
-                 display scale and full ink, the second sits under it as a
-                 supporting line. Same two sentences, ranked.
-
-                 "ACR-E" is theirs. The page's H1 says "ACR" because that is
-                 what their structured Model field says; the description
-                 says ACR-E. Both are quoted from them and neither is
-                 corrected here — a mismatch in their own data is worth
-                 showing them, not papering over. -->
             <p class="acc__title">%(leadTitle)s</p>
             <p class="acc__lead">%(leadSub)s</p>
 
-            <span class="acc__sub">In their words</span>
-            <ul class="eqp eqp--claims">
-%(claims)s
-            </ul>
+            <!-- ONE TEXT. Alex: "давай одним текстом, только заголовки и
+                 только текст перечисление." No cards, no columns, no
+                 hairlines, no price chips — a heading, its lines, the next
+                 heading, straight down. The structure is the feed's own.
 
-            <span class="acc__sub">Vehicle history</span>
-            <ul class="eqp">
-%(history)s
-            </ul>
-
-            <span class="acc__sub">Included with the car</span>
-            <ul class="eqp">
-%(included)s
-            </ul>
-
-            <span class="acc__sub">From Chicago Motor Cars</span>
+                 Which also folds the Options & equipment panel back in:
+                 his copy runs factory options, highlights, history and
+                 what is included as ONE description, so splitting it
+                 across two drawers was the page arguing with the text. -->
+            <div class="dsc">
+%(blocks)s
 %(disclaimer)s
-          </div>
-        </details>
-
-        <details class="acc">
-          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.4 5.2h13.2M2.4 9h13.2M2.4 12.8h13.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="5.6" cy="5.2" r="1.5" fill="currentColor"/><circle cx="11.2" cy="9" r="1.5" fill="currentColor"/><circle cx="7.4" cy="12.8" r="1.5" fill="currentColor"/></svg><span class="acc__label">Options &amp; equipment</span> <span class="acc__mark" aria-hidden="true"></span></summary>
-          <div class="acc__body acc__body--wide">
-            <span class="acc__sub">Factory options</span>
-%(packages)s
-
-%(mechanical)s
-
-%(exterior)s
-
-%(interior)s
-
-%(additional)s
+            </div>
           </div>
         </details>
 
@@ -832,17 +817,10 @@ vdp = """<!DOCTYPE html>
     "thumbs": THUMBS,
     "panelrows": PANEL_ROWS,
     "standards": STD_ITEMS,
-    "leadTitle": html.escape(D.LEAD[0].rstrip(".")),
-    "leadSub": html.escape(D.LEAD[1]),
-    "claims": _lis(D.CLAIMS),
-    "history": _lis(D.HISTORY),
-    "included": _lis(D.INCLUDED),
-    "disclaimer": NL.join('            <p class="acc__fine">%s</p>' % html.escape(x) for x in D.DISCLAIMER),
-    "packages": NL.join(_group(t, pr, it) for t, pr, it in D.PACKAGES),
-    "mechanical": _sub("Vehicle highlights", D.MECHANICAL),
-    "exterior": _sub("Exterior highlights", D.EXTERIOR),
-    "interior": _sub("Interior highlights", D.INTERIOR),
-    "additional": _sub("Additional upgrades", D.ADDITIONAL),
+    "leadTitle": html.escape("2017 Dodge Viper GTC ACR-E Voodoo II Edition"),
+    "leadSub": html.escape(D.LEAD),
+    "blocks": (_NL + _NL).join(_textblock(h, ls) for h, ls in D.BLOCKS),
+    "disclaimer": _NL + (_NL).join('              <p class="dsc__fine">%s</p>' % html.escape(x) for x in D.DISCLAIMER),
     "shots": SHOTS,
     "related": RELATED,
     "arrow": ARROW,

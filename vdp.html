@@ -83,7 +83,7 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=61">
 <!-- Last again. srp.html and vdp.html load this; index_2.html
      does not, and index.html loads neither. -->
-<link rel="stylesheet" href="assets/css/inventory.css?v=53">
+<link rel="stylesheet" href="assets/css/inventory.css?v=54">
 </head>
 <body class="v2 is-vdp">
 
@@ -681,170 +681,144 @@
         <details class="acc" open>
           <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.2" stroke="currentColor" stroke-width="1.3"/><path d="M9 8v4.4M9 5.6v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acc__label">About this vehicle</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
-            <!-- Their own opening line, set as the title it always was.
-                 The listing writes it as two sentences — what the car is,
-                 then what colour it is — and they are not equal: one names
-                 the machine, the other describes it. So the first takes
-                 display scale and full ink, the second sits under it as a
-                 supporting line. Same two sentences, ranked.
-
-                 "ACR-E" is theirs. The page's H1 says "ACR" because that is
-                 what their structured Model field says; the description
-                 says ACR-E. Both are quoted from them and neither is
-                 corrected here — a mismatch in their own data is worth
-                 showing them, not papering over. -->
             <p class="acc__title">2017 Dodge Viper GTC ACR-E Voodoo II Edition</p>
-            <p class="acc__lead">Venom Black Clear Coat exterior over a black interior.</p>
+            <p class="acc__lead">Venom Black Clear Coat over Black Interior</p>
 
-            <span class="acc__sub">In their words</span>
-            <ul class="eqp eqp--claims">
-              <li>Delivery miles</li>
-              <li>One-owner car</li>
-              <li>645 hp 8.4L V10 engine</li>
-              <li>Pristine collector quality</li>
-              <li>Ultra-rare Voodoo II Edition</li>
-              <li>1 of just 31 units ever produced</li>
-              <li>Full front paint protection film</li>
-              <li>Excellent condition throughout</li>
-              <li>American-made high-performance track car</li>
-            </ul>
+            <!-- ONE TEXT. Alex: "давай одним текстом, только заголовки и
+                 только текст перечисление." No cards, no columns, no
+                 hairlines, no price chips — a heading, its lines, the next
+                 heading, straight down. The structure is the feed's own.
 
-            <span class="acc__sub">Vehicle history</span>
-            <ul class="eqp">
-              <li>Only 37 miles</li>
-              <li>One owner</li>
-              <li>8.4 litre V10 engine</li>
-              <li>Rare Voodoo II Edition</li>
-              <li>Unit 5 of 31 ever produced</li>
-              <li>Excellent condition throughout</li>
-              <li>Highly desired Viper GTC Voodoo II model</li>
-              <li>645 horsepower American-made high-performance muscle car</li>
-            </ul>
-
-            <span class="acc__sub">Included with the car</span>
-            <ul class="eqp">
-              <li>Owner&#x27;s manual</li>
-              <li>Voodoo car cover</li>
-              <li>Two master remote keys</li>
-            </ul>
-
-            <span class="acc__sub">From Chicago Motor Cars</span>
-            <p class="acc__fine">Please remember, every one of our cars has been enjoyed by their original owners, and these are not factory-new cars. This means they have actually been driven, and regardless of the level of care, every car will exhibit some wear-and-tear. Our vehicles are advertised with the current mileage at the time of listing, so mileage at the time of sale may vary due to test drives, transportation for reconditioning, etc.</p>
-            <p class="acc__fine">We go above and beyond to be as accurate as possible in our listings and descriptions, but remember, we are still human just like you. Cars leave the factory with unattached accessories (i.e. floor mats, extra keys, owners manuals, headsets, remotes, etc), and while it would be ideal to have all original accessories included with every car, this is not always the case. We will note in our listings any accessories that will be included, and provide a picture within the listing of all accessories.</p>
-            <p class="acc__fine">We do all within our power to avoid mistakes or misprints, so if you see any inaccuracy within our listing, we only ask that you bring this to our attention so that we can immediately rectify the information. We cannot be held responsible for any purely accidental inaccuracies. Since our ultimate goal is 100% customer satisfaction, we ask every customer to verify the listed equipment at the time of purchase with their salesperson.</p>
-            <p class="acc__fine">All sales must add tax, title, license and $300.00 Illinois Doc fee. Fees may vary by state and county of new vehicle registration. Contact dealer for details.</p>
-          </div>
-        </details>
-
-        <details class="acc">
-          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.4 5.2h13.2M2.4 9h13.2M2.4 12.8h13.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="5.6" cy="5.2" r="1.5" fill="currentColor"/><circle cx="11.2" cy="9" r="1.5" fill="currentColor"/><circle cx="7.4" cy="12.8" r="1.5" fill="currentColor"/></svg><span class="acc__label">Options &amp; equipment</span> <span class="acc__mark" aria-hidden="true"></span></summary>
-          <div class="acc__body acc__body--wide">
-            <span class="acc__sub">Factory options</span>
-            <div class="eqp-group">
-              <p class="eqp-group__h"><span class="eqp-group__n">ACR Package</span><span class="eqp-group__p">Originally $19,000</span></p>
-              <ul class="eqp">
-              <li>ACR badge</li>
-              <li>SRT 6-vent hood</li>
-              <li>Lower dive planes</li>
-              <li>Front splitter assembly</li>
-              <li>Satin black front decal</li>
-              <li>Finned differential cooler</li>
-              <li>Satin black fuel filler door</li>
-              <li>19-inch satin black ACR wheels</li>
-              <li>Manually adjustable suspension</li>
-              <li>Red Brembo brake calipers with Viper logo</li>
-              <li>Exposed-weave carbon fibre exterior wing</li>
+                 Which also folds the Options & equipment panel back in:
+                 his copy runs factory options, highlights, history and
+                 what is included as ONE description, so splitting it
+                 across two drawers was the page arguing with the text. -->
+            <div class="dsc">
+              <ul class="dsc__list">
+                <li>Only 3,100 miles</li>
+                <li>ACR Interior Package</li>
+                <li>Extreme Aero Package</li>
+                <li>Collector quality example</li>
+                <li>Ultra-rare Voodoo II Edition</li>
+                <li>Chassis #29 of 31 ever produced</li>
+                <li>1 of just 31 units ever produced</li>
+                <li>Excellent condition throughout</li>
+                <li>American made high-performance track car</li>
               </ul>
-            </div>
-            <div class="eqp-group">
-              <p class="eqp-group__h"><span class="eqp-group__n">Voodoo II Edition</span><span class="eqp-group__p">Originally $8,300</span></p>
-              <ul class="eqp">
-              <li>Custom car cover</li>
-              <li>Voodoo II sill decal</li>
-              <li>Voodoo II serialised badge</li>
-              <li>Voodoo II driver stripe with tracer</li>
+
+              <h3 class="dsc__h">Factory options include</h3>
+              <ul class="dsc__list">
+                <li>ACR Package (Originally $19,000)</li>
+                <li>ACR Badge</li>
+                <li>SRT 6-Vent Hood</li>
+                <li>Lower Dive Planes</li>
+                <li>Front Splitter Assembly</li>
+                <li>Satin Black Front Decal</li>
+                <li>Finned Differential Cooler</li>
+                <li>Satin Black Fuel Filler Door</li>
+                <li>19&quot; Satin Black ACR Wheels</li>
+                <li>Manually Adjustable Suspension</li>
+                <li>Red Brembo Brake Calipers w/ Viper Logo</li>
+                <li>Exposed Weave Carbon Fiber Exterior Wing</li>
+                <li class="dsc__gap"></li>
+                <li>Voodoo II Edition (Originally $8,300)</li>
+                <li>Custom Car Cover</li>
+                <li>Voodoo II Sill Decal</li>
+                <li>Voodoo II Serialized Badge</li>
+                <li>Voodoo II Driver Stripe w/Tracer</li>
+                <li class="dsc__gap"></li>
+                <li>Extreme Aero Package (Originally $6,900)</li>
+                <li>Extreme Hood</li>
+                <li>Upper Drive Planes</li>
+                <li>Extreme Rear Diffuser</li>
+                <li>Adjustable Extreme Aero Wing</li>
+                <li class="dsc__gap"></li>
+                <li>ACR Interior Package (Originally $6,000)</li>
+                <li>ACR Console</li>
+                <li>ACR Door Trim Panel</li>
+                <li>ACR Instrument Panel</li>
+                <li>High-Grip Alcantara Leather Seats</li>
+                <li>Alcantara Wrapped Steering Wheel</li>
               </ul>
-            </div>
-            <div class="eqp-group">
-              <p class="eqp-group__h"><span class="eqp-group__n">Extreme Aero Package</span><span class="eqp-group__p">Originally $6,900</span></p>
-              <ul class="eqp">
-              <li>Extreme hood</li>
-              <li>Upper dive planes</li>
-              <li>Extreme rear diffuser</li>
-              <li>Adjustable Extreme Aero wing</li>
+
+              <h3 class="dsc__h">Vehicle highlights</h3>
+              <ul class="dsc__list">
+                <li>8.4 Liter 10-Cylinder Engine</li>
+                <li>645 Horsepower</li>
+                <li>600 Lb/ft of Torque</li>
+                <li>Rear Wheel Drive</li>
+                <li>6-Speed Manual Transmission</li>
               </ul>
-            </div>
-            <div class="eqp-group">
-              <p class="eqp-group__h"><span class="eqp-group__n">ACR Interior Package</span><span class="eqp-group__p">Originally $6,000</span></p>
-              <ul class="eqp">
-              <li>ACR console</li>
-              <li>ACR door trim panel</li>
-              <li>ACR instrument panel</li>
-              <li>High-grip Alcantara leather seats</li>
-              <li>Alcantara-wrapped steering wheel</li>
+
+              <h3 class="dsc__h">Exterior highlights</h3>
+              <ul class="dsc__list">
+                <li>LED Rear Taillights</li>
+                <li>Front Fender Venting</li>
+                <li>LED Front Headlights</li>
+                <li>ACR Extreme Aero Wing</li>
+                <li>Gloss Black Rear Diffuser</li>
+                <li>Gloss Red Tow Hook Accent</li>
+                <li>Intermittent Windshield Wipers</li>
+                <li>SRT Hood Vents &amp; Hood Scoop</li>
+                <li>Satin Black Viper Logo on Hood</li>
+                <li>Ground Effects / Lower Spoilers</li>
+                <li>Front Dual Carbon Fiber Canards</li>
+                <li>Power Adjustable Exterior Mirrors</li>
+                <li>Satin Black Gas Cap w/ &quot;Viper&quot; Logo</li>
+                <li>Side &quot;VOODOO II&quot; Badging In Black &amp; Red</li>
+                <li>Vented Hood w/ Grey &amp; Red Single Stripe Accent</li>
+                <li>Red Painted Brembo Brake Calipers w/ &quot;Viper&quot; Logo</li>
+                <li>Rear Carbon Fiber Spoiler w/ Gloss Black &amp; Red Accents</li>
+                <li>Dual Side Exit Performance Exhaust System w/Stainless Steel Tips</li>
               </ul>
+
+              <h3 class="dsc__h">Interior highlights</h3>
+              <ul class="dsc__list">
+                <li>Cruise Control System</li>
+                <li>Black Suede Headliner</li>
+                <li>Black Leather Shift Boot</li>
+                <li>Rear View Camera System</li>
+                <li>Manual Adjustable Seating</li>
+                <li>Multi-Function Steering Wheel</li>
+                <li>White Accent Interior Stitching</li>
+                <li>Black Leather Emergency Brake</li>
+                <li>Electronic Launch Control System</li>
+                <li>Automatic Climate Control System</li>
+                <li>Aluminum Door Sills w/ &quot;Viper&quot; Logo</li>
+                <li>Black Alcantara / Leather Door Panels</li>
+                <li>Digital Driver Instrument Cluster Display</li>
+                <li>HD Navigation System w/Live Traffic Info</li>
+                <li>Harman / Kardon Premium Sound System</li>
+                <li>Passenger Dashboard &quot;Voodoo II&quot; Badging</li>
+                <li>Adjustable Adaptive Driving Modes &amp; Suspension</li>
+                <li>Multifunction Center Entertainment Touch Display Screen</li>
+                <li>Black Alcantara Steering Wheel w/ White Accent Stitching</li>
+                <li>Manual Adjustable Black Alcantara / Leather Front Seating w/ White Accent Stitching</li>
+              </ul>
+
+              <h3 class="dsc__h">Vehicle history</h3>
+              <ul class="dsc__list">
+                <li>8.4 Liter V10 Engine</li>
+                <li>Rare Voodoo II Edition</li>
+                <li>Unit 5 of 31 Ever Produced</li>
+                <li>Excellent Condition Throughout</li>
+                <li>A Must Have for Any Viper Fan or Collector</li>
+                <li>Highly Desired Viper GTC VoooDoo II Model</li>
+                <li>645 Horsepower American Made High-Performance Muscle Car</li>
+              </ul>
+
+              <h3 class="dsc__h">Includes</h3>
+              <ul class="dsc__list">
+                <li>Original Car Cover</li>
+                <li>Original Floor Mat Set</li>
+                <li>Original Owners Manual</li>
+                <li>Two Master Remote Keys</li>
+              </ul>
+
+              <p class="dsc__fine">Please remember, every one of our cars has been enjoyed by their original owners, and these are not factory-new cars. This means they have actually been driven, and regardless of the level of care, every car will exhibit some wear-and-tear. Our vehicles are advertised with the current mileage at the time of listing, so mileage at the time of sale may vary due to test drives, transportation for reconditioning, etc.</p>
+              <p class="dsc__fine">We do all within our power to avoid mistakes or misprints, so if you see any inaccuracy within our listing, we only ask that you bring this to our attention so that we can immediately rectify the information. Since our ultimate goal is 100% customer satisfaction, we ask every customer to verify the listed equipment at the time of purchase with their salesperson.</p>
+              <p class="dsc__fine">All sales must add tax, title, license and $300.00 Illinois Doc fee. Fees may vary by state and county of new vehicle registration. Contact dealer for details.</p>
             </div>
-
-            <span class="acc__sub">Vehicle highlights</span>
-            <ul class="eqp">
-              <li>8.4 litre 10-cylinder engine</li>
-              <li>645 horsepower</li>
-              <li>600 lb-ft of torque</li>
-              <li>Rear-wheel drive</li>
-              <li>6-speed manual transmission</li>
-              <li>19-inch satin black ACR wheels</li>
-            </ul>
-
-            <span class="acc__sub">Exterior highlights</span>
-            <ul class="eqp">
-              <li>LED rear taillights</li>
-              <li>Front fender venting</li>
-              <li>LED front headlights</li>
-              <li>ACR Extreme Aero wing</li>
-              <li>Gloss black rear diffuser</li>
-              <li>Gloss red tow hook accent</li>
-              <li>Intermittent windshield wipers</li>
-              <li>SRT hood vents and hood scoop</li>
-              <li>Satin black Viper logo on the hood</li>
-              <li>Ground effects and lower spoilers</li>
-              <li>Front dual carbon fibre canards</li>
-              <li>Power-adjustable exterior mirrors</li>
-              <li>Satin black gas cap with Viper logo</li>
-              <li>Side Voodoo II badging in black and red</li>
-              <li>Vented hood with grey and red single stripe accent</li>
-              <li>Red-painted Brembo brake calipers with Viper logo</li>
-              <li>Rear carbon fibre spoiler with gloss black and red accents</li>
-              <li>Dual side-exit performance exhaust with stainless steel tips</li>
-            </ul>
-
-            <span class="acc__sub">Interior highlights</span>
-            <ul class="eqp">
-              <li>Cruise control</li>
-              <li>Black suede headliner</li>
-              <li>Black leather shift boot</li>
-              <li>Rear view camera</li>
-              <li>Manually adjustable seating</li>
-              <li>Multi-function steering wheel</li>
-              <li>White accent interior stitching</li>
-              <li>Black leather emergency brake</li>
-              <li>Electronic launch control</li>
-              <li>Automatic climate control</li>
-              <li>Aluminium door sills with Viper logo</li>
-              <li>Black Alcantara and leather door panels</li>
-              <li>Digital driver instrument cluster display</li>
-              <li>HD navigation with live traffic</li>
-              <li>Harman/Kardon premium sound system</li>
-              <li>Passenger dashboard Voodoo II badging</li>
-              <li>Adjustable adaptive driving modes and suspension</li>
-              <li>Multifunction centre touch display</li>
-              <li>Black Alcantara steering wheel with white accent stitching</li>
-              <li>Manually adjustable black Alcantara and leather front seats with white accent stitching</li>
-            </ul>
-
-            <span class="acc__sub">Additional upgrades</span>
-            <ul class="eqp">
-              <li>Full front paint protection film</li>
-            </ul>
           </div>
         </details>
 

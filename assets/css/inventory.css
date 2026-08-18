@@ -2411,3 +2411,80 @@
 /* The head is a block of its own, so it gets a chapter's worth of air
    under it rather than a paragraph's. */
 .v2 .acc__body .acc__title + .acc__lead + .acc__sub { margin-block-start: var(--sp-8); }
+
+/* ============================================================
+   14. THE DESCRIPTION AS ONE TEXT
+   ============================================================
+   Alex: "давай одним текстом, только заголовки и только текст
+   перечисление." So this replaces the cards, the two-column lists, the
+   hairlines and the price chips with the plainest thing that can hold
+   the copy: a heading, its lines, the next heading, straight down.
+
+   It also folds the Options & equipment drawer back into this one,
+   because his copy runs factory options, highlights, history and what
+   is included as a single description — splitting it across two
+   drawers was the page arguing with the text.
+
+   WHAT DOES THE WORK NOW IS SPACE AND WEIGHT, since every rule and box
+   has gone. Headings take the label voice and sit on a clear step above
+   their lines; the lines themselves are quiet and evenly leaded, so a
+   twenty-item list reads as one block rather than twenty objects. The
+   measure is capped because a single column of short lines running
+   1300px would be unreadable in the other direction.
+   ============================================================ */
+.v2 .dsc {
+  margin-block-start: var(--sp-8);
+  max-inline-size: 46rem;
+}
+
+.v2 .dsc__h {
+  margin: var(--sp-7) 0 var(--sp-4);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.v2 .dsc__h:first-child { margin-block-start: 0; }
+
+.v2 .dsc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.v2 .dsc__list li {
+  color: var(--ink-2);
+  line-height: 1.75;
+}
+/* A blank line in the feed separates one package from the next. It is a
+   break, not an item, so it is space rather than an empty row — and it
+   carries no text, so it stays out of the accessibility tree. */
+.v2 .dsc__gap { block-size: var(--sp-5); }
+
+/* The opening claims are the listing's own summary of the car, so they
+   read at full ink — the only weight change in the whole block. */
+.v2 .dsc > .dsc__list:first-child li { color: var(--ink); }
+
+.v2 .dsc__fine {
+  margin-block-start: var(--sp-5);
+  color: var(--ink-3);
+  font-size: var(--t-micro);
+  line-height: 1.55;
+}
+.v2 .dsc__fine:first-of-type { margin-block-start: var(--sp-8); }
+
+/* ---- the head goes back to the left ----------------------------------
+   Alex's call, after right. Which is the simpler answer anyway: the
+   lines below it all start on the left, so a left-ranged head shares
+   their edge and the panel reads down one line instead of across. */
+.v2 .acc__body .acc__title {
+  margin: 0;
+  text-align: left;
+  max-inline-size: 24ch;
+}
+.v2 .acc__body .acc__title + .acc__lead {
+  margin: var(--sp-4) 0 0;
+  text-align: left;
+  max-inline-size: 46ch;
+}
