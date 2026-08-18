@@ -288,10 +288,8 @@
    reason for choosing one, so it belongs at the smallest size the
    system allows and no smaller. 14px is the floor and this sits on it. */
 .v2 .veh__stock {
-  position: absolute;
-  inset-block-start: var(--sp-4);
-  inset-inline-end: var(--sp-4);
-  z-index: 2;
+  /* Positioning moved to .veh__tag, which carries this and the save
+     control as one object in the corner. */
   padding: 5px 10px 6px;
   border-radius: 6px;
   font-family: var(--font-label);
@@ -597,4 +595,84 @@
   .v2 .grid { grid-template-columns: minmax(0, 1fr); }
   .v2 .filters { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); }
   .v2 .vdp__acts .btn { flex: 1 1 100%; }
+}
+
+/* ---- 3b. THE CORNER TAG: stock number + save -----------------------
+   The save control had to leave the card's <a>. A button inside a link
+   is invalid and unclickable, so the anchor is wrapped and the tag sits
+   beside it — which also puts the tag outside the card's overflow:hidden
+   rather than fighting it.
+
+   IT DOES NOT GET ITS OWN GROUND. The stock pill already solved being
+   legible over any photograph in the feed, and the measurement is
+   recorded above: 0.72 came in at 4.59:1 over the brightest of the
+   twenty-four frames, 0.85 stops depending on the picture at all. The
+   save button takes the same plate, the same ring and the same blur, so
+   it inherits that result instead of needing a second one. */
+.v2 .veh-cell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+}
+
+.v2 .veh__tag {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: var(--sp-4);
+  inset-inline-end: var(--sp-4);
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  /* The pill is a label, not a target — clicks fall through it to the
+     card underneath. Only the button takes pointer events back. */
+  pointer-events: none;
+}
+
+.v2 .veh__save {
+  pointer-events: auto;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: 0 8px;
+  appearance: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--ink-2);
+  background: rgb(var(--bg-rgb) / 0.85);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: color var(--dur-2) var(--ease-out),
+              background var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
+}
+/* 30px of glyph, 44px of target. The hit area grows past the plate
+   without the plate growing with it. */
+.v2 .veh__save::after {
+  content: "";
+  position: absolute;
+  inset: 50% 50%;
+  margin: -22px;
+  border-radius: 8px;
+}
+.v2 .veh__save-icon { display: block; }
+
+.v2 .veh__save:hover { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.28); }
+.v2 .veh__save:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Saved: the mark fills and takes the accent. Colour is not the only
+   carrier — the glyph goes from outline to solid, so the state survives
+   a greyscale render and a colour-blind reader. */
+.v2 .veh__save[aria-pressed="true"] {
+  color: var(--accent);
+  background: rgb(var(--bg-rgb) / 0.92);
+  box-shadow: inset 0 0 0 1px rgb(var(--accent-rgb, 203 20 29) / 0.5);
+}
+.v2 .veh__save[aria-pressed="true"] .veh__save-icon path { fill: currentColor; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .veh__save { transition: none; }
 }

@@ -1263,3 +1263,38 @@
     });
   });
 })();
+
+/* ============================================================
+   SAVE A VEHICLE FROM THE RESULTS
+   ============================================================
+   The button ships with aria-pressed="false" in the markup, so with no
+   script it is a control that announces its state and does nothing — and
+   "My Garage" in the header is still the real route. This makes it toggle
+   and keeps the header's count honest.
+
+   No storage: the preview has no account and writing to localStorage
+   would let the page claim a save it cannot actually keep. It holds for
+   the visit, which is what it can truthfully do.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var saves = [].slice.call(document.querySelectorAll('.veh__save'));
+  if (!saves.length) return;
+
+  var count = document.querySelector('.navbar__count');
+  var n = count ? Number(count.textContent.trim()) || 0 : 0;
+
+  saves.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      /* The button sits over the card. Without this the card's own link
+         would follow while the mark was being set. */
+      e.preventDefault();
+      e.stopPropagation();
+      var on = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', String(!on));
+      n += on ? -1 : 1;
+      if (count) count.textContent = String(Math.max(0, n));
+    });
+  });
+})();
