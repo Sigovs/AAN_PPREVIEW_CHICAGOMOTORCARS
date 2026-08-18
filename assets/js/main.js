@@ -1595,3 +1595,48 @@
     sync();
   }
 })();
+
+/* ============================================================
+   PAGING A CARD'S PHOTOGRAPHS
+   ============================================================
+   Simulated for the preview: only the Viper cards carry a real gallery,
+   the rest borrow their second and third frames from the pool. The
+   behaviour is the real one, so swapping in the feed's own sets changes
+   nothing here.
+
+   The arrows sit inside the card's link area, so each one has to stop
+   the click reaching it — otherwise paging a photograph would navigate
+   to the vehicle. tabindex="-1" in the markup keeps twenty-four cards
+   from adding forty-eight tab stops; the card itself is the keyboard
+   route and it goes to the same place.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var cells = [].slice.call(document.querySelectorAll('.veh-cell'));
+  if (!cells.length) return;
+
+  cells.forEach(function (cell) {
+    var frames = [].slice.call(cell.querySelectorAll('.veh__frame'));
+    var navs = [].slice.call(cell.querySelectorAll('.veh__nav'));
+    if (frames.length < 2) {
+      navs.forEach(function (b) { b.remove(); });   /* nothing to page */
+      return;
+    }
+
+    var at = 0;
+    function show(i) {
+      at = (i + frames.length) % frames.length;
+      frames.forEach(function (f, n) { f.classList.toggle('is-on', n === at); });
+    }
+
+    navs.forEach(function (btn) {
+      var step = btn.classList.contains('veh__nav--prev') ? -1 : 1;
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        show(at + step);
+      });
+    });
+  });
+})();

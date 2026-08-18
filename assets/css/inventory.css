@@ -1133,3 +1133,56 @@
   padding-block-start: var(--sp-5);
   border-block-start: 1px solid var(--rule);
 }
+
+/* ---- Photographs on a card, paged ------------------------------------
+   SIMULATED, and the code should say so. There is one real frame per car
+   in assets/img/inventory-live; the second and third on each card are
+   drawn from the pool so the control has something to do in front of the
+   client. The Viper cards are the exception — vdp-viper-*.jpg is a real
+   six-frame gallery of one car, so those pages are genuine. Replace both
+   with the feed's own sets and nothing here changes but the filenames.
+
+   Frames stack and crossfade; only opacity moves, so the card's box is
+   untouched and the grid cannot shift while a photograph changes. */
+.v2 .veh__media { position: relative; }
+.v2 .veh__frame {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+.v2 .veh__frame.is-on { opacity: 1; }
+
+.v2 .veh__nav {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 38px;
+  block-size: 38px;
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff;
+  background: rgb(var(--bg-rgb) / 0.62);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity var(--dur-2) var(--ease-out),
+              background var(--dur-1) var(--ease-out);
+}
+.v2 .veh__nav--prev { inset-inline-start: var(--sp-4); }
+.v2 .veh__nav--next { inset-inline-end: var(--sp-4); }
+.v2 .veh-cell:hover .veh__nav,
+.v2 .veh-cell:focus-within .veh__nav { opacity: 1; }
+.v2 .veh__nav:hover { background: var(--accent); box-shadow: none; }
+.v2 .veh__nav:focus-visible { opacity: 1; outline: 2px solid #fff; outline-offset: 2px; }
+
+@media (hover: none) { .v2 .veh__nav { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .v2 .veh__frame, .v2 .veh__nav { transition: none; }
+}

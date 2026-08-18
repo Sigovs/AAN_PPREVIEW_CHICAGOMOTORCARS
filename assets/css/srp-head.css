@@ -95,11 +95,15 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
 .v2 .srp-head .filter-search input::placeholder { color: var(--color-text-soft); letter-spacing: 0; }
 .v2 .srp-head .filter-search input::-webkit-search-cancel-button { filter: invert(0.6); }
 
-.v2 .srp-head .filter, .sort { position: relative; }
-.v2 .srp-head .filter > summary, .sort > summary { list-style: none; cursor: pointer; }
-.v2 .srp-head .filter > summary::-webkit-details-marker, .sort > summary::-webkit-details-marker { display: none; }
+.v2 .srp-head .filter,
+.v2 .srp-head .sort { position: relative; }
+.v2 .srp-head .filter > summary,
+.v2 .srp-head .sort > summary { list-style: none; cursor: pointer; }
+.v2 .srp-head .filter > summary::-webkit-details-marker,
+.v2 .srp-head .sort > summary::-webkit-details-marker { display: none; }
 
-.v2 .srp-head .filter__trigger, .sort__trigger {
+.v2 .srp-head .filter__trigger,
+.v2 .srp-head .sort__trigger {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -115,7 +119,8 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
   border-radius: var(--radius);
   transition: border-color var(--transition), background var(--transition), color var(--transition);
 }
-.v2 .srp-head .filter__trigger:hover, .sort__trigger:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.v2 .srp-head .filter__trigger:hover,
+.v2 .srp-head .sort__trigger:hover { border-color: var(--color-accent); color: var(--color-accent); }
 .v2 .srp-head .filter[open] > .filter__trigger { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* "All Filters" stands apart — gold accent + sliders icon */
@@ -124,7 +129,7 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
   border-color: var(--color-accent);
   background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
-.v2 .srp-head .filter--all .filter__trigger:hover,
+.v2 .srp-head .filter--all .filter__trigger:hover
 .v2 .srp-head .filter--all[open] > .filter__trigger {
   background: var(--color-accent);
   color: var(--color-bg);
@@ -133,20 +138,22 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
 .v2 .srp-head .filter__icon { width: 15px; height: 15px; flex: 0 0 auto; }
 
 /* Caret (CSS triangle, gold) */
-.v2 .srp-head .filter__caret, .sort__caret {
+.v2 .srp-head .filter__caret,
+.v2 .srp-head .sort__caret {
   width: 0; height: 0;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 5px solid currentColor;
   transition: transform var(--transition);
 }
-.v2 .srp-head .filter[open] > .filter__trigger .filter__caret,
+.v2 .srp-head .filter[open] > .filter__trigger .filter__caret
 .v2 .srp-head .sort[open] > .sort__trigger .sort__caret { transform: rotate(180deg); }
 
 .v2 .srp-head .sort__label { color: var(--color-text-soft); }
 
 /* Dropdown panel */
-.v2 .srp-head .filter__panel, .sort__panel {
+.v2 .srp-head .filter__panel,
+.v2 .srp-head .sort__panel {
   position: absolute;
   top: calc(100% + var(--space-2));
   left: 0;
@@ -311,3 +318,37 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
   transition: opacity var(--transition);
 }
 .v2 .srp-head .popular-makes__item:hover .popular-makes__logo { opacity: 1; }
+
+/* The count is a separate fact from the name, so it is spaced and set
+   apart rather than run on: "Dodge7" was two values with no gap between
+   them. Data voice, quieter ink, tabular so the column of tiles reads
+   evenly. */
+.v2 .srp-head .popular-makes__name { margin-inline-end: 8px; }
+.v2 .srp-head .popular-makes__n {
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+
+/* The sort options are <button>s and the port carried no button reset —
+   the reference's base.css does that job and we do not load it, so every
+   option rendered as a UA-grey slab with its label invisible on it. */
+.v2 .srp-head .sort__option,
+.v2 .srp-head .filter__clear,
+.v2 .srp-head .chip-clear,
+.v2 .srp-head .chip button,
+.v2 .srp-head .popular-makes__item {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.v2 .srp-head .sort__option { width: 100%; }
+.v2 .srp-head .popular-makes__item {
+  border: 1px solid var(--color-border);
+  text-align: center;
+}
