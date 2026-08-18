@@ -1372,12 +1372,28 @@
 /* The left cell holds the two facts; they sit on one line and the cell
    keeps them off the column boundary. */
 .v2 .actbar > .cfx { justify-self: start; }
+/* THE LEFT GROUP GETS ITS CARD BACK. When the bar became a grid it lost
+   its border and ground — correct for the bar, which is now just a
+   layout — but that left the Carfax mark and the location floating on
+   bare page while the actions opposite them sat in solid pills. Two
+   facts with nothing holding them read as debris.
+
+   So the facts get the card and the bar keeps none: the page's own
+   panel ground, hairline and radius, the same one the summary and the
+   accordions use. Its height is set by the row, so it stands level with
+   the buttons across from it. */
 .v2 .actbar__left {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sp-4) var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 12px;
+  background: rgba(244, 242, 239, 0.022);
 }
+.v2 .actbar { align-items: stretch; }
+.v2 .actbar__contact { align-items: center; }
 .v2 .actbar__facts {
   display: flex;
   flex-wrap: wrap;

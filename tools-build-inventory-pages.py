@@ -364,11 +364,15 @@ def srp_card(stock):
             return blk
     raise SystemExit("ABORT: stock %s is no longer on srp.html." % stock)
 
-# SIX, NOT THREE. Three cards fill one row, so "pagination" over them
-# was a control with one page — dots that cannot move are decoration,
-# and decoration dressed as a control is the worst of both. Six gives
-# the dots two real destinations and the reader more to look at.
-others = [c for c in cars if not c.get("vdp")][:6]
+# THREE. It went to six so the dots would have two real pages to move
+# between; Alex has taken the second row back out, so it returns to one.
+#
+# The dots do not need deleting with it — the module counts how many
+# cards fit a row and collapses itself when that leaves one page, and
+# .rel__dots:empty removes the box. So the control disappears on its
+# own, which is what it was built to do rather than something to
+# remember. Put a fourth card back and it returns.
+others = [c for c in cars if not c.get("vdp")][:3]
 
 PANEL_ROWS = NL.join(prow(k, v) for k, v in PANEL)
 FRAMES = NL.join(frame(i, s) for i, s in enumerate(GALLERY))
@@ -583,7 +587,7 @@ vdp = """<!DOCTYPE html>
           </a>
           <a class="telpill telpill--bone" href="sms:+16302211800">
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12.4 8.2a1.2 1.2 0 0 1-1.2 1.2H3.9L1.5 11.8V2.5a1.2 1.2 0 0 1 1.2-1.2h8.5a1.2 1.2 0 0 1 1.2 1.2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-            Text the dealership
+            Text dealer
           </a>
           <a class="btn btn--line" href="https://www.chicagomotorcars.com/finance-application/">
             Start financing
