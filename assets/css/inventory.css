@@ -1186,3 +1186,352 @@
 @media (prefers-reduced-motion: reduce) {
   .v2 .veh__frame, .v2 .veh__nav { transition: none; }
 }
+
+
+/* ============================================================
+   8. THE VDP, REBUILT TO THE PRESTIGE COMPOSITION
+   ============================================================
+   Alex 2026-08-18: "сделать VDP как prestige … делай с нашими
+   spacings, tags, pills, fonts, colors."
+
+   So this ports the REFERENCE'S STRUCTURE and none of its surface.
+   What is taken from
+   /Users/alex/Desktop/WORK/PRESTIGE/…/prestige-final/vdp.html is the
+   order of the argument and the shape of the summary:
+
+     breadcrumb
+     summary        photograph left · decision panel right
+     action bar     full width under it, trust and contact
+     standards      what the dealership guarantees
+     accordions     description · equipment · finance
+     gallery        every photograph, at size
+     related        more of the same
+
+   What is NOT taken: its light ground, its boxed white cards, its
+   black fill buttons, its type, its rules, its spacing. Every value
+   below resolves to a CMC token, and the components are the ones this
+   project already approved — .btn, .btn--line, .micro, .veh, the pill
+   ground from .veh__stock, the hairline from --rule.
+
+   THE ONE STRUCTURAL IMPORT WORTH NAMING is the spec block moving
+   INTO the panel as label-left / value-right rows. Our version had it
+   as a full-measure table under both columns, which reads well and
+   answers the wrong question: a buyer looking at the photograph wants
+   the colour, the engine and the mileage in the same glance, not two
+   screens later. Prestige puts eight rows beside the price and it is
+   right to.
+
+   WHAT WE KEEP THAT PRESTIGE DOES NOT HAVE: the price receipt. Their
+   panel shows one number; ours shows the three the feed actually
+   carries and their sum. That was decided here and it is more honest,
+   so the reference does not get to overrule it.
+   ============================================================ */
+
+/* ---- breadcrumb ---- */
+.v2 .crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-3);
+}
+.v2 .crumbs a { color: var(--ink-3); text-decoration: none; transition: color var(--dur-2) var(--ease-out); }
+.v2 .crumbs a:hover { color: var(--ink); }
+.v2 .crumbs__sep { opacity: 0.5; }
+.v2 .crumbs [aria-current] { color: var(--ink-2); }
+
+/* ---- the summary: photograph and decision ---- */
+.v2 .sum {
+  display: grid;
+  grid-template-columns: minmax(0, 60fr) minmax(22rem, 40fr);
+  gap: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  align-items: start;
+  margin-block-start: var(--sp-6);
+}
+
+/* The photo count, bottom-left of the frame. Same plate as the stock
+   number on a results card — same ground, same ring, same radius —
+   because they are the same kind of object: a small true fact laid on
+   a photograph. */
+.v2 .gal__count {
+  position: absolute;
+  inset-block-end: var(--sp-4);
+  inset-inline-start: var(--sp-4);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px 11px 7px;
+  border-radius: 6px;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  background: rgb(var(--bg-rgb) / 0.85);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.12);
+}
+.v2 .gal__count svg { flex: none; opacity: 0.8; }
+
+/* The panel. One card, three compartments separated by the page's own
+   hairline: what it is, what it costs, what it is made of. */
+.v2 .panel {
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 12px;
+  background: rgba(244, 242, 239, 0.022);
+  overflow: hidden;
+}
+.v2 .panel__head { padding: var(--sp-5); }
+.v2 .panel__price,
+.v2 .panel__specs,
+.v2 .panel__act { padding: var(--sp-5); border-block-start: 1px solid var(--rule); }
+
+.v2 .panel__title {
+  font-size: clamp(1.375rem, 1.9vw, 1.75rem);
+  line-height: 1.14;
+  letter-spacing: var(--tr-display);
+  margin-block-start: var(--gap-eyebrow);
+}
+
+/* The receipt, unchanged in substance and tightened to sit in a card. */
+.v2 .panel .price { margin: 0; padding: 0; border: 0; }
+
+/* Label left, value right, hairline between — the reference's row, in
+   our type. The value takes the data face and tabular figures so the
+   right edge lines up down the column; the label takes the eyebrow
+   colour so the pair reads as caption-and-fact rather than as two
+   equal words. */
+.v2 .srow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-3);
+  border-block-end: 1px solid var(--rule);
+}
+.v2 .srow:last-child { border-block-end: 0; padding-block-end: 0; }
+.v2 .srow:first-child { padding-block-start: 0; }
+.v2 .srow dt { color: var(--ink-3); font-size: var(--t-micro); }
+.v2 .srow dd {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  word-break: break-word;
+}
+.v2 .panel__act .btn { inline-size: 100%; justify-content: center; }
+
+/* ---- the action bar ---- */
+.v2 .actbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-5);
+  margin-block-start: var(--sp-5);
+  padding: var(--sp-5);
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 12px;
+  background: rgba(244, 242, 239, 0.022);
+}
+.v2 .actbar__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.v2 .actbar__tools { display: flex; gap: var(--sp-2); margin-inline-start: auto; }
+.v2 .actbar__contact { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* SAVE and SHARE. Not buttons in the CTA sense — they are marks you
+   leave, so they take the pill ground and the label voice rather than
+   a fill or a ring. */
+.v2 .tool {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 8px 14px 9px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-2);
+  background: rgba(240, 237, 231, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.10);
+  transition: color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .tool:hover { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.26); }
+.v2 .tool:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .tool[aria-pressed="true"] { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.34); }
+.v2 .tool svg { flex: none; }
+
+/* The phone, in the accent. Same red pill as the one beside every
+   location — a number you can call is the same object wherever it
+   appears, so it gets the same treatment. */
+.v2 .telpill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 9px 17px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bone);
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  font-variant-numeric: tabular-nums;
+  transition: background var(--dur-2) var(--ease-out);
+}
+.v2 .telpill:hover { background: var(--accent-deep); }
+.v2 .telpill:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ---- the standards band ---- */
+.v2 .stds { margin-block-start: clamp(var(--sp-8), 5vw, var(--sp-9)); }
+.v2 .stds__title {
+  font-size: clamp(1.375rem, 2.2vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: var(--tr-display);
+  margin-block-start: var(--gap-eyebrow);
+}
+.v2 .stds__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0 clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  margin-block-start: var(--sp-6);
+  border-block-start: 1px solid var(--rule);
+}
+.v2 .stds__item { padding-block: var(--sp-5); border-block-end: 1px solid var(--rule); }
+.v2 .stds__k { display: block; color: var(--ink); font-weight: 600; }
+.v2 .stds__v { display: block; margin-block-start: var(--sp-2); color: var(--ink-2); font-size: var(--t-micro); line-height: 1.5; }
+
+/* ---- the accordions ----
+   <details>, not a JS disclosure. It opens without script, it is
+   keyboard-operable by construction, it is findable by the browser's
+   own in-page search when closed, and it needs no module. The only
+   thing styled is the marker, because the default triangle is the one
+   piece of browser chrome this page cannot absorb. */
+.v2 .acc {
+  border-block-end: 1px solid var(--rule);
+}
+.v2 .acc:first-of-type { border-block-start: 1px solid var(--rule); }
+.v2 .acc__sum {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-6);
+  cursor: pointer;
+  list-style: none;
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.v2 .acc__sum::-webkit-details-marker { display: none; }
+.v2 .acc__sum:hover { color: var(--ink); }
+.v2 .acc[open] .acc__sum { color: var(--ink); }
+.v2 .acc__sum:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .acc__mark {
+  flex: none;
+  position: relative;
+  inline-size: 13px;
+  block-size: 13px;
+}
+.v2 .acc__mark::before,
+.v2 .acc__mark::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  transition: opacity var(--dur-2) var(--ease-out), rotate var(--dur-3) var(--ease-out);
+}
+.v2 .acc__mark::before { inset-block-start: 6px; inset-inline: 0; block-size: 1px; }
+.v2 .acc__mark::after  { inset-inline-start: 6px; inset-block: 0; inline-size: 1px; }
+.v2 .acc[open] .acc__mark::after { rotate: 90deg; opacity: 0; }
+.v2 .acc__body { padding-block-end: var(--sp-7); max-inline-size: 76ch; }
+
+.v2 .acc__body p { color: var(--ink-2); margin-block-start: var(--sp-4); }
+.v2 .acc__body p:first-child { margin-block-start: 0; }
+.v2 .acc__sub {
+  display: block;
+  margin-block-start: var(--sp-6);
+  color: var(--ink-3);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+}
+.v2 .acc__sub + p { margin-block-start: var(--sp-3); }
+
+/* Equipment reads as a list of facts, so it is set as one — two or
+   three columns of short lines on the same hairline marker the
+   highlights use. */
+.v2 .eqp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--sp-4) var(--sp-6);
+  padding: 0;
+  list-style: none;
+}
+.v2 .eqp li {
+  position: relative;
+  padding-inline-start: var(--sp-5);
+  color: var(--ink-2);
+  font-size: var(--t-micro);
+  line-height: 1.5;
+}
+.v2 .eqp li::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.62em;
+  inset-inline-start: 0;
+  inline-size: 10px;
+  block-size: 1px;
+  background: var(--rule-strong);
+}
+
+/* ---- the gallery section ---- */
+.v2 .shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: clamp(var(--sp-4), 1.8vw, var(--sp-5));
+  margin-block-start: var(--sp-6);
+}
+.v2 .shots img {
+  inline-size: 100%;
+  /* block-size: auto IS LOad-BEARING. The markup carries width="1600"
+     height="1066" — correct, and what stops the page reflowing as the
+     photographs arrive — but an HTML height attribute maps to the CSS
+     height property as a presentational hint, and an explicit height
+     beats aspect-ratio. Without this line every frame rendered 1066px
+     tall in a 431px column and the gallery came out 3,246px high.
+     Setting it to auto hands the sizing back to aspect-ratio and keeps
+     the attributes doing their real job, which is reserving the box. */
+  block-size: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid rgba(244, 242, 239, 0.08);
+  filter: saturate(0.86) brightness(0.9) contrast(1.03);
+  transition: filter var(--dur-3) var(--ease-out);
+}
+.v2 .shots a:hover img,
+.v2 .shots a:focus-visible img { filter: none; }
+.v2 .shots a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 10px; }
+/* EVEN, and the first frame is not promoted. It was given a double-width
+   lead on the reasoning that it is the strongest shot — but it is also
+   the one already standing at full size two screens up, so promoting it
+   here shows the same photograph large twice and makes the other five
+   look like its footnotes. Six equal frames read as what the heading
+   promises: a contact sheet. */
+
+@media (max-width: 60rem) {
+  .v2 .sum { grid-template-columns: minmax(0, 1fr); }
+  .v2 .actbar__tools { margin-inline-start: 0; }
+}
