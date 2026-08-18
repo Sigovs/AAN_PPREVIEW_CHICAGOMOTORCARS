@@ -1722,7 +1722,13 @@
    centred head inside a capped body centres on the CAP, not on the
    card, so the title sat left of the middle by half the difference.
    The measure moves onto the things that need it instead. */
-.v2 .acc__body { padding-block-end: var(--sp-7); }
+/* ONE MEASURE FOR THE PANEL. It was removed to let the head centre on
+   the card, and that is what let the lists run to 1300px. With the head
+   ranged RIGHT instead, the cap comes back and does both jobs: the
+   lists get their two columns and the head's right edge lands on the
+   lists' right edge, so the whole panel shares one line down its right
+   side instead of three different ones. */
+.v2 .acc__body { padding-block-end: var(--sp-7); max-inline-size: 62rem; }
 .v2 .acc__body > p:not([class]),
 .v2 .acc__body .acc__note { max-inline-size: 76ch; }
 
@@ -2385,30 +2391,22 @@
   line-height: 1.12;
   letter-spacing: var(--tr-display);
   color: var(--ink);
-  margin: 0 auto;
-  max-inline-size: 24ch;
-  text-align: center;
+  /* RANGED RIGHT, on Alex's call. It closes the panel's right edge with
+     the equipment lists below it, and the asymmetric-padding correction
+     that centring needed goes away with the centring: a right-aligned
+     box lands on the padding edge, and the padding edge is where the
+     lists end too. */
+  margin: 0 0 0 auto;
+  max-inline-size: 26ch;
+  text-align: right;
   text-wrap: balance;
-  /* CENTRED ON THE CARD, NOT ON THE PADDING BOX. The body's padding is
-     asymmetric on purpose — 33px more on the left, so its text lines up
-     with the summary's label past the icon — and a centred block
-     inherits that, landing half the difference off the card's axis.
-     Measured: 16px right of centre, which is exactly half of 33.
-
-     Corrected from the same token that causes it, so the two can never
-     drift apart, and as a translate rather than a margin: it is
-     compositor work, it cannot disturb the measure cap or the auto
-     margins doing the centring, and it moves the ink without moving
-     the box. */
-  translate: calc(var(--acc-indent) / -2) 0;
 }
 .v2 .acc__body .acc__title + .acc__lead {
-  margin: var(--sp-4) auto 0;
+  margin: var(--sp-4) 0 0 auto;
   font-size: var(--t-lede);
   color: var(--ink-2);
   max-inline-size: 46ch;
-  text-align: center;
-  translate: calc(var(--acc-indent) / -2) 0;
+  text-align: right;
 }
 /* The head is a block of its own, so it gets a chapter's worth of air
    under it rather than a paragraph's. */
