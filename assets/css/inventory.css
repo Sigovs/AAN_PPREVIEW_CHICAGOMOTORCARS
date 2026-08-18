@@ -2639,3 +2639,31 @@
 
 .v2 .ship .calc__out,
 .v2 .ask .calc__out { text-align: left; }
+
+/* ---- the route to the estimator, under the picture --------------------
+   The bar says where the car IS; "and how does it get to me" is the next
+   thought, so the way to the shipping panel sits beside the location
+   rather than only in the standards band two screens down.
+
+   It takes the tool pill — the same object as Save and Share up top —
+   because it is a way to something rather than a fact, and the two facts
+   next to it (the Carfax mark, the location) must not look clickable in
+   the same way. */
+.v2 .actbar__ship {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 8px 14px 9px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-2);
+  background: rgba(240, 237, 231, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.10);
+  transition: color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .actbar__ship:hover { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.28); }
+.v2 .actbar__ship:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .actbar__ship svg { flex: none; opacity: 0.85; }

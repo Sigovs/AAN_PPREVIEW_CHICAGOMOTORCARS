@@ -618,6 +618,16 @@ vdp = """<!DOCTYPE html>
           <span class="micro actbar__loc-k">Location</span>
           <a class="actbar__loc-v" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%%2C+Naperville%%2C+IL+60563" target="_blank" rel="noopener">Naperville, IL &mdash; 2104 Ferry Road</a>
         </p>
+
+        <!-- WHERE THE QUESTION ACTUALLY GETS ASKED. The bar already says
+             where the car is; "and how does it get to me" is the very next
+             thought, so the route to the estimator belongs here rather than
+             only in the standards band further down. Same anchor, same
+             behaviour: it opens the panel and scrolls to it. -->
+        <a class="actbar__ship" href="#shipping" data-open-panel>
+          <svg width="17" height="15" viewBox="0 0 20 18" fill="none" aria-hidden="true"><path d="M1 3.6h10.2v8.6H1zM11.2 6.6h3.4l3 3v2.6h-6.4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="5" cy="14.2" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="14.2" cy="14.2" r="1.7" stroke="currentColor" stroke-width="1.3"/></svg>
+          Estimate shipping
+        </a>
         </div>
         <div class="actbar__contact">
           <a class="telpill" href="tel:+16302211800">
