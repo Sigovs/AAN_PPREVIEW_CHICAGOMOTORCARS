@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="assets/css/main.css?v=439">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
-<link rel="stylesheet" href="assets/css/v2.css?v=58">
+<link rel="stylesheet" href="assets/css/v2.css?v=60">
 </head>
 <body class="v2">
 
@@ -808,53 +808,61 @@
 
         <div class="showcase__index">
           <div class="recs">
-          <button class="rec is-active" type="button" data-frame="0" aria-pressed="true">
+          <div class="rec is-active" data-frame="0">
+            <button class="rec__select" type="button" aria-pressed="true" aria-label="Show 911 GT2 RS Weissach"></button>
+
             <span class="rec__body">
               <span class="micro rec__make">2018 Porsche</span>
               <span class="rec__name"><span class="rec__model">911 GT2 RS Weissach</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts"><span class="rec__pill">$900,212</span><span class="rec__pill">2,850 miles</span></span>
+                <span class="rec__facts"><span class="rec__pill">$900,212</span><span class="rec__pill">2,850 miles</span><a class="rec__cta" href="vdp.html">See details</a></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-porsche-gt2rs.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
               <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
-          </button>
+          </div>
 
-          <button class="rec" type="button" data-frame="1" aria-pressed="false">
+          <div class="rec" data-frame="1">
+            <button class="rec__select" type="button" aria-pressed="false" aria-label="Show Aventador SVJ Roadster"></button>
+
             <span class="rec__body">
               <span class="micro rec__make">2021 Lamborghini</span>
               <span class="rec__name"><span class="rec__model">Aventador SVJ Roadster</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts"><span class="rec__pill">$1,600,212</span><span class="rec__pill">7,671 miles</span></span>
+                <span class="rec__facts"><span class="rec__pill">$1,600,212</span><span class="rec__pill">7,671 miles</span><a class="rec__cta" href="vdp.html">See details</a></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-aventador-svj-roadster.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
               <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
-          </button>
+          </div>
 
-          <button class="rec" type="button" data-frame="2" aria-pressed="false">
+          <div class="rec" data-frame="2">
+            <button class="rec__select" type="button" aria-pressed="false" aria-label="Show Regera"></button>
+
             <span class="rec__body">
               <span class="micro rec__make">2021 Koenigsegg</span>
               <span class="rec__name"><span class="rec__model">Regera</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts"><span class="rec__pill">$2,900,212</span><span class="rec__pill">2,055 miles</span></span>
+                <span class="rec__facts"><span class="rec__pill">$2,900,212</span><span class="rec__pill">2,055 miles</span><a class="rec__cta" href="vdp.html">See details</a></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-koenigsegg-regera.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
               <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
-          </button>
+          </div>
 
-          <button class="rec" type="button" data-frame="3" aria-pressed="false">
+          <div class="rec" data-frame="3">
+            <button class="rec__select" type="button" aria-pressed="false" aria-label="Show 812 GTS"></button>
+
             <span class="rec__body">
               <span class="micro rec__make">2023 Ferrari</span>
               <span class="rec__name"><span class="rec__model">812 GTS</span></span>
               <span class="rec__detail"><span class="rec__detail-in">
-                <span class="rec__facts"><span class="rec__pill">$1,100,212</span><span class="rec__pill">1,641 miles</span></span>
+                <span class="rec__facts"><span class="rec__pill">$1,100,212</span><span class="rec__pill">1,641 miles</span><a class="rec__cta" href="vdp.html">See details</a></span>
               </span></span>
             </span>
               <img class="rec__thumb" src="assets/img/inventory/cutout-ferrari-812-gts.png" alt="" width="1400" height="560" loading="lazy" decoding="async">
               <span class="rec__chev" aria-hidden="true"><svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M0 7h20M14.5 1.5 20.5 7l-6 5.5" stroke="currentColor" stroke-width="1.4"/></svg></span>
-          </button>
+          </div>
           </div>
 
           <!-- The concluding line of the index, not a button.
@@ -1953,6 +1961,6 @@
   </footer>
 
 
-<script src="assets/js/main.js?v=49" defer></script>
+<script src="assets/js/main.js?v=50" defer></script>
 </body>
 </html>

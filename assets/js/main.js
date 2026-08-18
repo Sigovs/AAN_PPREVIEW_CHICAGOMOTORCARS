@@ -231,7 +231,11 @@
       /* The index looks identical whichever record is chosen — that is
          the brief. aria-pressed is how the choice still reaches anyone
          who cannot see the photograph change, and it costs no pixels. */
-      if (r.hasAttribute('aria-pressed')) r.setAttribute('aria-pressed', String(on));
+      /* The record is a <div> now — it holds a link as well as being
+         selectable, and a link inside a button is invalid. The pressed
+         state lives on the overlay button that fills the card. */
+      var pressable = r.hasAttribute('aria-pressed') ? r : r.querySelector('.rec__select');
+      if (pressable) pressable.setAttribute('aria-pressed', String(on));
     });
   }
 

@@ -1284,3 +1284,74 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 .v2 .sell__how:focus-visible {
   box-shadow: inset 0 0 0 1.5px var(--accent-deep);
 }
+
+/* ---- The record gains a second action -------------------------------
+   The card was a <button> that selected a vehicle. It now also has to
+   offer a way INTO that vehicle, and a link inside a button is invalid
+   markup that no browser will let you click. So the card is a <div>, an
+   invisible button fills it and carries the selecting and the pressed
+   state, and "See details" is a real <a> sitting above it.
+
+   The pill goes in the fact row rather than in a corner of its own: the
+   price and the mileage are what the reader is weighing, and the way to
+   the full record belongs on the same line as the reasons for wanting
+   it. It is the only accent object in the section, which is what makes
+   it read as the action rather than as a third fact. */
+.v2 .rec { position: relative; }
+
+.v2 .rec__select {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.v2 .rec__select:focus-visible { outline: 2px solid var(--ink); outline-offset: -3px; border-radius: 12px; }
+
+.v2 .rec__cta {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 18px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  /* Held out of the flow's way until the row is pointed at: opacity and
+     a short rise, never width — a pill that grew from nothing would push
+     the two facts beside it sideways every time the pointer crossed. */
+  opacity: 0;
+  translate: 0 4px;
+  pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out),
+              background var(--dur-2) var(--ease-out);
+}
+.v2 .rec:hover .rec__cta,
+.v2 .rec:focus-within .rec__cta,
+.v2 .rec.is-active .rec__cta {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+}
+.v2 .rec__cta:hover { background: var(--accent-hi, #E01B25); }
+.v2 .rec__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* The arrow answers the pill: the record's one action is red, so the
+   mark that points at it is red too rather than staying neutral ink. */
+.v2 .rec:hover .rec__chev,
+.v2 .rec:focus-within .rec__chev,
+.v2 .rec.is-active .rec__chev { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .rec__cta { transition: opacity var(--dur-1) var(--ease-out); translate: none; }
+}
