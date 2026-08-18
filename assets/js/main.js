@@ -1491,3 +1491,107 @@
     if (t) t.focus();
   });
 })();
+
+/* ============================================================
+   THE MARQUE STRIP IS THE MAKE FILTER, SAID SHORTER
+   ============================================================
+   Seven marques, the same seven the Make panel holds, with the same
+   counts — so leaving them as decoration would be a row that looks like
+   a control and is not one. Pressing a marque ticks its checkbox, which
+   is the single source of state: the panel, the chips and the strip all
+   read from it and therefore cannot disagree.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var strip = document.querySelector('.brands');
+  var makePill = document.getElementById('f-make');
+  if (!strip || !makePill) return;
+
+  var boxes = [].slice.call(makePill.querySelectorAll('.fopt'));
+
+  function boxFor(name) {
+    var hit = boxes.filter(function (o) {
+      var n = o.querySelector('.fopt__name');
+      return n && n.textContent.trim() === name;
+    })[0];
+    return hit ? hit.querySelector('input') : null;
+  }
+
+  [].slice.call(strip.querySelectorAll('.brand')).forEach(function (btn) {
+    var name = (btn.childNodes[0].textContent || '').trim();
+    var box = boxFor(name);
+    if (!box) return;
+    btn.setAttribute('aria-pressed', String(box.checked));
+    btn.addEventListener('click', function () {
+      box.checked = !box.checked;
+      box.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    box.addEventListener('change', function () {
+      btn.setAttribute('aria-pressed', String(box.checked));
+    });
+  });
+})();
+
+/* ============================================================
+   DETAILED SEARCH — the same filters, opened together
+   ============================================================
+   It was a link to the live site: the one control promising MORE
+   filtering was the one that left the page. It now opens all four groups
+   at once, against the same checkboxes — no second set of inputs, so the
+   sheet and the pills cannot disagree.
+
+   The exclusive-panel rule is suspended while it is open, because four
+   panels side by side is the whole point of the mode; it resumes on
+   close, where overlapping dropdowns would be a defect again.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var bar = document.querySelector('.filterbar');
+  var btn = document.querySelector('.filterbar__all');
+  if (!bar || !btn) return;
+
+  var pills = [].slice.call(bar.querySelectorAll('.fpill'));
+  var label = btn.childNodes[0];
+
+  btn.addEventListener('click', function () {
+    var on = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!on));
+    bar.classList.toggle('is-detailed', !on);
+    pills.forEach(function (d) { d.open = !on; });
+    if (label) label.textContent = on ? 'Detailed search ' : 'Fewer filters ';
+  });
+
+  /* Reset all clears every box in the sheet. Show N closes it — the
+     filtering already happened on each change, so this button confirms
+     nothing; it is the way OUT of the sheet, and its number is the
+     result you are about to look at. */
+  var reset = bar.querySelector('.filterbar__reset');
+  var show  = bar.querySelector('.filterbar__show');
+  var count = document.querySelector('.page-head__count');
+
+  if (reset) {
+    reset.addEventListener('click', function () {
+      [].slice.call(bar.querySelectorAll('input[type="checkbox"]')).forEach(function (b) {
+        if (!b.checked) return;
+        b.checked = false;
+        b.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+  }
+
+  if (show) {
+    show.addEventListener('click', function () { btn.click(); });
+    /* The number tracks the list, read off the count the page already
+       maintains rather than recomputed from a second source. */
+    var sync = function () {
+      if (!count) return;
+      var n = (count.textContent.match(/d+/) || ['0'])[0];
+      var b = show.querySelector('b');
+      if (b) b.textContent = n;
+    };
+    bar.addEventListener('change', function () { setTimeout(sync, 0); });
+    sync();
+  }
+})();

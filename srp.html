@@ -54,7 +54,7 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=58">
 <!-- Last again. srp.html and vdp.html load this; index_2.html does
      not, and index.html loads neither. -->
-<link rel="stylesheet" href="assets/css/inventory.css?v=13">
+<link rel="stylesheet" href="assets/css/inventory.css?v=18">
 </head>
 <body class="v2">
 
@@ -468,96 +468,16 @@
 
            Every number below is counted off the twenty-four cards on this
            page, not estimated. -->
-      <form class="filterbar" action="https://www.chicagomotorcars.com/used-cars-chicago-il/" method="get">
-        <details class="fpill" id="f-make">
-          <summary class="fpill__trigger">Make<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
-          <div class="fpill__panel">
-            <ul class="fopts">
-            <li><label class="fopt"><input type="checkbox" name="make" value="Dodge"><span class="fopt__name">Dodge</span><span class="fopt__n">7</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="make" value="Chevrolet"><span class="fopt__name">Chevrolet</span><span class="fopt__n">5</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="make" value="Audi"><span class="fopt__name">Audi</span><span class="fopt__n">3</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="make" value="Bentley"><span class="fopt__name">Bentley</span><span class="fopt__n">3</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="make" value="Acura"><span class="fopt__name">Acura</span><span class="fopt__n">3</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="make" value="BMW"><span class="fopt__name">BMW</span><span class="fopt__n">2</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="make" value="Aston Martin"><span class="fopt__name">Aston Martin</span><span class="fopt__n">1</span></label></li>
-            </ul>
-            <p class="fpill__foot">
-              <button class="fpill__clear" type="button">Clear</button>
-              <span class="micro fpill__tally">7 options &middot; 24 cars</span>
-            </p>
-          </div>
-        </details>
-        <details class="fpill" id="f-body">
-          <summary class="fpill__trigger">Body<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
-          <div class="fpill__panel">
-            <ul class="fopts">
-            <li><label class="fopt"><input type="checkbox" name="bodystyle" value="Coupe"><span class="fopt__name">Coupe</span><span class="fopt__n">15</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="bodystyle" value="Convertible"><span class="fopt__name">Convertible</span><span class="fopt__n">4</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="bodystyle" value="SUV"><span class="fopt__name">SUV</span><span class="fopt__n">3</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="bodystyle" value="Sedan"><span class="fopt__name">Sedan</span><span class="fopt__n">2</span></label></li>
-            </ul>
-            <p class="fpill__foot">
-              <button class="fpill__clear" type="button">Clear</button>
-              <span class="micro fpill__tally">4 options &middot; 24 cars</span>
-            </p>
-          </div>
-        </details>
-        <details class="fpill" id="f-year">
-          <summary class="fpill__trigger">Year<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
-          <div class="fpill__panel">
-            <ul class="fopts">
-            <li><label class="fopt"><input type="checkbox" name="year" value="2024 and newer"><span class="fopt__name">2024 and newer</span><span class="fopt__n">5</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="year" value="2020 – 2023"><span class="fopt__name">2020 – 2023</span><span class="fopt__n">3</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="year" value="2015 – 2019"><span class="fopt__name">2015 – 2019</span><span class="fopt__n">12</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="year" value="Before 2015"><span class="fopt__name">Before 2015</span><span class="fopt__n">4</span></label></li>
-            </ul>
-            <p class="fpill__foot">
-              <button class="fpill__clear" type="button">Clear</button>
-              <span class="micro fpill__tally">4 options &middot; 24 cars</span>
-            </p>
-          </div>
-        </details>
-        <details class="fpill" id="f-price">
-          <summary class="fpill__trigger">Price<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
-          <div class="fpill__panel">
-            <ul class="fopts">
-            <li><label class="fopt"><input type="checkbox" name="price" value="Under $250,000"><span class="fopt__name">Under $250,000</span><span class="fopt__n">13</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="price" value="$250,000 – $500,000"><span class="fopt__name">$250,000 – $500,000</span><span class="fopt__n">6</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="price" value="$500,000 – $750,000"><span class="fopt__name">$500,000 – $750,000</span><span class="fopt__n">2</span></label></li>
-            <li><label class="fopt"><input type="checkbox" name="price" value="$750,000 and above"><span class="fopt__name">$750,000 and above</span><span class="fopt__n">3</span></label></li>
-            </ul>
-            <p class="fpill__foot">
-              <button class="fpill__clear" type="button">Clear</button>
-              <span class="micro fpill__tally">4 options &middot; 24 cars</span>
-            </p>
-          </div>
-        </details>
-        <span class="filterbar__gap"></span>
-        <!-- No Apply. The filtering happens on the change, which is how it
-             works everywhere else in AAN, and a button that only confirms
-             what already happened is a step with nothing behind it. The
-             slot takes the way into the full search instead. -->
-        <p class="filterbar__go">
-          <a class="btn btn--line" href="https://www.chicagomotorcars.com/used-cars-chicago-il/">Detailed search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
-        </p>
-      </form>
+      <!-- Popular makes, above the search rather than under it: the reference
+           opens on the marques because that is the first cut most people
+           make, and the filters answer whatever is left.
 
-      <!-- Chosen filters, read back. The row is empty in the markup and
-           stays out of the layout until something is actually selected —
-           an always-present "no filters" strip is a line of furniture
-           that tells you nothing. -->
-      <div class="chips" id="srp-chips" hidden>
-        <p class="micro chips__label">Filtered by</p>
-        <ul class="chips__row"></ul>
-        <button class="chips__clear" type="button">Clear all</button>
-      </div>
-
-      <!-- The marques actually in stock, with their counts. It is the same
-           seven the Make filter holds — the strip is the filter read as a
-           sentence rather than as a control, so the shape of the inventory
-           is legible without opening anything. -->
+           TEXT, NOT LOGOS. The reference uses eight brand SVGs; we hold
+           none — assets/logos/ has the CMC marks and Karma, nothing else.
+           A tile is a tile whether the name is drawn or set, and inventing
+           marque logos is not mine to do. -->
       <nav class="brands" aria-label="Marques in stock">
-        <p class="micro brands__label">In stock</p>
+        <p class="micro brands__label">Popular makes</p>
         <ul class="brands__row">
           <li><button class="brand" type="button">Dodge<span class="brand__n">7</span></button></li>
           <li><button class="brand" type="button">Chevrolet<span class="brand__n">5</span></button></li>
@@ -569,36 +489,135 @@
         </ul>
       </nav>
 
-      <!-- Keyword is a different question from the four above — you already
-           know what the car is called — so it keeps its own line and its
-           own action, exactly as it does on the homepage. -->
-      <form class="invsearch" method="get"
-            action="https://www.chicagomotorcars.com/used-cars-chicago-il/"
-            role="search" aria-label="Search inventory by keyword">
-        <label class="u-visually-hidden" for="srp-kw">Search make, model or keyword</label>
-        <svg class="invsearch__icon" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-          <circle cx="7.2" cy="7.2" r="5.4" stroke="currentColor" stroke-width="1.4"/>
-          <path d="m11.4 11.4 3.8 3.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-        <input class="invsearch__field" id="srp-kw" name="stockno" type="search"
-               placeholder="Search make, model or keyword" autocomplete="off">
-        <button class="btn btn--line invsearch__go" type="submit">Search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
-      </form>
+      <!-- ONE LINE: the four filters, the way into all of them, the
+           keyword field and the sort. They are three separate forms and a
+           select, which cannot be nested, so the row is a plain wrapper
+           holding them on one baseline. -->
+      <p class="micro searchrow__eyebrow">Search our collection</p>
+      <div class="searchrow">
+        <form class="filterbar" id="srp-filters" action="https://www.chicagomotorcars.com/used-cars-chicago-il/" method="get">
+          <details class="fpill" id="f-make">
+            <summary class="fpill__trigger">Make<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
+            <div class="fpill__panel">
+              <ul class="fopts">
+              <li><label class="fopt"><input type="checkbox" name="make" value="Dodge"><span class="fopt__name">Dodge</span><span class="fopt__n">7</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="make" value="Chevrolet"><span class="fopt__name">Chevrolet</span><span class="fopt__n">5</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="make" value="Audi"><span class="fopt__name">Audi</span><span class="fopt__n">3</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="make" value="Bentley"><span class="fopt__name">Bentley</span><span class="fopt__n">3</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="make" value="Acura"><span class="fopt__name">Acura</span><span class="fopt__n">3</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="make" value="BMW"><span class="fopt__name">BMW</span><span class="fopt__n">2</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="make" value="Aston Martin"><span class="fopt__name">Aston Martin</span><span class="fopt__n">1</span></label></li>
+              </ul>
+              <p class="fpill__foot">
+                <button class="fpill__clear" type="button">Clear</button>
+                <span class="micro fpill__tally">7 options &middot; 24 cars</span>
+              </p>
+            </div>
+          </details>
+          <details class="fpill" id="f-body">
+            <summary class="fpill__trigger">Body<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
+            <div class="fpill__panel">
+              <ul class="fopts">
+              <li><label class="fopt"><input type="checkbox" name="bodystyle" value="Coupe"><span class="fopt__name">Coupe</span><span class="fopt__n">15</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="bodystyle" value="Convertible"><span class="fopt__name">Convertible</span><span class="fopt__n">4</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="bodystyle" value="SUV"><span class="fopt__name">SUV</span><span class="fopt__n">3</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="bodystyle" value="Sedan"><span class="fopt__name">Sedan</span><span class="fopt__n">2</span></label></li>
+              </ul>
+              <p class="fpill__foot">
+                <button class="fpill__clear" type="button">Clear</button>
+                <span class="micro fpill__tally">4 options &middot; 24 cars</span>
+              </p>
+            </div>
+          </details>
+          <details class="fpill" id="f-year">
+            <summary class="fpill__trigger">Year<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
+            <div class="fpill__panel">
+              <ul class="fopts">
+              <li><label class="fopt"><input type="checkbox" name="year" value="2024 and newer"><span class="fopt__name">2024 and newer</span><span class="fopt__n">5</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="year" value="2020 – 2023"><span class="fopt__name">2020 – 2023</span><span class="fopt__n">3</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="year" value="2015 – 2019"><span class="fopt__name">2015 – 2019</span><span class="fopt__n">12</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="year" value="Before 2015"><span class="fopt__name">Before 2015</span><span class="fopt__n">4</span></label></li>
+              </ul>
+              <p class="fpill__foot">
+                <button class="fpill__clear" type="button">Clear</button>
+                <span class="micro fpill__tally">4 options &middot; 24 cars</span>
+              </p>
+            </div>
+          </details>
+          <details class="fpill" id="f-price">
+            <summary class="fpill__trigger">Price<svg class="fpill__caret" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1.2 5.5 5.7 10 1.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></summary>
+            <div class="fpill__panel">
+              <ul class="fopts">
+              <li><label class="fopt"><input type="checkbox" name="price" value="Under $250,000"><span class="fopt__name">Under $250,000</span><span class="fopt__n">13</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="price" value="$250,000 – $500,000"><span class="fopt__name">$250,000 – $500,000</span><span class="fopt__n">6</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="price" value="$500,000 – $750,000"><span class="fopt__name">$500,000 – $750,000</span><span class="fopt__n">2</span></label></li>
+              <li><label class="fopt"><input type="checkbox" name="price" value="$750,000 and above"><span class="fopt__name">$750,000 and above</span><span class="fopt__n">3</span></label></li>
+              </ul>
+              <p class="fpill__foot">
+                <button class="fpill__clear" type="button">Clear</button>
+                <span class="micro fpill__tally">4 options &middot; 24 cars</span>
+              </p>
+            </div>
+          </details>
+          <span class="filterbar__gap"></span>
+          <!-- The sheet closes on its own terms: everything off on the left,
+               and on the right the number the choices actually produce. Both
+               only exist while the sheet is open. -->
+          <p class="filterbar__foot">
+            <button class="filterbar__reset" type="button">Reset all</button>
+            <button class="btn btn--accent filterbar__show" type="button">Show <b>24</b> results</button>
+          </p>
+          <!-- No Apply. The filtering happens on the change, which is how it
+               works everywhere else in AAN, and a button that only confirms
+               what already happened is a step with nothing behind it. The
+               slot takes the way into the full search instead. -->
+          <p class="filterbar__go">
+            <button class="btn btn--line filterbar__all" type="button" aria-expanded="false" aria-controls="srp-filters">Detailed search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+          </p>
+        </form>
+        <!-- Keyword is a different question from the four above — you already
+             know what the car is called — so it keeps its own line and its
+             own action, exactly as it does on the homepage. -->
+        <form class="invsearch" method="get"
+              action="https://www.chicagomotorcars.com/used-cars-chicago-il/"
+              role="search" aria-label="Search inventory by keyword">
+          <label class="u-visually-hidden" for="srp-kw">Search make, model or keyword</label>
+          <svg class="invsearch__icon" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <circle cx="7.2" cy="7.2" r="5.4" stroke="currentColor" stroke-width="1.4"/>
+            <path d="m11.4 11.4 3.8 3.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          <input class="invsearch__field" id="srp-kw" name="stockno" type="search"
+                 placeholder="Search make, model or keyword" autocomplete="off">
+          <button class="btn btn--line invsearch__go" type="submit">Search <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></button>
+        </form>
+          <p class="sortbar">
+            <label class="micro" for="srp-sort">Sort</label>
+            <select id="srp-sort">
+              <option>Price: high to low</option>
+              <option>Price: low to high</option>
+              <option>Year: newest first</option>
+              <option>Year: oldest first</option>
+              <option>Mileage: low to high</option>
+              <option>Mileage: high to low</option>
+              <option>Recently added</option>
+            </select>
+          </p>
+      </div>
+
+      <!-- Chosen filters, read back. The row is empty in the markup and
+           stays out of the layout until something is actually selected —
+           an always-present "no filters" strip is a line of furniture
+           that tells you nothing. -->
+      <div class="chips" id="srp-chips" hidden>
+        <p class="micro chips__label">Filtered by</p>
+        <ul class="chips__row"></ul>
+        <button class="chips__clear" type="button">Clear all</button>
+      </div>
+
+
 
       <div class="page-head__meta">
         <p class="micro page-head__count"><b>24</b> of 301 vehicles</p>
-        <p class="sortbar">
-          <label class="micro" for="srp-sort">Sort</label>
-          <select id="srp-sort">
-            <option>Price: high to low</option>
-            <option>Price: low to high</option>
-            <option>Year: newest first</option>
-            <option>Year: oldest first</option>
-            <option>Mileage: low to high</option>
-            <option>Mileage: high to low</option>
-            <option>Recently added</option>
-          </select>
-        </p>
       </div>
     </div>
   </section>
@@ -1126,6 +1145,6 @@
     </div>
   </footer>
 
-<script src="assets/js/main.js?v=53" defer></script>
+<script src="assets/js/main.js?v=56" defer></script>
 </body>
 </html>

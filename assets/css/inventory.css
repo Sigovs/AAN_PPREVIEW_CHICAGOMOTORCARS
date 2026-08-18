@@ -931,8 +931,17 @@
   translate: 0 0;
   pointer-events: auto;
 }
-.v2 .veh__cta:hover { background: #E4212B; }
-.v2 .veh__cta:active { background: #B8121A; }
+/* The pill carries its own hover, distinct from the card's. Arriving is
+   one event and being pointed at is another: the card reveals it, then it
+   answers the pointer itself. Same step as index_2 so the two pages do
+   not disagree about what red means — #CB141D to #E4212B, plus a ring
+   that carries the rest without the pill changing size. */
+.v2 .veh__cta:hover {
+  background: #E4212B;
+  box-shadow: 0 0 0 4px rgba(203, 20, 29, 0.22);
+}
+.v2 .veh__cta:active { background: #B8121A; box-shadow: none; }
+.v2 .veh__cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
   .v2 .veh__cta { transition: opacity var(--dur-1) var(--ease-out); translate: none; }
@@ -941,3 +950,175 @@
 @media (hover: none) {
   .v2 .veh__cta { opacity: 1; translate: none; pointer-events: auto; }
 }
+
+/* ---- Two rows of tags, and they must not look alike ------------------
+   The marque strip and the chosen filters sit two intervals apart and
+   were reading as one list in two states. They are different kinds of
+   object and now say so:
+
+     chosen filters   FILLED, full ink, carrying a cross.
+                      Removable state — the page is currently doing this.
+     marques          OUTLINED, quiet ink, carrying a count.
+                      A description of the stock, and a way in.
+
+   Fill versus outline is the difference, not hue: a second colour here
+   would be a third accent on a page whose only accent is the action. The
+   strip stays in the neutral ink and earns its separation from the ring. */
+.v2 .brand {
+  padding: 6px 12px 7px;
+  border-radius: 999px;
+  background: none;
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.16);
+  color: var(--ink-2);
+  transition: color var(--dur-1) var(--ease-out),
+              box-shadow var(--dur-1) var(--ease-out),
+              background var(--dur-1) var(--ease-out);
+}
+.v2 .brand:hover {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.34);
+}
+/* Chosen from the strip: it fills, because it is now the same fact the
+   chip row is stating. The two rows agree by construction. */
+.v2 .brand[aria-pressed="true"] {
+  color: var(--ink);
+  background: rgba(244, 242, 239, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.26);
+}
+.v2 .brands__row { gap: var(--sp-2); }
+
+/* ---- Detailed search: the same filters, all at once ------------------
+   It used to be a link off to the live site, which meant the one control
+   promising MORE filtering was the one that left the page. It opens the
+   four groups together instead — same <details>, same checkboxes, same
+   state. Nothing is duplicated, so the sheet and the pills cannot
+   disagree about what is selected.
+
+   Open, the panels stop being dropdowns and become columns in flow: four
+   overlapping cards is what the exclusive-panel rule exists to prevent,
+   and showing all four at once is only useful if they sit side by side. */
+.v2 .filterbar.is-detailed { align-items: flex-start; }
+.v2 .filterbar.is-detailed .fpill {
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+}
+.v2 .filterbar.is-detailed .fpill__trigger { width: 100%; justify-content: space-between; }
+.v2 .filterbar.is-detailed .fpill__panel {
+  position: static;
+  min-inline-size: 0;
+  inline-size: auto;
+  margin-block-start: 8px;
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.10);
+}
+/* The caret stops claiming the panel can be collapsed from here — in this
+   mode the whole sheet is what closes. */
+.v2 .filterbar.is-detailed .fpill__caret { opacity: 0.4; }
+.v2 .filterbar__all[aria-expanded="true"] .btn__arrow { rotate: 90deg; }
+.v2 .filterbar__all .btn__arrow { transition: rotate var(--dur-2) var(--ease-out); }
+
+/* ---- The detailed sheet, per the Vegas reference ---------------------
+   One panel under the bar rather than four dropdowns turned sideways:
+   the triggers stay a row, and beneath them the four groups become
+   columns of a single sheet with its own edge and its own foot.
+
+   The lists are capped and scroll inside. Make is seven here and Year is
+   four, but the control has to hold a real feed — the reference's colour
+   column runs to dozens — and a column that grows without limit would
+   push the foot off the screen the moment the data arrives. */
+.v2 .filterbar.is-detailed {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-4) var(--sp-5);
+  align-items: start;
+  padding: var(--sp-5);
+  border-radius: 14px;
+  background: rgba(244, 242, 239, 0.022);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.10);
+}
+.v2 .filterbar.is-detailed .fpill { flex: none; min-inline-size: 0; }
+.v2 .filterbar.is-detailed .fpill__trigger {
+  width: 100%;
+  justify-content: space-between;
+  background: none;
+  box-shadow: none;
+  padding-inline: 0;
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+  pointer-events: none;          /* the sheet governs, not the pill */
+}
+.v2 .filterbar.is-detailed .fpill__caret { display: none; }
+.v2 .filterbar.is-detailed .fpill__panel {
+  position: static;
+  min-inline-size: 0;
+  inline-size: auto;
+  margin-block-start: var(--sp-3);
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.v2 .filterbar.is-detailed .fopts {
+  max-block-size: 15rem;
+  overflow-y: auto;
+  padding-inline-end: var(--sp-3);
+}
+.v2 .filterbar.is-detailed .fpill__foot { display: none; }
+
+/* The sheet's own foot spans every column. */
+.v2 .filterbar__foot { display: none; }
+.v2 .filterbar.is-detailed .filterbar__foot {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  margin: var(--sp-3) 0 0;
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--rule);
+}
+.v2 .filterbar__reset {
+  appearance: none; border: 0; background: none; padding: 0; cursor: pointer;
+  font-family: var(--font-label); font-size: var(--t-micro); color: var(--ink-2);
+  transition: color var(--dur-1) var(--ease-out);
+}
+.v2 .filterbar__reset:hover { color: var(--ink); }
+.v2 .filterbar.is-detailed .filterbar__gap { display: none; }
+/* Closed, the sheet's own controls are not in the layout at all. */
+.v2 .filterbar:not(.is-detailed) .filterbar__foot { display: none; }
+
+/* ---- One line: filters, keyword, sort -------------------------------
+   Built to the Vegas reference. The four pills, the way into all of them,
+   the keyword field and the sort share a baseline, because they are four
+   ways of asking the same question and stacking them made the head read
+   as four separate rows of furniture.
+
+   Three of the four are separate <form>s and a <select>, which cannot be
+   nested — the row is a plain wrapper holding them side by side. */
+.v2 .searchrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-4);
+  margin-block-start: var(--sp-4);
+}
+.v2 .searchrow__eyebrow { color: var(--ink-3); margin-block-start: var(--sp-6); }
+.v2 .searchrow .filterbar { margin: 0; flex: 0 1 auto; }
+.v2 .searchrow .invsearch {
+  margin: 0;
+  flex: 1 1 16rem;
+  min-inline-size: 0;
+  max-inline-size: 26rem;
+}
+.v2 .searchrow .sortbar { margin: 0 0 0 auto; flex: none; }
+
+/* Detailed search opens the sheet UNDER the row rather than inside it —
+   a full-width panel cannot live in a flex line that also holds a search
+   field and a sort. */
+.v2 .searchrow .filterbar.is-detailed { flex: 1 1 100%; order: 9; }
+
+/* ---- Popular makes, above the search ---- */
+.v2 .brands {
+  display: block;
+  margin-block-start: var(--sp-6);
+}
+.v2 .brands__label { margin-block-end: var(--sp-3); }
+.v2 .brands__row { gap: var(--sp-2); }
