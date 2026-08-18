@@ -2263,3 +2263,61 @@
 }
 .v2 .topbar .crumbs { margin: 0; }
 .v2 .topbar__tools { display: flex; gap: var(--sp-2); }
+
+/* ---- the real description, structured ---------------------------------
+   Their listing for stock 22703 runs to 121 lines: a lead, ten headline
+   claims, four factory packages with their original prices, three
+   highlight lists totalling forty-four items, what is in the boot, and a
+   disclaimer. All of it is on the page now. None of it is reworded.
+
+   WHAT WAS DROPPED IS PUNCTUATION, NOT CONTENT. Their copy shouts —
+   *DELIVERY MILES*, ALL CAPS headers, rows of asterisks. That is how you
+   set emphasis in a plain-text field on a feed; a page has type for it.
+   So the asterisks come off and the capitals come down, and every fact
+   stays exactly where it was. */
+.v2 .acc__lead {
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  line-height: 1.45;
+  color: var(--ink);
+  max-inline-size: 46ch;
+}
+
+/* The ten claims are the listing's own summary of the car, so they read
+   at full ink — brighter than the equipment lists under them, which are
+   inventory rather than argument. */
+.v2 .eqp--claims li { color: var(--ink); }
+
+/* A factory package is a named thing with a price and a contents list,
+   so it is set as one: the name and what it originally cost on one
+   line, its parts beneath. Four of these are what the car IS. */
+.v2 .eqp-group { margin-block-start: var(--sp-5); }
+.v2 .eqp-group:first-of-type { margin-block-start: var(--sp-4); }
+.v2 .eqp-group__h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-4);
+  margin: 0 0 var(--sp-2);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px solid var(--rule-strong);
+}
+.v2 .eqp-group__n { color: var(--ink); font-weight: 600; }
+.v2 .eqp-group__p {
+  color: var(--ink-3);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Their disclaimer, at the size a disclaimer is read at — small, but not
+   below the 14px floor, because "we cannot be held responsible" is not a
+   sentence to hide. */
+.v2 .acc__fine {
+  color: var(--ink-3);
+  font-size: var(--t-micro);
+  line-height: 1.55;
+  max-inline-size: 78ch;
+  margin-block-start: var(--sp-4);
+}

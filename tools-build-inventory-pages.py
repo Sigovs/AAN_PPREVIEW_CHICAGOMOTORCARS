@@ -263,6 +263,26 @@ def frame(i, src_):
 
 others = [c for c in cars if not c.get("vdp")][:3]
 
+import importlib.util as _il
+_spec = _il.spec_from_file_location("desc", os.path.join(SCR, "desc.py"))
+D = _il.module_from_spec(_spec); _spec.loader.exec_module(D)
+
+_NL = chr(10)
+
+def _lis(items):
+    return _NL.join('              <li>%s</li>' % html.escape(i) for i in items)
+
+def _group(title, price, items):
+    return ('            <div class="eqp-group">' + _NL +
+            '              <p class="eqp-group__h"><span class="eqp-group__n">%s</span>'
+            '<span class="eqp-group__p">Originally %s</span></p>' % (html.escape(title), price) + _NL +
+            '              <ul class="eqp">' + _NL + _lis(items) + _NL + '              </ul>' + _NL +
+            '            </div>')
+
+def _sub(title, items):
+    return ('            <span class="acc__sub">%s</span>' % title + _NL +
+            '            <ul class="eqp">' + _NL + _lis(items) + _NL + '            </ul>')
+
 vdp_head = make_head(
     "2017 Dodge Viper GTC ACR Voodoo II — Chicago Motor Cars",
     "2017 Dodge Viper GTC ACR Voodoo II Extreme Aero. One of 31 produced, 38 delivery miles. "
@@ -297,8 +317,14 @@ vdp_head = make_head(
 # thirty-eight miles IS the story; then what it is mechanically; then
 # how it looks, outside before inside; then the two reference numbers,
 # which nobody chooses a car by and everybody needs on the phone.
+# TRANSMISSION IS BACK, and no longer asserted from memory. I left it
+# out because the listing's own field came through garbled; with their
+# site up again the description states "6-Speed Manual Transmission"
+# outright, beside "Rear Wheel Drive" and "600 Lb/ft of Torque". Every
+# row here is quoted now, not inferred.
 PANEL = [("Mileage", "38 mi"),
          ("Engine", "8.4L V10, 645 hp"),
+         ("Transmission", "6-speed manual"),
          ("Drivetrain", "Rear-wheel drive"),
          ("Exterior", "Venom Black Clear Coat"), ("Interior", "Black"),
          ("Stock", "22703"), ("VIN", "1C3BDEDZXHV500169")]
@@ -608,30 +634,41 @@ vdp = """<!DOCTYPE html>
         <details class="acc" open>
           <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.2" stroke="currentColor" stroke-width="1.3"/><path d="M9 8v4.4M9 5.6v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acc__label">About this vehicle</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
-            <p>Thirty-eight miles from new. This is a delivery-mileage car: it left the
-              factory, it was transported, and it has not been used since.</p>
-            <span class="acc__sub">The specification</span>
-            <p>Viper GTC ACR in Venom Black Clear Coat over black, with the Extreme Aero
-              package and the ACR interior package, on 19-inch satin black ACR wheels.
-              645 horsepower.</p>
-            <span class="acc__sub">Why it is rare</span>
-            <p>One of thirty-one produced. GTC was Dodge's bespoke-order programme, so this
-              combination of colour, aero and interior was specified once and built once.</p>
-            <span class="acc__sub">What we can tell you</span>
-            <p>Everything above is from the listing itself. For service history,
-              documentation and anything not stated here, call 630 221 1800 and ask — a car
-              at this mileage is worth a conversation rather than a form.</p>
+            <p class="acc__lead">%(lead)s</p>
+
+            <span class="acc__sub">In their words</span>
+            <ul class="eqp eqp--claims">
+%(claims)s
+            </ul>
+
+            <span class="acc__sub">Vehicle history</span>
+            <ul class="eqp">
+%(history)s
+            </ul>
+
+            <span class="acc__sub">Included with the car</span>
+            <ul class="eqp">
+%(included)s
+            </ul>
+
+            <span class="acc__sub">From Chicago Motor Cars</span>
+%(disclaimer)s
           </div>
         </details>
 
         <details class="acc">
           <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.4 5.2h13.2M2.4 9h13.2M2.4 12.8h13.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="5.6" cy="5.2" r="1.5" fill="currentColor"/><circle cx="11.2" cy="9" r="1.5" fill="currentColor"/><circle cx="7.4" cy="12.8" r="1.5" fill="currentColor"/></svg><span class="acc__label">Options &amp; equipment</span> <span class="acc__mark" aria-hidden="true"></span></summary>
-          <div class="acc__body">
-            <ul class="eqp">
-%(equip)s
-            </ul>
-            <p class="acc__note">Six items, and they are the ones the listing names. This is
-              not a full build sheet — ask for one and we will send it.</p>
+          <div class="acc__body acc__body--wide">
+            <span class="acc__sub">Factory options</span>
+%(packages)s
+
+%(mechanical)s
+
+%(exterior)s
+
+%(interior)s
+
+%(additional)s
           </div>
         </details>
 
@@ -782,7 +819,16 @@ vdp = """<!DOCTYPE html>
     "thumbs": THUMBS,
     "panelrows": PANEL_ROWS,
     "standards": STD_ITEMS,
-    "equip": EQUIP_LIS,
+    "lead": " ".join(D.LEAD),
+    "claims": _lis(D.CLAIMS),
+    "history": _lis(D.HISTORY),
+    "included": _lis(D.INCLUDED),
+    "disclaimer": NL.join('            <p class="acc__fine">%s</p>' % html.escape(x) for x in D.DISCLAIMER),
+    "packages": NL.join(_group(t, pr, it) for t, pr, it in D.PACKAGES),
+    "mechanical": _sub("Vehicle highlights", D.MECHANICAL),
+    "exterior": _sub("Exterior highlights", D.EXTERIOR),
+    "interior": _sub("Interior highlights", D.INTERIOR),
+    "additional": _sub("Additional upgrades", D.ADDITIONAL),
     "shots": SHOTS,
     "related": RELATED,
     "arrow": ARROW,
