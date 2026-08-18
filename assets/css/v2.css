@@ -956,28 +956,37 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   background:
     /* The corner falloff, centred on the light rather than on the box,
        so the darkening arrives from the corners the light left last. */
-    radial-gradient(128% 118% at 38% 30%,
+    radial-gradient(128% 118% at 38% 24%,
       transparent 38%, rgba(4, 4, 3, 0.40) 78%, rgba(3, 3, 2, 0.72) 100%),
     /* The mass. High and left — this is the brightest thing in the
-       frame and it is nowhere near the car. */
-    radial-gradient(56% 42% at 32% 20%,
-      rgba(240, 237, 231, 0.105) 0%, rgba(190, 186, 179, 0.046) 50%, transparent 80%),
+       frame and it is nowhere near the car.
+
+       RAISED AND KNOCKED BACK, Alex 2026-08-17. It was centred a fifth
+       of the way down and peaking at 42-49 on the render, which put a
+       bright band across the upper-middle rather than light entering
+       from above the frame. At 11% the source sits at the top edge and
+       what the panel shows is its falloff, which is the correct half of
+       a lamp to be looking at. Alphas come down about a fifth with it:
+       raising a light and keeping its strength would have traded one
+       overlit region for another. */
+    radial-gradient(56% 42% at 32% 11%,
+      rgba(240, 237, 231, 0.085) 0%, rgba(190, 186, 179, 0.037) 50%, transparent 80%),
     /* The same light carrying right along the top, so the upper band is
        continuous instead of a lobe sitting in one corner. */
-    radial-gradient(72% 50% at 58% 17%,
-      rgba(190, 186, 179, 0.072) 0%, rgba(146, 143, 137, 0.030) 48%, transparent 82%),
+    radial-gradient(72% 50% at 58% 9%,
+      rgba(190, 186, 179, 0.058) 0%, rgba(146, 143, 137, 0.024) 48%, transparent 82%),
     /* The left spill — kept from the last pass, because that part was
        right. It is what stops the left edge clamping to the base colour
        at mid-height. Tall and narrow, so it reads as the wall staying
        open rather than as a second lamp. */
-    radial-gradient(40% 54% at 12% 46%,
-      rgba(168, 164, 157, 0.055) 0%, rgba(128, 125, 120, 0.024) 52%, transparent 84%),
+    radial-gradient(40% 54% at 12% 40%,
+      rgba(168, 164, 157, 0.045) 0%, rgba(128, 125, 120, 0.020) 52%, transparent 84%),
     /* The floor. A wide, very shallow sheen under the car — the only
        light below the subject, and the thing that gives the contact
        shadow something to sit on. */
     radial-gradient(42% 11% at 46% 63%,
-      rgba(200, 196, 189, 0.045) 0%, transparent 78%),
-    linear-gradient(180deg, #191B1D 0%, #121416 40%, #08090A 100%);
+      rgba(200, 196, 189, 0.036) 0%, transparent 78%),
+    linear-gradient(180deg, #17191B 0%, #0F1113 36%, #08090A 100%);
 }
 
 /* THE CAR IS SMALLER IN THE FIGMA THAN IT IS HERE — 59% of the stage's
@@ -996,12 +1005,34 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 .v2 .stage__car[src*="regera"]    { width: 61.4%; }
 .v2 .stage__car[src*="812-gts"]   { width: 59.8%; }
 
-/* NOT IN THE FIGMA, and it was already carrying an unresolved content
-   warning of its own — "Just in" is a claim about an arrival date that
-   the feed never exposed, asserted statically over all four cars. The
-   client's file removes it, which resolves the question by deleting it.
-   Rule kept rather than the markup, so index.html is unaffected. */
-.v2 .justin { display: none; }
+/* ---- THE TWO OBJECTS IN THE FIELD, AND THEIR CLEARANCE ---------------
+   "Just in" was hidden for one pass because the Figma does not show it.
+   Alex's call 2026-08-17: it comes back. Its content warning stands and
+   is unchanged — the pill claims an arrival date the feed never exposes,
+   asserted statically over all four cars, and it needs binding to a real
+   date-added field before this ships. That is a data question, not a
+   layout one, and hiding the pill was never the answer to it.
+
+   NOTHING TOUCHES THE EDGES. Both objects were pinned flush: main.css
+   sets .justin to inset-block-start: 0 and .stage__nav to
+   inset-block-end: 0, and those zeroes were correct when the stage had
+   no frame — the pill and the arrows aligned to the SECTION's padding
+   and the section's own edge was somewhere else entirely.
+
+   The stage now has a border and a radius of its own, so a zero inset
+   puts both of them hard against a drawn line, and the arrows land in
+   the corner where the radius is curving away from them. They get the
+   panel's own inset back — the same clamp the stage would have used as
+   padding, so the clearance reads as one measurement rather than as two
+   objects each nudged until they looked right. */
+.v2 .justin {
+  inset-block-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  inset-inline-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+}
+.v2 .stage__nav {
+  inset-block-end: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+  inset-inline-start: clamp(var(--sp-5), 2.4vw, var(--sp-6));
+}
 
 /* ---- the rail -------------------------------------------------
    Four cards and the button, distributed down the column so their feet
@@ -1059,3 +1090,25 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
   .v2 .showcase__stage { aspect-ratio: 3 / 2; block-size: auto; }
   .v2 .stage__car { max-block-size: 68%; }
 }
+
+
+/* ---- THE HERO CLAIM COMES DOWN A FIFTH -------------------------------
+   Client direction 2026-08-17, size chosen by Alex from a four-way
+   comparison: 106.6px at 1440 becomes 85.0px.
+
+   Only the slope and the cap move. The floor stays at 2.75rem, because
+   that is the value the phone is already sitting on — 44px at 390 — and
+   the note was about the desktop display, not about a hero that is
+   modest on a small screen to begin with.
+
+   Below roughly 80px the claim stops out-ranking SEARCH INVENTORY, the
+   other dominant object in this composition, and the two start to argue.
+   85 is the largest reduction that keeps the headline first in the
+   reading order, which is the thing the size was carrying.
+
+   No reflow risk: .claim__line is white-space: nowrap and the two lines
+   are fixed in the markup, so the lockup is the same shape at any size.
+
+   AND THE SPACE IT FREES STAYS EMPTY. That is what makes this read as a
+   quieter headline rather than as a smaller one. */
+.v2 .claim { font-size: clamp(2.75rem, 5.9vw, 5.375rem); }
