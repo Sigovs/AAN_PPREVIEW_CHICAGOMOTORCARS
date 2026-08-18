@@ -363,11 +363,19 @@ vdp = """<!DOCTYPE html>
      a $35 electronic filing fee for a $899,912 total, six of its own
      photographs. Pulled from chicagomotorcars.com 2026-08-17.
 
-     TWO PLACES WHERE THE REFERENCE HAD SOMETHING AND WE LEFT A GAP,
-     on purpose. Prestige's action bar carries Carfax, AutoCheck and
-     iPacket marks; we have no evidence CMC carries any of the three,
-     and an invented badge is worse than an empty corner, so the slot
-     holds facts about this car instead. Prestige's third accordion is
+     THE CARFAX MARK IS REAL AND I FIRST GOT IT WRONG. I wrote that
+     there was no evidence CMC carries Carfax and left the slot to fact
+     pills. The evidence was in my own scrape of their results page:
+     every card links to a Carfax report for that VIN, beside a "Show
+     me the Carfax" icon from their own theme. They are a Carfax dealer.
+     The badge is here now, linking to the real report for this VIN, and
+     typeset in our label voice rather than redrawn — their SVG could
+     not be fetched (their site was 504 while this was built) and
+     redrawing someone's trademark from memory is the one thing you
+     never do. Swap in the official artwork when the site answers.
+
+     ONE PLACE WHERE THE REFERENCE HAD SOMETHING AND WE LEFT A GAP, on
+     purpose. Prestige's third accordion is
      a payment calculator; a monthly figure on a $900k car depends on
      the deposit, the term and the lender, and a slider that guesses
      all three tells you something untrue, so that panel explains the
@@ -399,6 +407,12 @@ vdp = """<!DOCTYPE html>
         <div class="gal">
           <div class="gal__stage">
 %(frames)s
+            <button class="gal__arrow gal__arrow--prev" type="button" data-step="-1" aria-label="Previous photograph">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+            </button>
+            <button class="gal__arrow gal__arrow--next" type="button" data-step="1" aria-label="Next photograph">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+            </button>
             <span class="gal__count">
               <svg width="13" height="12" viewBox="0 0 13 12" fill="none" aria-hidden="true"><rect x="0.6" y="2.1" width="11.8" height="9.3" rx="1.4" stroke="currentColor" stroke-width="1.1"/><path d="M3.6 2.1 4.6.6h3.8l1 1.5" stroke="currentColor" stroke-width="1.1"/><circle cx="6.5" cy="6.7" r="2.1" stroke="currentColor" stroke-width="1.1"/></svg>
               6 photographs
@@ -444,6 +458,11 @@ vdp = """<!DOCTYPE html>
 
       <!-- ---- ACTION BAR ---- -->
       <div class="actbar">
+        <a class="cfx" href="https://www.carfax.com/cfm/ccc_displayhistoryrpt.cfm?partner=AAN_0&amp;vin=1C3BDEDZXHV500169"
+           target="_blank" rel="noopener">
+          <span class="cfx__mark">CARFAX</span>
+          Vehicle history
+        </a>
         <div class="actbar__facts">
           <span class="veh__pill">1 of 31 produced</span>
           <span class="veh__pill">38 delivery miles</span>

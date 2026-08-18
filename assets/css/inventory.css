@@ -54,9 +54,8 @@
 .v2 .page-head__title {
   font-size: clamp(1.75rem, 3.4vw, 3rem);
   line-height: 1.04;
-  letter-spacing: var(--tr-display);
-  margin-block: var(--gap-eyebrow) 0;
   max-inline-size: 20ch;
+  margin-block-end: 0;
 }
 .v2 .page-head__lede { margin-block-start: var(--sp-5); max-inline-size: 56ch; }
 
@@ -1244,13 +1243,29 @@
 .v2 .crumbs [aria-current] { color: var(--ink-2); }
 
 /* ---- the summary: photograph and decision ---- */
+/* THE TWO COLUMNS END ON THE SAME LINE, and that is the thing Alex was
+   pointing at in the reference. Measured on both pages: Prestige's
+   photograph and panel are each 655px and their bottoms differ by
+   ZERO, with the action bar 24px under both, left edges flush, right
+   edges flush. Ours ran a 614px gallery beside an 890px panel — the
+   panel hung 276px lower, which left a 300px hole under the thumbnails
+   and made the action bar look like it belonged to the right column
+   only.
+
+   align-items: stretch instead of start, and the stage takes its height
+   from the row rather than from an aspect ratio: the strip is a fixed
+   80px, so the picture absorbs whatever the panel makes. Same device as
+   the Featured stage on the homepage, and it is self-correcting — add a
+   spec row tomorrow and the photograph grows to match. */
 .v2 .sum {
   display: grid;
   grid-template-columns: minmax(0, 60fr) minmax(22rem, 40fr);
   gap: clamp(var(--sp-5), 2.4vw, var(--sp-6));
-  align-items: start;
+  align-items: stretch;
   margin-block-start: var(--sp-6);
 }
+.v2 .sum > .gal { display: flex; flex-direction: column; }
+.v2 .sum .gal__stage { flex: 1; aspect-ratio: auto; min-block-size: 0; }
 
 /* The photo count, bottom-left of the frame. Same plate as the stock
    number on a results card — same ground, same ring, same radius —
@@ -1287,11 +1302,14 @@
 .v2 .panel__specs,
 .v2 .panel__act { padding: var(--sp-5); border-block-start: 1px solid var(--rule); }
 
+/* Same correction as the section headings — "never" means here too.
+   Smaller type and a looser line-height, so it gives less leading away
+   and needs less back. */
 .v2 .panel__title {
   font-size: clamp(1.375rem, 1.9vw, 1.75rem);
   line-height: 1.14;
   letter-spacing: var(--tr-display);
-  margin-block-start: var(--gap-eyebrow);
+  margin-block-start: calc(var(--gap-eyebrow) + 0.22em);
 }
 
 /* The receipt, unchanged in substance and tightened to sit in a card. */
@@ -1393,12 +1411,24 @@
 
 /* ---- the standards band ---- */
 .v2 .stds { margin-block-start: clamp(var(--sp-8), 5vw, var(--sp-9)); }
-.v2 .stds__title {
-  font-size: clamp(1.375rem, 2.2vw, 2rem);
+/* THE GAP UNDER AN EYEBROW IS OPTICAL, NOT NUMERIC, and --gap-eyebrow
+   alone is not enough here. The token is 12px and it was solved against
+   the homepage's chapter headings; at this size, with line-height 1.1,
+   the half-leading above the cap is nearly nothing, so 12px of margin
+   renders as about 4px of visible air and the eyebrow sits on the
+   ascenders. Alex: "такого слипания не должно быть никогда."
+
+   The fix is the token PLUS the leading the tight line-height gave
+   away, so what you see is the 12px the token promised. It is written
+   as an addition rather than a new number so the token still governs —
+   move --gap-eyebrow and this moves with it. */
+.v2 .stds__title,
+.v2 .page-head__title {
   line-height: 1.1;
   letter-spacing: var(--tr-display);
-  margin-block-start: var(--gap-eyebrow);
+  margin-block-start: calc(var(--gap-eyebrow) + 0.34em);
 }
+.v2 .stds__title { font-size: clamp(1.375rem, 2.2vw, 2rem); }
 .v2 .stds__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
@@ -1534,4 +1564,94 @@
 @media (max-width: 60rem) {
   .v2 .sum { grid-template-columns: minmax(0, 1fr); }
   .v2 .actbar__tools { margin-inline-start: 0; }
+}
+
+
+/* ---- 9. THE GALLERY WALKS ---------------------------------------------
+   Alex: arrows on the main image. They are the homepage's stage arrows,
+   not a new control — same size, same ground, same inset hairline, same
+   0.94 press. Only the placement differs: the Featured stage puts both
+   in its bottom-left corner because the car floats above them, and a
+   photograph that fills its frame wants them on the edges it moves
+   between.
+
+   PERMANENT, not revealed on hover. A gallery of six whose controls only
+   exist once you have already guessed they are there is a gallery most
+   people read as one photograph. The thumbnails say six; the arrows have
+   to be as available as the thumbnails.
+
+   They sit ABOVE the count plate in z, and clear of it in space: the
+   count is bottom-left, these are centred on the vertical, so neither
+   has to give way. */
+.v2 .gal__arrow {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--ink);
+  background: rgb(var(--bg-rgb) / 0.62);
+  box-shadow: inset 0 1px 0 rgba(240, 237, 231, 0.16),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.28),
+              inset 0 0 0 1px rgba(240, 237, 231, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background var(--dur-2) var(--ease-out), scale var(--dur-1) var(--ease-out);
+}
+.v2 .gal__arrow--prev { inset-inline-start: var(--sp-4); }
+.v2 .gal__arrow--next { inset-inline-end: var(--sp-4); }
+.v2 .gal__arrow:hover { background: rgb(var(--bg-rgb) / 0.82); }
+.v2 .gal__arrow:active { scale: 0.94; }
+.v2 .gal__arrow:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .gal__arrow svg { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .v2 .gal__arrow { transition: background var(--dur-1) var(--ease-out); }
+  .v2 .gal__arrow:active { scale: none; }
+}
+
+/* ---- 10. THE CARFAX MARK ---------------------------------------------
+   I said there was no evidence CMC carries Carfax and put facts in the
+   slot instead. That was wrong, and the evidence was in my own scrape of
+   their results page: every card carries a link to a Carfax report for
+   that VIN — carfax.com/vehiclehistory/… and
+   carfax.com/cfm/ccc_displayhistoryrpt.cfm?partner=AAN_0&vin=… — served
+   beside a "Show me the Carfax" icon from their theme. They are a Carfax
+   dealer and the badge belongs on the page.
+
+   TYPESET, NOT REDRAWN. Their own SVG could not be fetched — the site
+   was returning 504 while this was built — and redrawing a trademark
+   from memory is the one thing you must never do with someone else's
+   mark. So it is set as a link in the page's own label voice, which
+   states the fact and carries the real report URL for this VIN. Swap in
+   the official artwork when the site answers; the link does not change.
+   ============================================================ */
+.v2 .cfx {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 7px 14px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-2);
+  background: rgba(240, 237, 231, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.12);
+  transition: color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .cfx:hover { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.28); }
+.v2 .cfx:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .cfx__mark {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
 }

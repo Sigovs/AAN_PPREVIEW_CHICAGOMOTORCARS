@@ -1255,6 +1255,21 @@
     });
   }
 
+  /* The arrows walk the same index the strip sets. They are the only
+     control that moves the picture without naming a destination, so they
+     read the CURRENT frame off the DOM rather than keeping a counter of
+     their own — a counter would drift the first time anything else set
+     the frame, and the thumbnails do exactly that. */
+  Array.prototype.forEach.call(gal.querySelectorAll('.gal__arrow'), function (btn) {
+    btn.addEventListener('click', function () {
+      var cur = 0;
+      Array.prototype.forEach.call(thumbs, function (t, n) {
+        if (t.getAttribute('aria-current') === 'true') cur = n;
+      });
+      show(cur + (parseInt(btn.getAttribute('data-step'), 10) || 1));
+    });
+  });
+
   Array.prototype.forEach.call(thumbs, function (t, i) {
     t.addEventListener('click', function () { show(i); });
     t.addEventListener('keydown', function (e) {
