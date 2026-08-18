@@ -161,10 +161,22 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
   width: var(--filter-panel-w);
   max-width: 90vw;
   padding: var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  /* OPAQUE, AND THAT IS THE FIX. --color-surface is a translucent tint;
+     it works everywhere else on the page because everything else sits
+     on the section ground. A dropdown floats over the RESULTS GRID, so
+     the tint composited over photographs of cars and the labels landed
+     on whatever happened to be behind them. Alex: "text ne chitaetsja."
+     Contrast over an arbitrary photograph cannot be solved by a tint —
+     it has to stop being a window.
+
+     The page's own black, at full strength, with the raised value on
+     top so the panel still reads as lifted rather than as a hole. The
+     hairline and the shadow do the separating, which is what they were
+     always for. */
+  background: linear-gradient(var(--bg-raised), var(--bg-raised)), var(--bg);
+  border: 1px solid rgba(240, 237, 231, 0.16);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.62);
 }
 .v2 .srp-head .sort__panel { width: auto; min-width: 220px; padding: var(--space-2); }
 .v2 .srp-head .filter__panel--wide { width: calc(var(--filter-panel-w) + var(--space-8)); }

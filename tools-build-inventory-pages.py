@@ -275,9 +275,17 @@ vdp_head = make_head(
 # not say so, and this page does not get to fill gaps from general
 # knowledge — the reason for wiring it to the live feed was that it says
 # only what the business says.
-PANEL = [("Year", "2017"), ("Make", "Dodge"), ("Model", "Viper GTC ACR"),
+# Year, Make and Model came out on Alex's call: the H1 directly above
+# already reads "2017 Dodge Viper GTC ACR", so three of the eight rows
+# were repeating the headline at caption size.
+#
+# Re-sorted into the order a buyer actually reads. Mileage first because
+# on this car it IS the story — thirty-eight miles. Then how it looks,
+# outside then inside. Then the two reference numbers, which nobody
+# chooses a car by and everybody needs when they call.
+PANEL = [("Mileage", "38 mi"),
          ("Exterior", "Venom Black Clear Coat"), ("Interior", "Black"),
-         ("Mileage", "38 mi"), ("Stock", "22703"), ("VIN", "1C3BDEDZXHV500169")]
+         ("Stock", "22703"), ("VIN", "1C3BDEDZXHV500169")]
 
 EQUIP = ["Extreme Aero package", "ACR interior package",
          "19-inch satin black ACR wheels", "645 horsepower",
@@ -314,6 +322,32 @@ def shot(i, src_):
             '        </a>') % (src_, i + 1, NL, src_, i + 1, NL, NL)
 
 
+# ---- THE RELATED CARDS ARE THE SRP'S OWN, LIFTED WHOLE ---------------
+# Alex: "это не похоже на точную копию cards с srp." It was not. The SRP
+# card was rebuilt by hand — a .veh-cell wrapper, a save mark, paging
+# photographs on .veh__frame, prev/next arrows, a See details action —
+# and this script was still printing the first version of it. The two
+# drifted the moment srp.html stopped being generated from here.
+#
+# So the cards are not authored on this page any more. They are CUT OUT
+# of srp.html, exactly as the masthead and footer already are: find the
+# .veh-cell carrying the stock number we want and take the block
+# verbatim. Whatever changes on a results card arrives here on the next
+# build with nothing to keep in sync by hand.
+_srp_html = open(os.path.join(ROOT, "srp.html")).read()
+_cell_blocks = [m.group(0) for m in
+                re.finditer(r'( *)<div class="veh-cell">[\s\S]*?\n\1</div>', _srp_html)]
+if not _cell_blocks:
+    raise SystemExit("ABORT: no .veh-cell in srp.html — the card markup changed "
+                     "shape. Fix this script rather than shipping a VDP whose "
+                     "cards do not match the results page.")
+
+def srp_card(stock):
+    for blk in _cell_blocks:
+        if ">#%s<" % stock in blk:
+            return blk
+    raise SystemExit("ABORT: stock %s is no longer on srp.html." % stock)
+
 others = [c for c in cars if not c.get("vdp")][:3]
 
 PANEL_ROWS = NL.join(prow(k, v) for k, v in PANEL)
@@ -324,7 +358,7 @@ EQUIP_LIS = NL.join('              <li>%s</li>' % e for e in EQUIP)
 STD_ITEMS = NL.join(
     '          <div class="stds__item"><span class="stds__k">%s</span>'
     '<span class="stds__v">%s</span></div>' % (k, v) for k, v in STANDARDS)
-RELATED = NL.join(card(c, i) for i, c in enumerate(others))
+RELATED = NL.join(srp_card(c["stock"]) for c in others)
 ARROW = ('<svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" '
          'aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" '
          'stroke-width="1.3"/></svg>')
@@ -368,11 +402,13 @@ vdp = """<!DOCTYPE html>
      pills. The evidence was in my own scrape of their results page:
      every card links to a Carfax report for that VIN, beside a "Show
      me the Carfax" icon from their own theme. They are a Carfax dealer.
-     The badge is here now, linking to the real report for this VIN, and
-     typeset in our label voice rather than redrawn — their SVG could
-     not be fetched (their site was 504 while this was built) and
-     redrawing someone's trademark from memory is the one thing you
-     never do. Swap in the official artwork when the site answers.
+     The badge is here now, linking to the real report for this VIN,
+     and it is THEIR OWN ARTWORK: assets/logos/carfax.svg, copied from
+     the CMC source folder on this machine. I first typeset the word
+     because their live site was returning 504 and I could not fetch the
+     SVG — but the file was sitting in Alex's own WORK folders the whole
+     time, in the CMC "VDP page" directory, and he had to tell me to go
+     and look. Fetching was never the only route to an asset.
 
      ONE PLACE WHERE THE REFERENCE HAD SOMETHING AND WE LEFT A GAP, on
      purpose. Prestige's third accordion is
@@ -407,11 +443,15 @@ vdp = """<!DOCTYPE html>
         <div class="gal">
           <div class="gal__stage">
 %(frames)s
-            <button class="gal__arrow gal__arrow--prev" type="button" data-step="-1" aria-label="Previous photograph">
+            <button class="veh__nav veh__nav--prev gal__arrow" type="button" data-step="-1" aria-label="Previous photograph">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
             </button>
-            <button class="gal__arrow gal__arrow--next" type="button" data-step="1" aria-label="Next photograph">
+            <button class="veh__nav veh__nav--next gal__arrow" type="button" data-step="1" aria-label="Next photograph">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+            </button>
+            <button class="gal__video" type="button" data-open-video>
+              <span class="gal__video-play" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M8 5.5 18.5 12 8 18.5v-13Z" fill="currentColor"/></svg></span>
+              Watch video
             </button>
             <span class="gal__count">
               <svg width="13" height="12" viewBox="0 0 13 12" fill="none" aria-hidden="true"><rect x="0.6" y="2.1" width="11.8" height="9.3" rx="1.4" stroke="currentColor" stroke-width="1.1"/><path d="M3.6 2.1 4.6.6h3.8l1 1.5" stroke="currentColor" stroke-width="1.1"/><circle cx="6.5" cy="6.7" r="2.1" stroke="currentColor" stroke-width="1.1"/></svg>
@@ -460,8 +500,8 @@ vdp = """<!DOCTYPE html>
       <div class="actbar">
         <a class="cfx" href="https://www.carfax.com/cfm/ccc_displayhistoryrpt.cfm?partner=AAN_0&amp;vin=1C3BDEDZXHV500169"
            target="_blank" rel="noopener">
-          <span class="cfx__mark">CARFAX</span>
-          Vehicle history
+          <img class="cfx__logo" src="assets/logos/carfax.svg" alt="Show me the Carfax"
+               width="253" height="60" loading="lazy" decoding="async">
         </a>
         <div class="actbar__facts">
           <span class="veh__pill">1 of 31 produced</span>
@@ -483,6 +523,10 @@ vdp = """<!DOCTYPE html>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M11 8.6v1.6c0 .5-.4.9-.9.8A9.6 9.6 0 0 1 1 1.9c0-.5.4-.9.8-.9h1.6c.4 0 .8.3.9.7l.4 1.8c0 .3 0 .6-.3.8l-.8.7a7.6 7.6 0 0 0 3.4 3.4l.7-.8c.2-.2.5-.3.8-.2l1.8.4c.4.1.7.4.7.8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
             630 221 1800
           </a>
+          <a class="telpill telpill--text" href="sms:+16302211800">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12.4 8.2a1.2 1.2 0 0 1-1.2 1.2H3.9L1.5 11.8V2.5a1.2 1.2 0 0 1 1.2-1.2h8.5a1.2 1.2 0 0 1 1.2 1.2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Text us
+          </a>
           <a class="btn btn--line" href="https://www.chicagomotorcars.com/finance-application/">
             Start financing
             %(arrow)s
@@ -490,28 +534,13 @@ vdp = """<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- ---- STANDARDS ----
-           Prestige's band is "First-Class Standards" over a 110-point
-           inspection. CMC publishes no point count, so this one claims
-           only what their own site says: the service department's real
-           list, the warranty offer, four showrooms with nationwide
-           delivery, and the two figures the homepage already carries.
-           No number here exists to fill a shape. -->
-      <section class="stds" data-reveal>
-        <p class="micro eyebrow">What comes with it</p>
-        <h2 class="stds__title"><span class="ttl-line">Standards worth</span> <span class="ttl-line">the car.</span></h2>
-        <div class="stds__grid">
-%(standards)s
-        </div>
-      </section>
-
       <!-- ---- ACCORDIONS ----
            <details>, not a scripted disclosure: it opens without
            JavaScript, it is keyboard-operable by construction, and the
            browser's own find-in-page reaches the closed ones. -->
       <section class="vdp-acc" data-reveal>
         <details class="acc" open>
-          <summary class="acc__sum">About this vehicle <span class="acc__mark" aria-hidden="true"></span></summary>
+          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.2" stroke="currentColor" stroke-width="1.3"/><path d="M9 8v4.4M9 5.6v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acc__label">About this vehicle</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
             <p>Thirty-eight miles from new. This is a delivery-mileage car: it left the
               factory, it was transported, and it has not been used since.</p>
@@ -530,30 +559,116 @@ vdp = """<!DOCTYPE html>
         </details>
 
         <details class="acc">
-          <summary class="acc__sum">Options &amp; equipment <span class="acc__mark" aria-hidden="true"></span></summary>
+          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.4 5.2h13.2M2.4 9h13.2M2.4 12.8h13.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="5.6" cy="5.2" r="1.5" fill="currentColor"/><circle cx="11.2" cy="9" r="1.5" fill="currentColor"/><circle cx="7.4" cy="12.8" r="1.5" fill="currentColor"/></svg><span class="acc__label">Options &amp; equipment</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
             <ul class="eqp">
 %(equip)s
             </ul>
-            <p>This is the equipment named in the listing. It is not a full build sheet —
-              ask for one and we will send it.</p>
+            <p class="acc__note">Six items, and they are the ones the listing names. This is
+              not a full build sheet — ask for one and we will send it.</p>
           </div>
         </details>
 
         <details class="acc">
-          <summary class="acc__sum">Financing <span class="acc__mark" aria-hidden="true"></span></summary>
+          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="1.6" y="3.4" width="14.8" height="11.2" rx="2.2" stroke="currentColor" stroke-width="1.3"/><path d="M7.4 6.8 11.6 9l-4.2 2.2V6.8Z" fill="currentColor"/></svg><span class="acc__label">Walkaround video</span> <span class="acc__mark" aria-hidden="true"></span></summary>
+          <div class="acc__body acc__body--wide">
+            <!-- CLICK TO LOAD, and the poster is one of this car's own
+                 photographs. A YouTube iframe on page load is roughly a
+                 megabyte of third-party script and a set of cookies
+                 dropped before anybody asked for a video; the facade
+                 costs one image we already serve. -->
+            <div class="ytb" data-yt="https://www.youtube-nocookie.com/embed?listType=user_uploads&amp;list=ChicagoMotorCars&amp;autoplay=1">
+              <img class="ytb__poster" src="assets/img/inventory-live/vdp-viper-2.jpg" alt=""
+                   width="1600" height="1066" loading="lazy" decoding="async">
+              <button class="ytb__play" type="button" aria-label="Play the Chicago Motor Cars channel">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5 18.5 12 8 18.5v-13Z" fill="currentColor"/></svg>
+              </button>
+            </div>
+            <p class="acc__note">This opens the Chicago Motor Cars channel. There is no
+              walkaround filmed for stock 22703 yet &mdash; when there is, it replaces the
+              channel here and nothing else on the page changes.
+              <a class="acc__link" href="https://www.youtube.com/user/ChicagoMotorCars" target="_blank" rel="noopener">Open the channel on YouTube &rarr;</a></p>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="3.2" y="1.8" width="11.6" height="14.4" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 5.4h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="6.4" cy="9.2" r="1" fill="currentColor"/><circle cx="9" cy="9.2" r="1" fill="currentColor"/><circle cx="11.6" cy="9.2" r="1" fill="currentColor"/><circle cx="6.4" cy="12.4" r="1" fill="currentColor"/><circle cx="9" cy="12.4" r="1" fill="currentColor"/><circle cx="11.6" cy="12.4" r="1" fill="currentColor"/></svg><span class="acc__label">Financing &amp; payments</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
             <p>Chicago Motor Cars finances its own sales and works with lenders who
               underwrite exotic and collector vehicles, including cars at this value. Terms
               are quoted against the total price above &mdash; $899,912 &mdash; not against
               a stripped figure.</p>
-            <p>There is no payment calculator on this page on purpose. A monthly number on a
-              car like this depends on the deposit, the term and the lender, and a slider
-              that guesses all three tells you something that is not true.</p>
+            <!-- THE CALCULATOR IS AN ESTIMATOR AND IT SAYS SO. I argued
+                 against putting one here — a monthly figure depends on the
+                 deposit, the term and the lender, and a control that
+                 guesses all three states something untrue. Alex asked for
+                 it, so it is built with the three variables EXPOSED
+                 rather than assumed: you set them, and the number is
+                 arithmetic on what you set, not a quote. -->
+            <form class="calc" data-total="899912">
+              <div class="calc__grid">
+                <p class="calc__field">
+                  <label class="micro calc__label" for="c-price">Total price</label>
+                  <input class="calc__input" id="c-price" type="text" inputmode="numeric" value="899,912">
+                </p>
+                <p class="calc__field">
+                  <label class="micro calc__label" for="c-down">Deposit</label>
+                  <input class="calc__input" id="c-down" type="text" inputmode="numeric" value="180,000">
+                </p>
+                <p class="calc__field">
+                  <label class="micro calc__label" for="c-term">Term</label>
+                  <select class="calc__input" id="c-term">
+                    <option value="36">36 months</option>
+                    <option value="48">48 months</option>
+                    <option value="60" selected>60 months</option>
+                    <option value="72">72 months</option>
+                    <option value="84">84 months</option>
+                  </select>
+                </p>
+                <p class="calc__field">
+                  <label class="micro calc__label" for="c-apr">Rate (APR)</label>
+                  <input class="calc__input" id="c-apr" type="text" inputmode="decimal" value="7.9">
+                </p>
+              </div>
+              <p class="calc__out">
+                <span class="micro calc__out-label">Estimated monthly</span>
+                <output class="calc__figure" id="c-monthly" for="c-price c-down c-term c-apr">&mdash;</output>
+              </p>
+              <p class="acc__note">An estimate on the figures above, nothing more. It is not an
+                offer, it is not a quote, and it does not include tax, title or registration.
+                The rate you are actually given depends on the lender and on you.</p>
+            </form>
             <p><a class="btn btn--line" href="https://www.chicagomotorcars.com/finance-application/">Start an application
               %(arrow)s</a></p>
           </div>
         </details>
+      </section>
+
+      <!-- ---- STANDARDS ----
+           MOVED AND REBUILT, Alex 2026-08-18: "это надо сделать как
+           отдельную вещь. она всегда идёт на все VDP's. так что не часть
+           описания машины."
+
+           He is right twice over. It sat between the action bar and the
+           accordions, inside the block that describes THIS car, and it
+           was set on the same hairline rows as the specification — so a
+           reader met four dealership promises in the same visual voice as
+           the VIN and the mileage, as if they were facts about the Viper.
+           They are not. They are identical on every vehicle page there
+           will ever be.
+
+           Now it is its own section, in cards — a different object from
+           the rows above it — and it stands AFTER the car's own
+           description rather than interrupting it. The page reads: the
+           car, what it costs, what it is, what we say about it, then what
+           comes with buying anything here.
+           ============================================================ -->
+      <section class="stds" data-reveal>
+        <p class="micro eyebrow">Buying from Chicago Motor Cars</p>
+        <h2 class="stds__title"><span class="ttl-line">Standards worth</span> <span class="ttl-line">the car.</span></h2>
+        <div class="stds__grid">
+%(standards)s
+        </div>
       </section>
 
       <!-- ---- GALLERY ---- -->

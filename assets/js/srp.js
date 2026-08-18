@@ -210,9 +210,24 @@
     });
   });
 
+  /* OUTSIDE MEANS OUTSIDE THE PANEL, NOT OUTSIDE THE HEAD. This tested
+     head.contains(e.target), so every click anywhere in the filter
+     region — the strip of marques, the count line, the whitespace
+     beside the chips — counted as "inside" and left the panel open.
+     Which is exactly where you click when you want to dismiss it:
+     just next to the thing. Alex: "on ne ubiraetsja prosto klikom
+     rjadom gde-to."
+
+     Now each open panel is asked about itself. A click inside that
+     panel keeps it; anything else closes it, including a click on a
+     different filter's summary — and that one still opens its own,
+     because the toggle handler above runs after. */
   document.addEventListener('click', function (e) {
-    if (head.contains(e.target)) return;
-    panels.forEach(function (d) { d.open = false; });
+    panels.forEach(function (d) {
+      if (!d.open) return;
+      if (d.contains(e.target)) return;
+      d.open = false;
+    });
   });
 
   document.addEventListener('keydown', function (e) {

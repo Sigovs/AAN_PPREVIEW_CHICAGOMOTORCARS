@@ -1655,3 +1655,78 @@
     });
   });
 })();
+
+/* ============================================================
+   THE VDP'S VIDEO FACADE AND ITS ESTIMATOR
+   ============================================================ */
+(function () {
+  'use strict';
+
+  /* ---- the YouTube facade ----
+     The iframe does not exist until somebody asks for it. Loading it up
+     front is about a megabyte of third-party script and a set of cookies
+     dropped before anyone wanted a video. */
+  var ytb = document.querySelector('.ytb');
+  if (ytb) {
+    var load = function () {
+      if (ytb.querySelector('iframe')) return;
+      var f = document.createElement('iframe');
+      f.src = ytb.getAttribute('data-yt');
+      f.title = 'Chicago Motor Cars on YouTube';
+      f.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+      f.setAttribute('allowfullscreen', '');
+      ytb.appendChild(f);
+    };
+    var play = ytb.querySelector('.ytb__play');
+    if (play) play.addEventListener('click', load);
+
+    /* The call on the photograph opens the panel and starts the film in
+       one move — a control labelled "Watch video" that only scrolls you
+       to a closed drawer has not done what it said. */
+    var call = document.querySelector('[data-open-video]');
+    var panel = ytb.closest('details');
+    if (call && panel) {
+      call.addEventListener('click', function () {
+        panel.open = true;
+        panel.scrollIntoView({ block: 'center',
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        load();
+      });
+    }
+  }
+
+  /* ---- the estimator ----
+     Standard amortisation on the three values the reader sets. It is
+     arithmetic on their own numbers, not a quote, and the copy beside it
+     says so. A zero rate is handled separately because the formula
+     divides by it. */
+  var calc = document.querySelector('.calc');
+  if (!calc) return;
+
+  var num = function (el) {
+    var v = parseFloat(String(el.value).replace(/[^\d.]/g, ''));
+    return isFinite(v) ? v : 0;
+  };
+  var price = calc.querySelector('#c-price');
+  var down = calc.querySelector('#c-down');
+  var term = calc.querySelector('#c-term');
+  var apr = calc.querySelector('#c-apr');
+  var out = calc.querySelector('#c-monthly');
+
+  function run() {
+    var principal = Math.max(0, num(price) - num(down));
+    var n = parseInt(term.value, 10) || 60;
+    var r = num(apr) / 100 / 12;
+    var m = r > 0
+      ? principal * r / (1 - Math.pow(1 + r, -n))
+      : principal / n;
+    out.textContent = (principal > 0 && isFinite(m))
+      ? '$' + Math.round(m).toLocaleString('en-US') + ' / mo'
+      : '—';
+  }
+
+  ['input', 'change'].forEach(function (ev) {
+    calc.addEventListener(ev, run);
+  });
+  run();
+})();

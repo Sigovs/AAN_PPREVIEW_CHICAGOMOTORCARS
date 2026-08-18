@@ -1407,6 +1407,15 @@
   transition: background var(--dur-2) var(--ease-out);
 }
 .v2 .telpill:hover { background: var(--accent-deep); }
+/* The second contact route is the same object in the quiet register —
+   texting is calling by other means, so it keeps the pill and drops the
+   fill. A second red pill beside the first would be two primaries. */
+.v2 .telpill--text {
+  background: rgba(240, 237, 231, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.14);
+  color: var(--ink-2);
+}
+.v2 .telpill--text:hover { background: rgba(240, 237, 231, 0.11); color: var(--ink); }
 .v2 .telpill:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 /* ---- the standards band ---- */
@@ -1429,14 +1438,24 @@
   margin-block-start: calc(var(--gap-eyebrow) + 0.34em);
 }
 .v2 .stds__title { font-size: clamp(1.375rem, 2.2vw, 2rem); }
+/* CARDS, NOT ROWS. On hairline rows these four read as more
+   specification — the same voice as Mileage and VIN, which made
+   dealership policy look like facts about the car. As cards they are
+   plainly a different kind of object, and they use the card this page
+   already has: the panel's ground, the panel's hairline, the panel's
+   radius. Nothing new was drawn to make the distinction. */
 .v2 .stds__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: 0 clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: clamp(var(--sp-4), 1.8vw, var(--sp-5));
   margin-block-start: var(--sp-6);
-  border-block-start: 1px solid var(--rule);
 }
-.v2 .stds__item { padding-block: var(--sp-5); border-block-end: 1px solid var(--rule); }
+.v2 .stds__item {
+  padding: var(--sp-5);
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 12px;
+  background: rgba(244, 242, 239, 0.022);
+}
 .v2 .stds__k { display: block; color: var(--ink); font-weight: 600; }
 .v2 .stds__v { display: block; margin-block-start: var(--sp-2); color: var(--ink-2); font-size: var(--t-micro); line-height: 1.5; }
 
@@ -1446,8 +1465,113 @@
    own in-page search when closed, and it needs no module. The only
    thing styled is the marker, because the default triangle is the one
    piece of browser chrome this page cannot absorb. */
+/* ---- THE OPEN PANEL IS MARKED, WITH THE DEVICE WE ALREADY HAVE ------
+   Alex: when an accordion is selected it has to be indicated — look at
+   what we use on index and srp, the glow, a different ground under the
+   text.
+
+   That device exists and this is its third use, not a new one. The
+   active record in Featured Inventory and the hovered card on the
+   results page both take the same two things: a faint ground lift, and
+   a WEDGE of light standing highest at the bottom-right corner, tapering
+   away to the left, opening out from a right anchor over --dur-4. Same
+   gradient, same mask, same easing, same corner — copied value for value
+   so that "this one is open" reads as the same statement as "this one is
+   selected" everywhere else on the site.
+
+   It is anchored to the SUMMARY, not to the panel. An open accordion can
+   be six paragraphs tall and a light at the foot of that is a light
+   attached to nothing; at the foot of the row you clicked, it marks the
+   thing that changed.
+
+   Not hue alone (I2): the +/− mark rotates and the label goes to full
+   ink, so the state survives the glow being invisible to anyone. */
 .v2 .acc {
+  position: relative;
   border-block-end: 1px solid var(--rule);
+  /* Room for the ground tint to be a field rather than a hug, without
+     moving the type: the padding is added and the block is pulled back
+     out by the same amount, so text stays on the shell's own line. */
+  margin-inline: calc(var(--sp-5) * -1);
+  transition: background var(--dur-3) var(--ease-out);
+}
+.v2 .acc__sum,
+.v2 .acc__body { padding-inline: var(--sp-5); }
+.v2 .acc[open] { background: rgba(244, 242, 239, 0.028); }
+
+.v2 .acc__sum { position: relative; isolation: isolate; }
+.v2 .acc__sum::after {
+  content: "";
+  position: absolute;
+  inset: auto 4% -1px 8%;
+  height: 74px;
+  z-index: -1;
+  background: radial-gradient(72% 132% at 94% 100%,
+    rgba(244, 242, 239, 0.30) 0%,
+    rgba(196, 192, 185, 0.13) 36%,
+    rgba(150, 146, 140, 0.05) 62%,
+    transparent 82%);
+  -webkit-mask-image: linear-gradient(to left,
+    transparent 0%, rgba(0,0,0,0.55) 6%, #000 14%, rgba(0,0,0,0.58) 44%, transparent 82%);
+          mask-image: linear-gradient(to left,
+    transparent 0%, rgba(0,0,0,0.55) 6%, #000 14%, rgba(0,0,0,0.58) 44%, transparent 82%);
+  opacity: 0;
+  transform-origin: right center;
+  translate: 4% 0;
+  scale: 0.42 1;
+  transition: opacity var(--dur-3) var(--ease-out),
+              scale var(--dur-4) var(--ease-out);
+}
+.v2 .acc[open] .acc__sum::after { opacity: 1; scale: 1 1; }
+
+/* THE LIGHT LANDS ON A LINE. Alex: "не красиво обрезается." It did —
+   the wedge is anchored to the summary's foot and simply stopped there,
+   so a soft glow ended in a hard horizontal shear against nothing.
+
+   In Featured Inventory this never showed, because that wedge sits on
+   the record's own divider: the light is cut by a rule and reads as
+   light meeting an edge. Here there is no rule at the summary's foot,
+   only where the whole accordion ends, so the cut had nothing to be a
+   cut BY.
+
+   This gives it one. A hairline along the same edge, tapered the same
+   way — brightest at the right where the wedge stands highest, gone by
+   the left where the wedge has already faded — so the glow terminates
+   on a line that agrees with it instead of being sheared by the box. */
+.v2 .acc__sum::before {
+  content: "";
+  position: absolute;
+  inset: auto 4% -1px 8%;
+  block-size: 1px;
+  z-index: -1;
+  background: linear-gradient(to left,
+    rgba(244, 242, 239, 0.42) 0%,
+    rgba(244, 242, 239, 0.26) 22%,
+    rgba(196, 192, 185, 0.10) 52%,
+    transparent 84%);
+  opacity: 0;
+  transform-origin: right center;
+  scale: 0.42 1;
+  transition: opacity var(--dur-3) var(--ease-out),
+              scale var(--dur-4) var(--ease-out);
+}
+.v2 .acc[open] .acc__sum::before { opacity: 1; scale: 1 1; }
+
+/* THE CLOSED ONES ANSWER THE POINTER. Alex: "добавь hover effect на
+   остальные." Same light, same line, same opening — at a little over
+   half strength, so hovering reads as a preview of the state and
+   selecting it still arrives somewhere brighter. This is the pattern
+   the results list already uses: hover previews, click commits. */
+@media (hover: hover) {
+  .v2 .acc:not([open]) .acc__sum:hover::after { opacity: 0.55; scale: 1 1; }
+  .v2 .acc:not([open]) .acc__sum:hover::before { opacity: 0.6; scale: 1 1; }
+}
+.v2 .acc:not([open]) .acc__sum:focus-visible::after { opacity: 0.55; scale: 1 1; }
+.v2 .acc:not([open]) .acc__sum:focus-visible::before { opacity: 0.6; scale: 1 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2 .acc__sum::after,  .v2 .acc[open] .acc__sum::after,
+  .v2 .acc__sum::before, .v2 .acc[open] .acc__sum::before { scale: 1 1; transition: none; }
 }
 .v2 .acc:first-of-type { border-block-start: 1px solid var(--rule); }
 .v2 .acc__sum {
@@ -1501,28 +1625,36 @@
 /* Equipment reads as a list of facts, so it is set as one — two or
    three columns of short lines on the same hairline marker the
    highlights use. */
+/* EACH ITEM IS A ROW, NOT A BULLET. Alex: make this accordion read more
+   clearly. It was three columns of dashes at caption size and the eye
+   had nothing to land on — six short facts arranged as a paragraph that
+   happened to have gaps in it.
+
+   Two columns instead of three, so the lines are not fighting for width;
+   each item sits on its own hairline, which is the same device the
+   specification panel uses and therefore reads as the same KIND of
+   information; and the text steps up from --t-micro to body size with
+   full ink, because these are facts about the car, not captions on
+   something else. */
 .v2 .eqp {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: var(--sp-4) var(--sp-6);
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 0 clamp(var(--sp-5), 2.4vw, var(--sp-7));
   padding: 0;
+  margin: 0;
   list-style: none;
+  border-block-start: 1px solid var(--rule);
 }
 .v2 .eqp li {
-  position: relative;
-  padding-inline-start: var(--sp-5);
-  color: var(--ink-2);
-  font-size: var(--t-micro);
-  line-height: 1.5;
+  padding-block: var(--sp-4);
+  border-block-end: 1px solid var(--rule);
+  color: var(--ink);
+  line-height: 1.4;
 }
-.v2 .eqp li::before {
-  content: "";
-  position: absolute;
-  inset-block-start: 0.62em;
-  inset-inline-start: 0;
-  inline-size: 10px;
-  block-size: 1px;
-  background: var(--rule-strong);
+.v2 .acc__note {
+  margin-block-start: var(--sp-5);
+  color: var(--ink-3);
+  font-size: var(--t-micro);
 }
 
 /* ---- the gallery section ---- */
@@ -1568,54 +1700,28 @@
 
 
 /* ---- 9. THE GALLERY WALKS ---------------------------------------------
-   Alex: arrows on the main image. They are the homepage's stage arrows,
-   not a new control — same size, same ground, same inset hairline, same
-   0.94 press. Only the placement differs: the Featured stage puts both
-   in its bottom-left corner because the car floats above them, and a
-   photograph that fills its frame wants them on the edges it moves
-   between.
+   Alex: arrows on the main image, "как на srp" — and he meant the SRP's
+   card arrows, .veh__nav, not the homepage's stage arrows. I built from
+   the wrong one first without checking, and they are genuinely different
+   objects: 38px against 44, a white glyph against --ink, one hairline
+   against three, and — the part that matters — .veh__nav TURNS RED ON
+   HOVER, which the stage arrow does not.
 
-   PERMANENT, not revealed on hover. A gallery of six whose controls only
-   exist once you have already guessed they are there is a gallery most
-   people read as one photograph. The thumbnails say six; the arrows have
-   to be as available as the thumbnails.
+   So the markup carries .veh__nav and inherits all of it. Only two
+   things change here, and both follow from the frame being 500px tall
+   instead of a card thumbnail: they are permanent rather than revealed,
+   and the blur goes up a notch because there is more photograph behind
+   them.
 
-   They sit ABOVE the count plate in z, and clear of it in space: the
-   count is bottom-left, these are centred on the vertical, so neither
-   has to give way. */
-.v2 .gal__arrow {
-  position: absolute;
-  z-index: 3;
-  inset-block-start: 50%;
-  translate: 0 -50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 44px;
-  block-size: 44px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-  color: var(--ink);
-  background: rgb(var(--bg-rgb) / 0.62);
-  box-shadow: inset 0 1px 0 rgba(240, 237, 231, 0.16),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.28),
-              inset 0 0 0 1px rgba(240, 237, 231, 0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: background var(--dur-2) var(--ease-out), scale var(--dur-1) var(--ease-out);
-}
-.v2 .gal__arrow--prev { inset-inline-start: var(--sp-4); }
-.v2 .gal__arrow--next { inset-inline-end: var(--sp-4); }
-.v2 .gal__arrow:hover { background: rgb(var(--bg-rgb) / 0.82); }
-.v2 .gal__arrow:active { scale: 0.94; }
-.v2 .gal__arrow:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.v2 .gal__arrow svg { display: block; }
-@media (prefers-reduced-motion: reduce) {
-  .v2 .gal__arrow { transition: background var(--dur-1) var(--ease-out); }
-  .v2 .gal__arrow:active { scale: none; }
-}
+   PERMANENT IS THE ONE REAL DEPARTURE. On a results card the arrows
+   appear on hover because there are twenty-four cards and forty-eight
+   always-on controls would be a wall. Here there is one picture, six
+   frames, and a reader who never hovers it reads the page as having one
+   photograph. The thumbnails say six; the arrows must be as available
+   as the thumbnails. */
+.v2 .gal__arrow { opacity: 1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.v2 .gal__stage:hover .gal__arrow,
+.v2 .gal__stage:focus-within .gal__arrow { opacity: 1; }
 
 /* ---- 10. THE CARFAX MARK ---------------------------------------------
    I said there was no evidence CMC carries Carfax and put facts in the
@@ -1636,22 +1742,253 @@
 .v2 .cfx {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-3);
-  padding: 7px 14px 8px;
+  padding: 8px 14px;
   border-radius: 8px;
   text-decoration: none;
+  background: rgba(240, 237, 231, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.12);
+  transition: box-shadow var(--dur-2) var(--ease-out), background var(--dur-2) var(--ease-out);
+}
+.v2 .cfx:hover { background: rgba(240, 237, 231, 0.10); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.28); }
+.v2 .cfx:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* The mark keeps its own colours — it is a trademark and it is not ours
+   to tint. It sits on a plate light enough to hold it instead, which is
+   the same plate every other pill on this bar uses. Height is fixed and
+   the width follows, so the 253x60 artwork cannot distort. */
+.v2 .cfx__logo { display: block; block-size: 26px; inline-size: auto; }
+
+
+/* ============================================================
+   11. THE VIDEO, THE CALCULATOR, AND THE TAB ICONS
+   ============================================================ */
+
+/* ---- the accordion summary is now icon · label · mark ---- */
+.v2 .acc__sum { gap: var(--sp-4); }
+.v2 .acc__ico { flex: none; color: var(--ink-3); transition: color var(--dur-2) var(--ease-out); }
+.v2 .acc__label { flex: 1; }
+.v2 .acc__sum:hover .acc__ico,
+.v2 .acc[open] .acc__ico { color: var(--accent); }
+
+/* The accent earns its place here: it is the one thing on the row that
+   changes hue with state, and it is doing it on a 17px glyph — well
+   inside the budget, and never alone, because the label goes to full
+   ink and the mark rotates at the same time. */
+
+/* ---- the video call on the frame ----
+   Bottom-right, opposite the photo count, so the two facts about the
+   media sit at either end of the same line rather than stacking. It is
+   the loudest thing on the picture on purpose — Alex asked for a
+   noticeable one — so it takes the accent, which no other control on
+   this photograph does. */
+.v2 .gal__video {
+  position: absolute;
+  z-index: 3;
+  inset-block-end: var(--sp-4);
+  inset-inline-end: var(--sp-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 9px 16px 10px 11px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
   font-family: var(--font-label);
   font-size: var(--t-micro);
   letter-spacing: var(--tr-label);
-  color: var(--ink-2);
-  background: rgba(240, 237, 231, 0.06);
-  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.12);
-  transition: color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+  color: var(--bone);
+  background: var(--accent);
+  transition: background var(--dur-2) var(--ease-out), scale var(--dur-1) var(--ease-out);
 }
-.v2 .cfx:hover { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.28); }
-.v2 .cfx:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.v2 .cfx__mark {
-  font-weight: 700;
-  letter-spacing: 0.02em;
+.v2 .gal__video:hover { background: var(--accent-deep); }
+.v2 .gal__video:active { scale: 0.97; }
+.v2 .gal__video:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .gal__video-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+@media (prefers-reduced-motion: reduce) { .v2 .gal__video:active { scale: none; } }
+
+/* ---- the YouTube facade ----
+   A poster and a play button until it is asked for. An iframe on load is
+   about a megabyte of third-party script and a set of cookies dropped
+   before anyone wanted a video; this costs one image the page already
+   serves. */
+.v2 .acc__body--wide { max-inline-size: none; }
+.v2 .ytb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  background: var(--bg-sunk);
+  max-inline-size: 46rem;
+}
+.v2 .ytb__poster {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  filter: saturate(0.7) brightness(0.55);
+}
+.v2 .ytb iframe { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; border: 0; }
+.v2 .ytb__play {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 66px;
+  block-size: 66px;
+  padding: 0 0 0 4px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--bone);
+  background: var(--accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: background var(--dur-2) var(--ease-out), scale var(--dur-2) var(--ease-out);
+}
+.v2 .ytb__play:hover { background: var(--accent-deep); scale: 1.06; }
+.v2 .ytb__play:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .v2 .ytb__play:hover { scale: none; } }
+
+.v2 .acc__link { color: var(--ink-2); text-decoration: none; box-shadow: 0 1px 0 var(--rule-strong); }
+.v2 .acc__link:hover { color: var(--ink); box-shadow: 0 1px 0 currentColor; }
+
+/* ---- the estimator ----
+   The three variables are exposed rather than assumed, which is the only
+   version of this control that is not a small lie. Fields are the page's
+   own spec-sheet register: label over value over a hairline, no boxes. */
+/* REGULAR FIELDS, and the ragged baseline that made Alex say so.
+
+   TWO THINGS WERE WRONG. The first was a specificity collision I wrote
+   myself: .v2 .acc__body p sets a 32px top margin, and it is (0,2,1)
+   against .calc__field's (0,2,0) — so the reset lost and every field
+   except the first dropped 32px. Four labels on three baselines.
+
+   The second was the choice. These were set in the hero finder's
+   register — label over value over a hairline, no box — which is right
+   for four selects that describe a car and wrong for four inputs you
+   type money into. A finder is a question; this is a form. Framed
+   fields say "edit me", and at this size the frame is also what keeps
+   the four boxes reading as one row.
+
+   The fix for the first is structural rather than a bigger selector:
+   the fields are given their own reset high enough to win, and the
+   grid's align-items does the rest, so a label that wraps to two lines
+   cannot shift its neighbours either. */
+.v2 .calc { margin-block-start: var(--sp-6); }
+.v2 .calc__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--sp-4) var(--sp-4);
+  align-items: start;
+}
+.v2 .acc__body .calc__field {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.v2 .calc__label { color: var(--ink-3); }
+.v2 .calc__input {
+  appearance: none;
+  -webkit-appearance: none;
+  inline-size: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(244, 242, 239, 0.14);
+  border-radius: 10px;
+  background: rgba(244, 242, 239, 0.03);
   color: var(--ink);
+  font-family: var(--font-label);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--dur-2) var(--ease-out), background var(--dur-2) var(--ease-out);
 }
+.v2 .calc__input:hover { border-color: rgba(244, 242, 239, 0.26); }
+.v2 .calc__input:focus-visible {
+  outline: none;
+  border-color: rgba(244, 242, 239, 0.5);
+  background: rgba(244, 242, 239, 0.06);
+}
+/* The select needs its own arrow once the platform one is gone, drawn
+   with the same two triangles the sort control on the results page uses
+   so the two read as the same kind of control. */
+.v2 select.calc__input {
+  cursor: pointer;
+  padding-inline-end: 34px;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-size: 5px 5px, 5px 5px;
+  background-position: right 18px center, right 13px center;
+  background-repeat: no-repeat;
+}
+
+.v2 .calc__out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-5);
+  margin-block-start: var(--sp-6);
+  padding: var(--sp-5);
+  border: 1px solid rgba(244, 242, 239, 0.10);
+  border-radius: 12px;
+  background: rgba(244, 242, 239, 0.022);
+}
+.v2 .calc__out-label { color: var(--ink-3); }
+.v2 .calc__figure {
+  font-family: var(--font-label);
+  font-size: clamp(1.625rem, 2.2vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  line-height: 1;
+}
+.v2 .calc .acc__note { margin-block-start: var(--sp-4); }
+
+
+/* ============================================================
+   12. THE SPACING PASS
+   ============================================================
+   Alex: "SPACING PADDING на все элементы на VDP please!" — so every
+   vertical relationship on the page was walked, not just the ones that
+   looked wrong.
+
+   THE RULE BEING APPLIED IS I1, and it is the one that was leaking:
+   internal gaps must be SMALLER than the gap to the neighbouring group.
+   Sections were separated by sp-8/sp-9 while the blocks inside them sat
+   at sp-6 and sp-7 — close enough that a subheading and a new chapter
+   read as the same size of event. The chapter breaks go up, the internal
+   rhythm stays, and the ratio comes back.
+
+   Everything below is a token. No new values. */
+.v2 .vdp .crumbs { margin-block-end: var(--sp-6); }
+
+/* Section to section: a real break, bottom-heavy, as the dialect asks. */
+.v2 .vdp .stds,
+.v2 .vdp .vdp-acc,
+.v2 .vdp .vdp-gal { margin-block-start: clamp(var(--sp-9), 6vw, var(--sp-10)); }
+
+/* Heading to its content: one step, not the same step as the chapter. */
+.v2 .stds__grid,
+.v2 .shots { margin-block-start: var(--sp-6); }
+
+/* Inside the panel the compartments carry their own padding, so the
+   only thing to set is the rhythm between a compartment's own parts. */
+.v2 .panel__specs .srow:first-child { padding-block-start: 0; }
+.v2 .vdp-acc { border-block-start: 0; }
+
+/* The related chapter is a section of the page, not of the car, so it
+   gets the page's own chapter break rather than the vdp block's. */
+.v2 .inv-results { padding-block: clamp(var(--sp-9), 6vw, var(--sp-10)) 0; }
+.v2 .inv-results .grid { margin-block-start: var(--sp-6); }
