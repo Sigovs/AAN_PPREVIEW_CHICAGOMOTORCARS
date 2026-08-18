@@ -634,7 +634,20 @@ vdp = """<!DOCTYPE html>
         <details class="acc" open>
           <summary class="acc__sum"><svg class="acc__ico" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.2" stroke="currentColor" stroke-width="1.3"/><path d="M9 8v4.4M9 5.6v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acc__label">About this vehicle</span> <span class="acc__mark" aria-hidden="true"></span></summary>
           <div class="acc__body">
-            <p class="acc__lead">%(lead)s</p>
+            <!-- Their own opening line, set as the title it always was.
+                 The listing writes it as two sentences — what the car is,
+                 then what colour it is — and they are not equal: one names
+                 the machine, the other describes it. So the first takes
+                 display scale and full ink, the second sits under it as a
+                 supporting line. Same two sentences, ranked.
+
+                 "ACR-E" is theirs. The page's H1 says "ACR" because that is
+                 what their structured Model field says; the description
+                 says ACR-E. Both are quoted from them and neither is
+                 corrected here — a mismatch in their own data is worth
+                 showing them, not papering over. -->
+            <p class="acc__title">%(leadTitle)s</p>
+            <p class="acc__lead">%(leadSub)s</p>
 
             <span class="acc__sub">In their words</span>
             <ul class="eqp eqp--claims">
@@ -819,7 +832,8 @@ vdp = """<!DOCTYPE html>
     "thumbs": THUMBS,
     "panelrows": PANEL_ROWS,
     "standards": STD_ITEMS,
-    "lead": " ".join(D.LEAD),
+    "leadTitle": html.escape(D.LEAD[0].rstrip(".")),
+    "leadSub": html.escape(D.LEAD[1]),
     "claims": _lis(D.CLAIMS),
     "history": _lis(D.HISTORY),
     "included": _lis(D.INCLUDED),

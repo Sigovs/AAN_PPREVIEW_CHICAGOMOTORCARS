@@ -2321,3 +2321,37 @@
   max-inline-size: 78ch;
   margin-block-start: var(--sp-4);
 }
+
+/* ---- the description's own title -------------------------------------
+   Alex: give it more pop, make it a title. It is the listing's opening
+   line and it was set as body copy, so the strongest sentence in the
+   panel — the one that names the car in the seller's own words, with
+   the edition they actually call it — read at the same weight as its
+   own footnotes.
+
+   Display scale, full ink, and the colour line demoted under it rather
+   than run on from it. Same two sentences the feed carries; the only
+   thing added is rank. */
+/* .v2 .acc__body .acc__title, NOT .v2 .acc__title — and this is the
+   third time this exact collision has cost something on this page.
+   .v2 .acc__body p is (0,2,1); anything I write as .v2 .thing is
+   (0,2,0) and loses to it. The title rendered at 0.62 ink, which is the
+   colour of a footnote, on the sentence the whole panel opens with.
+
+   The pattern to remember: inside .acc__body, a rule aimed at a <p>
+   must name the body too, or the body's blanket colour wins. */
+.v2 .acc__body .acc__title {
+  font-size: clamp(1.375rem, 2vw, 1.875rem);
+  line-height: 1.12;
+  letter-spacing: var(--tr-display);
+  color: var(--ink);
+  margin: 0;
+  max-inline-size: 22ch;
+}
+.v2 .acc__body .acc__title + .acc__lead {
+  margin-block-start: var(--sp-4);
+  font-size: var(--t-lede);
+  color: var(--ink-2);
+  max-inline-size: 44ch;
+}
+.v2 .acc__body .acc__title + .acc__lead + .acc__sub { margin-block-start: var(--sp-7); }
