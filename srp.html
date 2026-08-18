@@ -54,10 +54,10 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=61">
 <!-- Last again. srp.html and vdp.html load this; index_2.html does
      not, and index.html loads neither. -->
-<link rel="stylesheet" href="assets/css/inventory.css?v=32">
+<link rel="stylesheet" href="assets/css/inventory.css?v=38">
 <!-- Ported from the Vegas reference. Loads after inventory.css so the
      head it replaces cannot outrank it. -->
-<link rel="stylesheet" href="assets/css/srp-head.css?v=4">
+<link rel="stylesheet" href="assets/css/srp-head.css?v=6">
 </head>
 <body class="v2">
 
@@ -565,6 +565,8 @@
             <input id="srp-kw" name="stockno" type="search" placeholder="Search by keyword" autocomplete="off">
           </form>
 
+          <p class="micro srp-filters__count" aria-live="polite"><b>24</b> of 301</p>
+
           <span class="srp-filters__spacer"></span>
 
           <details class="sort" id="f-sort">
@@ -634,9 +636,7 @@
 
 
 
-      <div class="page-head__meta">
-        <p class="micro page-head__count"><b>24</b> of 301 vehicles</p>
-      </div>
+
     </div>
   </section>
 
@@ -1230,7 +1230,7 @@
     </div>
   </footer>
 
-<script src="assets/js/main.js?v=59" defer></script>
+<script src="assets/js/main.js?v=60" defer></script>
 <!-- The ported head only exists on this page, so its logic does too. -->
 <script src="assets/js/srp.js?v=2" defer></script>
 </body>

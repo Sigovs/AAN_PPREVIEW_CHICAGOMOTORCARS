@@ -364,7 +364,11 @@ def srp_card(stock):
             return blk
     raise SystemExit("ABORT: stock %s is no longer on srp.html." % stock)
 
-others = [c for c in cars if not c.get("vdp")][:3]
+# SIX, NOT THREE. Three cards fill one row, so "pagination" over them
+# was a control with one page — dots that cannot move are decoration,
+# and decoration dressed as a control is the worst of both. Six gives
+# the dots two real destinations and the reader more to look at.
+others = [c for c in cars if not c.get("vdp")][:6]
 
 PANEL_ROWS = NL.join(prow(k, v) for k, v in PANEL)
 FRAMES = NL.join(frame(i, s) for i, s in enumerate(GALLERY))
@@ -445,13 +449,31 @@ vdp = """<!DOCTYPE html>
   <section class="vdp">
     <div class="shell">
 
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="index_2.html">Home</a>
-        <span class="crumbs__sep" aria-hidden="true">/</span>
-        <a href="srp.html">Inventory</a>
-        <span class="crumbs__sep" aria-hidden="true">/</span>
-        <span aria-current="page">2017 Dodge Viper GTC ACR</span>
-      </nav>
+      <!-- Where you are on the left, what you can do with the page on
+           the right, one line above everything. Save and Share moved up
+           out of the action bar on Alex's call, and the move is right:
+           that bar is about buying THIS car — call, text, finance — and
+           these two are about keeping the page. Different verbs, so they
+           belong to the page furniture rather than to the offer. -->
+      <div class="topbar">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index_2.html">Home</a>
+          <span class="crumbs__sep" aria-hidden="true">/</span>
+          <a href="srp.html">Inventory</a>
+          <span class="crumbs__sep" aria-hidden="true">/</span>
+          <span aria-current="page">2017 Dodge Viper GTC ACR</span>
+        </nav>
+        <div class="topbar__tools">
+          <button class="tool" type="button" data-save="22703" aria-pressed="false">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M1 1h10v12L6 9.6 1 13V1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Save
+          </button>
+          <button class="tool" type="button" data-share aria-label="Copy a link to this vehicle">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.4 8.6 8.6 5.4M6 2.6 7.4 1.2a2.6 2.6 0 0 1 3.7 3.7L9.7 6.3M8 11.4 6.6 12.8a2.6 2.6 0 0 1-3.7-3.7L4.3 7.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Share
+          </button>
+        </div>
+      </div>
 
       <!-- ---- SUMMARY: the photograph, and the decision ---- -->
       <div class="sum">
@@ -535,22 +557,12 @@ vdp = """<!DOCTYPE html>
           <span class="micro actbar__loc-k">Location</span>
           <a class="actbar__loc-v" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%%2C+Naperville%%2C+IL+60563" target="_blank" rel="noopener">Naperville, IL &mdash; 2104 Ferry Road</a>
         </p>
-        <div class="actbar__tools">
-          <button class="tool" type="button" data-save="22703" aria-pressed="false">
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M1 1h10v12L6 9.6 1 13V1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-            Save
-          </button>
-          <button class="tool" type="button" data-share aria-label="Copy a link to this vehicle">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.4 8.6 8.6 5.4M6 2.6 7.4 1.2a2.6 2.6 0 0 1 3.7 3.7L9.7 6.3M8 11.4 6.6 12.8a2.6 2.6 0 0 1-3.7-3.7L4.3 7.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            Share
-          </button>
-        </div>
         <div class="actbar__contact">
           <a class="telpill" href="tel:+16302211800">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M11 8.6v1.6c0 .5-.4.9-.9.8A9.6 9.6 0 0 1 1 1.9c0-.5.4-.9.8-.9h1.6c.4 0 .8.3.9.7l.4 1.8c0 .3 0 .6-.3.8l-.8.7a7.6 7.6 0 0 0 3.4 3.4l.7-.8c.2-.2.5-.3.8-.2l1.8.4c.4.1.7.4.7.8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
             630 221 1800
           </a>
-          <a class="telpill telpill--text" href="sms:+16302211800">
+          <a class="telpill telpill--bone" href="sms:+16302211800">
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12.4 8.2a1.2 1.2 0 0 1-1.2 1.2H3.9L1.5 11.8V2.5a1.2 1.2 0 0 1 1.2-1.2h8.5a1.2 1.2 0 0 1 1.2 1.2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
             Text us
           </a>
@@ -700,8 +712,7 @@ vdp = """<!DOCTYPE html>
 
       <!-- ---- GALLERY ---- -->
       <section class="vdp-gal" data-reveal>
-        <p class="micro eyebrow">Gallery</p>
-        <h2 class="stds__title"><span class="ttl-line">Six photographs.</span></h2>
+        <h2 class="gal-head"><span class="ttl-line">Gallery</span></h2>
         <div class="shots">
 %(shots)s
         </div>
@@ -711,13 +722,21 @@ vdp = """<!DOCTYPE html>
   </section>
 
   <!-- Three more, from the results page this car was reached through.
-       Same card, same grid, no second component. -->
-  <section class="inv-results" data-reveal>
+       Same card, same grid, no second component.
+
+       "More from the collection" became "Others worth chasing." — the
+       page's own line. The hero says "Find the car worth chasing", the
+       standards band says "Standards worth the car", the results page
+       says "cars worth chasing". A house phrase that has already been
+       used three times is not a coincidence to avoid, it is the voice,
+       and this is the one place on the VDP that speaks in it. -->
+  <section class="rel" data-reveal>
     <div class="shell">
-      <p class="micro eyebrow">More from the collection</p>
-      <div class="grid">
+      <h2 class="gal-head"><span class="ttl-line">Others worth chasing.</span></h2>
+      <div class="grid" data-rel-track>
 %(related)s
       </div>
+      <div class="rel__dots" data-rel-dots aria-label="More vehicles"></div>
     </div>
   </section>
 

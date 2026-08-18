@@ -1730,3 +1730,58 @@
   });
   run();
 })();
+
+/* ============================================================
+   THE RELATED ROW'S DOTS
+   ============================================================
+   The reviews chapter's module in miniature: the dots are built from
+   how many cards actually fit a row, so a three-across grid that
+   becomes one-across on a phone gets three dots instead of one. Built
+   by script and nothing is hidden without it — no script, no dots, and
+   the grid is still a grid.
+   ============================================================ */
+(function () {
+  'use strict';
+  var track = document.querySelector('[data-rel-track]');
+  var wrap = document.querySelector('[data-rel-dots]');
+  if (!track || !wrap) return;
+
+  var cards = [].slice.call(track.children);
+  if (cards.length < 2) return;
+
+  function perRow() {
+    var top = Math.round(cards[0].getBoundingClientRect().top);
+    var n = cards.filter(function (c) {
+      return Math.abs(Math.round(c.getBoundingClientRect().top) - top) < 4;
+    }).length;
+    return Math.max(1, n);
+  }
+
+  function build() {
+    var pages = Math.ceil(cards.length / perRow());
+    wrap.textContent = '';
+    if (pages < 2) return;
+    for (var i = 0; i < pages; i++) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rel__dot';
+      b.setAttribute('aria-current', i === 0 ? 'true' : 'false');
+      b.setAttribute('aria-label', 'Page ' + (i + 1) + ' of ' + pages);
+      (function (idx) {
+        b.addEventListener('click', function () {
+          var target = cards[idx * perRow()];
+          if (target) target.scrollIntoView({ block: 'nearest', inline: 'start',
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          [].forEach.call(wrap.children, function (d, n) {
+            d.setAttribute('aria-current', n === idx ? 'true' : 'false');
+          });
+        });
+      })(i);
+      wrap.appendChild(b);
+    }
+  }
+
+  build();
+  var t;
+  window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(build, 150); });
+})();

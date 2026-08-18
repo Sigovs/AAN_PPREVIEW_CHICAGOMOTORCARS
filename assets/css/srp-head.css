@@ -364,3 +364,37 @@ body:has(.site-header.is-scrolled) .srp-filters { top: var(--header-h-sm); }
   border: 1px solid var(--color-border);
   text-align: center;
 }
+
+/* ---- the result count, in the filter row --------------------------
+   It used to be a band of its own: one small line held between two
+   hairlines with nothing else in it. Alex: "это можно убить совсем, не
+   нужный якорь" — and he is right that as a band it was doing nothing
+   but adding a horizontal rule and 90px of height to say a number.
+
+   The number itself is the most useful thing on a results page, so it
+   is not deleted, it is moved to where it costs nothing: the filter
+   row, immediately after the controls that change it. aria-live, so a
+   screen reader hears the count update when a filter is applied — as a
+   band nobody announced it at all. */
+.v2 .srp-head .srp-filters__count {
+  margin: 0;
+  align-self: center;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.v2 .srp-head .srp-filters__count b { color: var(--ink); font-weight: 600; }
+
+
+/* ---- radius on the panel's own rows -------------------------------
+   Alex: "добавь radius на текстовые зоны drop down." The panel had a
+   radius and everything inside it was square, so hovering an option
+   drew a hard-cornered bar inside a rounded box — the one shape on the
+   page that contradicted its own container. Every hit area in these
+   menus now carries the radius one step down from the panel's, which is
+   the relationship the cards and their pills already use. */
+.v2 .srp-head .sort__option,
+.v2 .srp-head .filter__option,
+.v2 .srp-head .filter__panel label { border-radius: 8px; }
+.v2 .srp-head .sort__option,
+.v2 .srp-head .filter__panel label { padding-inline: var(--space-3); }

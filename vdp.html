@@ -83,7 +83,7 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=61">
 <!-- Last again. srp.html and vdp.html load this; index_2.html
      does not, and index.html loads neither. -->
-<link rel="stylesheet" href="assets/css/inventory.css?v=32">
+<link rel="stylesheet" href="assets/css/inventory.css?v=38">
 </head>
 <body class="v2 is-vdp">
 
@@ -483,13 +483,31 @@
   <section class="vdp">
     <div class="shell">
 
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="index_2.html">Home</a>
-        <span class="crumbs__sep" aria-hidden="true">/</span>
-        <a href="srp.html">Inventory</a>
-        <span class="crumbs__sep" aria-hidden="true">/</span>
-        <span aria-current="page">2017 Dodge Viper GTC ACR</span>
-      </nav>
+      <!-- Where you are on the left, what you can do with the page on
+           the right, one line above everything. Save and Share moved up
+           out of the action bar on Alex's call, and the move is right:
+           that bar is about buying THIS car — call, text, finance — and
+           these two are about keeping the page. Different verbs, so they
+           belong to the page furniture rather than to the offer. -->
+      <div class="topbar">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index_2.html">Home</a>
+          <span class="crumbs__sep" aria-hidden="true">/</span>
+          <a href="srp.html">Inventory</a>
+          <span class="crumbs__sep" aria-hidden="true">/</span>
+          <span aria-current="page">2017 Dodge Viper GTC ACR</span>
+        </nav>
+        <div class="topbar__tools">
+          <button class="tool" type="button" data-save="22703" aria-pressed="false">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M1 1h10v12L6 9.6 1 13V1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Save
+          </button>
+          <button class="tool" type="button" data-share aria-label="Copy a link to this vehicle">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.4 8.6 8.6 5.4M6 2.6 7.4 1.2a2.6 2.6 0 0 1 3.7 3.7L9.7 6.3M8 11.4 6.6 12.8a2.6 2.6 0 0 1-3.7-3.7L4.3 7.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Share
+          </button>
+        </div>
+      </div>
 
       <!-- ---- SUMMARY: the photograph, and the decision ---- -->
       <div class="sum">
@@ -619,22 +637,12 @@
           <span class="micro actbar__loc-k">Location</span>
           <a class="actbar__loc-v" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%2C+Naperville%2C+IL+60563" target="_blank" rel="noopener">Naperville, IL &mdash; 2104 Ferry Road</a>
         </p>
-        <div class="actbar__tools">
-          <button class="tool" type="button" data-save="22703" aria-pressed="false">
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M1 1h10v12L6 9.6 1 13V1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-            Save
-          </button>
-          <button class="tool" type="button" data-share aria-label="Copy a link to this vehicle">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.4 8.6 8.6 5.4M6 2.6 7.4 1.2a2.6 2.6 0 0 1 3.7 3.7L9.7 6.3M8 11.4 6.6 12.8a2.6 2.6 0 0 1-3.7-3.7L4.3 7.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            Share
-          </button>
-        </div>
         <div class="actbar__contact">
           <a class="telpill" href="tel:+16302211800">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M11 8.6v1.6c0 .5-.4.9-.9.8A9.6 9.6 0 0 1 1 1.9c0-.5.4-.9.8-.9h1.6c.4 0 .8.3.9.7l.4 1.8c0 .3 0 .6-.3.8l-.8.7a7.6 7.6 0 0 0 3.4 3.4l.7-.8c.2-.2.5-.3.8-.2l1.8.4c.4.1.7.4.7.8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
             630 221 1800
           </a>
-          <a class="telpill telpill--text" href="sms:+16302211800">
+          <a class="telpill telpill--bone" href="sms:+16302211800">
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12.4 8.2a1.2 1.2 0 0 1-1.2 1.2H3.9L1.5 11.8V2.5a1.2 1.2 0 0 1 1.2-1.2h8.5a1.2 1.2 0 0 1 1.2 1.2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
             Text us
           </a>
@@ -792,8 +800,7 @@
 
       <!-- ---- GALLERY ---- -->
       <section class="vdp-gal" data-reveal>
-        <p class="micro eyebrow">Gallery</p>
-        <h2 class="stds__title"><span class="ttl-line">Six photographs.</span></h2>
+        <h2 class="gal-head"><span class="ttl-line">Gallery</span></h2>
         <div class="shots">
         <a href="assets/img/inventory-live/vdp-viper-1.jpg" target="_blank" rel="noopener" aria-label="Photograph 1 of 6, full size">
           <img src="assets/img/inventory-live/vdp-viper-1.jpg" alt="2017 Dodge Viper GTC ACR Voodoo II, photograph 1 of 6"
@@ -826,11 +833,18 @@
   </section>
 
   <!-- Three more, from the results page this car was reached through.
-       Same card, same grid, no second component. -->
-  <section class="inv-results" data-reveal>
+       Same card, same grid, no second component.
+
+       "More from the collection" became "Others worth chasing." — the
+       page's own line. The hero says "Find the car worth chasing", the
+       standards band says "Standards worth the car", the results page
+       says "cars worth chasing". A house phrase that has already been
+       used three times is not a coincidence to avoid, it is the voice,
+       and this is the one place on the VDP that speaks in it. -->
+  <section class="rel" data-reveal>
     <div class="shell">
-      <p class="micro eyebrow">More from the collection</p>
-      <div class="grid">
+      <h2 class="gal-head"><span class="ttl-line">Others worth chasing.</span></h2>
+      <div class="grid" data-rel-track>
         <div class="veh-cell">
           <span class="veh__tag">
             <span class="veh__stock">#500174 PS</span>
@@ -897,7 +911,74 @@
           </a>
           <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
         </div>
+        <div class="veh-cell">
+          <span class="veh__tag">
+            <span class="veh__stock">#GV100296 JJ</span>
+            <button class="veh__save" type="button" aria-pressed="false" aria-label="Save 2016 Viper ACR to My Garage"><svg class="veh__save-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M4 2.2h7a.8.8 0 0 1 .8.8v9.4L7.5 9.9l-4.3 2.5V3a.8.8 0 0 1 .8-.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+          </span>
+          <a class="veh" href="https://www.chicagomotorcars.com/2016-dodge-viper-acr-extreme-aero-pkg-coupe-black-red-painted-stripes-only-13k-miles-c-11486/" rel="noopener" aria-label="2016 Viper ACR, $499,912">
+          <span class="veh__media">
+            <img class="veh__frame is-on" data-frame="0" src="assets/img/inventory-live/viper-acr-stripes.jpg" alt="2016 Viper ACR" width="900" height="598" loading="eager" decoding="async">
+            <img class="veh__frame" data-frame="1" src="assets/img/inventory-live/vdp-viper-1.jpg" alt="" aria-hidden="true" width="900" height="598" loading="lazy" decoding="async">
+            <img class="veh__frame" data-frame="2" src="assets/img/inventory-live/vdp-viper-2.jpg" alt="" aria-hidden="true" width="900" height="598" loading="lazy" decoding="async">
+            <button class="veh__nav veh__nav--prev" type="button" aria-label="Previous photo" tabindex="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></button>
+            <button class="veh__nav veh__nav--next" type="button" aria-label="Next photo" tabindex="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></button>
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2016 Viper ACR</span>
+            <span class="veh__trim">Extreme Aero — Black with red painted stripes</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">13,232 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+          </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
+        </div>
+        <div class="veh-cell">
+          <span class="veh__tag">
+            <span class="veh__stock">#GV100102 MS</span>
+            <button class="veh__save" type="button" aria-pressed="false" aria-label="Save 2016 Viper ACR to My Garage"><svg class="veh__save-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M4 2.2h7a.8.8 0 0 1 .8.8v9.4L7.5 9.9l-4.3 2.5V3a.8.8 0 0 1 .8-.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+          </span>
+          <a class="veh" href="https://www.chicagomotorcars.com/2016-dodge-viper-acr-coupe-only-5k-miles-gts-white-stripe-option-upgraded-exhaust-c-11931/" rel="noopener" aria-label="2016 Viper ACR, $499,912">
+          <span class="veh__media">
+            <img class="veh__frame is-on" data-frame="0" src="assets/img/inventory-live/viper-acr-gts-white.jpg" alt="2016 Viper ACR" width="900" height="598" loading="eager" decoding="async">
+            <img class="veh__frame" data-frame="1" src="assets/img/inventory-live/vdp-viper-1.jpg" alt="" aria-hidden="true" width="900" height="598" loading="lazy" decoding="async">
+            <img class="veh__frame" data-frame="2" src="assets/img/inventory-live/vdp-viper-2.jpg" alt="" aria-hidden="true" width="900" height="598" loading="lazy" decoding="async">
+            <button class="veh__nav veh__nav--prev" type="button" aria-label="Previous photo" tabindex="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></button>
+            <button class="veh__nav veh__nav--next" type="button" aria-label="Next photo" tabindex="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></button>
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2016 Viper ACR</span>
+            <span class="veh__trim">GTS white stripe option — Upgraded exhaust</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">5,250 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+          </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
+        </div>
+        <div class="veh-cell">
+          <span class="veh__tag">
+            <span class="veh__stock">#GV100451 MS</span>
+            <button class="veh__save" type="button" aria-pressed="false" aria-label="Save 2016 Viper GTC to My Garage"><svg class="veh__save-icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M4 2.2h7a.8.8 0 0 1 .8.8v9.4L7.5 9.9l-4.3 2.5V3a.8.8 0 0 1 .8-.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+          </span>
+          <a class="veh" href="https://www.chicagomotorcars.com/2016-dodge-viper-gtc-acr-e-calvo-9.0l-na-build-incredible-condition-c-13789/" rel="noopener" aria-label="2016 Viper GTC, $499,912">
+          <span class="veh__media">
+            <img class="veh__frame is-on" data-frame="0" src="assets/img/inventory-live/viper-acr-e-calvo.jpg" alt="2016 Viper GTC" width="900" height="598" loading="eager" decoding="async">
+            <img class="veh__frame" data-frame="1" src="assets/img/inventory-live/vdp-viper-1.jpg" alt="" aria-hidden="true" width="900" height="598" loading="lazy" decoding="async">
+            <img class="veh__frame" data-frame="2" src="assets/img/inventory-live/vdp-viper-2.jpg" alt="" aria-hidden="true" width="900" height="598" loading="lazy" decoding="async">
+            <button class="veh__nav veh__nav--prev" type="button" aria-label="Previous photo" tabindex="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></button>
+            <button class="veh__nav veh__nav--next" type="button" aria-label="Next photo" tabindex="-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></button>
+          </span>
+          <span class="veh__body">
+            <span class="micro veh__make">Dodge</span>
+            <span class="veh__name">2016 Viper GTC</span>
+            <span class="veh__trim">ACR-E Calvo 9.0L NA build</span>
+            <span class="veh__facts"><span class="veh__pill veh__pill--price">$499,912</span><span class="veh__pill">12,776 mi</span><span class="veh__pill">Coupe</span></span>
+          </span>
+          </a>
+          <a class="veh__cta" href="vdp.html" tabindex="-1">See details</a>
+        </div>
       </div>
+      <div class="rel__dots" data-rel-dots aria-label="More vehicles"></div>
     </div>
   </section>
 
@@ -948,6 +1029,6 @@
     </div>
   </footer>
 
-<script src="assets/js/main.js?v=59" defer></script>
+<script src="assets/js/main.js?v=60" defer></script>
 </body>
 </html>
