@@ -1717,7 +1717,14 @@
 .v2 .acc__mark::before { inset-block-start: 6px; inset-inline: 0; block-size: 1px; }
 .v2 .acc__mark::after  { inset-inline-start: 6px; inset-block: 0; inline-size: 1px; }
 .v2 .acc[open] .acc__mark::after { rotate: 90deg; opacity: 0; }
-.v2 .acc__body { padding-block-end: var(--sp-7); max-inline-size: 76ch; }
+/* NO CAP ON THE BODY ITSELF. It carried max-inline-size: 76ch, which
+   was right when everything inside was prose ranged left — but a
+   centred head inside a capped body centres on the CAP, not on the
+   card, so the title sat left of the middle by half the difference.
+   The measure moves onto the things that need it instead. */
+.v2 .acc__body { padding-block-end: var(--sp-7); }
+.v2 .acc__body > p:not([class]),
+.v2 .acc__body .acc__note { max-inline-size: 76ch; }
 
 .v2 .acc__body p { color: var(--ink-2); margin-block-start: var(--sp-4); }
 .v2 .acc__body p:first-child { margin-block-start: 0; }
@@ -2340,18 +2347,50 @@
 
    The pattern to remember: inside .acc__body, a rule aimed at a <p>
    must name the body too, or the body's blanket colour wins. */
+/* CENTRED, LIKE THE OTHER TWO ON THIS PAGE. The gallery says "Gallery"
+   and the related row says "Others worth chasing." over centred grids;
+   this is the third heading of that kind, so it takes the same
+   treatment rather than inventing a fourth.
+
+   ONLY THE HEAD. The lists underneath stay ranged left, and that is the
+   "без фанатизма" part: a centred heading over a symmetrical block is
+   composition, centred DATA is a spec sheet you cannot scan — the eye
+   loses the left edge it was using to run down forty-four items.
+
+   Both lines take the same measure and the same centre, so the title,
+   its subline and the rule under the first list all share one axis.
+   That is what makes it read as deliberate rather than as two things
+   that happen to be near the middle. */
 .v2 .acc__body .acc__title {
   font-size: clamp(1.375rem, 2vw, 1.875rem);
   line-height: 1.12;
   letter-spacing: var(--tr-display);
   color: var(--ink);
-  margin: 0;
-  max-inline-size: 22ch;
+  margin: 0 auto;
+  max-inline-size: 24ch;
+  text-align: center;
+  text-wrap: balance;
+  /* CENTRED ON THE CARD, NOT ON THE PADDING BOX. The body's padding is
+     asymmetric on purpose — 33px more on the left, so its text lines up
+     with the summary's label past the icon — and a centred block
+     inherits that, landing half the difference off the card's axis.
+     Measured: 16px right of centre, which is exactly half of 33.
+
+     Corrected from the same token that causes it, so the two can never
+     drift apart, and as a translate rather than a margin: it is
+     compositor work, it cannot disturb the measure cap or the auto
+     margins doing the centring, and it moves the ink without moving
+     the box. */
+  translate: calc(var(--acc-indent) / -2) 0;
 }
 .v2 .acc__body .acc__title + .acc__lead {
-  margin-block-start: var(--sp-4);
+  margin: var(--sp-4) auto 0;
   font-size: var(--t-lede);
   color: var(--ink-2);
-  max-inline-size: 44ch;
+  max-inline-size: 46ch;
+  text-align: center;
+  translate: calc(var(--acc-indent) / -2) 0;
 }
-.v2 .acc__body .acc__title + .acc__lead + .acc__sub { margin-block-start: var(--sp-7); }
+/* The head is a block of its own, so it gets a chapter's worth of air
+   under it rather than a paragraph's. */
+.v2 .acc__body .acc__title + .acc__lead + .acc__sub { margin-block-start: var(--sp-8); }
