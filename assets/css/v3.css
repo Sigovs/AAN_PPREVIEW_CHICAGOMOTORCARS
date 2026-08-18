@@ -44,9 +44,16 @@
 
    The ground under it stays for the moment before the image decodes,
    so the panel is never a white hole on a dark page. */
+/* A SMALLER RADIUS ON THE PICTURE. 16px was solved for a panel with a
+   car floating inside it, where the corner is empty and the curve is
+   the only thing describing the box. A photograph fills its frame to
+   the edge, so the same curve now cuts visible content out of four
+   corners and reads as a rounded snapshot rather than a mounted print.
+   8px still says "framed" and takes almost nothing off the image. */
 .is-v3 .showcase__stage {
   background: var(--bg-sunk);
   border: 1px solid rgba(244, 242, 239, 0.13);
+  border-radius: 8px;
 }
 .is-v3 .stage__field { display: none; }
 
@@ -216,7 +223,24 @@
 .is-v3 .rec__facts, .is-v3 .rec.is-active .rec__facts { margin-block-start: var(--sp-2); }
 .is-v3 .rec__make { line-height: 1.2; }
 .is-v3 .rec__chev { display: none; }
+/* SEE DETAILS COMES BACK, and it costs no height: it already sits
+   inside the facts row beside the two pills, so it rides the line that
+   was there anyway. It shows on the selected record only — four of them
+   in a 115px card each would be four calls to action competing with the
+   picture they are supposed to be pointing at. */
 .is-v3 .rec__cta { display: none; }
+.is-v3 .rec.is-active .rec__cta {
+  display: inline-flex;
+  align-items: center;
+  opacity: 1;
+  translate: none;
+  /* Matched to the pills beside it. Left at its own padding the button
+     was a few pixels taller than the row it joined, which pushed the
+     selected card past the 115px the four of them are allotted and
+     clipped it. A control sharing a line has to share its height. */
+  padding-block: 7px 8px;
+  line-height: 1;
+}
 .is-v3 .rec__name { min-height: 0; margin-block-start: 2px; }
 .is-v3 .rec__model,
 .is-v3 .rec.is-active .rec__model { font-size: 1rem; line-height: 1.2; }
