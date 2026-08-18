@@ -279,11 +279,27 @@ vdp_head = make_head(
 # already reads "2017 Dodge Viper GTC ACR", so three of the eight rows
 # were repeating the headline at caption size.
 #
-# Re-sorted into the order a buyer actually reads. Mileage first because
-# on this car it IS the story — thirty-eight miles. Then how it looks,
-# outside then inside. Then the two reference numbers, which nobody
-# chooses a car by and everybody needs when they call.
+# ENGINE AND DRIVETRAIN ADDED, also his call, and worth recording why
+# they are safe when I had argued the other way. I left them out because
+# the listing does not state them, and the rule on this page is that it
+# says only what the business says. These two are different in kind from
+# a claim about THIS car: the 2017 Viper ACR was built with one engine
+# and one driven axle, so they are attributes of the model rather than
+# facts about the example. A car that is a Viper ACR cannot be anything
+# else. Horsepower is in the listing outright.
+#
+# Transmission still stays out. Every 2017 Viper is a six-speed manual,
+# so by the same argument it would qualify — but the row is the one a
+# buyer of a collector car checks hardest, and the listing's own field
+# for it came through garbled. Better absent than asserted from memory.
+#
+# Order is what a buyer reads: mileage first, because on this car
+# thirty-eight miles IS the story; then what it is mechanically; then
+# how it looks, outside before inside; then the two reference numbers,
+# which nobody chooses a car by and everybody needs on the phone.
 PANEL = [("Mileage", "38 mi"),
+         ("Engine", "8.4L V10, 645 hp"),
+         ("Drivetrain", "Rear-wheel drive"),
          ("Exterior", "Venom Black Clear Coat"), ("Interior", "Black"),
          ("Stock", "22703"), ("VIN", "1C3BDEDZXHV500169")]
 
@@ -419,7 +435,7 @@ vdp = """<!DOCTYPE html>
      ============================================================ -->
 <html lang="en">
 %(head)s
-<body class="v2">
+<body class="v2 is-vdp">
 
 %(header)s
 %(between)s
@@ -503,11 +519,22 @@ vdp = """<!DOCTYPE html>
           <img class="cfx__logo" src="assets/logos/carfax.svg" alt="Show me the Carfax"
                width="253" height="60" loading="lazy" decoding="async">
         </a>
-        <div class="actbar__facts">
-          <span class="veh__pill">1 of 31 produced</span>
-          <span class="veh__pill">38 delivery miles</span>
-          <span class="veh__pill">645 hp</span>
-        </div>
+        <!-- WHERE THE CAR IS, which is the one thing this bar was missing
+             and the three fact pills were not adding: "1 of 31", "38
+             delivery miles" and "645 hp" all appear in the panel or the
+             highlights already, so the bar was repeating the page at
+             pill size.
+
+             Naperville is not a guess. Every one of this listing's six
+             photographs carries the showroom's own watermark — "Chicago
+             Motor Cars NAPERVILLE" — so the car's location is evidenced
+             by the pictures of it. The address and the phone are the
+             ones already on the locations chapter of the homepage. -->
+        <p class="actbar__loc">
+          <svg class="actbar__pin" width="12" height="15" viewBox="0 0 12 15" fill="none" aria-hidden="true"><path d="M6 .75c2.9 0 5.25 2.35 5.25 5.25 0 3.6-4.35 7.7-5.02 8.31a.34.34 0 0 1-.46 0C5.1 13.7.75 9.6.75 6 .75 3.1 3.1.75 6 .75Z" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6" r="1.85" fill="currentColor"/></svg>
+          <span class="micro actbar__loc-k">Location</span>
+          <a class="actbar__loc-v" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%%2C+Naperville%%2C+IL+60563" target="_blank" rel="noopener">Naperville, IL &mdash; 2104 Ferry Road</a>
+        </p>
         <div class="actbar__tools">
           <button class="tool" type="button" data-save="22703" aria-pressed="false">
             <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M1 1h10v12L6 9.6 1 13V1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>

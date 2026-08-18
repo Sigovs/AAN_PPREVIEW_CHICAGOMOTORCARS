@@ -1958,37 +1958,82 @@
 
 
 /* ============================================================
-   12. THE SPACING PASS
+   12. THE SPACING PASS — SCOPED TO THE VDP
    ============================================================
-   Alex: "SPACING PADDING на все элементы на VDP please!" — so every
-   vertical relationship on the page was walked, not just the ones that
-   looked wrong.
+   Alex: "у тебя очень много проблем с padding" and, on the results
+   page, "очень много space тут."
 
-   THE RULE BEING APPLIED IS I1, and it is the one that was leaking:
-   internal gaps must be SMALLER than the gap to the neighbouring group.
-   Sections were separated by sp-8/sp-9 while the blocks inside them sat
-   at sp-6 and sp-7 — close enough that a subheading and a new chapter
-   read as the same size of event. The chapter breaks go up, the internal
-   rhythm stays, and the ratio comes back.
+   HE IS RIGHT ABOUT THE CAUSE AS WELL AS THE SYMPTOM, so this block is
+   rewritten rather than tuned. The first version set spacing on
+   .inv-results and .grid — and both of those exist on BOTH pages. The
+   results page's own grid inherited 96px of section padding plus 32px
+   of grid margin meant for the VDP's "More from the collection", which
+   is the 128px hole under the count line.
 
-   Everything below is a token. No new values. */
-.v2 .vdp .crumbs { margin-block-end: var(--sp-6); }
+   I wrote page-specific rules with page-agnostic selectors, twice, and
+   that is not a spacing mistake, it is a scoping one. So the VDP now
+   carries .is-vdp on <body> and everything below hangs off it. A rule
+   written for one page can no longer reach the other by accident —
+   which matters more than any single value here, because srp.html is
+   hand-maintained and cannot defend itself from this file.
 
-/* Section to section: a real break, bottom-heavy, as the dialect asks. */
-.v2 .vdp .stds,
-.v2 .vdp .vdp-acc,
-.v2 .vdp .vdp-gal { margin-block-start: clamp(var(--sp-9), 6vw, var(--sp-10)); }
+   Every value is still a token. What changed is who they apply to. */
 
-/* Heading to its content: one step, not the same step as the chapter. */
-.v2 .stds__grid,
-.v2 .shots { margin-block-start: var(--sp-6); }
+/* Chapter to chapter: a real break, bottom-heavy as the dialect asks.
+   These were sp-8/sp-9 while the blocks inside them sat at sp-6/sp-7 —
+   close enough that a subheading and a new chapter read as the same
+   size of event, which is the I1 failure: the internal gap has to be
+   clearly smaller than the gap to the next group. */
+.is-vdp .vdp .stds,
+.is-vdp .vdp .vdp-acc,
+.is-vdp .vdp .vdp-gal { margin-block-start: clamp(var(--sp-9), 6vw, var(--sp-10)); }
 
-/* Inside the panel the compartments carry their own padding, so the
-   only thing to set is the rhythm between a compartment's own parts. */
-.v2 .panel__specs .srow:first-child { padding-block-start: 0; }
-.v2 .vdp-acc { border-block-start: 0; }
+/* Heading to its own content: one step, and a smaller one. */
+.is-vdp .stds__grid,
+.is-vdp .shots { margin-block-start: var(--sp-6); }
 
-/* The related chapter is a section of the page, not of the car, so it
-   gets the page's own chapter break rather than the vdp block's. */
-.v2 .inv-results { padding-block: clamp(var(--sp-9), 6vw, var(--sp-10)) 0; }
+.is-vdp .vdp .crumbs { margin-block-end: var(--sp-6); }
+.is-vdp .panel__specs .srow:first-child { padding-block-start: 0; }
+.is-vdp .vdp-acc { border-block-start: 0; }
+
+/* The related chapter belongs to the page, not to the car, so it takes
+   the page's chapter break. SCOPED — this is the rule that leaked. */
+.is-vdp .inv-results { padding-block: clamp(var(--sp-9), 6vw, var(--sp-10)) 0; }
+.is-vdp .inv-results .grid { margin-block-start: var(--sp-6); }
+
+
+/* ============================================================
+   13. THE RESULTS GRID SITS UP UNDER ITS COUNT
+   ============================================================
+   With the leak closed, the SRP's own relationship is set here and
+   only here: the count line states how many, the grid shows them, and
+   they are one group. sp-6 between them, against the sp-9 that
+   separates the whole results block from the head above — internal
+   smaller than external, which is the rule that was inverted. */
+.v2 .inv-results { padding-block-start: 0; }
 .v2 .inv-results .grid { margin-block-start: var(--sp-6); }
+
+/* ---- where the car is ------------------------------------------------
+   Not a pill. The other objects on this bar are things you DO — save,
+   share, call, text, apply — and a fact wearing the same shape asks to
+   be clicked. This is a labelled line: pin, caption, value, with only
+   the value as a link because only the value has somewhere to go. */
+.v2 .actbar__loc {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin: 0;
+  flex-wrap: wrap;
+}
+.v2 .actbar__pin { flex: none; color: var(--accent); align-self: center; }
+.v2 .actbar__loc-k { color: var(--ink-3); }
+.v2 .actbar__loc-v {
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  box-shadow: 0 1px 0 var(--rule-strong);
+  transition: box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .actbar__loc-v:hover { box-shadow: 0 1px 0 currentColor; }
+.v2 .actbar__loc-v:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
