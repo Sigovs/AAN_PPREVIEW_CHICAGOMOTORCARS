@@ -165,3 +165,43 @@ remove its entry motion unless Alex asks for that specifically.
 Recorded dialect yield: `motion-taste D1` caps travel at 8px and prefers a
 crossfade. The headline travels 56px horizontally, on the stated exit — direction
 encoding progress. Transform and opacity only; no geometry animates.
+
+## There are TWO motion systems, and picking the wrong one is why this keeps getting rebuilt
+
+The section-entry rule above covers the **one-shot** case. It is not the
+only system, and the second one was never written down — which is why it
+has been re-derived from scratch more than once, with a new set of
+keyframes each time. Both are already built. Neither needs inventing.
+
+| | ONE-SHOT ENTRY | SCRUBBED PASS |
+|---|---|---|
+| when | a section arrives and stays | a thing arrives **and leaves** with the scroll |
+| driver | `IntersectionObserver` → `.is-revealed` | `animation-timeline: view()` |
+| opt in | `data-reveal` + role classes | `hero-in` + `hero-exit` |
+| tuning | `--rv-line/-lede/-cta/-step` | `--in-rise`, `--in-blur`, `--rise`, `--blur` per element |
+| staggering | `transition-delay` | **shifted `animation-range`, never delay** |
+
+**`hero-in` and `hero-exit` are the house gesture for in-and-out.** They
+are in `main.css` and already drive the hero claim and the break section.
+Anything that has to enter and leave uses them, with its own rise values
+and its own short range. Writing a third keyframe pair for one row is the
+failure this table exists to stop.
+
+**Stagger a scrubbed pass by shifting each item's `animation-range`.** A
+`delay` staggers the entrance and then piles every exit into one frame —
+they must leave in the order they arrived.
+
+**Ranges stay short.** Recorded against `vault/morningstar-ventures`,
+whose logged weakness is this exact gesture run at length: the page stops
+on frames where the outgoing thing is half gone and the incoming one is
+not yet there.
+
+**A scrubbed timeline runs backwards when the scroll does.** Coming back
+up the page, a thing re-enters from the direction it left. That is not a
+bug to fix — it is what scrubbing is. Always-one-direction means giving
+up the scrub for a one-shot on scroll direction, and that is a different
+decision, to be made deliberately.
+
+**Blur belongs to type, not to plates.** In the hero it is tied to speed
+because letterforms smear. A hard-edged white card blurred reads as the
+render failing.

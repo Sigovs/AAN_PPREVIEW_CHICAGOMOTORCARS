@@ -334,6 +334,13 @@
 .is-v3 .sell__steps li + li { border-inline-start: 0; }
 .is-v3 .sell__steps li:first-child { padding-inline-start: var(--sp-5); }
 
+/* The row starts on the shell line, where Built on more starts below it.
+   main.css gives .sell__steps a margin-inline of clamp(--sp-7, 5vw,
+   --sp-10) — an indent that belonged to the divided row inside the band.
+   Out here it pushed the plates off the page grid and ran the third one
+   past the right edge. */
+.is-v3 .sell-band .sell__steps { margin-inline: 0; }
+
 /* The numeral leads, at display scale, with the sketch's full stop — it
    is what turns a count into a step. */
 .is-v3 .sell__step-n {
@@ -398,7 +405,11 @@
 .is-v3 .sell-band {
   position: relative;
   z-index: 3;
-  margin-block-start: calc(var(--plate-h, 10.25rem) / -2 - var(--sp-6));
+  /* Raised twice: 114px of lift became 137, then 178. The whole
+     expression is scaled rather than a number bolted on, so the
+     crossing keeps its relationship to the plate height if that ever
+     changes. */
+  margin-block-start: calc((var(--plate-h, 10.25rem) / -2 - var(--sp-6)) * 1.56);
   pointer-events: none;
 }
 .is-v3 .sell-band .sell__steps { pointer-events: auto; }
@@ -418,4 +429,37 @@
    wrong. If the two bands ever diverge again, measure them again. */
 .is-v3 .sell__grid {
   padding-block-end: calc(130.72px + 180px);
+}
+
+/* ---- The plates arrive and leave on the page own gesture ------------
+   Not a new effect. hero-in and hero-exit already carry this movement
+   everywhere else — the hero claim, the break section — driven on view()
+   timelines with --in-rise / --rise per element. The plates use the same
+   two, staggered by RANGE so they leave in the order they arrived.
+
+   Blur stays at zero here. In the hero it is tied to speed because type
+   smears; a white plate with a hard edge does not, and blurring one
+   reads as the render failing rather than as motion.
+
+   The ranges are short, for the reason already recorded against
+   vault/morningstar-ventures: this gesture done at length leaves
+   stoppable frames where the outgoing thing is half gone and the
+   incoming one is not yet there. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .is-v3 .sell-band .sell__steps li {
+      --in-rise: 46px;  --in-blur: 0px;
+      --rise: -56px;    --blur: 0px;
+      animation: hero-in linear both, hero-exit linear both;
+      animation-timeline: view(), view();
+      animation-range: cover 4% cover 30%, cover 72% cover 94%;
+      will-change: translate, opacity;
+    }
+    .is-v3 .sell-band .sell__steps li:nth-child(2) {
+      animation-range: cover 10% cover 36%, cover 78% cover 100%;
+    }
+    .is-v3 .sell-band .sell__steps li:nth-child(3) {
+      animation-range: cover 16% cover 42%, cover 84% cover 106%;
+    }
+  }
 }
