@@ -11145,8 +11145,16 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
      first was still settling. 820ms lets each finish before its
      neighbour starts. Changing --rv-lede would have slowed every
      paragraph on the site to fix one row. */
+  /* FLEX-GROW IS LISTED HERE ON PURPOSE. `transition` is a shorthand: a
+     second declaration replaces the first outright, it does not add to
+     it. .v2 .loc carries `transition: flex-grow var(--dur-4)` — the
+     accordion own opening — and this selector outranks it, so declaring
+     only opacity and translate here deleted that opening and the panels
+     snapped. On both index_2 and index_3, since this rule is in main.css.
+     Any property added to this list in future has to keep it. */
   transition: opacity 820ms var(--ease-out),
-              translate 820ms var(--ease-out);
+              translate 820ms var(--ease-out),
+              flex-grow var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-armed [data-reveal].is-revealed .locs__list > li { opacity: 1; translate: 0 0; }
 .reveal-armed [data-reveal].is-revealed .locs__list > li:nth-child(1) { transition-delay: calc(var(--rv-step) * 2.6); }
