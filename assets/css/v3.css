@@ -380,3 +380,52 @@
 .is-v3 .sell__grid {
   padding-block-end: calc(var(--cut-drop-b) + var(--sp-6));
 }
+
+/* ---- The plates stand on a seam, not on the floor --------------------
+   In the sketch the photograph ENDS and a pale band carries the three
+   plates. Here it ran the full height of the band, so the plates sat on
+   the showroom floor with nothing under them — the intersection the
+   sketch is built on did not exist.
+
+   The foot is declared once and both things read it: the photograph stops
+   there, and the grid pads to it. So the seam cannot drift away from the
+   row that is supposed to mark it.
+
+   The plates' own height is stated rather than left to their content —
+   it is half of what the foot is made of, and a foot derived from a
+   number nobody wrote down is the kind of value that goes wrong the next
+   time the label wraps. */
+.is-v3 .sell {
+  --plate-h: 10.25rem;
+  --sell-foot: calc(var(--plate-h) + var(--cut-drop-b) + var(--sp-6));
+}
+.is-v3 .sell__bg { inset-block-end: var(--sell-foot); }
+.is-v3 .sell__grid { padding-block-end: var(--sell-foot); }
+.is-v3 .sell__steps li { min-block-size: var(--plate-h); }
+
+/* The band under the seam is the section's own bone, one step lighter so
+   the join reads as a change of surface rather than as the photograph
+   fading out. */
+.is-v3 .sell { background: #E9E7E1; }
+
+/* The seam landed on the plates' lower edge, which put them back on the
+   floor with the band underneath — the inverse of the sketch. It rises a
+   plate's height and a step further, so the photograph ends ABOVE the
+   row and the three stand clear on the pale band. */
+.is-v3 .sell__bg {
+  inset-block-end: calc(var(--sell-foot) + var(--plate-h) + var(--sp-6));
+}
+
+/* The band under the plates ran to 283px because the grid was padding by
+   --sell-foot, which already contains a plate's height — and the plates
+   are content INSIDE that padding, so their height was counted twice.
+   The foot only has to clear the cut. */
+.is-v3 .sell__grid {
+  padding-block-end: calc(var(--cut-drop-b) + var(--sp-6));
+}
+
+/* Stated once, and this is the last word on it: the photograph ends a
+   step above the plates. --sell-foot is the plates plus the cut's
+   clearance; one more step puts the seam just over their top edge, which
+   is the intersection the sketch is built on. */
+.is-v3 .sell__bg { inset-block-end: calc(var(--sell-foot) + var(--sp-5)); }
