@@ -292,3 +292,91 @@
 @media (max-width: 60rem) {
   .is-v3 .stage__bar { margin-block-end: var(--sp-3); }
 }
+
+/* ============================================================
+   SELL — THE THREE STEPS BECOME THREE PLATES
+   ============================================================
+   Built to Alex's sketch, and it reverses a note in main.css that says a
+   border on every item "would box each step and turn three stages into
+   three cards". That was right while the steps sat on a flat bone band
+   with rules between them: boxes there would have been decoration.
+
+   It is not right here. The band ends on a photograph now, and the row
+   has to hold its own ground against a lit showroom floor — the plates
+   ARE that ground. What was a division of one surface becomes three
+   objects standing on another, which is the reason the earlier reasoning
+   does not carry over.
+
+   Scoped to .is-v3, so index and index_2 keep the divided row they were
+   approved with.
+   ============================================================ */
+.is-v3 .sell__steps {
+  border-top: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  /* Three across, sized to the type rather than to the band: the row
+     occupies the left of the frame in the sketch and leaves the floor
+     open to the right, which is where the reflection is. */
+  grid-template-columns: repeat(3, minmax(0, 13.5rem));
+  justify-content: start;
+  gap: var(--sp-4);
+}
+
+.is-v3 .sell__steps li {
+  display: block;
+  padding: var(--sp-5) var(--sp-5) var(--sp-6);
+  border-radius: 10px;
+  background: #fff;
+  /* No ring and no shadow. The plate is white on a grey floor and that is
+     already the whole separation; an edge as well would be two devices
+     doing one job. */
+}
+.is-v3 .sell__steps li + li { border-inline-start: 0; }
+.is-v3 .sell__steps li:first-child { padding-inline-start: var(--sp-5); }
+
+/* The numeral leads, at display scale, with the sketch's full stop — it
+   is what turns a count into a step. */
+.is-v3 .sell__step-n {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 2.6vw, 2.375rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #16150F;
+  margin-block-end: var(--sp-4);
+}
+.is-v3 .sell__step-n::after { content: "."; }
+
+.is-v3 .sell__step-t {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #16150F;
+  /* Two lines by measure rather than by a break in the markup, so the
+     same three strings still read on one line where there is room. */
+  max-inline-size: 11ch;
+}
+
+@media (max-width: 760px) {
+  .is-v3 .sell__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+  .is-v3 .sell__steps li { padding: var(--sp-4) var(--sp-4) var(--sp-5); }
+}
+
+/* The plates were being cut by the band's own lower edge. The foot was
+   94px and the cut is 100 deep at this width, so the last 6px of every
+   plate sat inside the curve — and a rounded white corner clipped by a
+   shaped edge reads as a rendering fault rather than as a composition.
+
+   The foot is derived from the cut instead of guessed: whatever
+   --cut-drop-b resolves to, the plates clear it and keep a step of air
+   underneath. */
+.is-v3 .sell__grid {
+  padding-block-end: calc(var(--cut-drop-b) + var(--sp-6));
+}
