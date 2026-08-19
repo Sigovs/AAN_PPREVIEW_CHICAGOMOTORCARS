@@ -630,7 +630,13 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
      ~15rem starts pushing the address into the photograph rather than
      sitting under it. */
   block-size: clamp(15rem, 19vw, 19rem);
-  transition: flex-grow var(--dur-4) cubic-bezier(0.22, 1, 0.36, 1);
+  /* 1.05s on a SYMMETRIC curve. --dur-4 on cubic-bezier(0.22,1,0.36,1)
+     was the snap: that is an expo-out, and it spends most of its travel
+     in the first third — correct for something arriving from off-screen,
+     wrong for a panel opening under the pointer. This one accelerates
+     and decelerates evenly, so the panel is seen to widen rather than
+     found already wide. */
+  transition: flex-grow 1.05s cubic-bezier(0.33, 0, 0.2, 1);
 }
 .v2 .loc.is-open { flex-grow: 2.4; }
 @media (hover: hover) {
