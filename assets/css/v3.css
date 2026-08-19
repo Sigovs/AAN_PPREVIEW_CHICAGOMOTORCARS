@@ -407,3 +407,21 @@
    .sell__grid a foot of my own, which was never asked for — the request
    was to move three cards, not to reproportion the section. main.css
    governs it again. */
+
+/* ---- The band keeps index_2's height ---------------------------------
+   Lifting the three steps out took their height with them, so this
+   chapter came out shorter than the one it is a variant of. The space is
+   given back rather than the plates put back: they belong across the
+   join now.
+
+   Derived from the rule they left behind, not guessed. In main.css the
+   row is two micro lines with --sp-3 between them, inside
+   padding-block: clamp(--sp-6, 2.4vw, --sp-7) top and bottom. That is
+   what is restored here, so if the row's own spacing is ever retuned the
+   reserve follows it. */
+.is-v3 .sell__grid {
+  padding-block-end: calc(
+    clamp(var(--sp-6), 2.4vw, var(--sp-7)) * 2
+    + 1.25rem * 2 + var(--sp-3)
+  );
+}
