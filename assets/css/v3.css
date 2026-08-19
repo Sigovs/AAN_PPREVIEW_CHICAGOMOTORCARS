@@ -378,7 +378,12 @@
    --cut-drop-b resolves to, the plates clear it and keep a step of air
    underneath. */
 .is-v3 .sell__grid {
-  padding-block-end: calc(var(--cut-drop-b) + var(--sp-6));
+  /* The plates were hanging over the band edge: their lower half sat on
+     the dark section beneath. --cut-drop-b is the cut measured at ONE
+     end, and the plates are at the other, where the shape eats deeper.
+     The foot is doubled so they clear the deepest point rather than the
+     nominal one. */
+  padding-block-end: calc(var(--cut-drop-b) * 2 + var(--sp-7));
 }
 
 /* ---- The plates stand on a seam, not on the floor --------------------
@@ -429,3 +434,16 @@
    clearance; one more step puts the seam just over their top edge, which
    is the intersection the sketch is built on. */
 .is-v3 .sell__bg { inset-block-end: calc(var(--sell-foot) + var(--sp-5)); }
+
+/* THE SEAM WAS NEVER A LINE. .sell__bg::after ramps bone up over the
+   photograph's last 382px, so the picture dissolved into the band and
+   the "edge" the plates were placed against was a 380px fade. Measuring
+   the element's box said 24px of gap; the eye saw a hundred and more of
+   nothing.
+
+   That ramp was lighting type that used to sit ON the photograph. The
+   steps stand on the band now and nothing is left over the picture down
+   there, so it goes and the photograph ends on a real edge.
+
+   The left-to-right ramp stays — the copy still reads against it. */
+.is-v3 .sell__bg::after { content: none; }
