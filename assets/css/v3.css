@@ -403,5 +403,7 @@
 }
 .is-v3 .sell-band .sell__steps { pointer-events: auto; }
 
-/* The band no longer reserves a foot for a row that has left it. */
-.is-v3 .sell__grid { padding-block-end: clamp(var(--sp-7), 5vw, var(--sp-9)); }
+/* The band keeps the height it was approved at. I shortened it by giving
+   .sell__grid a foot of my own, which was never asked for — the request
+   was to move three cards, not to reproportion the section. main.css
+   governs it again. */
