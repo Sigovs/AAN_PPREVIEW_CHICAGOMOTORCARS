@@ -377,73 +377,31 @@
    The foot is derived from the cut instead of guessed: whatever
    --cut-drop-b resolves to, the plates clear it and keep a step of air
    underneath. */
-.is-v3 .sell__grid {
-  /* The plates were hanging over the band edge: their lower half sat on
-     the dark section beneath. --cut-drop-b is the cut measured at ONE
-     end, and the plates are at the other, where the shape eats deeper.
-     The foot is doubled so they clear the deepest point rather than the
-     nominal one. */
-  padding-block-end: calc(var(--cut-drop-b) * 2 + var(--sp-7));
+
+
+
+
+
+
+
+/* ---- The band the plates stand on ------------------------------------
+   Its own strip between the two sections, pulled up so the plates cross
+   the join: the top of each sits on the bone, the bottom hangs over the
+   dark chapter. That crossing is the whole device in the sketch, and it
+   is impossible inside .sell — a clip-path cuts every child at the
+   shape's edge, whatever overflow says.
+
+   The lift is half a plate, so the seam runs through them rather than
+   past them. z-index puts them over both surfaces; the strip itself has
+   no ground of its own, so nothing new is introduced between the two
+   chapters. */
+.is-v3 .sell-band {
+  position: relative;
+  z-index: 3;
+  margin-block-start: calc(var(--plate-h, 10.25rem) / -2 - var(--sp-6));
+  pointer-events: none;
 }
+.is-v3 .sell-band .sell__steps { pointer-events: auto; }
 
-/* ---- The plates stand on a seam, not on the floor --------------------
-   In the sketch the photograph ENDS and a pale band carries the three
-   plates. Here it ran the full height of the band, so the plates sat on
-   the showroom floor with nothing under them — the intersection the
-   sketch is built on did not exist.
-
-   The foot is declared once and both things read it: the photograph stops
-   there, and the grid pads to it. So the seam cannot drift away from the
-   row that is supposed to mark it.
-
-   The plates' own height is stated rather than left to their content —
-   it is half of what the foot is made of, and a foot derived from a
-   number nobody wrote down is the kind of value that goes wrong the next
-   time the label wraps. */
-.is-v3 .sell {
-  --plate-h: 10.25rem;
-  --sell-foot: calc(var(--plate-h) + var(--cut-drop-b) + var(--sp-6));
-}
-.is-v3 .sell__bg { inset-block-end: var(--sell-foot); }
-.is-v3 .sell__grid { padding-block-end: var(--sell-foot); }
-.is-v3 .sell__steps li { min-block-size: var(--plate-h); }
-
-/* The band under the seam is the section's own bone, one step lighter so
-   the join reads as a change of surface rather than as the photograph
-   fading out. */
-.is-v3 .sell { background: #E9E7E1; }
-
-/* The seam landed on the plates' lower edge, which put them back on the
-   floor with the band underneath — the inverse of the sketch. It rises a
-   plate's height and a step further, so the photograph ends ABOVE the
-   row and the three stand clear on the pale band. */
-.is-v3 .sell__bg {
-  inset-block-end: calc(var(--sell-foot) + var(--plate-h) + var(--sp-6));
-}
-
-/* The band under the plates ran to 283px because the grid was padding by
-   --sell-foot, which already contains a plate's height — and the plates
-   are content INSIDE that padding, so their height was counted twice.
-   The foot only has to clear the cut. */
-.is-v3 .sell__grid {
-  padding-block-end: calc(var(--cut-drop-b) + var(--sp-6));
-}
-
-/* Stated once, and this is the last word on it: the photograph ends a
-   step above the plates. --sell-foot is the plates plus the cut's
-   clearance; one more step puts the seam just over their top edge, which
-   is the intersection the sketch is built on. */
-.is-v3 .sell__bg { inset-block-end: calc(var(--sell-foot) + var(--sp-5)); }
-
-/* THE SEAM WAS NEVER A LINE. .sell__bg::after ramps bone up over the
-   photograph's last 382px, so the picture dissolved into the band and
-   the "edge" the plates were placed against was a 380px fade. Measuring
-   the element's box said 24px of gap; the eye saw a hundred and more of
-   nothing.
-
-   That ramp was lighting type that used to sit ON the photograph. The
-   steps stand on the band now and nothing is left over the picture down
-   there, so it goes and the photograph ends on a real edge.
-
-   The left-to-right ramp stays — the copy still reads against it. */
-.is-v3 .sell__bg::after { content: none; }
+/* The band no longer reserves a foot for a row that has left it. */
+.is-v3 .sell__grid { padding-block-end: clamp(var(--sp-7), 5vw, var(--sp-9)); }
