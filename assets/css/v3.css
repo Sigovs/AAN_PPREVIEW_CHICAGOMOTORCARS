@@ -431,35 +431,17 @@
   padding-block-end: calc(130.72px + 180px);
 }
 
-/* ---- The plates arrive and leave on the page own gesture ------------
-   Not a new effect. hero-in and hero-exit already carry this movement
-   everywhere else — the hero claim, the break section — driven on view()
-   timelines with --in-rise / --rise per element. The plates use the same
-   two, staggered by RANGE so they leave in the order they arrived.
+/* The plates use the shared one-shot entry: in from below, one by one,
+   and they stay. That system is already built — data-reveal on the strip
+   and .sell__steps li in main.css, which carries the rise and the
+   staircase. Nothing here needs to restate it. */
 
-   Blur stays at zero here. In the hero it is tied to speed because type
-   smears; a white plate with a hard edge does not, and blurring one
-   reads as the render failing rather than as motion.
-
-   The ranges are short, for the reason already recorded against
-   vault/morningstar-ventures: this gesture done at length leaves
-   stoppable frames where the outgoing thing is half gone and the
-   incoming one is not yet there. */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .is-v3 .sell-band .sell__steps li {
-      --in-rise: 46px;  --in-blur: 0px;
-      --rise: -56px;    --blur: 0px;
-      animation: hero-in linear both, hero-exit linear both;
-      animation-timeline: view(), view();
-      animation-range: cover 4% cover 30%, cover 72% cover 94%;
-      will-change: translate, opacity;
-    }
-    .is-v3 .sell-band .sell__steps li:nth-child(2) {
-      animation-range: cover 10% cover 36%, cover 78% cover 100%;
-    }
-    .is-v3 .sell-band .sell__steps li:nth-child(3) {
-      animation-range: cover 16% cover 42%, cover 84% cover 106%;
-    }
-  }
+/* The strip takes Story's measure, so the plates start where "Built on
+   more" starts. .shell caps at --container (1440) and pads by --gutter
+   (57.6); .story__inner caps at --measure-wide and pads by
+   clamp(--sp-6, 5vw, --sp-9), which is 86.4 at this width — a 28px
+   difference the eye reads immediately on two stacked blocks. */
+.is-v3 .sell-band__inner {
+  max-width: var(--measure-wide, 100rem);
+  padding-inline: clamp(var(--sp-6), 6vw, var(--sp-9));
 }
