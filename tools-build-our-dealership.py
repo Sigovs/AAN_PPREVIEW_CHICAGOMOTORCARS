@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Assemble about.html from index_3.html's own head, masthead and footer.
+"""Assemble our-dealership.html from index_3.html's head, masthead and footer.
 
 Same principle as tools-build-inventory-pages.py: anything shared is
 COPIED at build time rather than retyped, so the pages cannot drift.
 index_3 is the source because it is the approved variant.
 
-It writes about.html and NOTHING ELSE. The inventory builder once wrote
+It writes our-dealership.html and NOTHING ELSE. The inventory builder once wrote
 srp.html as well and deleted 525 lines of hand-maintained head; a script
 that can only create the one file it is named after cannot repeat that.
 """
 import re, os, html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-OUT  = os.path.join(ROOT, "about.html")
+OUT  = os.path.join(ROOT, "our-dealership.html")
 src  = open(os.path.join(ROOT, "index_3.html")).read()
 
 
@@ -44,7 +44,7 @@ script = m.group(0)
 # ---- head -------------------------------------------------------------
 h = head
 h = re.sub(r"<title>.*?</title>",
-           "<title>About us — Chicago Motor Cars</title>", h, flags=re.S)
+           "<title>Our Dealership — Chicago Motor Cars</title>", h, flags=re.S)
 h = re.sub(r'<meta name="description" content=".*?">',
            '<meta name="description" content="Chicago Motor Cars has sold more than 40,000 '
            'exotic, luxury and collector vehicles since 2003, from four showrooms with a fifth '
@@ -58,10 +58,10 @@ if n != 1:
     raise SystemExit("ABORT: expected exactly one image preload in the head, found %d" % n)
 
 h, n = re.subn(r'(<link rel="stylesheet" href="assets/css/v3\.css\?v=\d+">)',
-               r'\1\n<!-- about.html only. Last, so it wins on equal specificity. -->\n'
-               r'<link rel="stylesheet" href="assets/css/about.css?v=6">', h)
+               r'\1\n<!-- our-dealership.html only. Last, so it wins on equal specificity. -->\n'
+               r'<link rel="stylesheet" href="assets/css/our-dealership.css?v=6">', h)
 if n != 1:
-    raise SystemExit("ABORT: could not place about.css after v3.css (%d matches). The head "
+    raise SystemExit("ABORT: could not place our-dealership.css after v3.css (%d matches). The head "
                      "changed shape; fix this script rather than shipping a page whose "
                      "stylesheet silently never loads." % n)
 
@@ -366,22 +366,27 @@ BODY = (BODY.replace("__STORY__", "\n".join(story))
 
 BANNER = """<!DOCTYPE html>
 <!-- ============================================================
-     about.html — AN INNER PAGE, BUILT FROM THE APPROVED SYSTEM
+     our-dealership.html — AN INNER PAGE, BUILT FROM THE APPROVED SYSTEM
      ============================================================
-     GENERATED. Edit tools-build-about.py, not this file.
+     GENERATED. Edit tools-build-our-dealership.py, not this file.
 
      Head, masthead and footer are COPIED from index_3.html at build time
      rather than retyped, so the three pages cannot drift apart. index_3
      is the source because it is the approved variant.
 
+     THE FILE IS NAMED FOR THE NAV ITEM, THE CLASSES ARE NOT. "Our
+     Dealership" is what CMC's own menu calls this page, so that is the
+     URL; the body class and the .ab- prefix stay, because renaming a
+     working selector set buys nothing and costs a sweep of every rule.
+
      <body> carries `v2 is-about`:
        .v2       so the approved deltas and the location controls apply
-       .is-about so about.css cannot reach any other page
+       .is-about so our-dealership.css cannot reach any other page
 
      WHAT THIS PAGE ADDS TO THE DESIGN SYSTEM: nothing. Every control,
      every type role, every colour and the entry motion come from files
-     that already existed. about.css holds four arrangements and their
-     intervals, and no styling for anything you can click.
+     that already existed. our-dealership.css holds four arrangements and
+     their intervals, and no styling for anything you can click.
 
      ONE FACT TO TAKE BACK TO CMC: their own About page still describes
      "West Chicago, IL, Naperville, IL, and Rock Hill, SC" — three

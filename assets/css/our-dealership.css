@@ -1,9 +1,16 @@
 /* ============================================================
-   about.css — THE INNER PAGE
+   our-dealership.css — THE INNER PAGE
    ============================================================
-   Loaded by about.html only, after v3.css. Every rule is scoped to
-   .is-about, so nothing here reaches the homepage or the inventory
+   Loaded by our-dealership.html only, after v3.css. Every rule is scoped
+   to .is-about, so nothing here reaches the homepage or the inventory
    pages.
+
+   THE FILE IS NAMED FOR THE NAV ITEM, THE SELECTORS ARE NOT. "Our
+   Dealership" is what CMC's own menu calls this page and what their own
+   About page is headed, so that is the URL. The .is-about body class and
+   the .ab- prefix stay as they are: renaming a working selector set buys
+   nothing and costs a sweep of every rule in this file and every class
+   in the builder.
 
    ------------------------------------------------------------
    WHAT IS NOT IN HERE, AND WHY THAT IS THE POINT
