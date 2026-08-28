@@ -1458,3 +1458,44 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 /* On its own line the row no longer needs to be pushed off the button
    beside it. */
 .v2 .loc__social { margin-inline-start: 0; }
+
+/* ---- the panel opens quicker, and stops trailing itself ---------------
+   Alex: a bit faster, no delay, still smooth.
+
+   THERE WAS NO transition-delay ANYWHERE. What read as one was the
+   panel finishing before its own contents: the width settled at 680ms
+   while the address and the action row were still travelling on
+   --dur-4, 760ms. So the frame arrived, and then the writing caught up —
+   which is exactly what a delay feels like, and no amount of shortening
+   the panel alone would have fixed it.
+
+   So the whole gesture is one duration now. --dur-3, 520ms, on every
+   part of it: the width, the caption, the action row and the
+   photograph's own grade. Nothing can trail anything else, because
+   nothing is running on a different clock.
+
+   The curve stays symmetric — cubic-bezier(0.32, 0, 0.24, 1) — for the
+   reason recorded above it: an expo-out spends its travel in the first
+   third, which is right for something arriving from off-screen and
+   wrong for a panel widening under the pointer. Faster, not snappier.
+
+   Opacity comes in over --dur-2 and still lands inside the movement, so
+   the text is legible before the panel stops rather than fading in
+   after it.
+
+   Recorded because it has now been retimed three times: the number to
+   change is --dur-3 in this block, and everything in the gesture must
+   change with it. */
+.v2 .loc { transition: flex-grow var(--dur-3) cubic-bezier(0.32, 0, 0.24, 1); }
+
+.v2 .loc__addr,
+.v2 .loc__acts {
+  transition: max-block-size var(--dur-3) cubic-bezier(0.32, 0, 0.24, 1),
+              margin-block-start var(--dur-3) cubic-bezier(0.32, 0, 0.24, 1),
+              opacity var(--dur-2) var(--ease-out);
+}
+
+.v2 .loc__media img {
+  transition: scale var(--dur-3) cubic-bezier(0.32, 0, 0.24, 1),
+              filter var(--dur-3) var(--ease-out);
+}
