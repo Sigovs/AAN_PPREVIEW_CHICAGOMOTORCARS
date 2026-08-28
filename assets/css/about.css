@@ -1,0 +1,380 @@
+/* ============================================================
+   about.css — THE INNER PAGE
+   ============================================================
+   Loaded by about.html only, after v3.css. Every rule is scoped to
+   .is-about, so nothing here reaches the homepage or the inventory
+   pages.
+
+   ------------------------------------------------------------
+   WHAT IS NOT IN HERE, AND WHY THAT IS THE POINT
+   ------------------------------------------------------------
+   No buttons. No control styling of any kind. No eyebrow, no lede, no
+   type scale, no colours, no reveal choreography, no figures. All of
+   that already exists in tokens.css / main.css / v2.css and this page
+   uses it unchanged:
+
+     the head            .page-head's own padding formula, restated
+     headline            .ttl-line  — display family, 700, --tr-display
+     supporting line     .lede
+     the three figures   .story__stats / .stat / .stat--lead
+     showroom phone      .about__tel  — quiet, red on hover
+     showroom actions    .loc__map · .loc__social · .loc__soc
+     the atmosphere      [data-bloom] — the light from behind Reviews
+     the closing actions .btn.btn--fill · .btn.btn--line
+     entry motion        data-reveal + the role classes
+
+   The showroom actions matter most in that list. .loc__map and .loc__soc
+   are scoped `.v2 .loc__map` rather than `.v2 .loc .loc__map`, so a page
+   carrying .v2 gets them by asking. A first draft hand-drew a second
+   pill pair at slightly different padding, which is a new button system
+   arriving one section at a time. `.loc__acts` is deliberately NOT
+   reused: that class carries the accordion's collapse (max-block-size 0,
+   opacity 0) and would arrive invisible. And `.loc__tel` is not reused
+   either, for a reason worth its own paragraph further down.
+
+   ------------------------------------------------------------
+   WHAT IS ACTUALLY NEW: FOUR MASSES AND THEIR INTERVALS
+   ------------------------------------------------------------
+   1  the claim and its three figures
+   2  one photograph of a real building
+   3  their four paragraphs, two columns
+   4  the five showrooms, then the way out
+
+   Only 3 and 4 needed a rule written at all; 1 and 2 are spacing.
+
+   THE SERVICES GRID IS GONE, and its absence is a decision. Four cards
+   naming Sales / Service / Financing / Warranty would have been the
+   third router on a page that already has the masthead and the closing
+   pair, and the homepage owns that chapter. Device budget: no distinct
+   job, so it does not enter. Cutting it also fixes the ledger's `ask`
+   column — head reads, story reads, showrooms browse, close acts —
+   where keeping it would have put two browses back to back.
+
+   THE PAGE IS QUIETER THAN THE HOMEPAGE, ON PURPOSE. The homepage has
+   film, a lit stage and five panels that open under the pointer. This
+   is somebody reading about the business, so it moves once — the shared
+   section entry — and then holds still. C21: the page is the
+   composition, and this one's job is to be read.
+   ============================================================ */
+
+
+/* ---- 1. THE HEAD -----------------------------------------------------
+   The results page's formula, restated rather than borrowed: `.page-head`
+   lives in inventory.css and this page does not load it. Same numbers, so
+   About and SRP open at the same height under the fixed masthead. */
+/* THE BLOOM, on Alex's call — the light from behind "What owners say."
+   It is one shared rule, [data-bloom], with two tunable customs; a
+   chapter is allowed to set size, height and strength and nothing else,
+   or it stops being one light and becomes two effects. So this section
+   sets three variables and adds data-bloom="center" in the markup. No
+   gradient is written here.
+
+   CENTRED, and this is the page's only atmospheric event. The homepage
+   spends it twice — "That's who we are" from the left, the reviews from
+   the centre — and one inner page gets one. It sits behind the head
+   because that is where the page's dominant mass is: the claim and the
+   40,000+ figure. Behind the showroom index it would be a spotlight
+   trained on a reference table.
+
+   THE REVIEWS' OWN NUMBERS, UNCHANGED, AND THE FIRST GUESS WAS WRONG.
+   I reasoned that a bare typographic ground needs less light than a rail
+   of raised cards does, and dropped 0.52 to 0.44. The render disagreed:
+   the reviews chapter is nearly twice this section's height, the bloom
+   sizes at 100% of its section, and the same lobes spread across a short
+   band arrive as a grey haze instead of a light. Shorter needs MORE, not
+   less. Back to 0.52 — which is also what Alex asked for, the gradient
+   from Reviews rather than a version of it. */
+.is-about .ab-head {
+  padding-block: calc(var(--header-h) + clamp(var(--sp-7), 5vw, var(--sp-9)))
+                 clamp(var(--sp-7), 4vw, var(--sp-8));
+  --bloom-y: 52%;
+  --bloom-w: clamp(640px, 84vw, 1420px);
+  --bloom-opacity: 0.52;
+  background: var(--bg);
+}
+.is-about .ab-title {
+  margin: calc(var(--gap-eyebrow) + 0.34em) 0 0;
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  line-height: 1.1;
+  max-inline-size: 20ch;
+}
+.is-about .ab-title .ttl-line { display: block; }
+.is-about .ab-head .lede { margin-block-start: var(--sp-5); }
+
+/* The figures carry their own top margin from .story__stats, and on the
+   homepage that margin closes a chapter which has already made its case.
+   Here they ARE the case and arrive second, so the interval comes down a
+   step.
+
+   MEASURED, NOT ESTIMATED. At 1440 the first pass put 57px between the
+   lede and the figures and 58px between the head and the photograph —
+   an internal gap equal to its external one, which is spacing I1
+   exactly: the head stopped reading as a group. This clamp lands at
+   37px, so the grouping is 37 inside / 58 out. */
+.is-about .ab-head .story__stats { margin-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
+
+
+/* ---- 2. THE BUILDING -------------------------------------------------
+   One photograph, and it is the only one on the page.
+
+   Its job is evidence. Three of the four paragraphs below are the
+   business describing itself, which is the least verifiable kind of copy
+   there is; the frame under them is the West Chicago showroom at dusk,
+   shot from the air, with its address printed beside it. It is the one
+   image in this project whose origin is settled — Alex's own footage of
+   27W110 North Avenue, the same frame the locations panel opens on — so
+   it is the one image an About page is entitled to use.
+
+   A BAND, NOT A FIELD. Full-bleed with type over it is the homepage's
+   move and it is spent twice already (Story, the break). Here the
+   photograph sits inside the shell with the section radius on it, so it
+   reads as a picture the page is showing you rather than a room the page
+   is standing in. That is also what keeps the paragraphs dominant: the
+   picture is subordinate by being framed. */
+/* No bottom padding. .ab-story already pays for this interval and both
+   paying put 130px between the caption and the next eyebrow — more than
+   twice any other gap on the page, and a hole rather than a chapter
+   break. The photograph belongs to the head's argument, so the space
+   under it is the story's opening, not the picture's margin. */
+.is-about .ab-shot { padding-block-end: 0; }
+.is-about .ab-shot__fig { margin: 0; }
+.is-about .ab-shot__img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  /* The HTML width/height attributes map to CSS and would beat this, so
+     block-size:auto above is load-bearing, not tidiness. */
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  /* Centre-right: the building is right of middle in the master and a
+     centred crop cuts its far corner. */
+  object-position: 58% 50%;
+  border-radius: var(--r-section);
+}
+.is-about .ab-shot__cap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  margin-block-start: var(--sp-4);
+  color: var(--ink-3);
+}
+
+
+/* ---- 3. SECTION HEADINGS ---------------------------------------------
+   One size for both remaining sections. The homepage gives each chapter
+   its own clamp because each is a different kind of event; here the two
+   are peers — what they say, where they are — and different sizes would
+   assert a rank the content does not have.
+
+   Family and weight come from .ttl-line, which is where every other
+   headline on this site gets them. This block is size and measure only. */
+.is-about .ab-h {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.6vw, 2.375rem);
+  line-height: 1.06;
+  max-inline-size: 18ch;
+}
+.is-about .ab-h .ttl-line { display: block; }
+
+.is-about .ab-story,
+.is-about .ab-rooms { padding-block: clamp(var(--sp-8), 5vw, var(--sp-9)); }
+
+
+/* ---- 4. THEIR WORDS ---------------------------------------------------
+   Two columns of prose, each under a small heading. The headings are
+   ours; the paragraphs are theirs, verbatim, and the sidecar in the
+   builder records where they came from.
+
+   The measure is what makes this readable at all. Four paragraphs of
+   sixty-odd words across the 1300px shell run past 140 characters a
+   line; two columns cap it near 60 and give the eye a left edge to
+   return to. auto-fit rather than a column count, so a narrow window
+   drops to one without a breakpoint. */
+.is-about .ab-story__grid {
+  display: grid;
+  /* min(24rem, 100%), not 24rem. A bare minmax(24rem, 1fr) makes 384px a
+     FLOOR, so at 390px with 24px gutters the track is wider than the
+     342px available and the column pushes the document 18px past the
+     viewport — measured, not predicted. min() lets the track collapse to
+     the container on a phone and keeps the 384px preference everywhere
+     it fits. */
+  grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+  gap: clamp(var(--sp-7), 3.4vw, var(--sp-8)) clamp(var(--sp-7), 4vw, var(--sp-9));
+  margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-8));
+  max-inline-size: 68rem;
+}
+.is-about .ab-story__h {
+  color: var(--ink-3);
+  margin: 0 0 var(--sp-4);
+}
+.is-about .ab-story__p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--t-lede);
+  line-height: 1.62;
+  max-inline-size: 60ch;
+  text-wrap: pretty;
+}
+
+
+/* ---- 5. WHERE --------------------------------------------------------
+   A ruled list, not the homepage's accordion. That component is a piece
+   of theatre and a visitor arriving here has just watched it perform;
+   running it twice makes it a widget instead of a moment. Addresses on
+   an About page are reference material, so they are set as reference.
+
+   Rows rather than cards, because five entries are scanned down one left
+   edge and cards would break that edge into five. This is also the
+   page's one change of meter — three ruled zones, then a list — and the
+   only place the rhythm departs. */
+/* ONE SET OF COLUMNS FOR ALL FIVE ROWS, not five rows that each solve
+   their own widths. The list holds the tracks and every row is a subgrid
+   of it, so the cities align, the addresses align, and the two controls
+   sit on one vertical down the whole index. Five independent grids do
+   not do that: the first pass had every action cluster right-justified
+   and every LEFT edge ragged, because "630-221-1800 / Get directions" and
+   "630-221-1800 / See on map" are different widths.
+
+   The fallback line before it matters. An engine without subgrid drops
+   the second declaration and keeps the first, so the row is still a
+   three-column grid and still legible — it just stops aligning across
+   rows. Nothing collapses.
+
+   NO MEASURE CAP HERE. The prose keeps one because a measure is a
+   reading constraint; these rules are the section's device, and a ruled
+   row that stops two thirds of the way across reads as broken rather
+   than as air. It runs the shell. */
+.is-about .ab-rooms__list {
+  margin: clamp(var(--sp-7), 4vw, var(--sp-8)) 0 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) max-content max-content;
+  column-gap: clamp(var(--sp-5), 2.4vw, var(--sp-7));
+}
+.is-about .ab-room {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) max-content max-content;
+  grid-template-columns: subgrid;
+  align-items: center;
+  gap: var(--sp-3) clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  padding-block: var(--sp-5);
+  border-block-end: 1px solid var(--rule);
+}
+.is-about .ab-room__city {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+.is-about .ab-room__addr { color: var(--ink-2); }
+
+/* ---- THE ACTIONS, AND THE RED THAT IS NOT HERE ----------------------
+   Two layout containers, no controls. Everything inside them already
+   exists somewhere on this site.
+
+   THE PHONE IS .about__tel, NOT .loc__tel, AND THAT IS THE WHOLE POINT.
+   .loc__tel is the red call pill from the locations accordion and it was
+   the obvious reuse — but the accordion shows ONE panel's actions at a
+   time, so the page only ever carries one red plane. A reference index
+   shows all five at once, and the first render put a column of five
+   #CB141D pills down the page: 5 x 120 x 32px of the loudest colour in
+   the system, spent on the least important content on the page, next to
+   a bone CTA it then outranked. The component was approved; the
+   CONTAINER changed, and a component re-hosted on a different base layer
+   is a different artefact. Colour D3 caps the accent near 5% of pixels
+   in a small number of named roles; this was neither.
+
+   .about__tel is the same site's other approved phone treatment — the
+   one under "That's who we are": label voice, --ink on the number, no
+   underline, red on hover. So the number is still a tap target, the row
+   still ranks its two actions (an outlined pill for directions against a
+   plain link for the call), and no new control was drawn to fix it.
+
+   IT ARRIVES WITH ITS OWN RED AND THAT IS KEPT. .about__ico is
+   var(--accent) in main.css, so each row carries a 15px red handset. It
+   is not the thing that was wrong: the red plane was 3,840px per row and
+   the glyph is about 120, so five of them are a thirtieth of what came
+   down — and unlike the pill, the mark is doing a job, telling you at a
+   glance which of the two links is the phone. The accent's budget is
+   about area and rank, not about the number of times the token appears.
+
+   Its own margin-block-start belongs to the vertical stack it was
+   written for; here it sits in a row. That is a layout override, not a
+   restyle. */
+.is-about .ab-room__tel {
+  justify-self: end;
+  white-space: nowrap;
+  /* .about__tel is a 22px-tall line, which is fine where it came from —
+     one phone number in a contact block. Five of them in a list read on
+     a phone are five 22px targets, so the row pads it to 44 without
+     touching a single visible property. Padding is invisible on a text
+     link and the type does not move. */
+  min-block-size: 44px;
+  align-items: center;
+}
+.is-about .ab-room__tel.about__tel { margin-block-start: 0; }
+
+.is-about .ab-room__acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  justify-self: end;
+}
+
+/* The one that has not opened is quieter, and says so in its address
+   line rather than in a badge — a "coming soon" chip would make the
+   absence louder than the four that exist. */
+.is-about .ab-room--soon .ab-room__city { color: var(--ink-2); }
+.is-about .ab-room--soon .ab-room__addr { color: var(--ink-3); }
+
+
+/* ---- 6. THE WAY OUT --------------------------------------------------
+   Centred, and the only centred thing on the page — which is what makes
+   it read as an ending rather than as a fifth section. Bottom-heavy, per
+   the dialect's close. */
+.is-about .ab-cta {
+  padding-block: clamp(var(--sp-8), 5vw, var(--sp-9)) clamp(var(--sp-9), 8vw, var(--sp-11));
+  text-align: center;
+  border-block-start: 1px solid var(--rule);
+}
+.is-about .ab-cta__h {
+  margin: 0 auto;
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  line-height: 1.06;
+  max-inline-size: 16ch;
+}
+.is-about .ab-cta__h .ttl-line { display: block; }
+.is-about .ab-cta .lede { margin: var(--sp-5) auto 0; }
+.is-about .ab-cta__acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+
+
+/* ---- 7. NARROW -------------------------------------------------------
+   The relationships hold and the absolutes shrink (spacing I4).
+
+   The showroom row stacks and its actions return to the left edge —
+   justified right under a stacked city name would leave them floating in
+   the middle of nothing. The photograph goes to 3:2, because a 21:9 band
+   on a phone is a stripe: the crop is authored for the format rather
+   than inherited from desktop. */
+@media (max-width: 48rem) {
+  .is-about .ab-shot__img { aspect-ratio: 3 / 2; }
+  /* Stacked, the phone is no longer beside anything, so it returns to
+     the left edge with the rest of the row. */
+  .is-about .ab-room__tel { justify-self: start; margin-block-start: var(--sp-2); }
+  .is-about .ab-room {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: var(--sp-2);
+  }
+  .is-about .ab-room__acts { justify-self: start; margin-block-start: var(--sp-3); }
+}

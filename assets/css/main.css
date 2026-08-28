@@ -7639,11 +7639,43 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .story__cta,
 html.reveal-armed [data-reveal]:not(.is-revealed) .story__act,
 html.reveal-armed [data-reveal]:not(.is-revealed) .fin__tools,
 html.reveal-armed [data-reveal]:not(.is-revealed) .fin__act,
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-cta__acts,
 html.reveal-armed [data-reveal]:not(.is-revealed) .index__all {
   opacity: 0;
   translate: 0 10px;
 }
+
+/* ---- ABOUT'S PARTS JOIN THE EXISTING ROLES ---------------------------
+   Added to these lists rather than given their own block, which is the
+   project rule: a new chapter opts in with data-reveal and the existing
+   role classes, and does not author a second entrance. Nothing here is a
+   new duration, a new distance or a new easing.
+
+   Worth naming while passing through, because it is the reason this edit
+   was needed at all: these selectors are bound to INSTANCES
+   (.sell__actions, .fin__row) rather than to roles, so a new page
+   inherits nothing and the failure is silent — the section simply
+   arrives already visible and no check reports anything wrong.
+   motion-judgment's invariant on exactly this. Not refactored here: the
+   lists are shared with the approved index.html, and rewriting them is
+   its own change with its own verification.
+
+   The prose columns and the showroom rows take the same +18px settle the
+   page's other lists take (.ig__cell, .rv, .loc), so the two new lists
+   read as members of the set rather than as a new idea. The photograph
+   takes the paragraph's role — it is the mass the section is about, and
+   it arrives the way a block of content arrives. */
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-shot__fig {
+  opacity: 0;
+  translate: 0 32px;
+}
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-story__col,
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-room {
+  opacity: 0;
+  translate: 0 18px;
+}
 html.reveal-armed [data-reveal]:not(.is-revealed) .inv__eyebrow,
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-eyebrow,
 html.reveal-armed [data-reveal]:not(.is-revealed) .fin__label {
   opacity: 0;
   translate: 0 6px;
@@ -7673,13 +7705,47 @@ html.reveal-armed [data-reveal] .story__lede {
 html.reveal-armed [data-reveal] .sell__actions,
 html.reveal-armed [data-reveal] .story__cta,
 html.reveal-armed [data-reveal] .story__act,
+html.reveal-armed [data-reveal] .ab-cta__acts,
 html.reveal-armed [data-reveal] .index__all,
-html.reveal-armed [data-reveal] .inv__eyebrow {
+html.reveal-armed [data-reveal] .inv__eyebrow,
+html.reveal-armed [data-reveal] .ab-eyebrow {
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
   transition-delay: calc(var(--rv-step) * 3.4);
 }
-html.reveal-armed [data-reveal] .inv__eyebrow { transition-delay: 0s; }
+html.reveal-armed [data-reveal] .inv__eyebrow,
+html.reveal-armed [data-reveal] .ab-eyebrow { transition-delay: 0s; }
+
+/* About's photograph and its two lists.
+
+   THE DELAY IS ONE VALUE PER SELECTOR AND THE SHORTHAND IS WRITTEN OUT,
+   because a single-value transition-delay applies to EVERY property in
+   the shorthand — that is what put a 338ms lag on the location panels'
+   hover, where the stagger's delay landed on flex-grow as well. Here
+   only opacity and translate are in the transition, so both are meant to
+   wait, and nothing else is listening. */
+html.reveal-armed [data-reveal] .ab-shot__fig {
+  transition: opacity var(--rv-lede) var(--ease-out),
+              translate var(--rv-lede) var(--ease-out);
+  transition-delay: calc(var(--rv-step) * 2.2);
+}
+html.reveal-armed [data-reveal] .ab-story__col,
+html.reveal-armed [data-reveal] .ab-room {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+}
+/* The staircase starts after the headline has finished travelling, and
+   the interval is shorter than the headline's — a list of five reads as
+   one gesture only if it does not take five beats to arrive. */
+html.reveal-armed [data-reveal] .ab-story__col:nth-child(1),
+html.reveal-armed [data-reveal] .ab-room:nth-child(1) { transition-delay: calc(var(--rv-step) * 2.6); }
+html.reveal-armed [data-reveal] .ab-story__col:nth-child(2),
+html.reveal-armed [data-reveal] .ab-room:nth-child(2) { transition-delay: calc(var(--rv-step) * 3.0); }
+html.reveal-armed [data-reveal] .ab-story__col:nth-child(3),
+html.reveal-armed [data-reveal] .ab-room:nth-child(3) { transition-delay: calc(var(--rv-step) * 3.4); }
+html.reveal-armed [data-reveal] .ab-story__col:nth-child(4),
+html.reveal-armed [data-reveal] .ab-room:nth-child(4) { transition-delay: calc(var(--rv-step) * 3.8); }
+html.reveal-armed [data-reveal] .ab-room:nth-child(5) { transition-delay: calc(var(--rv-step) * 4.2); }
 html.reveal-armed [data-reveal] .sell__steps li {
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
