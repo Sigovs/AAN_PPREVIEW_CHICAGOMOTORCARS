@@ -144,19 +144,41 @@
    break. The photograph belongs to the head's argument, so the space
    under it is the story's opening, not the picture's margin. */
 .is-about .ab-shot { padding-block-end: 0; }
-.is-about .ab-shot__fig { margin: 0; }
-.is-about .ab-shot__img {
+
+/* NOT THE FULL SHELL, AND LEFT-ALIGNED — Alex's call, and the render
+   agrees with him. Run edge to edge, the band became the page's widest
+   mass and outranked the claim above it; the head's whole composition is
+   a narrow left column against open air on the right, and a full-width
+   film contradicted that one screen later.
+
+   At 62% it is still wider than the lede it sits under, so it is plainly
+   the larger mass, and the air on its right is the SAME air the head
+   leaves — one right edge of emptiness running down the opening instead
+   of two different ones. The cap stops it growing on a wide monitor,
+   where a percentage alone would go back to being a wall. */
+.is-about .ab-shot__fig {
+  margin: 0;
+  max-inline-size: min(100%, 62%);
+  min-inline-size: 0;
+}
+
+.is-about .ab-shot__video {
   display: block;
   inline-size: 100%;
+  /* The HTML width/height attributes map to CSS height and would beat
+     aspect-ratio, so block-size:auto is load-bearing, not tidiness. */
   block-size: auto;
-  /* The HTML width/height attributes map to CSS and would beat this, so
-     block-size:auto above is load-bearing, not tidiness. */
-  aspect-ratio: 21 / 9;
+  /* 16:9, the film's own frame. The photograph was cropped to 21:9 to
+     earn its width; at 62% the band does not need the letterbox, and an
+     uncropped aerial keeps the building whole. */
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  /* Centre-right: the building is right of middle in the master and a
-     centred crop cuts its far corner. */
-  object-position: 58% 50%;
-  border-radius: var(--r-section);
+  background: var(--bg-sunk);
+  /* One step rounder than the section corner, expressed as the token
+     rather than a number so it still moves when the token does. The
+     block is smaller now, and the radius that read as a drawn edge at
+     full width reads as barely-there at 62%. */
+  border-radius: calc(var(--r-section) * 1.6);
 }
 .is-about .ab-shot__cap {
   display: flex;
@@ -374,7 +396,10 @@
    on a phone is a stripe: the crop is authored for the format rather
    than inherited from desktop. */
 @media (max-width: 48rem) {
-  .is-about .ab-shot__img { aspect-ratio: 3 / 2; }
+  /* The 62% cap comes off: on a phone there is no air to leave on the
+     right, and a band inset from one edge only reads as a mistake. */
+  .is-about .ab-shot__fig { max-inline-size: 100%; }
+  .is-about .ab-shot__video { aspect-ratio: 3 / 2; }
   /* Stacked, the phone is no longer beside anything, so it returns to
      the left edge with the rest of the row. */
   .is-about .ab-room__tel { justify-self: start; margin-block-start: var(--sp-2); }

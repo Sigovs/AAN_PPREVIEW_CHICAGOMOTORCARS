@@ -50,7 +50,10 @@ h = re.sub(r'<meta name="description" content=".*?">',
            'exotic, luxury and collector vehicles since 2003, from four showrooms with a fifth '
            'opening in Newport Beach.">', h, flags=re.S)
 
-# The LCP element here is the showroom band, not the homepage's hero frame.
+# The LCP element here is the film band's POSTER, not the homepage's hero
+# frame. It is preloaded and the film is not: the still is what paints,
+# and the 2.6MB behind it is fetched by script only when the band is a
+# viewport away — and never at all under reduced motion.
 h, n = re.subn(r'<link rel="preload" as="image"[^>]*>',
                '<link rel="preload" as="image" '
                'href="assets/img/locations/loc-west-chicago-1200.jpg" fetchpriority="high">', h)
@@ -59,7 +62,7 @@ if n != 1:
 
 h, n = re.subn(r'(<link rel="stylesheet" href="assets/css/v3\.css\?v=\d+">)',
                r'\1\n<!-- our-dealership.html only. Last, so it wins on equal specificity. -->\n'
-               r'<link rel="stylesheet" href="assets/css/our-dealership.css?v=6">', h)
+               r'<link rel="stylesheet" href="assets/css/our-dealership.css?v=7">', h)
 if n != 1:
     raise SystemExit("ABORT: could not place our-dealership.css after v3.css (%d matches). The head "
                      "changed shape; fix this script rather than shipping a page whose "
@@ -260,12 +263,33 @@ BODY = """
        The caption names the address rather than describing the picture,
        because the address is the part a visitor can act on.
        ============================================================ -->
-  <section class="ab-shot" data-reveal>
+  <section class="ab-shot" data-reveal data-film>
     <div class="shell">
       <figure class="ab-shot__fig">
-        <img class="ab-shot__img" src="assets/img/locations/loc-west-chicago-1200.jpg"
-             alt="The West Chicago showroom at dusk, seen from the air: a lit glass building on North Avenue with its lot behind it."
-             width="1200" height="675" fetchpriority="high" decoding="async">
+        <!-- THE SAME CONTRACT THE BREAK AND SERVICE BANDS USE: the source
+             ships with data-src and no src, and main.js attaches it a
+             viewport out. Under prefers-reduced-motion it is never
+             fetched — not fetched-then-paused, not fetched at all — and
+             the poster carries the band.
+
+             The poster is not a separate asset. It is the still the West
+             Chicago panel opens on, which is a real frame of this film,
+             so there is no moment where the band is empty while the
+             video decides whether it is ready, and the reduced-motion
+             path is a photograph of the same building rather than a
+             stand-in for one.
+
+             muted, aria-hidden, tabindex -1: this is decoration in the
+             accessibility tree. Every fact about the building is in the
+             caption under it, which is text. -->
+        <video class="ab-shot__video"
+               poster="assets/img/locations/loc-west-chicago-1200.jpg"
+               muted loop playsinline
+               preload="none"
+               width="1280" height="720"
+               aria-hidden="true" tabindex="-1">
+          <source data-src="assets/video/loc-west-chicago.mp4" type="video/mp4">
+        </video>
         <figcaption class="micro ab-shot__cap">
           <span>27W110 North Avenue, West Chicago</span>
           <span>The first showroom, open since 2003</span>

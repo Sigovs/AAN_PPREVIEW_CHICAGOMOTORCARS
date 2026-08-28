@@ -1980,3 +1980,87 @@
   form.addEventListener('submit', function (e) { e.preventDefault(); run(); });
   run();
 })();
+
+
+/* ============================================================
+   A FILM BAND, BOUND TO A ROLE INSTEAD OF TO A SECTION
+   ============================================================
+   Same contract as the break and the service bands above: the <source>
+   ships with data-src and no src, this attaches it a viewport out, and
+   under prefers-reduced-motion it is never fetched at all. The poster is
+   a real frame of the same subject, so a visitor who has asked for less
+   movement gets a photograph rather than a black rectangle waiting for
+   something.
+
+   WHY A THIRD COPY IS NOT WHAT THIS IS. The two modules above are the
+   same machine written twice, once against `.brk` and once against
+   `.svc` — which is why a new page inherits neither, and inherits them
+   SILENTLY: nothing errors, the film simply never plays and every check
+   that asks whether something is broken passes. This one is bound to
+   [data-film], so any section that declares the role gets the behaviour
+   without a line of JavaScript being added for it.
+
+   The existing two are deliberately left alone. Folding them in means
+   editing index.html's markup, and index.html is the approved page; that
+   is a change with its own verification and it is not this one. When
+   someone next has a reason to touch them, this is the function they
+   collapse into — the only difference is the selector.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var bands = document.querySelectorAll('[data-film]');
+  if (!bands.length) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  Array.prototype.forEach.call(bands, function (band) {
+    var video  = band.querySelector('video');
+    var source = band.querySelector('video source');
+    if (!video || !source) return;
+
+    var attached = false;
+
+    function attach() {
+      if (attached || calm.matches) return;
+      attached = true;
+      source.src = source.getAttribute('data-src');
+      video.load();
+    }
+
+    function play() {
+      if (calm.matches) return;
+      attach();
+      var p = video.play();
+      /* Autoplay can be refused even when muted. If it is, the band keeps
+         its poster, which is a real frame of the same room — so a refusal
+         costs the movement and nothing else. */
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    if ('IntersectionObserver' in window) {
+      /* Two observers, two margins. The outer attaches the source early
+         enough that the film is ready when the band arrives; the inner
+         starts and stops playback, so a film left running four sections
+         up is not still decoding behind the page. */
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) attach(); });
+      }, { rootMargin: '100% 0px' }).observe(band);
+
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) play();
+          else if (!video.paused) video.pause();
+        });
+      }, { threshold: 0.25 }).observe(band);
+    } else {
+      attach();
+    }
+
+    /* Turning the setting on mid-visit stops the film and leaves the
+       poster. Turning it off does not start one nobody asked for. */
+    var onCalm = function () { if (calm.matches) video.pause(); };
+    if (calm.addEventListener) calm.addEventListener('change', onCalm);
+    else if (calm.addListener) calm.addListener(onCalm);
+  });
+})();
