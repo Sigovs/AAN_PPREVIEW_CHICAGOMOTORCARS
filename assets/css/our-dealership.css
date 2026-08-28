@@ -174,15 +174,36 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: var(--bg-sunk);
-  /* One step rounder than the section corner, expressed as the token
-     rather than a number so it still moves when the token does. The
-     block is smaller now, and the radius that read as a drawn edge at
-     full width reads as barely-there at 62%. */
+  /* 1.6x the section corner, KEPT on Alex's call. It arrived by accident
+     — I misread "раздвинь ... на левый корнер и правый корнер" as a
+     radius instruction when it was about the caption — and he looked at
+     the result and kept it, which makes it a decision rather than the
+     mistake it started as. Worth the note because it runs against the
+     tighter corner he asked for on index_3's stage: that frame is a
+     plate in a row of plates and wants a drawn edge; this is one film
+     alone on a quiet page, where the softer corner reads as a projected
+     image rather than a UI tile. Same project, different object.
+
+     Expressed as the token rather than a number so it moves when the
+     token does, and so it scales itself to 22px on a phone. */
   border-radius: calc(var(--r-section) * 1.6);
 }
+/* THE CAPTION OPENS TO THE FRAME'S TWO CORNERS. Sat side by side with a
+   24px gap, the address and the date read as one run-on line and the eye
+   has to find the seam between them. Pushed to the ends of the film they
+   are plainly two facts, and the film's own width is what separates
+   them — no rule, no bullet, no third element drawn to do a job that
+   alignment already does.
+
+   It works because the caption is inside .ab-shot__fig, which is the
+   62% box: the left span lands on the frame's left corner and the right
+   span on its right, rather than on the shell's edges. That is also why
+   the pair must not be allowed to stretch — with only two children,
+   space-between IS the whole device. */
 .is-about .ab-shot__cap {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: var(--sp-2) var(--sp-5);
   margin-block-start: var(--sp-4);
   color: var(--ink-3);
@@ -399,6 +420,12 @@
   /* The 62% cap comes off: on a phone there is no air to leave on the
      right, and a band inset from one edge only reads as a mistake. */
   .is-about .ab-shot__fig { max-inline-size: 100%; }
+  /* And the caption stops spreading. Two facts pushed to the corners of
+     a 327px frame either collide or wrap, and a wrapped space-between
+     puts one line hard left and the next hard left again — the device
+     stops working and only its side effects remain. Stacked, they are
+     two lines at the left edge, which is what a caption is on a phone. */
+  .is-about .ab-shot__cap { justify-content: flex-start; row-gap: var(--sp-1); }
   .is-about .ab-shot__video { aspect-ratio: 3 / 2; }
   /* Stacked, the phone is no longer beside anything, so it returns to
      the left edge with the rest of the row. */
