@@ -43,7 +43,7 @@
 <link rel="apple-touch-icon" href="assets/logos/favicon.svg">
 
 <link rel="stylesheet" href="assets/css/tokens.css?v=50">
-<link rel="stylesheet" href="assets/css/main.css?v=444">
+<link rel="stylesheet" href="assets/css/main.css?v=453">
 <!-- Last, so it wins on equal specificity. index.html does not load
      it, which is what keeps the approved page out of reach. -->
 <link rel="stylesheet" href="assets/css/v2.css?v=63">
@@ -1639,6 +1639,30 @@
       <div>
         <p class="micro ig__eyebrow">Instagram</p>
         <h2 class="ig__title" id="ig-title"><span class="ttl-line">@chicagomotorcars</span></h2>
+
+        <!-- THE SHOWROOM ACCOUNTS, AND THERE ARE ONLY TWO OF THEM.
+             Asked for "follow buttons for the different location IG
+             accounts". Checked before building: of five locations only
+             two have an account — @chicagomotorcarssc (Rock Hill, 16k
+             followers, 484 posts) and @chicagomotorcarskc (Tonganoxie,
+             503 followers, 52 posts). West Chicago, Naperville and
+             Newport Beach return "Profile isn't available" under every
+             ordinary spelling, and CMC's own live site links to none of
+             the three. Guessing a handle would ship a follow button that
+             goes nowhere.
+
+             So this is a line, not a row of buttons. Five equal buttons
+             with three of them missing reads as an unfinished section;
+             one quiet line reads as a fact, and a third handle joins it
+             without a relayout. The main account keeps the headline and
+             the feed — it is the account, these are its showrooms. -->
+        <p class="ig__also">
+          <span class="micro ig__also-k">Showrooms</span>
+          <a class="ig__also-a" href="https://www.instagram.com/chicagomotorcarssc/"
+             rel="noopener"><span class="ig__also-h">@chicagomotorcarssc</span><span class="ig__also-loc">Rock Hill, SC</span></a>
+          <a class="ig__also-a" href="https://www.instagram.com/chicagomotorcarskc/"
+             rel="noopener"><span class="ig__also-h">@chicagomotorcarskc</span><span class="ig__also-loc">Tonganoxie, KS</span></a>
+        </p>
       </div>
       <a class="btn btn--line ig__cta" href="https://www.instagram.com/chicagomotorcars/">Follow on Instagram <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
     </div>

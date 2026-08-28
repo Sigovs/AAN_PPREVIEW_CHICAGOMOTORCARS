@@ -11166,3 +11166,63 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .loc {
 @media (prefers-reduced-motion: reduce) {
   .reveal-armed [data-reveal] .locs__list > li { transition: none; translate: none; }
 }
+
+/* ---- the showroom Instagram accounts ---------------------------------
+   A line under the main handle, not a row of buttons.
+
+   The ask was "follow buttons for the different location IG accounts",
+   and the count decides the form: five locations, two accounts. Five
+   equal buttons with three of them dark reads as a section someone
+   abandoned; a line reads as a fact, and it takes a third handle
+   without a relayout.
+
+   The main account keeps the headline, the feed and the filled CTA — it
+   IS the account. These are its showrooms, so they sit under it in the
+   caption register, one step down in every dimension: smaller, quieter,
+   and marked as links only by the hairline they carry.
+
+   The two are not weighted against each other either. SC has 16k
+   followers and KC has 503; sizing them equally would be the page
+   making a claim about reach that it has no business making. Same
+   treatment, alphabetical by state — the page presents them, it does
+   not rank them. */
+.ig__also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3) var(--sp-5);
+  margin-block-start: var(--sp-5);
+}
+.ig__also-k { color: var(--ink-3); letter-spacing: var(--tr-label); }
+
+.ig__also-a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  color: var(--ink-2);
+  text-decoration: none;
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  transition: color var(--dur-2) var(--ease-out);
+}
+/* THE RULE SITS UNDER THE HANDLE, NOT UNDER THE PAIR. On the whole link
+   it drew two segments with a gap between them — the flex gap punching a
+   hole in what should be one line — and it also underlined the city,
+   which is a description rather than the thing being linked to. The
+   handle is the link's name; the place is what tells you which one you
+   want. */
+.ig__also-h { box-shadow: 0 1px 0 var(--rule); transition: box-shadow var(--dur-2) var(--ease-out); }
+.ig__also-a:hover { color: var(--ink); }
+.ig__also-a:hover .ig__also-h { box-shadow: 0 1px 0 currentColor; }
+.ig__also-a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* The place, not the handle, is what a reader is actually looking for —
+   so it travels with it rather than being something to work out from
+   two letters. Quieter than the handle, because you scan the handle and
+   read this only if it is the one you wanted. */
+.ig__also-loc { color: var(--ink-3); font-family: var(--font-body); }
+
+@media (max-width: 40rem) {
+  .ig__also { gap: var(--sp-2) var(--sp-4); }
+  .ig__also-a { flex-direction: column; gap: 2px; }
+}
