@@ -1,0 +1,233 @@
+/* ============================================================
+   locations.css — THE SHOWROOM PAGE
+   ============================================================
+   Loaded by locations.html only, after v3.css. Every rule is scoped to
+   .is-locs, so nothing here reaches the homepage or any other page.
+
+   ------------------------------------------------------------
+   WHY THIS IS NOT THE HOMEPAGE'S ACCORDION WITH A HEADER ON TOP
+   ------------------------------------------------------------
+   The homepage's locations chapter and this page hold the same five
+   showrooms and do different jobs. The chapter is a teaser: five panels
+   in a row, one open, hover to change it — the visitor is being shown
+   that four floors exist. This page is a decision: WHICH one do I drive
+   to, and what do I do when I get there.
+
+   A hover accordion is the wrong instrument for that. It shows one
+   showroom at a time, hides four addresses behind a pointer, and has no
+   answer at all for a phone. So the five become five full blocks, film
+   on one side and the facts on the other, alternating down the page.
+
+   Alternating is this site's own fix for exactly this: index_3's note on
+   the sell band says three chapters running text-left / photo-right is a
+   rhythm the eye stops reading, so one flips. Five identical blocks
+   would be that failure five times over.
+
+   ------------------------------------------------------------
+   WHAT IS REUSED, WHICH IS EVERYTHING YOU CAN CLICK
+   ------------------------------------------------------------
+     films          [data-film] — the role-bound module in main.js, the
+                    same contract as the break and service bands: source
+                    held in data-src, attached a viewport out, never
+                    fetched at all under prefers-reduced-motion
+     phone          .about__tel
+     directions     .loc__map
+     socials        .loc__social · .loc__soc · .is-own
+     jump links     .btn.btn--line
+     the close      .btn.btn--fill · .btn.btn--line
+     headline       .ttl-line, and .lede under it
+     entry motion   data-reveal + the role classes
+
+   No control is drawn in this file. What IS here is four arrangements:
+   the head with its jump row, the alternating block, the plate on the
+   one synthetic frame, and the close.
+   ============================================================ */
+
+
+/* ---- 1. THE HEAD -----------------------------------------------------
+   The same opening height as srp.html and our-dealership.html, so the
+   three inner pages start on one line under the fixed masthead. */
+.is-locs .lo-head {
+  padding-block: calc(var(--header-h) + clamp(var(--sp-7), 5vw, var(--sp-9)))
+                 clamp(var(--sp-7), 4vw, var(--sp-8));
+  --bloom-y: 52%;
+  --bloom-w: clamp(640px, 84vw, 1420px);
+  --bloom-opacity: 0.52;
+  background: var(--bg);
+}
+.is-locs .lo-title {
+  margin: calc(var(--gap-eyebrow) + 0.34em) 0 0;
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  line-height: 1.1;
+  max-inline-size: 20ch;
+}
+.is-locs .lo-title .ttl-line { display: block; }
+.is-locs .lo-head .lede { margin-block-start: var(--sp-5); }
+
+/* ---- THE JUMP ROW ----------------------------------------------------
+   Five outline pills, one per showroom, straight to its block.
+
+   It earns its place by the length of what follows: five blocks is about
+   3,000px, and somebody who came for the Rock Hill phone number should
+   not scroll past three showrooms in Illinois and Kansas to reach it.
+   That is the means of the visitor's task, and nothing else on the page
+   provides it — the masthead's Locations menu points at inventory
+   filtered by city, which is a different question.
+
+   .btn--line, unmodified. A row of anchors is not a new control. */
+.is-locs .lo-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+
+
+/* ---- 2. THE FIVE BLOCKS ----------------------------------------------
+   Film and facts, side by side, alternating which side the film is on.
+
+   1.15fr / 1fr rather than equal halves: the film is the larger mass
+   because it is the thing that tells you what the place looks like, and
+   equal columns would make the two read as a pair of panels rather than
+   as a photograph with its caption. */
+.is-locs .lo-room {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(var(--sp-6), 4vw, var(--sp-8));
+  padding-block: clamp(var(--sp-7), 4vw, var(--sp-8));
+  border-block-start: 1px solid var(--rule);
+}
+/* The first block carries no rule: it would sit directly under the head
+   and read as the head's underline rather than as this block's opening
+   edge. */
+.is-locs .lo-room:first-child { border-block-start: 0; }
+
+/* THE FLIP, by grid placement rather than by row-reverse — the DOM order
+   stays film-then-facts on every block, so the reading order a screen
+   reader gets is the same five times, and only the picture moves. */
+.is-locs .lo-room:nth-child(even) .lo-room__film { grid-column: 2; grid-row: 1; }
+.is-locs .lo-room:nth-child(even) .lo-room__body { grid-column: 1; grid-row: 1; }
+
+.is-locs .lo-room__film { margin: 0; position: relative; }
+.is-locs .lo-room__video {
+  display: block;
+  inline-size: 100%;
+  /* The HTML width/height attributes map to CSS height and would beat
+     aspect-ratio, so this is load-bearing rather than tidiness. */
+  block-size: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--bg-sunk);
+  /* The same corner our-dealership's film takes, and for the same
+     reason: one film alone in its block reads as a projected image
+     rather than a UI tile. Expressed as the token so it moves with it
+     and scales itself down on a phone. */
+  border-radius: calc(var(--r-section) * 1.6);
+}
+
+/* ---- THE FACTS -------------------------------------------------------
+   City, address, then the three things you do with a showroom. The gaps
+   rise inside the stack and the block's own padding beats all of them,
+   which is spacing I1 written out. */
+.is-locs .lo-room__city {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
+  line-height: 1.04;
+}
+.is-locs .lo-room__state {
+  display: block;
+  margin-block-start: var(--sp-3);
+  color: var(--ink-3);
+}
+.is-locs .lo-room__addr {
+  margin: var(--sp-5) 0 0;
+  color: var(--ink-2);
+  max-inline-size: 30ch;
+}
+.is-locs .lo-room__acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
+/* .about__tel carries a margin for the vertical contact stack it was
+   written for; here it sits in a row. A layout override, not a restyle. */
+.is-locs .lo-room__acts .about__tel { margin-block-start: 0; }
+
+
+/* ---- 3. THE PLATE ON THE ONE SYNTHETIC FRAME -------------------------
+   Newport Beach has not opened, so no photograph of its showroom can
+   exist and the frame under it is a rendering. Four verified aerials of
+   real premises and one render, presented identically, is the whole of
+   what GI3 forbids: the synthetic one inherits the credibility of the
+   four beside it, and a reader has no reason to treat one block in a
+   uniform sequence differently from its neighbours.
+
+   The fix its own sidecar prescribes, verbatim: one word, in the
+   caption's existing micro register, on this frame only. The panel
+   already says the location is opening soon; that is a claim about the
+   business, not about the picture, and they are different claims.
+
+   Written as a plate over the film rather than a line under it because
+   the label has to travel with the image — a caption below can be read
+   as belonging to the block, and this belongs to the frame. */
+.is-locs .lo-room__plate {
+  position: absolute;
+  inset-block-start: var(--sp-4);
+  inset-inline-start: var(--sp-4);
+  padding: 5px 11px 6px;
+  border-radius: 999px;
+  color: var(--ink);
+  /* Opaque, not a tint. The frame under it is a lit rendering and a
+     translucent plate would take its colour — the same reason the
+     controls over the hero film sit on an opaque ground. */
+  background: rgba(10, 10, 12, 0.86);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.28);
+}
+
+
+/* ---- 4. THE WAY OUT --------------------------------------------------
+   Centred, the only centred mass on the page, which is what marks it as
+   an ending rather than a sixth block. Bottom-heavy, per the dialect's
+   close. */
+.is-locs .lo-cta {
+  padding-block: clamp(var(--sp-8), 5vw, var(--sp-9)) clamp(var(--sp-9), 8vw, var(--sp-11));
+  text-align: center;
+  border-block-start: 1px solid var(--rule);
+}
+.is-locs .lo-cta__h {
+  margin: 0 auto;
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  line-height: 1.06;
+  max-inline-size: 16ch;
+}
+.is-locs .lo-cta__h .ttl-line { display: block; }
+.is-locs .lo-cta .lede { margin: var(--sp-5) auto 0; }
+.is-locs .lo-cta__acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-7));
+}
+
+
+/* ---- 5. NARROW -------------------------------------------------------
+   One column, film first in every block. The alternation is a wide-view
+   device: stacked, "which side is the picture on" has no meaning, and
+   leaving the flip in place would put the facts above the film on every
+   other block for no reason a reader could see. The relationships hold
+   and the absolutes shrink (spacing I4). */
+@media (max-width: 60rem) {
+  .is-locs .lo-room {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(var(--sp-5), 3vw, var(--sp-6));
+  }
+  .is-locs .lo-room:nth-child(even) .lo-room__film,
+  .is-locs .lo-room:nth-child(even) .lo-room__body { grid-column: 1; grid-row: auto; }
+}
+@media (max-width: 48rem) {
+  .is-locs .lo-room__video { aspect-ratio: 3 / 2; }
+}

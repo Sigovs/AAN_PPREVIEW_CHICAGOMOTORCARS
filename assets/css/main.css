@@ -7665,12 +7665,14 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .index__all {
    read as members of the set rather than as a new idea. The photograph
    takes the paragraph's role — it is the mass the section is about, and
    it arrives the way a block of content arrives. */
-html.reveal-armed [data-reveal]:not(.is-revealed) .ab-shot__fig {
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-shot__fig,
+html.reveal-armed [data-reveal]:not(.is-revealed) .lo-room__film {
   opacity: 0;
   translate: 0 32px;
 }
 html.reveal-armed [data-reveal]:not(.is-revealed) .ab-story__col,
-html.reveal-armed [data-reveal]:not(.is-revealed) .ab-room {
+html.reveal-armed [data-reveal]:not(.is-revealed) .ab-room,
+html.reveal-armed [data-reveal]:not(.is-revealed) .lo-room__body {
   opacity: 0;
   translate: 0 18px;
 }
@@ -7728,6 +7730,20 @@ html.reveal-armed [data-reveal] .ab-shot__fig {
   transition: opacity var(--rv-lede) var(--ease-out),
               translate var(--rv-lede) var(--ease-out);
   transition-delay: calc(var(--rv-step) * 2.2);
+}
+/* A showroom block is its own [data-reveal], so its two parts arrive as
+   a pair rather than as members of a five-deep staircase — the film
+   first and the facts a beat behind it, five times over. A staircase
+   across five blocks would mean the last one waiting four steps for a
+   section the reader is already looking at. */
+html.reveal-armed [data-reveal] .lo-room__film {
+  transition: opacity var(--rv-lede) var(--ease-out),
+              translate var(--rv-lede) var(--ease-out);
+}
+html.reveal-armed [data-reveal] .lo-room__body {
+  transition: opacity var(--rv-cta) var(--ease-out),
+              translate var(--rv-cta) var(--ease-out);
+  transition-delay: calc(var(--rv-step) * 1.4);
 }
 html.reveal-armed [data-reveal] .ab-story__col,
 html.reveal-armed [data-reveal] .ab-room {

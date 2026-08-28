@@ -2038,6 +2038,21 @@
       if (p && p.catch) p.catch(function () {});
     }
 
+    /* HOW EARLY TO FETCH IS THE BAND'S OWN DECISION, and it has to be,
+       because the right answer depends on how many films share the page.
+       100% is correct for a single band far down a long page: one file,
+       ready by the time you reach it. On a page of FIVE bands stacked
+       one after another it prefetched three of them before the visitor
+       scrolled at all — 6.3MB spent on two showrooms nobody had asked
+       to see yet. Measured, not assumed: the request log showed
+       west-chicago, naperville and rock-hill all on the wire at 500ms.
+
+       So the value of data-film is the margin, and an empty attribute
+       keeps the old default. A page with one film says nothing and gets
+       100%; a page with five says data-film="25%" and each arrives
+       about a quarter-screen ahead of itself. */
+    var margin = band.getAttribute('data-film') || '100%';
+
     if ('IntersectionObserver' in window) {
       /* Two observers, two margins. The outer attaches the source early
          enough that the film is ready when the band arrives; the inner
@@ -2045,7 +2060,7 @@
          up is not still decoding behind the page. */
       new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) attach(); });
-      }, { rootMargin: '100% 0px' }).observe(band);
+      }, { rootMargin: margin + ' 0px' }).observe(band);
 
       new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
