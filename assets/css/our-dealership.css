@@ -253,9 +253,51 @@
   margin-block-start: clamp(var(--sp-7), 4vw, var(--sp-8));
   max-inline-size: 68rem;
 }
+/* THE SUB-HEADINGS TAKE WEIGHT, AND THE ANSWER IS ALREADY IN THIS
+   PROJECT. Alex asked the same thing of the VDP's description headings —
+   "заголовки выдели не забудь" — and .v2 .dsc__h is what came out of it:
+   body size instead of micro, 600 instead of 500, full --ink instead of
+   --ink-3, and the uppercase dropped. Same four moves here, same values,
+   because this is the same object: a short heading over a block of
+   prose. Deriving a second answer for it would be the failure the VDP
+   note is already warning about two files away.
+
+   At 14px uppercase --ink-3 these read as captions, which is what they
+   looked like — indistinguishable from the film's caption and from every
+   eyebrow on the page, so four blocks of prose arrived with nothing
+   ranking their titles above their bodies. The paragraph stays --ink-2,
+   so the step is weight and ink rather than size alone. */
 .is-about .ab-story__h {
-  color: var(--ink-3);
   margin: 0 0 var(--sp-4);
+  font-size: var(--t-body);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: var(--tr-label);
+  text-transform: none;
+}
+
+/* THE DECORATIVE MARK IS THE HAIRLINE, and it is the one this site
+   already uses for exactly this job. Alex's other VDP call — "brake
+   lines as div lines" — turned the blank line between packages into
+   --rule with air on both sides, because a drawn break says "new block"
+   where a gap of the same height only implies it. The showroom rows
+   further down this page are ruled the same way, and tokens.css states
+   the principle outright: separation by hairline and air, not by card.
+
+   Four short rules, one over each block, so the eye is told where a
+   block starts before it reads the title.
+
+   THE RED 34x2 BAR IS DELIBERATELY NOT WHAT THIS IS. That device exists
+   in main.css under the Story figures and it is switched off, with the
+   reason recorded: "the figures have scale and the eyebrow has colour; a
+   bar as well was a third way of saying the same thing." Reviving it
+   here without saying so would be re-deriving a decision that was
+   already made against it. Say the word and it is one line — the ground
+   for it is different here, since these headings have neither scale nor
+   colour to spare. */
+.is-about .ab-story__col {
+  border-block-start: 1px solid var(--rule);
+  padding-block-start: var(--sp-5);
 }
 .is-about .ab-story__p {
   margin: 0;

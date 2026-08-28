@@ -62,7 +62,7 @@ if n != 1:
 
 h, n = re.subn(r'(<link rel="stylesheet" href="assets/css/v3\.css\?v=\d+">)',
                r'\1\n<!-- our-dealership.html only. Last, so it wins on equal specificity. -->\n'
-               r'<link rel="stylesheet" href="assets/css/our-dealership.css?v=8">', h)
+               r'<link rel="stylesheet" href="assets/css/our-dealership.css?v=9">', h)
 if n != 1:
     raise SystemExit("ABORT: could not place our-dealership.css after v3.css (%d matches). The head "
                      "changed shape; fix this script rather than shipping a page whose "
@@ -191,7 +191,7 @@ for s in SHOWROOMS:
 story = []
 for h3, para in STORY:
     story.append("""        <div class="ab-story__col">
-          <h3 class="micro ab-story__h">%s</h3>
+          <h3 class="ab-story__h">%s</h3>
           <p class="ab-story__p">%s</p>
         </div>""" % (html.escape(h3), html.escape(para)))
 
