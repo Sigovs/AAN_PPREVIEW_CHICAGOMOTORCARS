@@ -56,7 +56,7 @@ if n != 1:
 
 h, n = re.subn(r'(<link rel="stylesheet" href="assets/css/v3\.css\?v=\d+">)',
                r'\1\n<!-- locations.html only. Last, so it wins on equal specificity. -->\n'
-               r'<link rel="stylesheet" href="assets/css/locations.css?v=2">', h)
+               r'<link rel="stylesheet" href="assets/css/locations.css?v=3">', h)
 if n != 1:
     raise SystemExit("ABORT: could not place locations.css after v3.css (%d matches). The "
                      "head changed shape; fix this script rather than shipping a page whose "
@@ -78,6 +78,7 @@ SHOWROOMS = [
       addr="27W110 North Avenue, West Chicago, IL 60185",
       tel="630-221-1800", tel_href="+16302211800",
       dest="27W110+North+Avenue%2C+West+Chicago%2C+IL+60185",
+      live_inv="https://www.chicagomotorcars.com/used-chicago-east-inventory-chicago-il/",
       film="assets/video/loc-west-chicago.mp4",
       poster="assets/img/locations/loc-west-chicago-1200.jpg",
       alt="The West Chicago showroom at dusk, seen from the air: a lit glass building on "
@@ -89,6 +90,7 @@ SHOWROOMS = [
       addr="2104 Ferry Road, Naperville, IL 60563",
       tel="630-221-1800", tel_href="+16302211800",
       dest="2104+Ferry+Road%2C+Naperville%2C+IL+60563",
+      live_inv="https://www.chicagomotorcars.com/used-naperville-inventory-chicago-il/",
       film="assets/video/loc-naperville.mp4",
       poster="assets/img/locations/loc-naperville-1200.jpg",
       alt="The Naperville showroom on Ferry Road, seen from the air.",
@@ -99,6 +101,7 @@ SHOWROOMS = [
       addr="727 Marine Drive, Rock Hill, SC 29730",
       tel="803-891-7788", tel_href="+18038917788",
       dest="727+Marine+Drive%2C+Rock+Hill%2C+SC+29730",
+      live_inv="https://www.chicagomotorcars.com/south-carolina-inventory/",
       film="assets/video/loc-rock-hill.mp4",
       poster="assets/img/locations/loc-rock-hill-1200.jpg",
       alt="The Rock Hill showroom on Marine Drive, seen from the air.",
@@ -109,6 +112,12 @@ SHOWROOMS = [
       addr="1650 Commerce Ave, Tonganoxie, KS 66086",
       tel="913-845-9633", tel_href="+19138459633",
       dest="1650+Commerce+Ave%2C+Tonganoxie%2C+KS+66086",
+      # THEIR BUG, NOT OURS: the live Tonganoxie link points at the SOUTH
+      # CAROLINA listing. Same href as Rock Hill above, verbatim off their
+      # footer. Kansas has no inventory page of its own. Reported, not
+      # reproduced — this preview sends it to the inventory stand-in like
+      # the other three.
+      live_inv="https://www.chicagomotorcars.com/south-carolina-inventory/",
       film="assets/video/loc-tonganoxie.mp4",
       poster="assets/img/locations/loc-tonganoxie-1200.jpg",
       alt="The Tonganoxie showroom on Commerce Avenue, seen from the air.",
@@ -176,6 +185,23 @@ for s in SHOWROOMS:
     plate = ('\n          <span class="micro lo-room__plate">Rendering</span>'
              if s.get("synthetic") else "")
 
+    # THE INVENTORY LINK EXISTS ON FOUR BLOCKS AND NOT ON THE FIFTH, and
+    # that absence is the honest part. Newport Beach has not opened, so
+    # there is no floor to list; giving it the same button as the others
+    # would promise a showroom full of cars that does not exist yet.
+    #
+    # WHERE IT GOES. Their live site really does list inventory per
+    # location — the four URLs are recorded in live_inv above, read off
+    # their own footer. This preview has one inventory page, so srp.html
+    # is the stand-in for all of them, exactly as the masthead's four
+    # city links already are. The label is theirs and the destination is
+    # the preview's; the real URL travels in the data so the mapping
+    # stays checkable rather than becoming a guess later.
+    cta = ('\n          <div class="lo-room__go"><a class="btn btn--line" href="srp.html">'
+           'View local inventory ' + ARROW + '</a></div>') if s.get("live_inv") else ""
+
+
+
     rooms.append("""      <article class="lo-room" id="%s" data-reveal data-film="25%%">
         <figure class="lo-room__film">
           <video class="lo-room__video"
@@ -189,7 +215,7 @@ for s in SHOWROOMS:
         </figure>
         <div class="lo-room__body">
           <h2 class="lo-room__city"><span class="ttl-line">%s</span><span class="micro lo-room__state">%s</span></h2>
-          <p class="lo-room__addr">%s</p>
+          <p class="lo-room__addr">%s</p>%s
           <div class="lo-room__acts">
             <a class="about__tel" href="tel:%s">%s<span>%s</span></a>
             <a class="loc__map" href="%s" rel="noopener">%s</a>
@@ -197,8 +223,8 @@ for s in SHOWROOMS:
           </div>
         </div>
       </article>""" % (
-        s["id"], s["poster"], html.escape(s["alt"], quote=True), s["film"], plate,
-        html.escape(s["city"]), html.escape(s["state"]), html.escape(s["addr"]),
+        s["id"], s["poster"], html.escape(s["alt"], quote=True), s["film"], plate, 
+        html.escape(s["city"]), html.escape(s["state"]), html.escape(s["addr"]), cta,
         s["tel_href"], TEL_SVG, s["tel"], map_href, map_txt,
         soc(s["ig"], s["ig_own"], "%s on Instagram" % s["city"], IG_SVG),
         soc(s["fb"], s["fb_own"], "%s on Facebook" % s["city"], FB_SVG),

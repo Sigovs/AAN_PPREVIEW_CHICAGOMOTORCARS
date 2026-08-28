@@ -145,11 +145,28 @@
   color: var(--ink-2);
   max-inline-size: 30ch;
 }
+/* TWO ROWS, NOT ONE, and the reason is the controls' own heights. The
+   inventory link is a .btn at 54px; the phone and directions are a text
+   link and a 30px pill. Put in one row they read as a large control with
+   two small ones stuck to it, and nothing about that says which is the
+   main action. Split, the ranking is plain: what is on this floor, then
+   how to reach it.
+
+   The gap between the two rows is smaller than the gap from the address
+   above them, so the pair still groups as "the actions" (spacing I1). */
+.is-locs .lo-room__go { margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7)); }
 .is-locs .lo-room__acts {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sp-3);
+  margin-block-start: var(--sp-5);
+}
+/* Newport Beach has no inventory row, so its contact row is the first
+   thing after the address and takes the larger interval the others give
+   to the button. Without this the fifth block sits visibly tighter than
+   the four above it for a reason a reader cannot see. */
+.is-locs .lo-room__addr + .lo-room__acts {
   margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
 }
 /* .about__tel carries a margin for the vertical contact stack it was
