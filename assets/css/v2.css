@@ -1370,3 +1370,91 @@ html.reveal-armed [data-reveal]:not(.is-revealed) .invsearch { opacity: 0; trans
 @media (prefers-reduced-motion: reduce) {
   .v2 .rec__cta { transition: opacity var(--dur-1) var(--ease-out); translate: none; }
 }
+
+/* ---- the showroom's own social accounts -------------------------------
+   Alex asked for social icons in every location card, and said broken
+   links would be acceptable just to indicate the pattern. They are not
+   needed: every icon here resolves, because the ones a showroom does
+   not have fall back to the main CMC account rather than to nothing.
+
+   VERIFIED 2026-08-28, one request per account. What is actually theirs:
+
+     Rock Hill, SC    own Instagram, own Facebook, own YouTube
+     Tonganoxie, KS   own Instagram, own Facebook
+     West Chicago     own Facebook — facebook.com/chicagomotorcars is
+                      titled "Chicago Motor Cars | West Chicago IL", so
+                      the main page IS the West Chicago page
+     Naperville       none
+     Newport Beach    none, and it has not opened
+
+   A fallback is not a lie: following @chicagomotorcars from the
+   Naperville card takes you to Chicago Motor Cars, which is whose
+   showroom it is. A dead link would have been the lie.
+
+   THE ICONS ARE NOT ALL THE SAME WEIGHT, and that is the one piece of
+   information this row carries beyond "we are on Instagram". A showroom
+   with its own account gets full ink; one falling back to the house
+   account gets the quiet value. Same shapes, same sizes, same order —
+   nothing is hidden, and the difference reads as "this one posts its
+   own floor" rather than as an error. Never hue alone: it is value, and
+   the accessible name says which showroom and which network. */
+.v2 .loc__social {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-inline-start: var(--sp-2);
+}
+.v2 .loc__soc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 999px;
+  color: var(--ink-3);
+  box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.10);
+  transition: color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.v2 .loc__soc.is-own { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.24); }
+.v2 .loc__soc:hover { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(240, 237, 231, 0.4); }
+.v2 .loc__soc:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.v2 .loc__soc svg { inline-size: 16px; block-size: 16px; display: block; }
+
+/* The row is part of the actions, so it inherits their reveal — it must
+   not be the one thing that stays visible on a closed panel. */
+.v2 .loc:not(.is-open) .loc__social { pointer-events: none; }
+
+@media (max-width: 60rem) {
+  .v2 .loc__social { margin-inline-start: 0; }
+}
+
+/* ---- the actions wrap, and the open height follows ---------------------
+   Four social icons on the end of the phone-plus-directions row overran
+   the panel and sheared the last one off at the edge. The row wraps now
+   and the social icons take their own line: contact first, then where to
+   follow — which is the order they are read in anyway.
+
+   THE COLLAPSE HAS TO LEARN THE NEW HEIGHT. .loc__acts closes by
+   animating max-block-size from a 3em cap, and 3em was one line. Left
+   alone it would clip the second row instead of showing it, which is
+   the same defect one step further in. Every state that opens the
+   actions gets the taller cap, and there are four of them — is-open,
+   the two hover rules, and focus-within — because they were written as
+   four copies of one value rather than as a token.
+
+   6.4em, not "auto": max-block-size cannot transition to auto, and the
+   panel's whole open-and-close gesture depends on that transition. */
+.v2 .loc__acts { flex-wrap: wrap; row-gap: var(--sp-3); }
+
+.v2 .loc.is-open .loc__acts,
+.v2 .loc:focus-within .loc__acts { max-block-size: 6.4em; }
+@media (hover: hover) {
+  .v2 .locs__list:hover .loc:hover .loc__acts { max-block-size: 6.4em; }
+}
+@media (hover: none) {
+  .v2 .loc .loc__acts { max-block-size: 6.4em; }
+}
+
+/* On its own line the row no longer needs to be pushed off the button
+   beside it. */
+.v2 .loc__social { margin-inline-start: 0; }
