@@ -1,0 +1,502 @@
+/* ============================================================
+   FINANCING — financing.html only
+   ============================================================
+
+   Loaded last, after v3.css, so it wins on equal specificity. Every
+   rule is scoped to `.is-fin` on <body>; nothing here can reach the
+   homepage.
+
+   WHAT THIS FILE DOES NOT CONTAIN, AND THE REASON.
+
+   No button. No link style. No form field. No card. The page uses
+   .btn / .btn--fill / .btn--line, .field / .field--single /
+   .field--error / .field__error and .fin__row exactly as main.css
+   already defines them. A financing page is the single most likely
+   place on this site to grow a bespoke control system — it has more
+   controls than every other page combined — and that is precisely why
+   it does not get one. The one control style invented for a Financing
+   section on this project was rejected on sight.
+
+   What IS authored here is composition: the rank of the answer against
+   the controls that produce it, the two crops of the opening frame, and
+   the bone chapter that hosts the lender's form — the one guest on this
+   page that the site does not own and cannot style.
+   ============================================================ */
+
+
+/* ---- 1. THE OPENING FRAME -------------------------------------------
+   The section is the frame. The image is full-bleed and the copy sits
+   in the right third, which in fin-lineup is a near-black field with no
+   subject in it — the only region of that photograph where type can
+   stand without a scrim heavy enough to flatten the floor reflections.
+
+   THE WASH IS A GUARANTEE, NOT A LOOK. The right third is already dark
+   enough at the delivered crop; the gradient exists so that a wider
+   viewport, which pulls more of the lit hall rightward, cannot quietly
+   drop the headline below AA. It is measured on the composite, not on
+   the token.
+
+   --header-h is reserved at the top: the masthead is transparent over
+   this frame and the copy may not run under it. */
+.is-fin .fn-head {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-block-size: clamp(30rem, 82vh, 48rem);
+  padding-block: calc(var(--header-h) + var(--sp-8)) var(--sp-9);
+  background: var(--bg);
+  overflow: clip;
+}
+
+.is-fin .fn-head__frame {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.is-fin .fn-head__img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* Left-of-centre: the four subjects sit left in the frame, and at
+     wide ratios centring them would push the Shelby into the column
+     the type occupies. */
+  object-position: 38% 50%;
+}
+
+/* Two gradients, two jobs. The horizontal one protects the copy column
+   at wide viewports; the vertical one closes the frame into the section
+   below it so the band has no hard bottom edge. */
+.is-fin .fn-head__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,
+      rgb(var(--bg-rgb) / 0) 30%,
+      rgb(var(--bg-rgb) / 0.72) 56%,
+      rgb(var(--bg-rgb) / 0.94) 78%,
+      rgb(var(--bg-rgb) / 0.96) 100%),
+    linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0.88) 0%,
+      rgb(var(--bg-rgb) / 0.52) 12%,
+      rgb(var(--bg-rgb) / 0) 24%,
+      rgb(var(--bg-rgb) / 0) 72%,
+      rgb(var(--bg-rgb) / 0.72) 100%);
+}
+
+.is-fin .fn-head__inner { inline-size: 100%; }
+
+/* The copy is a column in the right half, not a block pinned to the
+   edge — the gutter still applies and the measure still governs. */
+/* 34rem, and the number was tested against its alternative. 30rem was
+   tried to buy clearance from the Shelby and cost more than it bought:
+   at 1440 the action row wraps, which puts the primary pill and the
+   jump on two lines and turns one action cluster into two. The
+   clearance question is answered by the wash instead — measured on the
+   composite, below — because that is the mechanism that also holds at
+   the widths where no horizontal crop happens at all. */
+.is-fin .fn-head__copy {
+  margin-inline-start: auto;
+  inline-size: min(100%, 34rem);
+}
+
+.is-fin .fn-title {
+  margin: calc(var(--gap-eyebrow) + 0.34em) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4.4vw, 4rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  max-inline-size: 12ch;
+}
+.is-fin .fn-head .lede { margin-block-start: var(--sp-5); }
+
+
+/* ---- The action pair ------------------------------------------------
+   One filled pill and one quiet jump. The jump is NOT a second button
+   and is not underlined: it is the .story__cta arrow idiom turned
+   downward, because what it does is move you down this page rather
+   than off it. */
+.is-fin .fn-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(var(--sp-5), 2vw, var(--sp-7));
+  margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
+.is-fin .fn-acts .btn { align-self: auto; }
+
+/* THE COMPONENT ITSELF NOW LIVES IN main.css. It was written here, under
+   `.is-fin`, and then team.html and videos.html reused the class name and
+   silently got NOTHING — the scoping meant the rules could not reach
+   them, and an unstyled inline-flex link looks like a paragraph with an
+   arrow dropped onto the next line. A component used by three pages does
+   not belong to one page's stylesheet.
+
+   What stays here is the only part that is genuinely financing's: the
+   arrow points DOWN and travels down, because this link moves you down
+   this page rather than off it. */
+.is-fin .fn-jump:hover .fn-jump__arrow,
+.is-fin .fn-jump:focus-visible .fn-jump__arrow { translate: 0 4px; }
+
+
+/* ---- Shared section furniture ---------------------------------------
+   Three chapters open the same way — eyebrow, two authored lines — so
+   the opening is written once. This is the rhythm the page keeps; the
+   variation between chapters is in what follows the heading, not in
+   how the heading is set. */
+.is-fin .fn-h2 {
+  margin: calc(var(--gap-eyebrow) + 0.28em) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  max-inline-size: 16ch;
+}
+.is-fin .fn-eyebrow { color: var(--ink-eyebrow); }
+
+.is-fin .fn-calc,
+.is-fin .fn-apply,
+.is-fin .fn-trade,
+.is-fin .fn-ways { padding-block: clamp(var(--sp-8), 6vw, var(--sp-10)); }
+
+/* The masthead is sticky, so an anchored jump lands the section's top
+   edge underneath it and the eyebrow arrives already covered. Both of
+   this page's in-page targets clear it by the header plus one interval.
+   Measured, not guessed: without this the eyebrow sits 28px into the
+   masthead at 1440. */
+.is-fin #estimator,
+.is-fin #apply,
+.is-fin #trade { scroll-margin-block-start: calc(var(--header-h) + var(--sp-6)); }
+
+
+/* ---- 2. THE ESTIMATOR -----------------------------------------------
+   Controls left, answer right, and the answer is roughly twice the
+   optical weight of the column that produces it. The 1fr/1.15fr split
+   is what makes the figure the subject: an even split reads as a form
+   with a readout beside it, which is the loan-portal composition this
+   section is built to avoid. */
+.is-fin .fn-calc__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+
+.is-fin .fn-calc__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(var(--sp-7), 5vw, var(--sp-10));
+  align-items: start;
+}
+
+.is-fin .fn-calc__controls {
+  display: grid;
+  gap: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+  max-inline-size: 26rem;
+}
+
+/* The prefix and suffix sit ON the control's own underline rather than
+   inside a bordered box, so a currency symbol costs no new component:
+   .field--single already draws the rule, and this only lays the glyph
+   beside the input on the same baseline. */
+.is-fin .fn-input {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  border-block-end: 1px solid var(--rule);
+  padding-block-end: var(--sp-2);
+  transition: border-color var(--dur-1) var(--ease-out);
+}
+.is-fin .fn-input:hover { border-color: var(--rule-strong); }
+.is-fin .fn-input:focus-within { border-color: var(--ink); }
+.is-fin .fn-input__pre,
+.is-fin .fn-input__post {
+  flex: none;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+/* The control inside the group must not draw the rule twice. */
+.is-fin .fn-input .fn-input__control {
+  border-block-end: 0;
+  padding-block-end: 0;
+}
+.is-fin .field--single .fn-input__control:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.is-fin .fn-help {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--t-micro);
+  line-height: var(--lh-body);
+  color: var(--ink-3);
+}
+
+/* -- the answer -- */
+.is-fin .fn-out__label { color: var(--ink-3); }
+
+.is-fin .fn-fig {
+  display: flex;
+  align-items: baseline;
+  gap: 0.06em;
+  margin: var(--sp-4) 0 0;
+  font-family: var(--font-data);
+  font-size: clamp(3.25rem, 7.6vw, 6.5rem);
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+/* The dollar sign is a mark, not a digit — two thirds the height keeps
+   it from reading as the first character of the number. */
+.is-fin .fn-fig__cur {
+  font-size: 0.42em;
+  font-weight: 500;
+  color: var(--ink-3);
+  translate: 0 -0.06em;
+}
+
+.is-fin .fn-sum {
+  margin: clamp(var(--sp-6), 2.6vw, var(--sp-7)) 0 0;
+  border-block-start: 1px solid var(--rule);
+}
+.is-fin .fn-sum__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding-block: var(--sp-4);
+  border-block-end: 1px solid var(--rule);
+}
+.is-fin .fn-sum__row .micro { color: var(--ink-3); }
+.is-fin .fn-sum__v {
+  margin: 0;
+  font-family: var(--font-data);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.is-fin .fn-note {
+  margin: clamp(var(--sp-5), 2vw, var(--sp-6)) 0 0;
+  font-size: var(--t-micro);
+  line-height: var(--lh-body);
+  color: var(--ink-3);
+  max-inline-size: 46ch;
+}
+
+
+/* ---- 3. THE APPLICATION ---------------------------------------------
+   One column at a reading measure, on page ground, with no photograph
+   in the section. The head sits above the form rather than beside it:
+   a two-column head-and-form would put the instruction and the first
+   field on the same optical line, and the page has already spent its
+   side-by-side gesture on the estimator. */
+/* THE PAGE'S ONE LIGHT CHAPTER, and it is light for a reason rather
+   than for relief: the lender's form is a pale, dense, unstyleable
+   guest, and bone is the ground it already expects. `.on-bone` on the
+   section does the component recolouring — buttons, wordmark, rules —
+   so only the page-local type is restated here. */
+/* THE CORNERS ARE THE PAGE'S, NOT A NEW SHAPE. The approved homepage
+   gives its light band the same treatment — `.warranty` and `.story`
+   both carry --r-section on all four corners, and the note in main.css
+   says why: it makes the band read as a block rather than as a
+   full-bleed field. A flat bone rectangle here would have been the one
+   light chapter on the site that does not do that. The interval below
+   exists so the bottom pair is actually visible, which is the same
+   reason .svc was given one. */
+.is-fin .fn-apply {
+  background: var(--bone);
+  color: var(--bone-ink);
+  border-radius: var(--r-section);
+}
+.is-fin .fn-trade { margin-block-start: clamp(var(--sp-6), 3vw, var(--sp-8)); }
+.is-fin .fn-apply .fn-h2 { color: var(--bone-ink); }
+.is-fin .fn-apply .fn-eyebrow { color: var(--bone-ink-2); }
+.is-fin .fn-apply .lede,
+.is-fin .fn-apply .fn-note { color: var(--bone-ink-2); }
+
+/* THE MEASURE IS ON THE CONTENT, NOT ON THE SHELL. Constraining the
+   shell itself centres the whole chapter, and the first build did:
+   the eyebrow moved from the page's left edge at 80px to 557px while
+   every other section stayed at 80. One chapter with a different left
+   edge is not a departure, it is a second art direction — U11. The
+   reading measure is what this section needs; the page's left edge is
+   what it keeps. */
+.is-fin .fn-apply__head { max-inline-size: 46rem; }
+.is-fin .fn-apply__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+.is-fin .fn-apply__head .lede { margin-block-start: var(--sp-5); }
+
+/* ---- What to have ready ---------------------------------------------
+   Three items on one line. They are numbered because they are a
+   checklist and not a ranking, and the numeral is the label voice at
+   label size — no new type role for three digits. */
+.is-fin .fn-need {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-6), 3vw, var(--sp-8));
+  margin: 0 0 clamp(var(--sp-8), 4vw, var(--sp-9));
+  padding: 0;
+  list-style: none;
+  max-inline-size: 64rem;
+}
+.is-fin .fn-need__item {
+  border-block-start: 1px solid var(--bone-rule);
+  padding-block-start: var(--sp-4);
+}
+.is-fin .fn-need__n { display: block; color: var(--bone-ink-2); }
+.is-fin .fn-need__t {
+  margin: var(--sp-4) 0 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--bone-ink);
+}
+.is-fin .fn-need__d {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--t-micro);
+  line-height: var(--lh-body);
+  color: var(--bone-ink-2);
+}
+
+/* ---- The slot the lender's form mounts into -------------------------
+   Captioned above, disclosed below, and both of those belong to CMC
+   and sit OUTSIDE the frame — so the guest can be replaced without
+   taking the page's own words with it. */
+.is-fin .fn-slot { max-inline-size: 64rem; }
+.is-fin .fn-slot__cap {
+  color: var(--bone-ink-2);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px solid var(--bone-rule);
+}
+.is-fin .fn-slot__frame {
+  display: grid;
+  place-content: center;
+  gap: var(--sp-3);
+  text-align: center;
+  min-block-size: clamp(18rem, 34vh, 26rem);
+  margin-block-start: var(--sp-6);
+  padding: clamp(var(--sp-7), 4vw, var(--sp-8));
+  border: 1px dashed var(--bone-rule);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.42);
+}
+.is-fin .fn-slot__note {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--bone-ink);
+}
+.is-fin .fn-slot__sub {
+  margin: 0;
+  font-size: var(--t-micro);
+  line-height: var(--lh-body);
+  color: var(--bone-ink-2);
+  max-inline-size: 40ch;
+}
+.is-fin .fn-slot__legal { margin-block-start: var(--sp-5); }
+
+
+/* ---- 4. THE TRADE ---------------------------------------------------
+   Four fields on one line, so the chapter reads as a single gesture
+   and cannot be mistaken for a second application. */
+.is-fin .fn-trade__head { margin-block-end: clamp(var(--sp-6), 3vw, var(--sp-7)); }
+.is-fin .fn-trade__row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(var(--sp-5), 2.4vw, var(--sp-7));
+}
+.is-fin .fn-trade__acts { margin-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
+
+
+/* ---- 5. THE OTHER TWO DOORS -----------------------------------------
+   .fin__row from the homepage card, unchanged. Only the track count
+   differs, because there are two of these and not three. */
+.is-fin .fn-ways { background: var(--bg-sunk); }
+.is-fin .fn-ways__rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--sp-4), 1.4vw, var(--sp-5));
+  margin-block-start: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  max-inline-size: 52rem;
+}
+
+
+/* ============================================================
+   RESPONSIVE — the governing idea re-established, not merely reflowed
+   ============================================================ */
+
+/* At this width the estimator's two columns stop being a rank and
+   start being two narrow columns of equal weakness, so the answer
+   moves ABOVE the controls rather than beside them. The figure is
+   still first in the reading order; that is the idea, and it survives
+   the loss of the side-by-side. */
+@media (max-width: 1024px) {
+  .is-fin .fn-calc__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(var(--sp-7), 4vw, var(--sp-8));
+  }
+  .is-fin .fn-calc__out { order: -1; }
+  .is-fin .fn-calc__controls { max-inline-size: none; }
+  .is-fin .fn-trade__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .is-fin .fn-need { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
+}
+
+/* THE PHONE CROP IS A SEPARATE DECISION.
+   fin-mobile-900 is the tighter frame: the four subjects fill it and
+   there is no dark third left to stand type in. So the frame stops
+   being a ground and becomes a band, the copy comes out from over it
+   onto page ground beneath, and the wash only has to close the band's
+   bottom edge. Inheriting the desktop treatment here would put the
+   headline across the Shelby's roof. */
+@media (max-width: 760px) {
+  .is-fin .fn-head {
+    display: block;
+    min-block-size: 0;
+    padding-block: 0 clamp(var(--sp-8), 12vw, var(--sp-9));
+    overflow: visible;
+  }
+  .is-fin .fn-head__frame {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    aspect-ratio: 16 / 11;
+    margin-block-end: clamp(var(--sp-6), 7vw, var(--sp-8));
+  }
+  .is-fin .fn-head__img { object-position: 50% 50%; }
+  /* THE MASTHEAD BAND IS THE MEASURED CASE. The mobile crop lifts the
+     hall's ceiling light into the top-left corner, directly under the
+     wordmark, and the first build measured 1.75:1 there — the mark was
+     white on a lit strip. The band is darkened steeply and locally
+     rather than by lifting the whole gradient: the light is what gives
+     the frame its depth, and paying for the wordmark with the picture
+     is the wrong trade when only the top 26% has to hold type. */
+  .is-fin .fn-head__wash {
+    background: linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0.78) 0%,
+      rgb(var(--bg-rgb) / 0.46) 16%,
+      rgb(var(--bg-rgb) / 0) 32%,
+      rgb(var(--bg-rgb) / 0) 62%,
+      rgb(var(--bg-rgb) / 0.96) 100%);
+  }
+  .is-fin .fn-head__copy {
+    margin-inline-start: 0;
+    inline-size: 100%;
+  }
+  .is-fin .fn-title { max-inline-size: none; }
+
+  .is-fin .fn-need,
+  .is-fin .fn-trade__row { grid-template-columns: minmax(0, 1fr); }
+  .is-fin .fn-ways__rows { grid-template-columns: minmax(0, 1fr); }
+  .is-fin .fn-acts { gap: var(--sp-5); }
+  .is-fin .fn-acts .btn { inline-size: 100%; }
+}
+
+/* The one place the frame keeps its own height: a short landscape
+   phone would otherwise give the band more of the viewport than the
+   claim gets. */
+@media (max-width: 760px) and (orientation: landscape) {
+  .is-fin .fn-head__frame { aspect-ratio: 21 / 9; }
+}

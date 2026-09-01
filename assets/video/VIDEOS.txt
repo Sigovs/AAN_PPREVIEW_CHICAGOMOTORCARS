@@ -1,0 +1,90 @@
+vid-cmc-vault.mp4 / vid-naperville-karma.mp4 — the Our Videos films
+====================================================================
+
+ORIGIN. Both are Chicago Motor Cars' OWN films of their OWN showrooms,
+downloaded 2026-08-30 from their live Our Videos page:
+
+    https://www.chicagomotorcars.com/our-videos-chicago-il/
+
+Their source URLs, verbatim:
+
+    .../assets/images/1CMC%20Basement%20Website%20Video.mp4
+    .../assets/images/Karma%20Naperville%20Video.mov
+
+NOT SYNTHETIC. Filmed footage, so `generated-imagery` does not apply and
+no gen- prefix is owed. The same standing as assets/video/hero-video.mp4,
+which Alex confirmed as client footage on 2026-08-10.
+
+--------------------------------------------------------------------
+WHAT WAS WRONG WITH THE ORIGINALS
+--------------------------------------------------------------------
+
+    file                        codec   size        result
+    1CMC Basement Website .mp4  h264    3840x2160   51.8 MB   87.2s
+    Karma Naperville .mov       HEVC    1920x1080   78.3 MB   76.6s
+
+130 MB on one page, and the Naperville film is HEVC in a QuickTime
+container — a combination Chrome and Firefox do not decode. On CMC's
+live site most visitors get a black rectangle where that film should
+be. This is a real defect on their page, not a stylistic objection, and
+it is worth telling them about regardless of what happens to this
+redesign.
+
+--------------------------------------------------------------------
+WHAT WAS DONE
+--------------------------------------------------------------------
+
+    ffmpeg -i <src> -vf scale=1280:-2 -c:v libx264 -preset slow -crf 24 \
+           -profile:v high -pix_fmt yuv420p -movflags +faststart \
+           -c:a aac -b:a 96k <out>
+
+    vid-cmc-vault.mp4         1280x720   15.5 MB   (was 51.8)
+    vid-naperville-karma.mp4  1280x720   13.9 MB   (was 78.3)
+
+29 MB together, down from 130, and both now play everywhere. No frames
+were cut, no colour was graded, nothing was retouched — this is a
+re-encode, not an edit.
+
+NOTE ON THE TOOLING. assets/video/README.txt records "No ffmpeg on this
+machine, so it has not been done" against the 20 MB break band. That is
+no longer true: ffmpeg 8.1.2 is installed. The break band is still
+un-recompressed because nobody has asked, but the blocker named in that
+file is gone.
+
+--------------------------------------------------------------------
+POSTERS
+--------------------------------------------------------------------
+
+assets/img/videos/vid-*-poster-{640,1280}.jpg
+
+REAL FRAMES OF THE FILMS, pulled with ffmpeg -ss off the re-encoded
+files — the practice README.txt already sets for the break band, for
+the same reason: if the video never arrives, what is left is still the
+same room.
+
+    vault      t=45s   the Shelby Cobra mural, with the Gulf-livery
+                       Ford GT and a black GT with silver stripes
+    naperville t=3s    the showroom floor, white 911 GT3 in front
+
+CMC's own page uses two PNG screenshots named
+"Screenshot-2024-11-11-at-8.59.01 PM.png" as posters. Those were not
+copied.
+
+--------------------------------------------------------------------
+THE TWO YOUTUBE VIDEOS
+--------------------------------------------------------------------
+
+Not stored here. They stay on CMC's channel and the page loads them
+only on click:
+
+    r4bWG_HogDs   2005 Ford GT Silver w/Black Stripes 4 Options!
+                  Collector Condition! #ChicagoMotorCars
+    21Ae3DDGfU8   Chicago Motor Cars Alpha 16 GT-R Takes 1ST PLACE -
+                  Texas Invitational Quick 16
+
+Both titles read from YouTube's oEmbed endpoint, 2026-08-30. CMC's own
+page embeds these two with NO titles at all.
+
+Their thumbnails are in assets/img/videos/yt-*.jpg — downloaded rather
+than hotlinked from i.ytimg.com, because hotlinking reports the visit to
+Google for every viewer who never presses play.

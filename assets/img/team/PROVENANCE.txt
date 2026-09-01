@@ -1,0 +1,55 @@
+assets/img/team/ — the CMC staff portraits
+==========================================
+
+ORIGIN. All thirteen portraits are Chicago Motor Cars' OWN photographs of
+their OWN staff, downloaded 2026-08-30 from their live team page:
+
+    https://www.chicagomotorcars.com/team-chicago-motor-cars-in-chicago-il/
+
+Source files were served from chicagomotorcars.com/wp-content/uploads/.
+
+NOT SYNTHETIC. Nothing in this folder is generated, and nothing in it may
+be. `generated-imagery` GI3 forbids a synthetic depiction of a real
+person outright, and a dealership's staff page is the clearest case of
+that rule there is. No `gen-` prefix is owed and none is used. If a
+portrait is ever missing, the answer is to ask CMC for the frame — never
+to make one.
+
+WHAT WAS DONE TO THEM. Cropping and resizing only:
+
+    magick <src> -auto-orient -strip -resize 760x950^ \
+                 -gravity north -extent 760x950 -quality 82
+
+    ...and the same at 380x475 for the roster plates.
+
+`-gravity north` keeps the head where the photographer put it; every one
+of the thirteen was checked on a contact sheet afterwards and no face is
+clipped. 6.0 MB of originals became 1.5 MB across 26 files.
+
+NO RETOUCHING, AND THE MONOCHROME IS NOT BAKED IN. The portraits are
+desaturated by CSS in team.css, not in these files. Two reasons: the
+files stay as CMC shot them, and the treatment can be reversed or
+revisited without re-processing anything. What sits here is colour.
+
+WHY THE TREATMENT EXISTS. The set comes from at least three shoots — a
+lit showroom series with the purple and blue Lamborghinis behind the
+subject, a white-seamless studio series, and phone frames under office
+fluorescents. Side by side in colour they do not read as one page.
+
+THE SIX WHO ARE NOT HERE. Parin Shah, Travis Papenberg, Ali Mafee, Frank
+Sacco, Gary Blanchard and James Sealey have no photograph on CMC's own
+page — they carry a shared grey "Staff-coming.jpg" placeholder there.
+That placeholder is deliberately NOT copied into this project; the page
+gives them an authored initials plate instead. Ask CMC for these six
+frames before the page goes live.
+
+FILES
+
+    <slug>-760.jpg   760x950   profile rows, "In their own words"
+    <slug>-380.jpg   380x475   roster plates
+
+    adam-wrobel        chris-johnson        mahmood-khalid
+    charlie-kall       jackson-jolicouer    mike-salerno
+    peter-kolodziejczyk  ricky-weimer       sam-salameh
+    sanjin-salihovic   sara-vasic           sebastian-wrobel
+    sekou-dantzler

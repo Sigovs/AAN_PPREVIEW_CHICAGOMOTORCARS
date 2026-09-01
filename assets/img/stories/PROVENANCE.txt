@@ -1,0 +1,64 @@
+assets/img/stories/ — the story hero frames
+===========================================
+
+ORIGIN. Ten hero frames — nine studio frames of Chicago Motor Cars' own inventory, taken
+2026-08-30 from the hero image of each post on their blog index:
+
+    https://www.chicagomotorcars.com/blog/
+
+Source files were served from chicagomotorcars.com/wp-content/uploads/,
+and their filenames are the vehicles' own listing titles — for example
+"Used-2018-Porsche-911-GT2-RS-Weissach-Magnesium-Wheels-Paint-to-Sample-
+Volcano-Grey-Full-PPF-1755890895.jpg".
+
+NOT SYNTHETIC. These are CMC's own listing photographs of cars they
+had for sale — the white-seamless turntable set used throughout their
+inventory. No `gen-` prefix is owed and none is used.
+
+WHAT WAS DONE. Cropping and resizing only:
+
+    magick <src> -auto-orient -strip -resize 1400x788^ \
+                 -gravity center -extent 1400x788 -quality 80
+
+    ...and the same at 700x394 for the grid cards.
+
+No retouching, no colour grading. 4.3 MB of originals became 1.8 MB.
+
+--------------------------------------------------------------------
+ONE OF THE TEN IS A STOCK PHOTOGRAPH, AND IT IS THEIRS
+--------------------------------------------------------------------
+
+"Luxury Vehicle Inspections in Chicago" carries, on CMC own site,
+Chicago-Motor-Cars-Service-Top-1.jpg (1410x600) — a stock frame of a
+smiling mechanic in a yellow-accented uniform. It is not a CMC
+technician and not a CMC workshop.
+
+An earlier pass swapped it for assets/img/warranty/gen-brake-wheel.
+Alex direction is to take what is on chicagomotorcars.com, so their
+frame is used, unaltered, exactly as they publish it. This is a mirror
+of a picture already live on their site, not a new claim made here.
+
+It is still worth asking CMC for a frame of their own service bay: it
+is the weakest image on the page and the only one that is not of their
+own property.
+
+--------------------------------------------------------------------
+FILES
+--------------------------------------------------------------------
+
+    <post-slug>-1400.jpg   1400x788   the lead story
+    <post-slug>-700.jpg     700x394   the grid cards
+
+    chicagolands-destination-for-lifted-pickup-trucks
+    luxury-vehicle-inspections-in-chicago
+    classic-dodge-viper-convertible-for-sale-near-aurora-il
+    great-inventory-of-audi-cars-in-chicago
+    mercedes-benz-sprinter-vans-for-sale-in-chicago
+    porsche-911-gt2-for-sale-in-naperville-il
+    pre-owned-jeep-wrangler-for-sale-near-oak-brook-il
+    pre-owned-mclaren-765lt-for-sale-in-chicago
+    rare-2018-ferrari-gtc4lusso-for-sale-near-glen-ellyn-il
+    track-focused-sports-cars-for-sale-near-hinsdale-il
+
+The slug is the article's own URL path on chicagomotorcars.com, so
+every image can be traced back to the post it came from.

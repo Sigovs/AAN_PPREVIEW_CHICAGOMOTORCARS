@@ -1,40 +1,22 @@
 <!DOCTYPE html>
-<!-- ============================================================
-     our-dealership.html — AN INNER PAGE, BUILT FROM THE APPROVED SYSTEM
-     ============================================================
-     GENERATED. Edit tools-build-our-dealership.py, not this file.
-
-     Head, masthead and footer are COPIED from index_3.html at build time
-     rather than retyped, so the three pages cannot drift apart. index_3
-     is the source because it is the approved variant.
-
-     THE FILE IS NAMED FOR THE NAV ITEM, THE CLASSES ARE NOT. "Our
-     Dealership" is what CMC's own menu calls this page, so that is the
-     URL; the body class and the .ab- prefix stay, because renaming a
-     working selector set buys nothing and costs a sweep of every rule.
-
-     <body> carries `v2 is-about`:
-       .v2       so the approved deltas and the location controls apply
-       .is-about so our-dealership.css cannot reach any other page
-
-     WHAT THIS PAGE ADDS TO THE DESIGN SYSTEM: nothing. Every control,
-     every type role, every colour and the entry motion come from files
-     that already existed. our-dealership.css holds four arrangements and
-     their intervals, and no styling for anything you can click.
-
-     ONE FACT TO TAKE BACK TO CMC: their own About page still describes
-     "West Chicago, IL, Naperville, IL, and Rock Hill, SC" — three
-     showrooms. Tonganoxie and Newport Beach are missing from it. This
-     page shows the current five; the discrepancy is in their copy, not
-     in this build, and it is theirs to correct.
-     ============================================================ -->
 <html lang="en">
+<!-- ============================================================
+     videos.html — GENERATED. Do not hand-edit.
+
+     Head, masthead and footer are COPIED from index_3.html at build
+     time by tools-build-videos.py. index_3 is the source because it
+     is the approved variant; a hand-copied nav is a nav that drifts.
+
+     <body> carries `v2 is-st`: v2 because every page on this site
+     runs the v2 layer, is-st because assets/css/events.css is
+     scoped entirely to it and may not reach another page.
+     ============================================================ -->
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Our Dealership — Chicago Motor Cars</title>
-<meta name="description" content="Chicago Motor Cars has sold more than 40,000 exotic, luxury and collector vehicles since 2003, from four showrooms with a fifth opening in Newport Beach.">
+<title>Events — Chicago Motor Cars</title>
+<meta name="description" content="Write-ups from the Chicago Motor Cars floor: the Vipers, the GT2 RS, the 765LT and what made each one worth the trip.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +26,6 @@
 
 <!-- The frame is the whole page right now, so it is the LCP element and
      nothing should discover it late. -->
-<link rel="preload" as="image" href="assets/img/locations/loc-west-chicago-1200.jpg" fetchpriority="high">
 
 <!-- There was no icon at all, so every tab showed the browser's blank page
      glyph — the identity simply stopped existing at 16px. The script
@@ -61,11 +42,10 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=68">
 <!-- index_3 only: the Featured stage carries real photography. -->
 <link rel="stylesheet" href="assets/css/v3.css?v=38">
-<!-- our-dealership.html only. Last, so it wins on equal specificity. -->
-<link rel="stylesheet" href="assets/css/our-dealership.css?v=9">
+<!-- events.html only. Last, so it wins on equal specificity. -->
+<link rel="stylesheet" href="assets/css/events.css?v=1">
 </head>
-<body class="v2 is-about">
-
+<body class="v2 is-st">
 <span class="scroll-sentinel" aria-hidden="true"></span>
 
 <!-- Navigation: eco.com's SHAPE, chicagomotorcars.com's TREE.
@@ -335,6 +315,7 @@
   </div>
 </header>
 
+
 <!-- READ POSITION, along the bottom edge of the screen.
 
      It started as a hairline under the masthead, doing two jobs at once
@@ -462,241 +443,275 @@
 <main>
 
   <!-- ============================================================
-       1 — THE CLAIM, AND THE THREE FIGURES THAT SUPPORT IT
+       1 — THE CLAIM
        ============================================================
-       srp.html's page-head construction: eyebrow, headline in authored
-       lines, one supporting sentence. The figures are the homepage's own
-       .story__stats with the markup unchanged, so the counter in main.js
-       finds them and the printed value stands if it never runs.
+       THE PAGE IS CALLED EVENTS BECAUSE CMC CALL IT EVENTS. Their nav
+       item says Events, it points at chicagomotorcars.com/blog/, and
+       that page's own <title> is "Events - Chicago Motor Cars". The
+       content behind it is ten write-ups about cars they have for sale.
 
-       40,000+ / 2003 / $4B+ are CMC's revised figures (2026-08-17). They
-       appear in three places on this site and all three say the same
-       thing; changing one means changing three.
+       An earlier pass renamed this page to "Stories" on the grounds
+       that the label does not describe the contents. Alex's direction
+       is to take what is on chicagomotorcars.com, so the name is
+       theirs, the two section headings below are theirs, and the
+       observation about the mismatch is a note to them rather than an
+       edit to their site.
+
+       The lede is the only sentence on this page that is not CMC's,
+       and it describes the contents without contradicting the label.
        ============================================================ -->
-  <section class="ab-head" data-reveal data-bloom="center">
+  <section class="st-head" data-reveal data-bloom="center">
     <div class="shell">
-      <p class="micro ab-eyebrow">About Chicago Motor Cars</p>
-      <h1 class="ab-title">
-        <span class="ttl-line">Twenty-two years</span>
-        <span class="ttl-line">of hand-picked cars.</span>
+      <p class="micro st-eyebrow">Events</p>
+      <h1 class="st-title">
+        <span class="ttl-line">What came</span>
+        <span class="ttl-line">through the door.</span>
       </h1>
-      <p class="lede">Four showrooms across Illinois, South Carolina and Kansas, a fifth
-        opening in Newport Beach, and an inventory that changes daily.</p>
-
-      <dl class="story__stats">
-        <div class="stat stat--lead">
-          <dt class="micro stat__label">Vehicles sold</dt>
-          <dd class="stat__fig"><span class="stat__n" data-count-to="40000" data-suffix="+">40,000+</span></dd>
-        </div>
-        <div class="stat stat--proof">
-          <dt class="micro stat__label">Since</dt>
-          <dd class="stat__fig"><span class="stat__n">2003</span></dd>
-        </div>
-        <div class="stat stat--proof">
-          <dt class="micro stat__label">Worldwide sales</dt>
-          <dd class="stat__fig"><span class="stat__n">$4B+</span></dd>
-        </div>
-      </dl>
+      <p class="lede">Write-ups from the floor &mdash; the cars worth stopping for, and what
+        makes each one worth the trip.</p>
     </div>
   </section>
 
-  <!-- ============================================================
-       2 — THE BUILDING
-       ============================================================
-       The only photograph on the page, and the only one it is entitled
-       to use. Three of the four paragraphs below are the business
-       describing itself, which is the least verifiable copy there is;
-       this is the frame that says the business exists somewhere.
-
-       PROVENANCE IS SETTLED HERE, WHICH IS RARE IN THIS PROJECT. Alex's
-       own dusk aerial of 27W110 North Avenue, supplied with the location
-       films, and the same still the West Chicago panel opens on. Not
-       synthetic, so no gen- prefix is owed. The two frames whose origin
-       is NOT settled — cmc-mclaren-showroom and hero_d — are deliberately
-       absent: an About page is exactly where an unattributed room makes
-       its loudest claim.
-
-       A BAND INSIDE THE SHELL, NOT A FULL-BLEED FIELD. Type over a
-       full-bleed photograph is the homepage's move and it is spent twice
-       there already. Framed, the picture reads as something the page is
-       showing you rather than a room the page is standing in — which is
-       also what keeps the paragraphs dominant.
-
-       The caption names the address rather than describing the picture,
-       because the address is the part a visitor can act on.
-       ============================================================ -->
-  <section class="ab-shot" data-reveal data-film>
-    <div class="shell">
-      <figure class="ab-shot__fig">
-        <!-- THE SAME CONTRACT THE BREAK AND SERVICE BANDS USE: the source
-             ships with data-src and no src, and main.js attaches it a
-             viewport out. Under prefers-reduced-motion it is never
-             fetched — not fetched-then-paused, not fetched at all — and
-             the poster carries the band.
-
-             The poster is not a separate asset. It is the still the West
-             Chicago panel opens on, which is a real frame of this film,
-             so there is no moment where the band is empty while the
-             video decides whether it is ready, and the reduced-motion
-             path is a photograph of the same building rather than a
-             stand-in for one.
-
-             muted, aria-hidden, tabindex -1: this is decoration in the
-             accessibility tree. Every fact about the building is in the
-             caption under it, which is text. -->
-        <video class="ab-shot__video"
-               poster="assets/img/locations/loc-west-chicago-1200.jpg"
-               muted loop playsinline
-               preload="none"
-               width="1280" height="720"
-               aria-hidden="true" tabindex="-1">
-          <source data-src="assets/video/loc-west-chicago.mp4" type="video/mp4">
-        </video>
-        <figcaption class="micro ab-shot__cap">
-          <span>27W110 North Avenue, West Chicago</span>
-          <span>The first showroom, open since 2003</span>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
 
   <!-- ============================================================
-       3 — THEIR WORDS
+       2 — RECENT STORIES
        ============================================================
-       Four paragraphs from chicagomotorcars.com/about-…, verbatim, read
-       2026-08-28. Nothing rewritten, tightened or corrected — this is the
-       business's own description of itself, and editing it here would put
-       words in their mouth that they would then find on a preview.
-
-       The HEADINGS are ours and are the only addition. Their page runs
-       the four as one unbroken column; a heading per paragraph makes it
-       scannable without touching a word of the copy.
+       Their heading, their order, their dates. One lead at full width
+       rather than ten equal cards: ten equal cards is a blog index, and
+       a lead plus a grid also tells the visitor which one is new.
        ============================================================ -->
-  <section class="ab-story" data-reveal>
+  <section class="st-lead" data-reveal aria-labelledby="st-lead-t">
     <div class="shell">
-      <p class="micro ab-eyebrow">In their own words</p>
-      <h2 class="ab-h"><span class="ttl-line">Why we do this.</span></h2>
-      <div class="ab-story__grid">
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">The passion</h3>
-          <p class="ab-story__p">To be successful in this business, you have to start with a passion. Our enthusiasm for automobiles is the foundation that drives Chicago Motor Cars. When you walk through our doors, it’s not just a car dealership. It’s an organization built on the principle that driving emotion shouldn’t be a dream…it should be an experience.</p>
-        </div>
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">What we keep</h3>
-          <p class="ab-story__p">Our staff enjoy the opportunity to offer the finest in McLaren, Ferrari, Lamborghini, Bentley, Porsche, Aston-Martin, Rolls-Royce, BMW, Land Rover, Mercedes-Benz and Maserati automobiles, among other. We hand-pick each and every car we offer, and our expert buyers sources the finest from coast-to-coast. Our goal is to offer the highest quality pre-owned sports, luxury and exotic vehicles at competitive market prices to make people’s dreams come true.</p>
-        </div>
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">Going east</h3>
-          <p class="ab-story__p">In 2021, we expanded our geographical footprint with Chicago Motor Cars – South Carolina. Our South Carolina location hosts an impeccable collection of inventory and more opportunity to find the ideal vehicle for our clients, not to mention our east coast clientele that has chosen to entrust Chicago Motor Cars with their automotive needs. You can expect the same level of professionalism and quality that the Chicago Motor Cars team has delivered for years.</p>
-        </div>
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">Come and see</h3>
-          <p class="ab-story__p">Be sure to visit us often as our inventory changes daily. Give our team a call at (630) 221-1800 and you’ll get in touch with a professional who will walk you through your options to help you move forward in securing the vehicle of your dreams. It’s a little different here at Chicago Motor Cars. We look forward to welcoming you to the Chicago Motor Cars family.</p>
-        </div>
+      <div class="st-lead__head">
+        <p class="micro st-eyebrow">Recent Stories</p>
       </div>
+      <article class="st-feature">
+        <a class="st-feature__link" href="https://www.chicagomotorcars.com/classic-dodge-viper-convertible-for-sale-near-aurora-il/" target="_blank" rel="noopener">
+          <span class="st-feature__fig"><img src="assets/img/stories/classic-dodge-viper-convertible-for-sale-near-aurora-il-1400.jpg"
+                 srcset="assets/img/stories/classic-dodge-viper-convertible-for-sale-near-aurora-il-700.jpg 700w,
+                         assets/img/stories/classic-dodge-viper-convertible-for-sale-near-aurora-il-1400.jpg 1400w"
+                 sizes="(max-width: 900px) 100vw, 58vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+          <span class="st-feature__body">
+            <span class="micro st-feature__kicker">Latest <span class="st-dot" aria-hidden="true">&middot;</span> July 1, 2026</span>
+            <span class="st-feature__t" id="st-lead-t">Classic Dodge Viper Convertible for Sale near Aurora, IL</span>
+            <span class="st-feature__x">Some cars are fast. The Dodge Viper convertible is something else entirely.</span>
+            <span class="fn-jump st-jump">
+              <span>Read it</span>
+              <svg class="fn-jump__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </span>
+        </a>
+      </article>
     </div>
   </section>
 
+
   <!-- ============================================================
-       4 — WHERE
+       3 — THE REST OF RECENT STORIES
        ============================================================
-       A ruled list, NOT the homepage's panel accordion. That component is
-       a piece of theatre and the visitor has just watched it perform;
-       running it a second time turns a moment into a widget. Addresses on
-       an About page are reference material and are set as reference.
-
-       EVERY CONTROL IN THESE ROWS ALREADY EXISTS: .about__tel is the
-       quiet phone link from "That's who we are", .loc__map the outlined
-       directions pill from the locations panel, .loc__soc its social
-       mark. Nothing new was drawn. .loc__acts is deliberately NOT reused
-       — it carries the accordion's collapse and would arrive with zero
-       height.
-
-       THE PHONE IS NOT .loc__tel, AND THE FIRST RENDER IS WHY. That
-       class is the red call pill, and the accordion only ever shows one
-       panel's actions, so the homepage carries one red plane. Five rows
-       show five at once: a column of #CB141D down the page, spent on the
-       least important content on it. Same component, different container,
-       different artefact. .about__tel keeps the number tappable and puts
-       the red back on hover, where this project rations it.
-
-       Marks for a showroom with its OWN account are .is-own; the rest
-       fall back to the house account and say so in the aria-label. Only
-       Rock Hill and Tonganoxie have their own, verified directly. Two
-       marks per row rather than the panel's four: a panel has the width
-       for a full set, a reference row does not, and a third mark that is
-       the house account five times over is decoration.
+       Nine cards, newest first, each linking to the article on
+       chicagomotorcars.com. The articles are not rebuilt here: this is
+       a redesign of the index, and ten reconstructed article pages
+       would be ten pages of someone else's copy.
        ============================================================ -->
-  <section class="ab-rooms" data-reveal>
+  <section class="st-more" data-reveal aria-labelledby="st-more-t">
     <div class="shell">
-      <p class="micro ab-eyebrow">Four showrooms, one opening</p>
-      <h2 class="ab-h"><span class="ttl-line">Come and see them.</span></h2>
-      <ul class="ab-rooms__list">
-          <li class="ab-room">
-            <span class="ab-room__city">West Chicago</span>
-            <span class="ab-room__addr">27W110 North Avenue, West Chicago, IL 60185</span>
-            <a class="about__tel ab-room__tel" href="tel:+16302211800"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>630-221-1800</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=27W110+North+Avenue%2C+West+Chicago%2C+IL+60185" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc" href="https://www.instagram.com/chicagomotorcars/" target="_blank" rel="noopener" aria-label="West Chicago on Instagram" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc" href="https://www.facebook.com/chicagomotorcars" target="_blank" rel="noopener" aria-label="West Chicago on Facebook" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room">
-            <span class="ab-room__city">Naperville</span>
-            <span class="ab-room__addr">2104 Ferry Road, Naperville, IL 60563</span>
-            <a class="about__tel ab-room__tel" href="tel:+16302211800"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>630-221-1800</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%2C+Naperville%2C+IL+60563" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc" href="https://www.instagram.com/chicagomotorcars/" target="_blank" rel="noopener" aria-label="Naperville on Instagram" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc" href="https://www.facebook.com/chicagomotorcars" target="_blank" rel="noopener" aria-label="Naperville on Facebook" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room">
-            <span class="ab-room__city">Rock Hill</span>
-            <span class="ab-room__addr">727 Marine Drive, Rock Hill, SC 29730</span>
-            <a class="about__tel ab-room__tel" href="tel:+18038917788"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>803-891-7788</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=727+Marine+Drive%2C+Rock+Hill%2C+SC+29730" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc is-own" href="https://www.instagram.com/chicagomotorcarssc/" target="_blank" rel="noopener" aria-label="Rock Hill on Instagram"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc is-own" href="https://www.facebook.com/chicagomotorcarssc" target="_blank" rel="noopener" aria-label="Rock Hill on Facebook"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room">
-            <span class="ab-room__city">Tonganoxie</span>
-            <span class="ab-room__addr">1650 Commerce Ave, Tonganoxie, KS 66086</span>
-            <a class="about__tel ab-room__tel" href="tel:+19138459633"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>913-845-9633</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=1650+Commerce+Ave%2C+Tonganoxie%2C+KS+66086" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc is-own" href="https://www.instagram.com/chicagomotorcarskc/" target="_blank" rel="noopener" aria-label="Tonganoxie on Instagram"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc is-own" href="https://www.facebook.com/chicagomotorcarskc" target="_blank" rel="noopener" aria-label="Tonganoxie on Facebook"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room ab-room--soon">
-            <span class="ab-room__city">Newport Beach</span>
-            <span class="ab-room__addr">California — opening soon</span>
-            <a class="about__tel ab-room__tel" href="tel:+16302211800"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>630-221-1800</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/search/?api=1&amp;query=Newport+Beach%2C+CA" rel="noopener">See on map</a>
-              <span class="loc__social"><a class="loc__soc" href="https://www.instagram.com/chicagomotorcars/" target="_blank" rel="noopener" aria-label="Newport Beach on Instagram" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc" href="https://www.facebook.com/chicagomotorcars" target="_blank" rel="noopener" aria-label="Newport Beach on Facebook" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
+      <div class="st-more__head">
+        <p class="micro st-eyebrow">Earlier</p>
+        <h2 class="st-h2" id="st-more-t">
+          <span class="ttl-line">Nine more,</span>
+          <span class="ttl-line">newest first.</span>
+        </h2>
+      </div>
+      <ul class="st-grid">
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/track-focused-sports-cars-for-sale-near-hinsdale-il/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/track-focused-sports-cars-for-sale-near-hinsdale-il-1400.jpg"
+                 srcset="assets/img/stories/track-focused-sports-cars-for-sale-near-hinsdale-il-700.jpg 700w,
+                         assets/img/stories/track-focused-sports-cars-for-sale-near-hinsdale-il-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">June 10, 2026</span>
+            <span class="st-card__t">Track-Focused Sports Cars for Sale near Hinsdale, IL</span>
+            <span class="st-card__x">Performance drivers near Hinsdale know the difference between a sports car and a track-focused sports car. One is quick.</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/porsche-911-gt2-for-sale-in-naperville-il/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/porsche-911-gt2-for-sale-in-naperville-il-1400.jpg"
+                 srcset="assets/img/stories/porsche-911-gt2-for-sale-in-naperville-il-700.jpg 700w,
+                         assets/img/stories/porsche-911-gt2-for-sale-in-naperville-il-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">May 8, 2026</span>
+            <span class="st-card__t">Porsche 911 GT2 for Sale in Naperville, IL</span>
+            <span class="st-card__x">There&rsquo;s a hierarchy within the Porsche 911 family, and the GT2 sits at a place of its own. The GT3 is the analytical track instrument.</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/pre-owned-jeep-wrangler-for-sale-near-oak-brook-il/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/pre-owned-jeep-wrangler-for-sale-near-oak-brook-il-1400.jpg"
+                 srcset="assets/img/stories/pre-owned-jeep-wrangler-for-sale-near-oak-brook-il-700.jpg 700w,
+                         assets/img/stories/pre-owned-jeep-wrangler-for-sale-near-oak-brook-il-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">April 8, 2026</span>
+            <span class="st-card__t">Pre-Owned Jeep Wrangler for Sale near Oak Brook, IL</span>
+            <span class="st-card__x">If you are searching for a pre-owned Jeep Wrangler for sale near Oak Brook, IL, you are joining a long list of&hellip;</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/rare-2018-ferrari-gtc4lusso-for-sale-near-glen-ellyn-il/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/rare-2018-ferrari-gtc4lusso-for-sale-near-glen-ellyn-il-1400.jpg"
+                 srcset="assets/img/stories/rare-2018-ferrari-gtc4lusso-for-sale-near-glen-ellyn-il-700.jpg 700w,
+                         assets/img/stories/rare-2018-ferrari-gtc4lusso-for-sale-near-glen-ellyn-il-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">March 20, 2026</span>
+            <span class="st-card__t">Rare 2018 Ferrari GTC4Lusso for Sale near Glen Ellyn, IL</span>
+            <span class="st-card__x">Imagine driving a vehicle that delivers the thrill of a supercar while offering room for passengers and everyday comfort.</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/luxury-vehicle-inspections-in-chicago/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/luxury-vehicle-inspections-in-chicago-1400.jpg"
+                 srcset="assets/img/stories/luxury-vehicle-inspections-in-chicago-700.jpg 700w,
+                         assets/img/stories/luxury-vehicle-inspections-in-chicago-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">February 23, 2026</span>
+            <span class="st-card__t">Luxury Vehicle Inspections in Chicago</span>
+            <span class="st-card__x">Luxury vehicles are more than simple transportation. They represent comfort, performance, and personal pride. Owners of high-end cars understand the importance of proper care.</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/mercedes-benz-sprinter-vans-for-sale-in-chicago/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/mercedes-benz-sprinter-vans-for-sale-in-chicago-1400.jpg"
+                 srcset="assets/img/stories/mercedes-benz-sprinter-vans-for-sale-in-chicago-700.jpg 700w,
+                         assets/img/stories/mercedes-benz-sprinter-vans-for-sale-in-chicago-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">December 6, 2025</span>
+            <span class="st-card__t">Mercedes-Benz Sprinter Vans for Sale in Chicago</span>
+            <span class="st-card__x">Service-based businesses in Chicago rely on strong, reliable, and comfortable vehicles.</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/pre-owned-mclaren-765lt-for-sale-in-chicago/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/pre-owned-mclaren-765lt-for-sale-in-chicago-1400.jpg"
+                 srcset="assets/img/stories/pre-owned-mclaren-765lt-for-sale-in-chicago-700.jpg 700w,
+                         assets/img/stories/pre-owned-mclaren-765lt-for-sale-in-chicago-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">November 13, 2025</span>
+            <span class="st-card__t">Pre-Owned McLaren 765LT for Sale in Chicago</span>
+            <span class="st-card__x">Have you ever dreamed of owning one of the rarest supercars on the market?</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/great-inventory-of-audi-cars-in-chicago/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/great-inventory-of-audi-cars-in-chicago-1400.jpg"
+                 srcset="assets/img/stories/great-inventory-of-audi-cars-in-chicago-700.jpg 700w,
+                         assets/img/stories/great-inventory-of-audi-cars-in-chicago-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">October 13, 2025</span>
+            <span class="st-card__t">Great Inventory of Audi Cars in Chicago</span>
+            <span class="st-card__x">Are you searching for the perfect Audi that blends luxury, performance, and everyday practicality?</span>
+          </a>
+        </li>
+        <li class="st-card">
+          <a class="st-card__link" href="https://www.chicagomotorcars.com/chicagolands-destination-for-lifted-pickup-trucks/" target="_blank" rel="noopener">
+            <span class="st-card__fig"><img src="assets/img/stories/chicagolands-destination-for-lifted-pickup-trucks-1400.jpg"
+                 srcset="assets/img/stories/chicagolands-destination-for-lifted-pickup-trucks-700.jpg 700w,
+                         assets/img/stories/chicagolands-destination-for-lifted-pickup-trucks-1400.jpg 1400w"
+                 sizes="(max-width: 720px) 100vw, 30vw"
+                 alt="" width="1400" height="788" loading="lazy" decoding="async"></span>
+            <span class="micro st-card__date">September 1, 2025</span>
+            <span class="st-card__t">Chicagoland&rsquo;s Destination for Lifted Pickup Trucks</span>
+            <span class="st-card__x">Are you looking for a powerful lifted pickup truck that stands out on the road and performs off-road with ease?</span>
+          </a>
+        </li>
       </ul>
     </div>
   </section>
 
+
+  <!-- ============================================================
+       4 — MOST POPULAR STORIES
+       ============================================================
+       CMC's second section, kept because it is on their page. It holds
+       four entries and it carries NO dates and NO excerpts on their
+       site — the widget prints titles only — and all four are already
+       in Recent Stories above.
+
+       So it is set as a ranked list rather than as four more picture
+       cards. Repeating the same four photographs a second time inside
+       one page would read as a bug; a numbered index reads as what the
+       section actually is, which is a ranking. Their content, their
+       order, no invented dates.
+       ============================================================ -->
+  <section class="st-pop" data-reveal aria-labelledby="st-pop-t">
+    <div class="shell">
+      <div class="st-pop__head">
+        <p class="micro st-eyebrow">Most Popular Stories</p>
+        <h2 class="st-h2" id="st-pop-t">
+          <span class="ttl-line">The four people</span>
+          <span class="ttl-line">read most.</span>
+        </h2>
+      </div>
+      <ol class="st-pop__list">
+          <li class="st-pop__item">
+            <a class="st-pop__link" href="https://www.chicagomotorcars.com/classic-dodge-viper-convertible-for-sale-near-aurora-il/" target="_blank" rel="noopener">
+              <span class="micro st-pop__n">01</span>
+              <span class="st-pop__t">Classic Dodge Viper Convertible for Sale near Aurora, IL</span>
+              <svg class="st-pop__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+          <li class="st-pop__item">
+            <a class="st-pop__link" href="https://www.chicagomotorcars.com/track-focused-sports-cars-for-sale-near-hinsdale-il/" target="_blank" rel="noopener">
+              <span class="micro st-pop__n">02</span>
+              <span class="st-pop__t">Track-Focused Sports Cars for Sale near Hinsdale, IL</span>
+              <svg class="st-pop__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+          <li class="st-pop__item">
+            <a class="st-pop__link" href="https://www.chicagomotorcars.com/porsche-911-gt2-for-sale-in-naperville-il/" target="_blank" rel="noopener">
+              <span class="micro st-pop__n">03</span>
+              <span class="st-pop__t">Porsche 911 GT2 for Sale in Naperville, IL</span>
+              <svg class="st-pop__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+          <li class="st-pop__item">
+            <a class="st-pop__link" href="https://www.chicagomotorcars.com/pre-owned-jeep-wrangler-for-sale-near-oak-brook-il/" target="_blank" rel="noopener">
+              <span class="micro st-pop__n">04</span>
+              <span class="st-pop__t">Pre-Owned Jeep Wrangler for Sale near Oak Brook, IL</span>
+              <svg class="st-pop__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+      </ol>
+    </div>
+  </section>
+
+
   <!-- ============================================================
        5 — THE WAY OUT
-       ============================================================
-       Centred, and the only centred mass on the page, which is what makes
-       it read as an ending rather than as a fifth section. The pair is
-       the site's standard ranking: the bone fill goes to the inventory,
-       the outline to the phone.
        ============================================================ -->
-  <section class="ab-cta" data-reveal>
+  <section class="st-cta" data-reveal aria-labelledby="st-cta-t">
     <div class="shell">
-      <h2 class="ab-cta__h"><span class="ttl-line">Our inventory changes daily.</span></h2>
-      <p class="lede">Three hundred cars on the floor right now, and the one you are after
-        may not be there next week.</p>
-      <div class="ab-cta__acts">
-        <a class="btn btn--fill" href="srp.html">See the inventory <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
-        <a class="btn btn--line" href="tel:+16302211800">630-221-1800 <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      <h2 class="st-h2" id="st-cta-t">
+        <span class="ttl-line">Most of these</span>
+        <span class="ttl-line">are still here.</span>
+      </h2>
+      <p class="lede">The cars in these write-ups came off the same floor the inventory
+        does. What is left of them is on the site.</p>
+      <div class="st-acts">
+        <a class="btn btn--fill" href="srp.html">Browse the inventory</a>
+        <a class="fn-jump st-jump" href="https://www.chicagomotorcars.com/blog/" target="_blank" rel="noopener">
+          <span>Every story on the blog</span>
+          <svg class="fn-jump__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
     </div>
   </section>
@@ -747,7 +762,6 @@
       </div>
     </div>
   </footer>
-
 <script src="assets/js/main.js?v=65" defer></script>
 </body>
 </html>

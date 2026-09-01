@@ -1,40 +1,22 @@
 <!DOCTYPE html>
-<!-- ============================================================
-     our-dealership.html — AN INNER PAGE, BUILT FROM THE APPROVED SYSTEM
-     ============================================================
-     GENERATED. Edit tools-build-our-dealership.py, not this file.
-
-     Head, masthead and footer are COPIED from index_3.html at build time
-     rather than retyped, so the three pages cannot drift apart. index_3
-     is the source because it is the approved variant.
-
-     THE FILE IS NAMED FOR THE NAV ITEM, THE CLASSES ARE NOT. "Our
-     Dealership" is what CMC's own menu calls this page, so that is the
-     URL; the body class and the .ab- prefix stay, because renaming a
-     working selector set buys nothing and costs a sweep of every rule.
-
-     <body> carries `v2 is-about`:
-       .v2       so the approved deltas and the location controls apply
-       .is-about so our-dealership.css cannot reach any other page
-
-     WHAT THIS PAGE ADDS TO THE DESIGN SYSTEM: nothing. Every control,
-     every type role, every colour and the entry motion come from files
-     that already existed. our-dealership.css holds four arrangements and
-     their intervals, and no styling for anything you can click.
-
-     ONE FACT TO TAKE BACK TO CMC: their own About page still describes
-     "West Chicago, IL, Naperville, IL, and Rock Hill, SC" — three
-     showrooms. Tonganoxie and Newport Beach are missing from it. This
-     page shows the current five; the discrepancy is in their copy, not
-     in this build, and it is theirs to correct.
-     ============================================================ -->
 <html lang="en">
+<!-- ============================================================
+     financing.html — GENERATED. Do not hand-edit.
+
+     Head, masthead and footer are COPIED from index_3.html at build
+     time by tools-build-financing.py. index_3 is the source because it
+     is the approved variant; a hand-copied nav is a nav that drifts.
+
+     <body> carries `v2 is-fin`: v2 because every page on this site
+     runs the v2 layer, is-fin because assets/css/financing.css is
+     scoped entirely to it and may not reach another page.
+     ============================================================ -->
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Our Dealership — Chicago Motor Cars</title>
-<meta name="description" content="Chicago Motor Cars has sold more than 40,000 exotic, luxury and collector vehicles since 2003, from four showrooms with a fifth opening in Newport Beach.">
+<title>Financing — Chicago Motor Cars</title>
+<meta name="description" content="Apply for credit, estimate a monthly payment and value your trade — online, for any vehicle Chicago Motor Cars sells, from a coupe to a van.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +26,7 @@
 
 <!-- The frame is the whole page right now, so it is the LCP element and
      nothing should discover it late. -->
-<link rel="preload" as="image" href="assets/img/locations/loc-west-chicago-1200.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/financing/fin-lineup-1600.jpg" imagesrcset="assets/img/financing/fin-mobile-900.jpg 900w, assets/img/financing/fin-lineup-1600.jpg 1600w, assets/img/financing/fin-lineup-2473.jpg 2473w" imagesizes="100vw" fetchpriority="high">
 
 <!-- There was no icon at all, so every tab showed the browser's blank page
      glyph — the identity simply stopped existing at 16px. The script
@@ -61,11 +43,10 @@
 <link rel="stylesheet" href="assets/css/v2.css?v=68">
 <!-- index_3 only: the Featured stage carries real photography. -->
 <link rel="stylesheet" href="assets/css/v3.css?v=38">
-<!-- our-dealership.html only. Last, so it wins on equal specificity. -->
-<link rel="stylesheet" href="assets/css/our-dealership.css?v=9">
+<!-- financing.html only. Last, so it wins on equal specificity. -->
+<link rel="stylesheet" href="assets/css/financing.css?v=7">
 </head>
-<body class="v2 is-about">
-
+<body class="v2 is-fin">
 <span class="scroll-sentinel" aria-hidden="true"></span>
 
 <!-- Navigation: eco.com's SHAPE, chicagomotorcars.com's TREE.
@@ -335,6 +316,7 @@
   </div>
 </header>
 
+
 <!-- READ POSITION, along the bottom edge of the screen.
 
      It started as a hairline under the masthead, doing two jobs at once
@@ -462,242 +444,343 @@
 <main>
 
   <!-- ============================================================
-       1 — THE CLAIM, AND THE THREE FIGURES THAT SUPPORT IT
+       1 — THE CLAIM, ON THE FRAME THAT ALREADY MAKES THE ARGUMENT
        ============================================================
-       srp.html's page-head construction: eyebrow, headline in authored
-       lines, one supporting sentence. The figures are the homepage's own
-       .story__stats with the markup unchanged, so the counter in main.js
-       finds them and the printed value stands if it never runs.
+       The homepage's Financing card opens with "Make it yours." over
+       fin-lineup. The page keeps the line rather than inventing a
+       second one: this IS that card, opened.
 
-       40,000+ / 2003 / $4B+ are CMC's revised figures (2026-08-17). They
-       appear in three places on this site and all three say the same
-       thing; changing one means changing three.
+       THE PHOTOGRAPH IS THE ARGUMENT. Four subjects stand in the hall
+       — an AMG GT Black Series, a Mercedes van, a Ducati, a '67 Shelby.
+       That is four different kinds of purchase in one frame, which is
+       the only claim a financing page actually has to make. The lede
+       names them and says nothing the picture does not already show.
+       No list of products does this work; a list is what the buyer
+       skips.
+
+       THE TEXT SITS RIGHT, AND ONLY ON DESKTOP. The right third of
+       fin-lineup falls to near-black and holds no subject — it is the
+       quietest field in the frame and the one place type can sit
+       without a scrim heavy enough to kill the reflections. The mobile
+       crop (fin-mobile-900) is tighter: the four subjects fill it edge
+       to edge and there is no dark third left. So the phone does not
+       inherit the desktop decision — the frame becomes a band and the
+       type stands below it on page ground. Two crops, two decisions.
        ============================================================ -->
-  <section class="ab-head" data-reveal data-bloom="center">
-    <div class="shell">
-      <p class="micro ab-eyebrow">About Chicago Motor Cars</p>
-      <h1 class="ab-title">
-        <span class="ttl-line">Twenty-two years</span>
-        <span class="ttl-line">of hand-picked cars.</span>
-      </h1>
-      <p class="lede">Four showrooms across Illinois, South Carolina and Kansas, a fifth
-        opening in Newport Beach, and an inventory that changes daily.</p>
+  <section class="fn-head" data-reveal aria-labelledby="fn-title">
 
-      <dl class="story__stats">
-        <div class="stat stat--lead">
-          <dt class="micro stat__label">Vehicles sold</dt>
-          <dd class="stat__fig"><span class="stat__n" data-count-to="40000" data-suffix="+">40,000+</span></dd>
-        </div>
-        <div class="stat stat--proof">
-          <dt class="micro stat__label">Since</dt>
-          <dd class="stat__fig"><span class="stat__n">2003</span></dd>
-        </div>
-        <div class="stat stat--proof">
-          <dt class="micro stat__label">Worldwide sales</dt>
-          <dd class="stat__fig"><span class="stat__n">$4B+</span></dd>
-        </div>
-      </dl>
+    <div class="fn-head__frame">
+      <img class="fn-head__img"
+           src="assets/img/financing/fin-lineup-1600.jpg"
+           srcset="assets/img/financing/fin-mobile-900.jpg 900w,
+                   assets/img/financing/fin-lineup-1600.jpg 1600w,
+                   assets/img/financing/fin-lineup-2473.jpg 2473w"
+           sizes="100vw"
+           alt="A Mercedes-AMG GT Black Series, a Mercedes van, a Ducati superbike and a 1967 Shelby GT350 standing together in a dark showroom hall."
+           width="2473" height="1545" fetchpriority="high" decoding="async">
+      <span class="fn-head__wash" aria-hidden="true"></span>
     </div>
-  </section>
 
-  <!-- ============================================================
-       2 — THE BUILDING
-       ============================================================
-       The only photograph on the page, and the only one it is entitled
-       to use. Three of the four paragraphs below are the business
-       describing itself, which is the least verifiable copy there is;
-       this is the frame that says the business exists somewhere.
-
-       PROVENANCE IS SETTLED HERE, WHICH IS RARE IN THIS PROJECT. Alex's
-       own dusk aerial of 27W110 North Avenue, supplied with the location
-       films, and the same still the West Chicago panel opens on. Not
-       synthetic, so no gen- prefix is owed. The two frames whose origin
-       is NOT settled — cmc-mclaren-showroom and hero_d — are deliberately
-       absent: an About page is exactly where an unattributed room makes
-       its loudest claim.
-
-       A BAND INSIDE THE SHELL, NOT A FULL-BLEED FIELD. Type over a
-       full-bleed photograph is the homepage's move and it is spent twice
-       there already. Framed, the picture reads as something the page is
-       showing you rather than a room the page is standing in — which is
-       also what keeps the paragraphs dominant.
-
-       The caption names the address rather than describing the picture,
-       because the address is the part a visitor can act on.
-       ============================================================ -->
-  <section class="ab-shot" data-reveal data-film>
-    <div class="shell">
-      <figure class="ab-shot__fig">
-        <!-- THE SAME CONTRACT THE BREAK AND SERVICE BANDS USE: the source
-             ships with data-src and no src, and main.js attaches it a
-             viewport out. Under prefers-reduced-motion it is never
-             fetched — not fetched-then-paused, not fetched at all — and
-             the poster carries the band.
-
-             The poster is not a separate asset. It is the still the West
-             Chicago panel opens on, which is a real frame of this film,
-             so there is no moment where the band is empty while the
-             video decides whether it is ready, and the reduced-motion
-             path is a photograph of the same building rather than a
-             stand-in for one.
-
-             muted, aria-hidden, tabindex -1: this is decoration in the
-             accessibility tree. Every fact about the building is in the
-             caption under it, which is text. -->
-        <video class="ab-shot__video"
-               poster="assets/img/locations/loc-west-chicago-1200.jpg"
-               muted loop playsinline
-               preload="none"
-               width="1280" height="720"
-               aria-hidden="true" tabindex="-1">
-          <source data-src="assets/video/loc-west-chicago.mp4" type="video/mp4">
-        </video>
-        <figcaption class="micro ab-shot__cap">
-          <span>27W110 North Avenue, West Chicago</span>
-          <span>The first showroom, open since 2003</span>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       3 — THEIR WORDS
-       ============================================================
-       Four paragraphs from chicagomotorcars.com/about-…, verbatim, read
-       2026-08-28. Nothing rewritten, tightened or corrected — this is the
-       business's own description of itself, and editing it here would put
-       words in their mouth that they would then find on a preview.
-
-       The HEADINGS are ours and are the only addition. Their page runs
-       the four as one unbroken column; a heading per paragraph makes it
-       scannable without touching a word of the copy.
-       ============================================================ -->
-  <section class="ab-story" data-reveal>
-    <div class="shell">
-      <p class="micro ab-eyebrow">In their own words</p>
-      <h2 class="ab-h"><span class="ttl-line">Why we do this.</span></h2>
-      <div class="ab-story__grid">
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">The passion</h3>
-          <p class="ab-story__p">To be successful in this business, you have to start with a passion. Our enthusiasm for automobiles is the foundation that drives Chicago Motor Cars. When you walk through our doors, it’s not just a car dealership. It’s an organization built on the principle that driving emotion shouldn’t be a dream…it should be an experience.</p>
-        </div>
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">What we keep</h3>
-          <p class="ab-story__p">Our staff enjoy the opportunity to offer the finest in McLaren, Ferrari, Lamborghini, Bentley, Porsche, Aston-Martin, Rolls-Royce, BMW, Land Rover, Mercedes-Benz and Maserati automobiles, among other. We hand-pick each and every car we offer, and our expert buyers sources the finest from coast-to-coast. Our goal is to offer the highest quality pre-owned sports, luxury and exotic vehicles at competitive market prices to make people’s dreams come true.</p>
-        </div>
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">Going east</h3>
-          <p class="ab-story__p">In 2021, we expanded our geographical footprint with Chicago Motor Cars – South Carolina. Our South Carolina location hosts an impeccable collection of inventory and more opportunity to find the ideal vehicle for our clients, not to mention our east coast clientele that has chosen to entrust Chicago Motor Cars with their automotive needs. You can expect the same level of professionalism and quality that the Chicago Motor Cars team has delivered for years.</p>
-        </div>
-        <div class="ab-story__col">
-          <h3 class="ab-story__h">Come and see</h3>
-          <p class="ab-story__p">Be sure to visit us often as our inventory changes daily. Give our team a call at (630) 221-1800 and you’ll get in touch with a professional who will walk you through your options to help you move forward in securing the vehicle of your dreams. It’s a little different here at Chicago Motor Cars. We look forward to welcoming you to the Chicago Motor Cars family.</p>
+    <div class="shell fn-head__inner">
+      <div class="fn-head__copy">
+        <p class="micro fn-eyebrow">Financing</p>
+        <h1 class="fn-title" id="fn-title">
+          <span class="ttl-line">Make it</span>
+          <span class="ttl-line">yours.</span>
+        </h1>
+        <p class="lede">A coupe, a classic, a superbike, a van. Four kinds of purchase,
+          one set of paperwork — and all of it opens online.</p>
+        <div class="fn-acts">
+          <a class="btn btn--fill" href="#apply">Start your approval</a>
+          <a class="fn-jump" href="#estimator">
+            <span>Estimate a payment first</span>
+            <svg class="fn-jump__arrow" viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
       </div>
     </div>
+
   </section>
 
+
   <!-- ============================================================
-       4 — WHERE
+       2 — THE ESTIMATOR
        ============================================================
-       A ruled list, NOT the homepage's panel accordion. That component is
-       a piece of theatre and the visitor has just watched it perform;
-       running it a second time turns a moment into a widget. Addresses on
-       an About page are reference material and are set as reference.
+       THE FIGURE IS THE SUBJECT, NOT THE FORM. The buyer's first real
+       question is what it costs per month, and the page answers it in
+       one number at --t-count — the same scale the homepage gives its
+       live figures. The four controls that produce it are subordinate:
+       a quiet column on the left, no box, no panel, no card.
 
-       EVERY CONTROL IN THESE ROWS ALREADY EXISTS: .about__tel is the
-       quiet phone link from "That's who we are", .loc__map the outlined
-       directions pill from the locations panel, .loc__soc its social
-       mark. Nothing new was drawn. .loc__acts is deliberately NOT reused
-       — it carries the accordion's collapse and would arrive with zero
-       height.
+       That ranking is the whole reason this section exists in this
+       shape. The same content with the controls dominant and the answer
+       set in a table is a loan portal, and a loan portal is what
+       reduced the perceived value of the last concept this client
+       rejected. The arithmetic is identical; the hierarchy is not.
 
-       THE PHONE IS NOT .loc__tel, AND THE FIRST RENDER IS WHY. That
-       class is the red call pill, and the accordion only ever shows one
-       panel's actions, so the homepage carries one red plane. Five rows
-       show five at once: a column of #CB141D down the page, spent on the
-       least important content on it. Same component, different container,
-       different artefact. .about__tel keeps the number tappable and puts
-       the red back on hover, where this project rations it.
+       IT IS AN ESTIMATE AND IT SAYS SO. Nothing here is a quoted rate
+       or an offer. THE DEFAULTS ARE CMC&rsquo;S OWN, NOT INVENTED. Their live
+       calculator at /auto-loan-calculator-chicago-il/ ships APR 5.9 and
+       term 72 as its pre-filled values, read 2026-08-30. This page uses
+       the same two, so the number that lands here agrees with the
+       number their existing tool produces. An empty rate was the first
+       build and it was wrong twice over: the buyer does not know their
+       own APR, and a section whose dominant is a dash has no subject.
 
-       Marks for a showroom with its OWN account are .is-own; the rest
-       fall back to the house account and say so in the aria-label. Only
-       Rock Hill and Tonganoxie have their own, verified directly. Two
-       marks per row rather than the panel's four: a panel has the width
-       for a full set, a reference row does not, and a third mark that is
-       the house account five times over is decoration.
+       WHAT THIS PAGE ADDS THAT THEIRS DOES NOT: a disclaimer. Their
+       calculator states no terms at all — no mention that the figure is
+       an estimate, and no note about tax, title or fees. That is the
+       one place this chapter deliberately says MORE than the original.
        ============================================================ -->
-  <section class="ab-rooms" data-reveal>
+  <section class="fn-calc" id="estimator" data-reveal data-bloom="center" aria-labelledby="fn-calc-title">
     <div class="shell">
-      <p class="micro ab-eyebrow">Four showrooms, one opening</p>
-      <h2 class="ab-h"><span class="ttl-line">Come and see them.</span></h2>
-      <ul class="ab-rooms__list">
-          <li class="ab-room">
-            <span class="ab-room__city">West Chicago</span>
-            <span class="ab-room__addr">27W110 North Avenue, West Chicago, IL 60185</span>
-            <a class="about__tel ab-room__tel" href="tel:+16302211800"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>630-221-1800</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=27W110+North+Avenue%2C+West+Chicago%2C+IL+60185" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc" href="https://www.instagram.com/chicagomotorcars/" target="_blank" rel="noopener" aria-label="West Chicago on Instagram" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc" href="https://www.facebook.com/chicagomotorcars" target="_blank" rel="noopener" aria-label="West Chicago on Facebook" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room">
-            <span class="ab-room__city">Naperville</span>
-            <span class="ab-room__addr">2104 Ferry Road, Naperville, IL 60563</span>
-            <a class="about__tel ab-room__tel" href="tel:+16302211800"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>630-221-1800</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=2104+Ferry+Road%2C+Naperville%2C+IL+60563" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc" href="https://www.instagram.com/chicagomotorcars/" target="_blank" rel="noopener" aria-label="Naperville on Instagram" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc" href="https://www.facebook.com/chicagomotorcars" target="_blank" rel="noopener" aria-label="Naperville on Facebook" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room">
-            <span class="ab-room__city">Rock Hill</span>
-            <span class="ab-room__addr">727 Marine Drive, Rock Hill, SC 29730</span>
-            <a class="about__tel ab-room__tel" href="tel:+18038917788"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>803-891-7788</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=727+Marine+Drive%2C+Rock+Hill%2C+SC+29730" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc is-own" href="https://www.instagram.com/chicagomotorcarssc/" target="_blank" rel="noopener" aria-label="Rock Hill on Instagram"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc is-own" href="https://www.facebook.com/chicagomotorcarssc" target="_blank" rel="noopener" aria-label="Rock Hill on Facebook"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room">
-            <span class="ab-room__city">Tonganoxie</span>
-            <span class="ab-room__addr">1650 Commerce Ave, Tonganoxie, KS 66086</span>
-            <a class="about__tel ab-room__tel" href="tel:+19138459633"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>913-845-9633</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/dir/?api=1&amp;destination=1650+Commerce+Ave%2C+Tonganoxie%2C+KS+66086" rel="noopener">Get directions</a>
-              <span class="loc__social"><a class="loc__soc is-own" href="https://www.instagram.com/chicagomotorcarskc/" target="_blank" rel="noopener" aria-label="Tonganoxie on Instagram"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc is-own" href="https://www.facebook.com/chicagomotorcarskc" target="_blank" rel="noopener" aria-label="Tonganoxie on Facebook"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-          <li class="ab-room ab-room--soon">
-            <span class="ab-room__city">Newport Beach</span>
-            <span class="ab-room__addr">California — opening soon</span>
-            <a class="about__tel ab-room__tel" href="tel:+16302211800"><span class="about__ico"><svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M4.2 1.6 5.9 4 4.6 5.7c.7 1.7 2 3 3.7 3.7L10 8.1l2.4 1.7c.4.3.5.8.2 1.2l-1 1.3c-.3.4-.8.5-1.2.4C5.9 11.6 2.4 8.1 1.3 3.6c-.1-.4 0-.9.4-1.2l1.3-1c.4-.3.9-.2 1.2.2Z" fill="currentColor"/></svg></span><span>630-221-1800</span></a>
-            <span class="ab-room__acts">
-              <a class="loc__map" href="https://www.google.com/maps/search/?api=1&amp;query=Newport+Beach%2C+CA" rel="noopener">See on map</a>
-              <span class="loc__social"><a class="loc__soc" href="https://www.instagram.com/chicagomotorcars/" target="_blank" rel="noopener" aria-label="Newport Beach on Instagram" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.6" y="2.6" width="14.8" height="14.8" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14.6" cy="5.4" r="1" fill="currentColor"/></svg></a><a class="loc__soc" href="https://www.facebook.com/chicagomotorcars" target="_blank" rel="noopener" aria-label="Newport Beach on Facebook" data-shared="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 6.7h1.9V3.9c-.33-.05-1.46-.15-2.77-.15-2.74 0-4.62 1.72-4.62 4.89v2.24H5.2v3.1h2.9v7.77h3.47v-7.77h2.78l.44-3.1h-3.22V8.95c0-.9.24-1.51 1.53-1.51Z" fill="currentColor" transform="translate(0 -1.4)"/></svg></a></span>
-            </span>
-          </li>
-      </ul>
+
+      <div class="fn-calc__head">
+        <p class="micro fn-eyebrow">Payment estimator</p>
+        <h2 class="fn-h2" id="fn-calc-title">
+          <span class="ttl-line">What it looks like</span>
+          <span class="ttl-line">every month.</span>
+        </h2>
+      </div>
+
+      <form class="fn-calc__grid" id="fn-calc" novalidate>
+
+        <div class="fn-calc__controls">
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-price">Vehicle price</label>
+            <div class="fn-input">
+              <span class="fn-input__pre" aria-hidden="true">$</span>
+              <input class="field__control fn-input__control" id="fn-price" name="price"
+                     type="text" inputmode="numeric" autocomplete="off" value="145,000">
+            </div>
+          </div>
+
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-down">Down payment</label>
+            <div class="fn-input">
+              <span class="fn-input__pre" aria-hidden="true">$</span>
+              <input class="field__control fn-input__control" id="fn-down" name="down"
+                     type="text" inputmode="numeric" autocomplete="off" value="25,000">
+            </div>
+          </div>
+
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-term">Term</label>
+            <select class="field__control" id="fn-term" name="term">
+              <option value="36">36 months</option>
+              <option value="48">48 months</option>
+              <option value="60">60 months</option>
+              <option value="72" selected>72 months</option>
+              <option value="84">84 months</option>
+            </select>
+          </div>
+
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-apr">Annual rate</label>
+            <div class="fn-input">
+              <input class="field__control fn-input__control" id="fn-apr" name="apr"
+                     type="text" inputmode="decimal" autocomplete="off"
+                     value="5.9" aria-describedby="fn-apr-help">
+              <span class="fn-input__post" aria-hidden="true">%</span>
+            </div>
+            <p class="fn-help" id="fn-apr-help">CMC&rsquo;s own published starting figure. Change it — your approval sets the real one.</p>
+          </div>
+        </div>
+
+        <div class="fn-calc__out">
+          <p class="micro fn-out__label">Estimated monthly</p>
+          <p class="fn-fig" id="fn-monthly" aria-live="polite">
+            <span class="fn-fig__cur" aria-hidden="true">$</span><span class="fn-fig__n" data-fn-out>&#8212;</span>
+          </p>
+
+          <dl class="fn-sum">
+            <div class="fn-sum__row">
+              <dt class="micro">Amount financed</dt>
+              <dd class="fn-sum__v" data-fn-financed>&#8212;</dd>
+            </div>
+            <div class="fn-sum__row">
+              <dt class="micro">Total of payments</dt>
+              <dd class="fn-sum__v" data-fn-total>&#8212;</dd>
+            </div>
+            <div class="fn-sum__row">
+              <dt class="micro">Cost of credit</dt>
+              <dd class="fn-sum__v" data-fn-interest>&#8212;</dd>
+            </div>
+          </dl>
+
+          <p class="fn-note">An estimate, not an offer. It assumes a fixed rate and equal
+            payments, and it leaves out tax, title, registration and any documentation fee.
+            Your approved rate and term decide the real number.</p>
+        </div>
+
+      </form>
+
     </div>
   </section>
 
+
   <!-- ============================================================
-       5 — THE WAY OUT
+       3 — THE APPLICATION, WHICH THIS SITE DOES NOT OWN
        ============================================================
-       Centred, and the only centred mass on the page, which is what makes
-       it read as an ending rather than as a fifth section. The pair is
-       the site's standard ranking: the bone fill goes to the inventory,
-       the outline to the phone.
+       CMC's live page embeds DealerTrack's hosted credit application in
+       an iframe (ebusiness.dealertrack.com, accountId 6228975, read
+       2026-08-30) and Alex has confirmed it stays third-party. So this
+       chapter is NOT a form. An earlier build made it one — six fields
+       in the site's own language — and that was designing a thing the
+       client cannot ship.
+
+       THE LIGHT GROUND IS THE ANSWER TO AN UNSTYLEABLE GUEST. A vendor
+       form arrives pale, dense and generic. Dropped onto deep navy it
+       reads as the page breaking; given its own bone chapter it reads
+       as an inserted document, which is what it is. `.on-bone` is the
+       project's existing light-chapter modifier — the warranty band
+       already uses it — so the buttons, wordmark and rules recolour
+       themselves and nothing new was written to host the guest.
+
+       It also buys the page its one tonal change. Four dark chapters in
+       a row is a document; dark - dark - LIGHT - dark - dark is a
+       sequence, and the light one falls exactly where the visitor has
+       to stop and work.
+
+       WHAT CMC OWNS HERE IS THE PREPARATION. The vendor form never
+       tells anyone what to have ready, and it never says where the
+       details go. Those two things are this section's whole content,
+       and they are the part of the chapter that is genuinely CMC's.
        ============================================================ -->
-  <section class="ab-cta" data-reveal>
+  <section class="fn-apply on-bone" id="apply" data-reveal aria-labelledby="fn-apply-title">
     <div class="shell">
-      <h2 class="ab-cta__h"><span class="ttl-line">Our inventory changes daily.</span></h2>
-      <p class="lede">Three hundred cars on the floor right now, and the one you are after
-        may not be there next week.</p>
-      <div class="ab-cta__acts">
-        <a class="btn btn--fill" href="srp.html">See the inventory <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
-        <a class="btn btn--line" href="tel:+16302211800">630-221-1800 <svg class="btn__arrow" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7.4 3 11 6.5 7.4 10" stroke="currentColor" stroke-width="1.3"/></svg></a>
+
+      <div class="fn-apply__head">
+        <p class="micro fn-eyebrow">Online credit approval</p>
+        <h2 class="fn-h2" id="fn-apply-title">
+          <span class="ttl-line">Start it here.</span>
+          <span class="ttl-line">It goes to the lenders.</span>
+        </h2>
+        <p class="lede">Chicago Motor Cars finances with some of the biggest names in lending.
+          The application below is theirs, not ours &mdash; have these three things beside you
+          and it goes in one sitting.</p>
       </div>
+
+      <ol class="fn-need">
+        <li class="fn-need__item">
+          <span class="micro fn-need__n">01</span>
+          <p class="fn-need__t">Your licence</p>
+          <p class="fn-need__d">Name, date of birth and current address, exactly as they are
+            printed on it.</p>
+        </li>
+        <li class="fn-need__item">
+          <span class="micro fn-need__n">02</span>
+          <p class="fn-need__t">Where you work</p>
+          <p class="fn-need__d">Employer, position, how long you have been there, and gross
+            income before deductions.</p>
+        </li>
+        <li class="fn-need__item">
+          <span class="micro fn-need__n">03</span>
+          <p class="fn-need__t">Where you live</p>
+          <p class="fn-need__d">The last two years of addresses, if you have moved inside
+            that window.</p>
+        </li>
+      </ol>
+
+      <!-- THE SLOT. In the live build the lender's iframe mounts inside
+           .fn-slot__frame and nothing else changes: the caption, the
+           rule and the disclosure below it belong to CMC and sit
+           outside the guest. The placeholder is the preview standing in
+           for it, and it is labelled as one rather than dressed up as a
+           form — a fake form in a mockup is the thing a client
+           reasonably mistakes for a decision. -->
+      <div class="fn-slot">
+        <p class="micro fn-slot__cap">Secure credit application</p>
+        <div class="fn-slot__frame" role="img"
+             aria-label="Placeholder for the lender's secure credit application form.">
+          <p class="fn-slot__note">The lender&rsquo;s application mounts here.</p>
+          <p class="fn-slot__sub">Preview build &mdash; the live page loads the secure form
+            from CMC&rsquo;s finance partner at this position.</p>
+        </div>
+        <p class="fn-note fn-slot__legal">Your details are submitted to the lender that
+          operates this form, not stored by this website. A credit application permits a
+          check of your credit.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       4 — THE TRADE
+       ============================================================
+       The other half of the same arithmetic, and deliberately the
+       SHORTEST chapter on the page. The estimator asks what it costs;
+       this asks what you already have. Four fields, laid in a single
+       row at desktop so the section reads as one line rather than a
+       second form — a page with two full-height forms stacked is the
+       document the last concept became.
+       ============================================================ -->
+  <section class="fn-trade" id="trade" data-reveal aria-labelledby="fn-trade-title">
+    <div class="shell fn-trade__inner">
+
+      <div class="fn-trade__head">
+        <p class="micro fn-eyebrow">Trade appraisal</p>
+        <h2 class="fn-h2" id="fn-trade-title">
+          <span class="ttl-line">What you already own</span>
+          <span class="ttl-line">counts toward it.</span>
+        </h2>
+      </div>
+
+      <form class="fn-trade__form" id="fn-trade-form" novalidate>
+        <div class="fn-trade__row">
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-ty">Year</label>
+            <input class="field__control" id="fn-ty" name="year" type="text" inputmode="numeric" autocomplete="off" placeholder="2021">
+          </div>
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-tmk">Make</label>
+            <input class="field__control" id="fn-tmk" name="make" type="text" autocomplete="off" placeholder="Porsche">
+          </div>
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-tmd">Model</label>
+            <input class="field__control" id="fn-tmd" name="model" type="text" autocomplete="off" placeholder="911 GT3">
+          </div>
+          <div class="field field--single">
+            <label class="micro field__label" for="fn-tmi">Mileage</label>
+            <input class="field__control" id="fn-tmi" name="mileage" type="text" inputmode="numeric" autocomplete="off" placeholder="12,400">
+          </div>
+        </div>
+        <div class="fn-acts fn-trade__acts">
+          <button class="btn btn--line" type="submit">Value my car</button>
+          <p class="fn-note fn-form__note" data-fn-formnote>Preview build &mdash; this form validates but does not transmit.</p>
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       5 — THE OTHER TWO DOORS
+       ============================================================
+       BitPay and the trucks-and-equipment application are real and
+       neither is a headline. They close the page as a pair of quiet
+       rows, reusing .fin__row from the homepage card verbatim — same
+       icon slot, same label, same hover. This is the chapter most
+       likely to grow a bespoke card treatment and it does not get one.
+       ============================================================ -->
+  <section class="fn-ways" data-reveal aria-labelledby="fn-ways-title">
+    <div class="shell fn-ways__inner">
+
+      <h2 class="micro fn-eyebrow" id="fn-ways-title">Two more ways in</h2>
+
+      <div class="fn-ways__rows">
+        <a class="fin__row" href="financing.html">
+          <span class="fin__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M240-160q-33 0-56.5-23.5T160-240v-480q0-33 23.5-56.5T240-800h480q33 0 56.5 23.5T800-720v480q0 33-23.5 56.5T720-160H240Zm0-80h480v-480H240v480Zm80-80h320v-80H320v80Zm0-120h320v-80H320v80Zm0-120h320v-80H320v80Z"/></svg></span>
+          <span class="fin__row-t">Trucks &amp; Equipment credit approval</span>
+        </a>
+        <a class="fin__row" href="financing.html">
+          <span class="fin__ico" aria-hidden="true"><svg viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-53 34.5-91.5T441-757v-83h80v83q114 15 137 122l-76 26q-8-33-31-53t-63-20q-42 0-64 19t-22 49q0 32 26 50t99 40q79 22 112 63t33 100q0 60-38 97t-113 47v87h-80Z"/></svg></span>
+          <span class="fin__row-t">Purchase with BitPay</span>
+        </a>
+      </div>
+
     </div>
   </section>
 
@@ -747,7 +830,7 @@
       </div>
     </div>
   </footer>
-
 <script src="assets/js/main.js?v=65" defer></script>
+<script src="assets/js/financing.js?v=2" defer></script>
 </body>
 </html>

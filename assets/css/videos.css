@@ -1,0 +1,250 @@
+/* ============================================================
+   OUR VIDEOS — videos.html only
+   ============================================================
+
+   Loaded last, after v3.css, so it wins on equal specificity. Every
+   rule is scoped to `.is-vid` on <body>.
+
+   NO NEW CONTROL STYLE. The actions are .btn--fill and the .fn-jump
+   arrow link the site already carries. The one thing authored here is
+   the play badge on the YouTube facade, and it exists because there is
+   no other component on this site that says "this rectangle is a
+   video" — the hosted films say it with the browser's own controls.
+
+   THE MEASURE GOES ON THE CONTENT, NEVER ON THE ELEMENT CARRYING
+   .shell. Three chapters on two earlier pages were centred by accident
+   that way and had to be undone; nothing here repeats it.
+   ============================================================ */
+
+
+/* ---- 1. THE CLAIM ---------------------------------------------------
+   ab-head's measurements, third time, on purpose. */
+.is-vid .vd-head {
+  padding-block: calc(var(--header-h) + clamp(var(--sp-7), 5vw, var(--sp-9)))
+                 clamp(var(--sp-7), 4vw, var(--sp-8));
+  --bloom-y: 52%;
+  --bloom-w: clamp(640px, 84vw, 1420px);
+  --bloom-opacity: 0.52;
+  background: var(--bg);
+}
+.is-vid .vd-title {
+  margin: calc(var(--gap-eyebrow) + 0.34em) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-inline-size: 20ch;
+}
+.is-vid .vd-head .lede { margin-block-start: var(--sp-5); }
+.is-vid .vd-eyebrow { color: var(--ink-eyebrow); }
+
+.is-vid .vd-h2 {
+  margin: calc(var(--gap-eyebrow) + 0.28em) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  max-inline-size: 16ch;
+}
+
+.is-vid .vd-films,
+.is-vid .vd-channel,
+.is-vid .vd-cta { padding-block: clamp(var(--sp-8), 6vw, var(--sp-10)); }
+
+.is-vid .vd-dot { padding-inline: var(--sp-2); opacity: 0.6; }
+
+
+/* ---- 2. THE TWO FILMS -----------------------------------------------
+   The words come first and the picture second, in the source and in the
+   layout: a film with no title is a rectangle, and the visitor decides
+   whether to spend 87 seconds on the strength of the sentence, not the
+   thumbnail. The meta column is the smaller mass and the stage is the
+   larger one — the film is still the subject. */
+.is-vid .vd-films__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+
+.is-vid .vd-film {
+  display: grid;
+  grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr);
+  gap: clamp(var(--sp-6), 3.4vw, var(--sp-8));
+  align-items: start;
+}
+.is-vid .vd-film + .vd-film { margin-block-start: clamp(var(--sp-8), 5vw, var(--sp-10)); }
+
+.is-vid .vd-film__t {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+}
+.is-vid .vd-film__d {
+  margin: var(--sp-4) 0 0;
+  font-size: var(--t-lede);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  max-inline-size: 44ch;
+  text-wrap: pretty;
+}
+.is-vid .vd-film__spec {
+  margin: clamp(var(--sp-5), 2vw, var(--sp-6)) 0 0;
+  color: var(--ink-3);
+}
+
+/* The stage carries the radius, not the <video>: Safari paints the
+   controls bar outside a radius set on the element itself, which leaves
+   a square corner sitting on a rounded plate the moment the film is
+   playing. */
+.is-vid .vd-film__stage {
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--bg-sunk);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.is-vid .vd-video {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--bg-sunk);
+}
+.is-vid .vd-fallback {
+  margin: 0;
+  padding: var(--sp-6);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+
+
+/* ---- 3. THE CHANNEL -------------------------------------------------- */
+.is-vid .vd-channel { background: var(--bg-sunk); }
+.is-vid .vd-channel__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+
+.is-vid .vd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--sp-6), 3vw, var(--sp-7));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.is-vid .vd-embed {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.is-vid .vd-embed__frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.is-vid .vd-embed__frame img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+.is-vid .vd-embed iframe {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
+/* The play badge. Bone on a translucent navy disc rather than the
+   YouTube red lozenge — the page is not going to carry another brand's
+   button, and --accent is this project's red and means CMC. */
+.is-vid .vd-play {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  inline-size: clamp(52px, 5vw, 64px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  /* MEASURED ON THE POSTERS, NOT PICKED. At 0.62 the disc sat on a
+     white-tiled showroom floor and a bright Texas sky and the glyph
+     nearly vanished — the badge has to hold on the brightest frame the
+     channel will ever serve, not on the darkest. 0.86 with a bone hairline
+     reads on both, and the ring keeps the disc's edge from dissolving into
+     a dark frame at the other end. */
+  background: rgb(var(--bg-rgb) / 0.86);
+  box-shadow: inset 0 0 0 1px rgba(244, 242, 239, 0.42);
+  color: var(--ink);
+  padding-inline-start: 3px;   /* optical: a triangle sits left of centre */
+  transition: background-color var(--dur-2) var(--ease-out),
+              scale var(--dur-2) var(--ease-out);
+}
+.is-vid .vd-embed:hover .vd-play,
+.is-vid .vd-embed:focus-visible .vd-play {
+  background: rgb(var(--bg-rgb) / 0.94);
+  scale: 1.06;
+}
+.is-vid .vd-embed:hover .vd-embed__frame img { opacity: 0.82; }
+.is-vid .vd-embed:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 12px; }
+
+.is-vid .vd-item__t {
+  display: block;
+  margin-block-start: var(--sp-4);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.is-vid .vd-item__meta {
+  display: block;
+  margin-block-start: var(--sp-2);
+  color: var(--ink-3);
+}
+
+.is-vid .vd-link { color: var(--ink); }
+
+
+/* ---- 4. ACTIONS ------------------------------------------------------ */
+.is-vid .vd-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(var(--sp-5), 2vw, var(--sp-7));
+  margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
+.is-vid .vd-acts .btn { align-self: auto; }
+.is-vid .vd-cta .vd-h2,
+.is-vid .vd-cta .lede { max-inline-size: 46rem; }
+.is-vid .vd-cta .lede { margin-block-start: var(--sp-5); }
+.is-vid .vd-jump .fn-jump__arrow { transition: translate var(--dur-2) var(--ease-out); }
+.is-vid .vd-jump:hover .fn-jump__arrow,
+.is-vid .vd-jump:focus-visible .fn-jump__arrow { translate: 5px 0; }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* The film row stops being a row while the stage is still wide enough
+   to be a film. Stacked, the words stay first — the ordering was the
+   point of the split, and losing the columns must not lose it. */
+@media (max-width: 980px) {
+  .is-vid .vd-film {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(var(--sp-5), 3vw, var(--sp-6));
+  }
+  .is-vid .vd-film__d { max-inline-size: 56ch; }
+}
+
+@media (max-width: 760px) {
+  .is-vid .vd-grid { grid-template-columns: minmax(0, 1fr); }
+  .is-vid .vd-acts { gap: var(--sp-5); }
+  .is-vid .vd-acts .btn { inline-size: 100%; }
+}

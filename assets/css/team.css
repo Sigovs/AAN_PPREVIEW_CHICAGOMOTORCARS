@@ -1,0 +1,303 @@
+/* ============================================================
+   OUR TEAM — team.html only
+   ============================================================
+
+   Loaded last, after v3.css, so it wins on equal specificity. Every
+   rule is scoped to `.is-team` on <body>.
+
+   NO NEW CONTROL STYLE. The two actions at the foot are .btn--fill and
+   the .fn-jump arrow link that financing.html already introduced; the
+   page adds neither a third nor a variant of either. What is authored
+   here is the plate — the one component this page genuinely needs and
+   no other page has.
+   ============================================================ */
+
+
+/* ---- 1. THE CLAIM ---------------------------------------------------
+   ab-head's measurements, because this is the same kind of opening on
+   the same kind of inner page, and two inner pages that open differently
+   for no reason is drift rather than variety. */
+.is-team .tm-head {
+  padding-block: calc(var(--header-h) + clamp(var(--sp-7), 5vw, var(--sp-9)))
+                 clamp(var(--sp-7), 4vw, var(--sp-8));
+  --bloom-y: 52%;
+  --bloom-w: clamp(640px, 84vw, 1420px);
+  --bloom-opacity: 0.52;
+  background: var(--bg);
+}
+.is-team .tm-title {
+  margin: calc(var(--gap-eyebrow) + 0.34em) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-inline-size: 20ch;
+}
+.is-team .tm-head .lede { margin-block-start: var(--sp-5); }
+.is-team .tm-head .story__stats { margin-block-start: clamp(var(--sp-6), 2.6vw, var(--sp-7)); }
+.is-team .tm-eyebrow { color: var(--ink-eyebrow); }
+
+.is-team .tm-h2 {
+  margin: calc(var(--gap-eyebrow) + 0.28em) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  max-inline-size: 16ch;
+}
+
+.is-team .tm-say,
+.is-team .tm-roster,
+.is-team .tm-voices,
+.is-team .tm-cta { padding-block: clamp(var(--sp-8), 6vw, var(--sp-10)); }
+
+
+/* ---- 2. THEIR OWN WORDS ---------------------------------------------
+   Set at lede scale and one step up in colour, at a short measure, with
+   no quotation marks drawn as ornament — the words are already marked
+   as a quotation by the citation under them, and a giant glyph is the
+   decoration this project keeps refusing. */
+.is-team .tm-say { background: var(--bg-sunk); }
+
+/* THE MEASURE GOES ON THE CONTENT, NOT ON THE SHELL — the same mistake
+   was made and fixed once already on financing.html's application
+   chapter, and made again here. Constraining the element that carries
+   .shell narrows and CENTRES the whole chapter: the quotation started
+   at 470px while every other section on the page starts at 80. One
+   chapter with its own left edge is a second art direction, U11. The
+   measure the quote needs is real; the page's left edge is not
+   negotiable for it. */
+.is-team .tm-say__q,
+.is-team .tm-say__cite { max-inline-size: 54rem; }
+.is-team .tm-say__q { margin: 0; }
+.is-team .tm-say__q p {
+  margin: 0;
+  font-size: clamp(1.125rem, 1.9vw, 1.5rem);
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.is-team .tm-say__cite {
+  margin: clamp(var(--sp-5), 2.2vw, var(--sp-6)) 0 0;
+  color: var(--ink-3);
+}
+
+
+/* ---- THE PLATE ------------------------------------------------------
+   The one authored component on this page, and the reason it exists is
+   an asset problem rather than a styling preference.
+
+   MONOCHROME IS NOT A MOOD HERE. CMC's thirteen portraits come from at
+   least three shoots — a lit showroom series with purple and blue
+   Lamborghinis behind the subject, a white-seamless studio series, and
+   phone frames under office fluorescents. Side by side in colour the
+   purple car wins every frame it appears in and the studio whites read
+   as a different website. Desaturated, with a small contrast lift and a
+   navy veil pulling the whites toward the page ground, all thirteen
+   become one set. The filter is CSS, not baked into the files, so what
+   sits in assets/img/team is exactly what CMC shot.
+
+   THE VEIL IS ALSO WHAT STOPS THE STUDIO FRAMES GLOWING. A white
+   seamless on a #0B101C page is a lit rectangle; at 0.16 it sits down
+   into the page without going grey. */
+.is-team .tm-plate {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  background: var(--bg-raised);
+  isolation: isolate;
+}
+.is-team .tm-plate img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  filter: grayscale(1) contrast(1.06) brightness(0.98);
+}
+.is-team .tm-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--bg-rgb) / 0.16);
+  pointer-events: none;
+}
+
+/* The type plate. Six of nineteen have no photograph; this is a
+   designed variant on the same footprint, not a hole. The initials are
+   the display face at plate scale and deliberately quiet — they name
+   the person without pretending to depict them. */
+.is-team .tm-plate--type {
+  display: grid;
+  place-items: center;
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.is-team .tm-plate__mono {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+
+/* ---- 3. THE ROSTER --------------------------------------------------
+   Groups by showroom, each with its own head, and one card shape for
+   all nineteen people. */
+.is-team .tm-roster__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+
+.is-team .tm-group + .tm-group { margin-block-start: clamp(var(--sp-8), 4.5vw, var(--sp-9)); }
+.is-team .tm-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block-end: var(--sp-4);
+  border-block-end: 1px solid var(--rule);
+  margin-block-end: clamp(var(--sp-6), 2.6vw, var(--sp-7));
+}
+.is-team .tm-group__t {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.is-team .tm-group__meta { color: var(--ink-3); }
+.is-team .tm-group__dot { padding-inline: var(--sp-2); opacity: 0.6; }
+
+.is-team .tm-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: clamp(var(--sp-5), 2.4vw, var(--sp-7)) clamp(var(--sp-4), 1.8vw, var(--sp-6));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.is-team .tm-card__name {
+  margin: var(--sp-4) 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.is-team .tm-card__role { margin: var(--sp-1) 0 0; color: var(--ink-3); }
+.is-team .tm-contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin: var(--sp-3) 0 0;
+}
+
+/* The contact links are the page's only inline links and they are the
+   quiet underline-on-hover the site already uses for footer links —
+   not a new link style, and emphatically not the giant underlined text
+   link that was rejected in Financing. */
+.is-team .tm-link {
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color var(--dur-1) var(--ease-out);
+}
+.is-team .tm-link:hover,
+.is-team .tm-link:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.is-team .tm-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.is-team .tm-cell { opacity: 0.72; }
+
+
+/* ---- 4. IN THEIR OWN WORDS ------------------------------------------
+   Alternating rows. The portrait is the smaller mass and the words are
+   the larger one, because the words are what this chapter is for — a
+   half-and-half split would make it a photo gallery with captions. */
+.is-team .tm-voices { background: var(--bg-sunk); }
+.is-team .tm-voices__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+
+.is-team .tm-voice {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  gap: clamp(var(--sp-6), 3.4vw, var(--sp-8));
+  align-items: center;
+}
+.is-team .tm-voice + .tm-voice { margin-block-start: clamp(var(--sp-8), 4.5vw, var(--sp-9)); }
+.is-team .tm-voice--flip > .tm-voice__fig { order: 2; }
+.is-team .tm-voice__fig { max-inline-size: 22rem; }
+.is-team .tm-voice__where { color: var(--ink-3); }
+.is-team .tm-voice__name {
+  margin: var(--sp-3) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+}
+.is-team .tm-voice__role { margin: var(--sp-2) 0 0; color: var(--ink-3); }
+.is-team .tm-voice__text {
+  margin: clamp(var(--sp-4), 1.8vw, var(--sp-5)) 0 0;
+  font-size: var(--t-lede);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  max-inline-size: 58ch;
+  text-wrap: pretty;
+}
+.is-team .tm-voice .tm-contact {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+  margin-block-start: var(--sp-5);
+}
+
+
+/* ---- 5. THE WAY OUT -------------------------------------------------- */
+/* Measure on the content, left edge from the shell — see the note on
+   .tm-say__q. This chapter made the same mistake a third time. */
+.is-team .tm-cta .tm-h2,
+.is-team .tm-cta .lede { max-inline-size: 46rem; }
+.is-team .tm-cta .lede { margin-block-start: var(--sp-5); }
+.is-team .tm-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(var(--sp-5), 2vw, var(--sp-7));
+  margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
+.is-team .tm-acts .btn { align-self: auto; }
+.is-team .tm-jump .fn-jump__arrow { transition: translate var(--dur-2) var(--ease-out); }
+.is-team .tm-jump:hover .fn-jump__arrow,
+.is-team .tm-jump:focus-visible .fn-jump__arrow { translate: 5px 0; }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* The voice row stops being a row before the portrait gets too narrow
+   to read as a portrait. Stacked, the picture leads and the words
+   follow, and the alternation is dropped rather than kept as a
+   meaningless order swap on a single column. */
+@media (max-width: 900px) {
+  .is-team .tm-voice {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(var(--sp-5), 3vw, var(--sp-6));
+    align-items: start;
+  }
+  .is-team .tm-voice--flip > .tm-voice__fig { order: 0; }
+  .is-team .tm-voice__fig { max-inline-size: 16rem; }
+}
+
+@media (max-width: 640px) {
+  .is-team .tm-cards { grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); }
+  .is-team .tm-group__head { gap: var(--sp-2); }
+  .is-team .tm-acts { gap: var(--sp-5); }
+  .is-team .tm-acts .btn { inline-size: 100%; }
+  .is-team .tm-voice .tm-contact { flex-direction: column; gap: var(--sp-2); }
+}

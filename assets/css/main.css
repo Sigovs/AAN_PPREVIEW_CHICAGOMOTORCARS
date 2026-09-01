@@ -2562,6 +2562,44 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .btn--line.is-hover { box-shadow: inset 0 0 0 1px var(--ink); }
 
 /* The ring follows the pill instead of boxing it. */
+/* ---- The quiet jump link -------------------------------------------
+   A text action that is deliberately NOT a button: an uppercase label
+   at the micro size with a travelling arrow, for the secondary move
+   beside a filled pill. financing.html, team.html and videos.html all
+   use it.
+
+   THE fn- PREFIX IS HISTORICAL. It was authored inside financing.css,
+   scoped to .is-fin, and the next two pages that reused the class got
+   nothing at all — the rules could not reach them and the arrow fell to
+   its own line. It is a site component and it lives here now; the name
+   was kept because renaming it costs three pages, three generators and
+   three stylesheets to buy a tidier prefix.
+
+   Each page keeps its OWN arrow travel, because direction is meaning:
+   financing moves you DOWN its page, the others move you off to another
+   one. Only the shared part is here. */
+.fn-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-label);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out);
+}
+.fn-jump__arrow {
+  flex: none;
+  transition: translate var(--dur-2) var(--ease-out);
+}
+.fn-jump:hover,
+.fn-jump:focus-visible { color: var(--ink); }
+.fn-jump:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
 .btn:focus-visible,
 .btn.is-focus {
   outline: 2px solid var(--ink);
@@ -3213,6 +3251,16 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
   gap: var(--sp-2);
   padding: 0;
   border: 0;
+}
+/* `.field + .field` draws the finder rail's divider, and it outranks the
+   reset above on specificity — two classes against one. Standalone
+   fields stacked in a form were inheriting a 24px indent and a hairline
+   on every sibling after the first, which is a rail's furniture
+   appearing in a page that has no rail. Undone here at the component,
+   not patched per page. */
+.field--single + .field--single {
+  padding-inline-start: 0;
+  border-inline-start: 0;
 }
 .field--single .field__control {
   border-bottom: 1px solid var(--rule);
@@ -7525,8 +7573,16 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .svc__actions,
 .reveal-armed [data-reveal] .fin__tools,
 .reveal-armed [data-reveal] .fin__act,
+.reveal-armed [data-reveal] .fn-acts,
+.reveal-armed [data-reveal] .tm-acts,
+.reveal-armed [data-reveal] .vd-acts,
+.reveal-armed [data-reveal] .st-acts,
 .reveal-armed [data-reveal] .index__all,
 .reveal-armed [data-reveal] .inv__eyebrow,
+.reveal-armed [data-reveal] .fn-eyebrow,
+.reveal-armed [data-reveal] .tm-eyebrow,
+.reveal-armed [data-reveal] .vd-eyebrow,
+.reveal-armed [data-reveal] .st-eyebrow,
 .reveal-armed [data-reveal] .fin__label {
   opacity: 0;
   will-change: opacity, translate;
@@ -7568,6 +7624,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal] .svc__actions,
 .reveal-armed [data-reveal] .fin__tools,
 .reveal-armed [data-reveal] .fin__act,
+.reveal-armed [data-reveal] .fn-acts,
+.reveal-armed [data-reveal] .tm-acts,
+.reveal-armed [data-reveal] .vd-acts,
+.reveal-armed [data-reveal] .st-acts,
 .reveal-armed [data-reveal] .index__all {
   translate: 0 10px;
   transition: opacity var(--rv-cta) var(--ease-out),
@@ -7581,6 +7641,10 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 .reveal-armed [data-reveal].is-revealed .svc__actions,
 .reveal-armed [data-reveal].is-revealed .fin__tools,
 .reveal-armed [data-reveal].is-revealed .fin__act,
+.reveal-armed [data-reveal].is-revealed .fn-acts,
+.reveal-armed [data-reveal].is-revealed .tm-acts,
+.reveal-armed [data-reveal].is-revealed .vd-acts,
+.reveal-armed [data-reveal].is-revealed .st-acts,
 .reveal-armed [data-reveal].is-revealed .index__all {
   opacity: 1;
   translate: 0 0;
@@ -7589,12 +7653,20 @@ select.field__control option { background: var(--bg-raised); color: var(--ink); 
 
 /* eyebrow — present, not competing */
 .reveal-armed [data-reveal] .inv__eyebrow,
+.reveal-armed [data-reveal] .fn-eyebrow,
+.reveal-armed [data-reveal] .tm-eyebrow,
+.reveal-armed [data-reveal] .vd-eyebrow,
+.reveal-armed [data-reveal] .st-eyebrow,
 .reveal-armed [data-reveal] .fin__label {
   translate: 0 6px;
   transition: opacity var(--rv-cta) var(--ease-out),
               translate var(--rv-cta) var(--ease-out);
 }
 .reveal-armed [data-reveal].is-revealed .inv__eyebrow,
+.reveal-armed [data-reveal].is-revealed .fn-eyebrow,
+.reveal-armed [data-reveal].is-revealed .tm-eyebrow,
+.reveal-armed [data-reveal].is-revealed .vd-eyebrow,
+.reveal-armed [data-reveal].is-revealed .st-eyebrow,
 .reveal-armed [data-reveal].is-revealed .fin__label { opacity: 1; translate: 0 0; }
 
 /* The sell steps are that section's one content gesture, and they come

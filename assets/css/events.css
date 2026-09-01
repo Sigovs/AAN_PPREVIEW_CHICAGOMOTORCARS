@@ -1,0 +1,270 @@
+/* ============================================================
+   EVENTS — events.html only
+   ============================================================
+
+   Loaded last, after v3.css. Every rule is scoped to `.is-st`.
+
+   The page is called Events because CMC call it Events; the class
+   prefix stayed .is-st from the pass when it was briefly named
+   Stories, and renaming it buys nothing a comment does not.
+
+   NO NEW CONTROL STYLE. .btn--fill and .fn-jump, both from main.css.
+   The measure goes on the CONTENT, never on the element carrying
+   .shell — three chapters on earlier pages were centred by accident
+   that way.
+   ============================================================ */
+
+
+/* ---- 1. THE CLAIM --------------------------------------------------- */
+.is-st .st-head {
+  padding-block: calc(var(--header-h) + clamp(var(--sp-7), 5vw, var(--sp-9)))
+                 clamp(var(--sp-7), 4vw, var(--sp-8));
+  --bloom-y: 52%;
+  --bloom-w: clamp(640px, 84vw, 1420px);
+  --bloom-opacity: 0.52;
+  background: var(--bg);
+}
+.is-st .st-title {
+  margin: calc(var(--gap-eyebrow) + 0.34em) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-inline-size: 20ch;
+}
+.is-st .st-head .lede { margin-block-start: var(--sp-5); }
+.is-st .st-eyebrow { color: var(--ink-eyebrow); }
+
+.is-st .st-h2 {
+  margin: calc(var(--gap-eyebrow) + 0.28em) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  max-inline-size: 16ch;
+}
+
+.is-st .st-lead,
+.is-st .st-more,
+.is-st .st-cta { padding-block: clamp(var(--sp-8), 6vw, var(--sp-10)); }
+
+.is-st .st-dot { padding-inline: var(--sp-2); opacity: 0.6; }
+
+
+/* ---- 2. THE LEAD -----------------------------------------------------
+   Picture left, words right, and the picture is the larger mass: these
+   are studio frames of the actual car and they are the reason anyone
+   reads the sentence underneath. */
+.is-st .st-feature__link {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(var(--sp-6), 3.4vw, var(--sp-8));
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.is-st .st-feature__fig {
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.is-st .st-feature__fig img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: scale var(--dur-3) var(--ease-out);
+}
+.is-st .st-feature__body { display: block; }
+.is-st .st-feature__kicker { display: block; color: var(--ink-3); }
+.is-st .st-feature__t {
+  display: block;
+  margin-block-start: var(--sp-4);
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.6vw, 2.125rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.is-st .st-feature__x {
+  display: block;
+  margin-block-start: clamp(var(--sp-4), 1.8vw, var(--sp-5));
+  font-size: var(--t-lede);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  max-inline-size: 46ch;
+  text-wrap: pretty;
+}
+.is-st .st-feature__link .st-jump { margin-block-start: clamp(var(--sp-5), 2.2vw, var(--sp-6)); }
+
+/* The whole card is the link, so the hover has to read from anywhere
+   inside it — hence the state on the link rather than on the image. */
+.is-st .st-feature__link:hover .st-feature__fig img,
+.is-st .st-feature__link:focus-visible .st-feature__fig img { scale: 1.02; }
+.is-st .st-feature__link:hover .st-feature__t,
+.is-st .st-feature__link:focus-visible .st-feature__t { color: var(--ink); }
+.is-st .st-feature__link:hover .st-jump,
+.is-st .st-feature__link:focus-visible .st-jump { color: var(--ink); }
+.is-st .st-feature__link:hover .fn-jump__arrow,
+.is-st .st-feature__link:focus-visible .fn-jump__arrow { translate: 5px 0; }
+.is-st .st-feature__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 10px; border-radius: 16px; }
+
+
+/* ---- 3. THE GRID -----------------------------------------------------
+   Three across. The date is above the title rather than below it: this
+   is a dated index and the date is how a returning visitor finds the
+   edge of what they have already read. */
+.is-st .st-more { background: var(--bg-sunk); }
+.is-st .st-more__head { margin-block-end: clamp(var(--sp-7), 3.4vw, var(--sp-8)); }
+
+.is-st .st-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--sp-7), 3vw, var(--sp-8)) clamp(var(--sp-5), 2.4vw, var(--sp-7));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.is-st .st-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.is-st .st-card__fig {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.is-st .st-card__fig img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: scale var(--dur-3) var(--ease-out);
+}
+.is-st .st-card__date {
+  display: block;
+  margin-block-start: var(--sp-4);
+  color: var(--ink-3);
+}
+.is-st .st-card__t {
+  display: block;
+  margin-block-start: var(--sp-2);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.is-st .st-card__x {
+  display: block;
+  margin-block-start: var(--sp-3);
+  font-size: var(--t-micro);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.is-st .st-card__link:hover .st-card__fig img,
+.is-st .st-card__link:focus-visible .st-card__fig img { scale: 1.03; }
+.is-st .st-card__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 8px; border-radius: 14px; }
+
+
+
+/* ---- 4. MOST POPULAR STORIES ----------------------------------------
+   CMC print titles only in this widget — no dates, no excerpts — and all
+   four are already above with their photographs. A ranked list is what
+   the section IS; four repeated pictures would read as a bug. */
+.is-st .st-pop { padding-block: clamp(var(--sp-8), 6vw, var(--sp-10)); }
+.is-st .st-pop__head { margin-block-end: clamp(var(--sp-6), 3vw, var(--sp-7)); }
+.is-st .st-pop__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-inline-size: 68rem;
+  border-block-start: 1px solid var(--rule);
+}
+.is-st .st-pop__link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: clamp(var(--sp-4), 2vw, var(--sp-6));
+  padding-block: clamp(var(--sp-5), 2.2vw, var(--sp-6));
+  border-block-end: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: padding-inline-start var(--dur-2) var(--ease-out);
+}
+.is-st .st-pop__n { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.is-st .st-pop__t {
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 1.8vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.is-st .st-pop__arrow {
+  align-self: center;
+  flex: none;
+  color: var(--ink-3);
+  transition: translate var(--dur-2) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+/* The row indents on hover — the roster idiom main.css already uses for
+   .roster__list a, not a new gesture. */
+.is-st .st-pop__link:hover,
+.is-st .st-pop__link:focus-visible { padding-inline-start: var(--sp-4); }
+.is-st .st-pop__link:hover .st-pop__arrow,
+.is-st .st-pop__link:focus-visible .st-pop__arrow { translate: 5px 0; color: var(--ink); }
+.is-st .st-pop__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+/* ---- 5. THE WAY OUT -------------------------------------------------- */
+.is-st .st-cta .st-h2,
+.is-st .st-cta .lede { max-inline-size: 46rem; }
+.is-st .st-cta .lede { margin-block-start: var(--sp-5); }
+.is-st .st-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(var(--sp-5), 2vw, var(--sp-7));
+  margin-block-start: clamp(var(--sp-6), 2.4vw, var(--sp-7));
+}
+.is-st .st-acts .btn { align-self: auto; }
+.is-st .st-acts .st-jump:hover .fn-jump__arrow,
+.is-st .st-acts .st-jump:focus-visible .fn-jump__arrow { translate: 5px 0; }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .is-st .st-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* The lead stops being a row before its picture is narrower than the
+   cards below it — a "feature" smaller than the items it leads is not
+   a feature. */
+@media (max-width: 900px) {
+  .is-st .st-feature__link {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(var(--sp-5), 3vw, var(--sp-6));
+  }
+  .is-st .st-feature__x { max-inline-size: 56ch; }
+}
+
+@media (max-width: 640px) {
+  .is-st .st-grid { grid-template-columns: minmax(0, 1fr); }
+  .is-st .st-acts { gap: var(--sp-5); }
+  .is-st .st-acts .btn { inline-size: 100%; }
+}
