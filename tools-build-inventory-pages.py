@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Assemble srp.html and vdp.html from index_2.html's own head, header and
+"""Assemble srp.html and vdp.html from index_3.html's own head, header and
 footer, so the three pages cannot drift apart. Anything shared is COPIED
-from index_2 at build time rather than retyped — a hand-copied nav is a nav
+from index_3 at build time rather than retyped — a hand-copied nav is a nav
 that is wrong the first time someone edits the real one."""
 import json, re, os, html
 
 ROOT = "/Users/alex/Desktop/WORK/Chicago Motor Cars"
 SCR  = os.path.dirname(os.path.abspath(__file__))
-src  = open(os.path.join(ROOT, "index_2.html")).read()
+src  = open(os.path.join(ROOT, "index_3.html")).read()
 
 head   = src[src.index("<head>"):src.index("</head>")+len("</head>")]
 header = src[src.index('<span class="scroll-sentinel"'):src.index("</header>")+len("</header>")]
@@ -25,7 +25,7 @@ def make_head(title, desc, preload):
     h = re.sub(r'<!-- The frame is the whole page.*?fetchpriority="high">', preload, h, flags=re.S)
     # inventory.css goes last, after v2.css — MATCHED BY PATTERN, NOT BY
     # LITERAL. The first version of this line carried "v2.css?v=58"
-    # spelled out. index_2 moved to v61, the replace stopped matching,
+    # spelled out. index_3 moved to v61, the replace stopped matching,
     # and it failed the worst way a string replace can: silently. The
     # rebuilt page simply had no inventory.css link and rendered as an
     # unstyled stack of six full-size photographs.
@@ -42,7 +42,7 @@ def make_head(title, desc, preload):
     except OSError:
         pass
     h, n = re.subn(r'(<link rel="stylesheet" href="assets/css/v2\.css\?v=\d+">)',
-                   r'\1\n<!-- Last again. srp.html and vdp.html load this; index_2.html\n'
+                   r'\1\n<!-- Last again. srp.html and vdp.html load this; index_3.html\n'
                    r'     does not, and index.html loads neither. -->\n'
                    r'<link rel="stylesheet" href="assets/css/inventory.css?v=%s">' % inv_v,
                    h)
@@ -120,8 +120,8 @@ srp = f"""<!DOCTYPE html>
 <!-- ============================================================
      srp.html — THE SEARCH RESULTS PAGE
      ============================================================
-     Built 2026-08-17 for the index_2 preview. Head, masthead and footer
-     are COPIED FROM index_2.html at build time by the script in the
+     Built 2026-08-17 for the index_3 preview. Head, masthead and footer
+     are COPIED FROM index_3.html at build time by the script in the
      session scratchpad, not retyped, so the three pages cannot drift.
 
      REAL INVENTORY. Every vehicle below is a live listing pulled from
@@ -500,7 +500,7 @@ vdp = """<!DOCTYPE html>
            belong to the page furniture rather than to the offer. -->
       <div class="topbar">
         <nav class="crumbs" aria-label="Breadcrumb">
-          <a href="index_2.html">Home</a>
+          <a href="index_3.html">Home</a>
           <span class="crumbs__sep" aria-hidden="true">/</span>
           <a href="srp.html">Inventory</a>
           <span class="crumbs__sep" aria-hidden="true">/</span>
